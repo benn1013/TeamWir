@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     
-    <!-- PWA Fullscreen Meta Tags -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="mobile-web-app-capable" content="yes">
@@ -148,8 +147,7 @@
         .btn-primary { background-color: var(--current-theme); }
         .btn-secondary { background-color: #2b2d42; }
 
-        .sync-panel-card { background: var(--card-bg); padding: 20px; border-radius: 24px; text-align: center; }
-        .sync-input { width: 100%; padding: 14px; border-radius: 14px; border: 1px solid #e2e8f0; font-size: 0.9rem; margin: 12px 0; outline: none; background: var(--bg-color); color: var(--text-dark); text-align: center; }
+        .sync-panel-card { background: var(--card-bg); padding: 20px; border-radius: 24px; text-align: center; border: 2px solid var(--success-color); }
 
         /* FIXED BOTTOM BAR */
         .mode-tabs { display: flex; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); position: fixed; bottom: 0; left: 0; width: 100%; height: 68px; border-top: 1px solid rgba(0,0,0,0.05); z-index: 100; padding-bottom: calc(env(safe-area-inset-bottom) / 2); }
@@ -169,6 +167,9 @@
         .indicator-yes { right: 20px; border-color: var(--success-color); color: var(--success-color); transform: rotate(15deg); }
         .indicator-no { left: 20px; border-color: var(--danger-color); color: var(--danger-color); transform: rotate(-15deg); }
     </style>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -177,13 +178,12 @@
     </div>
 
     <header>
-<h1>TeamWir <span id="header-role-badge" class="role-indicator-badge role-benni">Benni</span></h1>
+        <h1>TeamWir <span id="header-role-badge" class="role-indicator-badge role-benni">Benni</span></h1>
         <button class="dark-mode-toggle" onclick="toggleDarkMode()" id="dark-toggle-btn">🌙</button>
     </header>
 
     <div class="container">
         
-        <!-- REITER 1: KARTEN (SOLO SWIPE) -->
         <section id="section-swipe" class="view-section active">
             <div class="progress-container" id="cards-progress-block"><div class="progress-bar" id="cards-progress-bar"></div></div>
             <div id="cards-progress-text" style="font-size: 0.8rem; font-weight: 700; color: var(--text-light); text-align: center; margin-top: -8px; margin-bottom: 14px;">0 / 0 Fragen</div>
@@ -202,7 +202,6 @@
                 <button class="action-btn btn-yes" onclick="handleSwipeAction('JA')">Ja</button>
             </div>
 
-            <!-- ANONYMER GENERATOR -->
             <div class="dashboard-row" style="margin-top: 25px; border-left-color: var(--neutral-accent);">
                 <div class="widget-title" style="color: var(--neutral-accent);">🥷🏽 Anonyme Fragen-Schmiede</div>
                 <p style="font-size:0.75rem; color:var(--text-light); margin-bottom:8px;">Schleuse heimlich eine eigene Frage in euren Pool ein. Sie ploppt irgendwann überraschend beim Partner auf.</p>
@@ -218,7 +217,6 @@
             <div id="casino-container"></div>
         </section>
 
-        <!-- REITER 2: MATCHES & ERGEBNISSE -->
         <section id="section-matches" class="view-section">
             <div class="dashboard-row" style="text-align: center; background: var(--current-light); border: none; margin-bottom:10px;">
                 <p style="font-size: 0.85rem; font-weight: 800; color: var(--current-theme);" id="active-bet-display">🎰 Aktueller Wetteinsatz: Noch kein Deal vereinbart.</p>
@@ -234,7 +232,6 @@
             <ul class="item-list disc-list" id="list-disc"></ul>
         </section>
 
-        <!-- REITER 3: COUCH LIVE (GEMEINSAM-MODUS) -->
         <section id="section-live" class="view-section">
             <div class="accordion-wrapper">
                 <div class="accordion-trigger" onclick="toggleAccordion()">
@@ -277,7 +274,6 @@
             </div>
         </section>
 
-        <!-- REITER 4: ALLTAG WIDGETS -->
         <section id="section-alltag" class="view-section">
             <div class="dashboard-row" style="border-left-color: var(--neutral-accent);">
                 <div class="widget-title" style="color:var(--neutral-accent)">⏱️ 60-Sekunden Boxenstopp (Heutiges Micro-Date)</div>
@@ -320,7 +316,6 @@
             </div>
         </section>
 
-        <!-- REITER 5: SYNC & WUNSCHBÖRSE -->
         <section id="section-sync" class="view-section">
             <div class="dashboard-row" style="border: 2px dashed var(--text-light); padding: 14px; text-align: center;">
                 <p style="font-size:0.8rem; font-weight:700; margin-bottom:8px;">📱 Dieses Handy gehört:</p>
@@ -330,7 +325,6 @@
                 </div>
             </div>
 
-            <!-- WETTEINSATZ-KONFIGURATOR -->
             <div class="dashboard-row" style="margin-top:15px; border-left:3px solid var(--highlight-color);">
                 <div class="widget-title" style="color:var(--highlight-color);">🎰 Abendlicher Wetteinsatz</div>
                 <input type="text" id="input-current-bet" placeholder="Worum wird heute gezockt? (z.B. Wer holt Snacks...)" style="width:100%; padding:10px; border-radius:10px; border:1px solid #e2e8f0; font-size:0.85rem; outline:none; margin-bottom:8px;">
@@ -354,27 +348,22 @@
             </div>
 
             <div class="sync-panel-card" style="margin-top: 15px;">
-                <div class="widget-title" style="justify-content:center;">🔄 Instant-Abgleich</div>
-                <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:15px;">Teile deinen Fortschritt via WhatsApp oder füge den Code deines Partners unten ein.</p>
-                <button class="btn-block btn-secondary" onclick="exportState()" style="color:white;">📱 Spielstand kopieren / teilen (WhatsApp)</button>
-                <button class="btn-block" style="background: var(--neutral-accent); color:white;" onclick="pasteAndImportFromClipboard()">📋 Code aus Zwischenablage lesen & syncen</button>
-                
-                <p id="last-sync-date-display" style="font-size:0.75rem; color:var(--text-light); margin-top:4px; font-weight:700;">Noch kein Abgleich in dieser Session durchgeführt.</p>
-                <hr style="border:0; border-top:1px solid rgba(0,0,0,0.06); margin:20px 0;">
-                <input type="text" id="sync-input-field" class="sync-input" placeholder="Oder Code manuell hier einfügen...">
-                <button class="btn-block" style="background:var(--success-color); color:white; border:none; border-radius:16px;" onclick="importState()">Manuell Importieren</button>
+                <div class="widget-title" style="justify-content:center; color: var(--success-color);">☁️ Cloud Sync Aktiv</div>
+                <p style="font-size:0.85rem; color:var(--text-light); margin-bottom:15px; font-weight:600;">Ihr seid live über Firebase verbunden.<br>Kein Code-Kopieren mehr nötig.</p>
+                <div style="display:inline-block; padding: 10px 20px; background: rgba(16, 185, 129, 0.1); border-radius: 20px; font-weight: 800; color: var(--success-color);">
+                    Verbunden & Synchron 🟢
+                </div>
             </div>
         </section>
 
     </div>
 
-    <!-- NAVIGATION -->
     <div class="mode-tabs">
         <button id="tab-swipe" class="tab-btn active" onclick="switchMode('swipe')"><span class="icon">📱</span><span>Karten</span></button>
         <button id="tab-matches" class="tab-btn" onclick="switchMode('matches')"><span class="icon">🏆</span><span>Matches</span></button>
         <button id="tab-live" class="tab-btn" onclick="touchModeLive()"><span class="icon">🛋️</span><span>Couch</span></button>
         <button id="tab-alltag" class="tab-btn" onclick="switchMode('alltag')"><span class="icon">🏔️</span><span>Alltag</span></button>
-        <button id="tab-sync" class="tab-btn" onclick="switchMode('sync')"><span class="icon">🔄</span><span>Sync</span></button>
+        <button id="tab-sync" class="tab-btn" onclick="switchMode('sync')"><span class="icon">☁️</span><span>Settings</span></button>
     </div>
 
     <div class="toast" id="toast-notification"></div>
@@ -387,7 +376,9 @@
             "cat8": "Freizeit & Alltags-Logistik", "cat9": "Urlaubs-Modus & Survival", "cat10": "Eltern-Schlafmangel (Parent-Life)"
         };
 
-        // DIE REIN STATISCHE FRAGEN-MATRIX STARTET JETZT HIER
+        // ==========================================
+        // DEIN FRAGEN-POOL HIER EINFÜGEN
+        // ==========================================
         const staticHumanPool = [
                // --- BLOCK 1 (EINTRÄGE 1 BIS 45) ---
             {
@@ -396,7 +387,7 @@
                 textSarah: "Eingeweichtes Kochgeschirr tagelang in der Spüle stehenzulassen schiebt das Problem im Alltag nur nervig auf.",
                 textCouch: "Wer deklariert dreckige Pfannen lieber als 'muss einweichen', um Zeit beim Abwasch zu gewinnen?"
             },
-            {
+ {
                 id: "b1_2", cat: "cat1",
                 textBenni: "Das ungeduldige Schimpfen im dichten Berufsverkehr sorgt auf dem Beifahrersitz für eine anstrengende Stimmung.",
                 textSarah: "Bennis ungeduldiges Schimpfen im dichten Berufsverkehr sorgt auf dem Beifahrersitz für eine anstrengende Stimmung.",
@@ -9362,16 +9353,32 @@
             },
 
 
-         ]; 
+        ]; 
 
+        // ==========================================
+        // FIREBASE LIVE-SYNC SETUP
+        // ==========================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiKVkItpCA8enxJprsXSYy4E6_WtgVaiI",
+            authDomain: "teamwir-app.firebaseapp.com",
+            projectId: "teamwir-app",
+            storageBucket: "teamwir-app.firebasestorage.app",
+            messagingSenderId: "777646311112",
+            appId: "1:777646311112:web:aedeaacfd8188854e787fd",
+            databaseURL: "https://teamwir-app-default-rtdb.firebaseio.com"
+        };
 
-        // COUCH-SCHLICHTER INTERNALS (REIN VON FLOSKELN BEFREIT)
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // ==========================================
+        // COUCH-SCHLICHTER & INHALTE
+        // ==========================================
         const schlichterFragenKatalog = {
             default: [
                 "Welches unbemerkte, tiefere Bedürfnis (z.B. nach Ruhe, Struktur oder Zuverlässigkeit) wurde bei diesem Thema verletzt?",
                 "Wie können wir diesen Reibungspunkt im Alltag so lösen, dass sich kein Partner verbiegen muss?",
                 "Welcher Teil dieses Konflikts geht eigentlich ganz realistisch auf meine eigene Kappe?"
-
             ]
         };
 
@@ -9421,53 +9428,13 @@
             customQuestions: [], 
             lastSyncDate: null,
             currentBetDeal: "",
-	    fixedQuestionOrder: null	
+            fixedQuestionOrder: null    
         };
 
         let newHighlights = { answers: {}, checkIn: false, missions: false, wishes: false, casino: {}, couchLiveLog: false };
 
-        function getCombinedQuestionPool() {
-    // Wenn noch keine Reihenfolge gespeichert ist, einmalig mischen
-    if (!appState.fixedQuestionOrder) {
-        let pool = [...staticHumanPool, ...(appState.customQuestions || [])];
-        // Fisher-Yates Algorithmus für echtes, festes Mischen
-        for (let i = pool.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [pool[i], pool[j]] = [pool[j], pool[i]];
-        }
-        appState.fixedQuestionOrder = pool;
-        saveState(); // Speichert die Reihenfolge dauerhaft
-    }
-    return appState.fixedQuestionOrder;
-}
-
         function initApp() {
-            const stored = localStorage.getItem('couchclash_v25_master');
-            if (stored) {
-                try { 
-                    const parsed = JSON.parse(stored);
-                    if (parsed && typeof parsed === 'object') {
-                        if (parsed.answers) appState.answers = parsed.answers;
-                        if (parsed.checkIn) appState.checkIn = { ...appState.checkIn, ...parsed.checkIn };
-                        if (parsed.missions) appState.missions = { ...appState.missions, ...parsed.missions };
-                        if (parsed.wishes) appState.wishes = { ...appState.wishes, ...parsed.wishes };
-                        if (parsed.casino) appState.casino = { ...appState.casino, ...parsed.casino };
-                        if (parsed.couchLiveLog) appState.couchLiveLog = parsed.couchLiveLog;
-                        if (parsed.milestones) appState.milestones = parsed.milestones;
-                        if (parsed.customQuestions) appState.customQuestions = parsed.customQuestions;
-                        if (parsed.lastSyncDate) appState.lastSyncDate = parsed.lastSyncDate;
-                        if (parsed.currentBetDeal) appState.currentBetDeal = parsed.currentBetDeal;
-if (parsed.fixedQuestionOrder) appState.fixedQuestionOrder = parsed.fixedQuestionOrder;
-                    }
-                } catch(e) { console.error("Datenkorrektur aktiv:", e); }
-            }
-
-            appState.answers = appState.answers || {};
-            appState.checkIn = appState.checkIn || { benni: { energy: 50, focus: 50 }, sarah: { energy: 50, focus: 50 } };
-            appState.missions = appState.missions || { benni: { index: 0, done: false }, sarah: { index: 1, done: false } };
-            appState.wishes = appState.wishes || { benni: [], sarah: [] };
-            appState.casino = appState.casino || { c1: { benni: "", sarah: "" }, c2: { benni: "", sarah: "" } };
-
+            // Einstellungen, die weiterhin lokal auf dem eigenen Handy bleiben (Design, Rolle)
             const savedRole = localStorage.getItem('zweiklang_device_role');
             if (savedRole === 'sarah') { currentPartner = 'sarah'; } else { currentPartner = 'benni'; }
 
@@ -9476,15 +9443,75 @@ if (parsed.fixedQuestionOrder) appState.fixedQuestionOrder = parsed.fixedQuestio
                 const dtBtn = document.getElementById('dark-toggle-btn');
                 if(dtBtn) dtBtn.innerText = "☀️";
             }
-
             applyRoleTheming(currentPartner);
-            buildAccordionList();
-            rollBoxenstopp();
-            updateAllLayouts();
+
+            // DIE FIREBASE LIVE-VERBINDUNG STARTET HIER
+            database.ref('teamwir_live_data').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    calculateHighlights(appState, data);
+                    appState = data;
+                } else {
+                    saveState(); // Wenn Datenbank leer, Grunddaten hochladen
+                }
+
+                // Fallbacks falls was in der DB fehlt
+                appState.answers = appState.answers || {};
+                appState.checkIn = appState.checkIn || { benni: { energy: 50, focus: 50 }, sarah: { energy: 50, focus: 50 } };
+                appState.missions = appState.missions || { benni: { index: 0, done: false }, sarah: { index: 1, done: false } };
+                appState.wishes = appState.wishes || { benni: [], sarah: [] };
+                appState.casino = appState.casino || { c1: { benni: "", sarah: "" }, c2: { benni: "", sarah: "" } };
+
+                buildAccordionList();
+                rollBoxenstopp();
+                updateAllLayouts();
+            });
+
             initTouchEvents();
         }
 
-        function saveState() { localStorage.setItem('couchclash_v25_master', JSON.stringify(appState)); }
+        // ==========================================
+        // DIE NEUE SAVE-FUNKTION (SCHICKT ALLES LIVE)
+        // ==========================================
+        function saveState() { 
+            appState.lastSyncDate = new Date().toLocaleString('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+            database.ref('teamwir_live_data').set(appState);
+        }
+
+        // ==========================================
+        // HIGHLIGHT ENGINE FÜR NEUE EREIGNISSE
+        // ==========================================
+        function calculateHighlights(oldState, newState) {
+            let pKey = currentPartner === 'benni' ? 'sarah' : 'benni';
+            if (newState.answers) {
+                Object.keys(newState.answers).forEach(qId => {
+                    if (newState.answers[qId][pKey] && (!oldState.answers || !oldState.answers[qId] || oldState.answers[qId][pKey] !== newState.answers[qId][pKey])) {
+                        newHighlights.answers[qId] = true;
+                    }
+                });
+            }
+            if (newState.checkIn?.[pKey]?.energy !== oldState.checkIn?.[pKey]?.energy || newState.checkIn?.[pKey]?.focus !== oldState.checkIn?.[pKey]?.focus) newHighlights.checkIn = true;
+            if (newState.missions?.[pKey]?.done !== oldState.missions?.[pKey]?.done) newHighlights.missions = true;
+            if (JSON.stringify(newState.wishes?.[pKey]) !== JSON.stringify(oldState.wishes?.[pKey])) newHighlights.wishes = true;
+            if (newState.couchLiveLog?.length > (oldState.couchLiveLog?.length || 0)) newHighlights.couchLiveLog = true;
+        }
+
+        // ==========================================
+        // DER RESTLICHE APP CODE
+        // ==========================================
+
+        function getCombinedQuestionPool() {
+            if (!appState.fixedQuestionOrder) {
+                let pool = [...staticHumanPool, ...(appState.customQuestions || [])];
+                for (let i = pool.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [pool[i], pool[j]] = [pool[j], pool[i]];
+                }
+                appState.fixedQuestionOrder = pool;
+                saveState(); 
+            }
+            return appState.fixedQuestionOrder;
+        }
 
         function saveCurrentBetDeal() {
             const val = document.getElementById('input-current-bet').value.trim();
@@ -9588,7 +9615,7 @@ if (parsed.fixedQuestionOrder) appState.fixedQuestionOrder = parsed.fixedQuestio
         function updateProgressBar() {
             const progressBlock = document.getElementById('cards-progress-block');
             const progressBar = document.getElementById('cards-progress-bar');
-            const progressText = document.getElementById('cards-progress-text'); // NEU: Holt den Text-Platzhalter
+            const progressText = document.getElementById('cards-progress-text'); 
             
             const pool = getCombinedQuestionPool();
             let answered = Object.keys(appState.answers || {}).filter(qId => appState.answers[qId] && appState.answers[qId][currentPartner]).length;
@@ -9599,11 +9626,10 @@ if (parsed.fixedQuestionOrder) appState.fixedQuestionOrder = parsed.fixedQuestio
                 progressBar.style.width = `${percent}%`;
             }
 
-            // NEU: Schreibt die genauen Zahlen live rein
             if(progressText) {
                 progressText.innerText = `${answered} / ${pool.length} Fragen beantwortet (${percent}%)`;
             }
-                }
+        }
 
         function buildAccordionList() {
             const container = document.getElementById('live-categories-accordion'); if(!container) return;
@@ -9658,7 +9684,7 @@ if (parsed.fixedQuestionOrder) appState.fixedQuestionOrder = parsed.fixedQuestio
 
             if (!nextQ) {
                 const cCat = document.getElementById('card-cat'); if(cCat) cCat.innerText = "Stapel leer!";
-                const cMain = document.getElementById('card-main'); if(cMain) cMain.innerText = "Wahnsinn, alle echten Clash-Fragen gemeistert! Zeit zum Syncen!";
+                const cMain = document.getElementById('card-main'); if(cMain) cMain.innerText = "Wahnsinn, alle echten Clash-Fragen gemeistert!";
                 if(btnNo) btnNo.innerText = "Nein";
                 if(btnYes) btnYes.innerText = "Ja";
                 return;
@@ -9697,7 +9723,7 @@ if (parsed.fixedQuestionOrder) appState.fixedQuestionOrder = parsed.fixedQuestio
                 if (decision === 'JA') finalDecision = 'B';
             }
             
-            appState.answers[qId][currentPartner] = finalDecision; saveState(); updateAllLayouts();
+            appState.answers[qId][currentPartner] = finalDecision; saveState(); 
             const card = document.getElementById('active-card'); 
             if(card) {
                 card.style.transition = 'transform 0.2s, opacity 0.2s';
@@ -9721,7 +9747,7 @@ if (parsed.fixedQuestionOrder) appState.fixedQuestionOrder = parsed.fixedQuestio
             if(!currentLiveQuestionObj) return;
             appState.couchLiveLog = appState.couchLiveLog || [];
             appState.couchLiveLog.unshift({ text: currentLiveQuestionObj.textCouch, vote: winner, timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}), isNew: false });
-            saveState(); renderCouchLiveLog(); showToast(`Eingeloggt! 🛋️`); generateLiveQuestion();
+            saveState(); showToast(`Eingeloggt! 🛋️`); generateLiveQuestion();
         }
 
         function renderCouchLiveLog() {
@@ -9773,12 +9799,12 @@ if (parsed.fixedQuestionOrder) appState.fixedQuestionOrder = parsed.fixedQuestio
             let y = parseInt(document.getElementById('input-milestone-year').value);
             let t = document.getElementById('input-milestone-text').value.trim();
             if(!y || !t) { showToast("Bitte Jahr und Text ausfüllen!"); return; }
-            appState.milestones.push({ year: y, text: t }); saveState(); renderMilestones();
+            appState.milestones.push({ year: y, text: t }); saveState(); 
             document.getElementById('input-milestone-year').value = ''; document.getElementById('input-milestone-text').value = '';
             showToast("Meilenstein verewigt! 🏛️");
         }
         function deleteMilestone(idx) {
-            appState.milestones.splice(idx, 1); saveState(); renderMilestones();
+            appState.milestones.splice(idx, 1); saveState(); 
         }
 
         function updateCheckInLabels() {
@@ -9848,7 +9874,7 @@ if (parsed.fixedQuestionOrder) appState.fixedQuestionOrder = parsed.fixedQuestio
             let cur = appState.missions?.[currentPartner]?.index ?? 0;
             appState.missions[currentPartner].index = (cur + 1) % missionPool.length;
             appState.missions[currentPartner].done = false;
-            saveState(); renderAlltagModule(); showToast("Mission gewürfelt! 🎲");
+            saveState(); showToast("Mission gewürfelt! 🎲");
         }
         function saveMissionState() { 
             const check = document.getElementById('local-mission-checkbox');
@@ -9875,24 +9901,24 @@ if (parsed.fixedQuestionOrder) appState.fixedQuestionOrder = parsed.fixedQuestio
         function addPredefinedWish(txt) {
             let active = appState.wishes[currentPartner] || [];
             if(active.length >= 3) { showToast("Max. 3 aktive Wünsche parallel!"); return; }
-            active.push(txt); appState.wishes[currentPartner] = active; saveState(); updateAllLayouts();
+            active.push(txt); appState.wishes[currentPartner] = active; saveState(); 
         }
         function addCustomWish() {
             let active = appState.wishes[currentPartner] || [];
             let txt = document.getElementById('input-custom-wish').value.trim();
             if(!txt) return;
             if(active.length >= 3) { showToast("Max. 3 aktive Wünsche parallel!"); return; }
-            active.push(txt); appState.wishes[currentPartner] = active; saveState(); updateAllLayouts();
+            active.push(txt); appState.wishes[currentPartner] = active; saveState(); 
             document.getElementById('input-custom-wish').value = '';
             showToast("Wunsch aktiv! 🧺");
         }
         function removeWish(idx) {
-            appState.wishes[currentPartner].splice(idx, 1); saveState(); updateAllLayouts();
+            appState.wishes[currentPartner].splice(idx, 1); saveState(); 
         }
         function fulfillPartnerWish(idx) {
             let pKey = currentPartner === 'benni' ? 'sarah' : 'benni';
             let wishText = appState.wishes[pKey][idx];
-            appState.wishes[pKey].splice(idx, 1); saveState(); updateAllLayouts();
+            appState.wishes[pKey].splice(idx, 1); saveState(); 
             showToast(`Erledigt: "${wishText}"! 🎉`);
         }
 
@@ -9944,150 +9970,6 @@ if (parsed.fixedQuestionOrder) appState.fixedQuestionOrder = parsed.fixedQuestio
             if(dC === 0) dUl.innerHTML = '<li class="empty-state">Keine unterschiedlichen Ansichten.</li>';
         }
 
-        function exportState() {
-    const encrypted = btoa(encodeURIComponent(JSON.stringify(appState)));
-    
-    // 1. Versuch: Natives Teilen (nur bei HTTPS)
-    if (navigator.share && window.isSecureContext) {
-        navigator.share({ title: 'Team Wir Spielstand', text: encrypted })
-        .then(() => showToast("Code geteilt! 📱"))
-        .catch(() => forceMobileCopy(encrypted));
-    } 
-    // 2. Versuch: Moderne Clipboard API
-    else if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(encrypted)
-        .then(() => showToast("Code kopiert! 📱"))
-        .catch(() => forceMobileCopy(encrypted));
-    } 
-    // 3. Versuch: Kugelsicherer Mobile-Fallback
-    else {
-        forceMobileCopy(encrypted);
-    }
-}
-
-// Der Holzhammer für hartnäckige Handys
-function forceMobileCopy(text) {
-    let textArea = document.createElement("textarea");
-    textArea.value = text;
-    
-    // Für iOS muss das Element physisch im Bild sein und darf NICHT opacity: 0 haben
-    textArea.style.position = "fixed";
-    textArea.style.top = "50%";
-    textArea.style.left = "50%";
-    textArea.style.width = "10px";
-    textArea.style.height = "10px";
-    textArea.style.padding = "0";
-    textArea.style.border = "none";
-    textArea.style.background = "transparent";
-    textArea.style.color = "transparent"; // Macht nur den Text unsichtbar
-    
-    document.body.appendChild(textArea);
-    
-    // Spezieller Auswahl-Fix für iPhones/iPads
-    if (navigator.userAgent.match(/ipad|iphone/i)) {
-        textArea.contentEditable = true;
-        textArea.readOnly = false;
-        let range = document.createRange();
-        range.selectNodeContents(textArea);
-        let sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(range);
-        textArea.setSelectionRange(0, 999999);
-    } else {
-        textArea.focus();
-        textArea.select();
-    }
-    
-    try {
-        let successful = document.execCommand('copy');
-        if (successful) {
-            showToast("Code kopiert! 📱");
-        } else {
-            // Wenn das Handy es immer noch blockiert, zwingen wir ein Fenster auf
-            prompt("Dein Handy blockiert das automatische Kopieren. Kopiere den Code hier manuell:", text);
-        }
-    } catch (err) {
-        // Absolutes Backup
-        prompt("Dein Handy blockiert das automatische Kopieren. Kopiere den Code hier manuell:", text);
-    }
-    
-    document.body.removeChild(textArea);
-}
-
-        function pasteAndImportFromClipboard() {
-            navigator.clipboard.readText().then(text => {
-                if(!text) { showToast("Zwischenablage leer!"); return; }
-                const field = document.getElementById('sync-input-field');
-                if(field) { field.value = text; importState(); }
-            }).catch(() => { showToast("Erlaubnis verweigert. Nutze das Textfeld."); });
-        }
-
-        function importState() {
-            const field = document.getElementById('sync-input-field'); if(!field) return;
-            const input = field.value.trim(); if(!input) return;
-            try {
-                const partnerState = JSON.parse(decodeURIComponent(atob(input))); let pKey = currentPartner === 'benni' ? 'sarah' : 'benni';
-                let snapshotAnswers = JSON.parse(JSON.stringify(appState.answers || {}));
-                let snapshotCheckIn = JSON.parse(JSON.stringify(appState.checkIn?.[pKey] || {}));
-                let snapshotMission = appState.missions?.[pKey]?.done;
-                let snapshotWishes = JSON.stringify(appState.wishes?.[pKey] || []);
-                let snapshotCasino = JSON.parse(JSON.stringify(appState.casino || {}));
-                let snapshotCouchLength = appState.couchLiveLog ? appState.couchLiveLog.length : 0;
-
-                newHighlights = { answers: {}, checkIn: false, missions: false, wishes: false, casino: {}, couchLiveLog: false };
-
-                if (partnerState.answers) {
-                    Object.keys(partnerState.answers).forEach(qId => {
-                        if (!appState.answers[qId]) appState.answers[qId] = { benni: null, sarah: null };
-                        if (partnerState.answers[qId][pKey]) {
-                            appState.answers[qId][pKey] = partnerState.answers[qId][pKey];
-                            if(!snapshotAnswers[qId] || !snapshotAnswers[qId][pKey]) newHighlights.answers[qId] = true;
-                        }
-                    });
-                }
-                if (partnerState.checkIn && partnerState.checkIn[pKey]) {
-                    appState.checkIn[pKey] = partnerState.checkIn[pKey];
-                    if (partnerState.checkIn[pKey].energy !== snapshotCheckIn.energy || partnerState.checkIn[pKey].focus !== snapshotCheckIn.focus) newHighlights.checkIn = true;
-                }
-                if (partnerState.missions && partnerState.missions[pKey]) {
-                    appState.missions[pKey] = partnerState.missions[pKey];
-                    if (partnerState.missions[pKey].done !== snapshotMission) newHighlights.missions = true;
-                }
-                if (partnerState.wishes && partnerState.wishes[pKey]) {
-                    appState.wishes[pKey] = partnerState.wishes[pKey];
-                    if (JSON.stringify(partnerState.wishes[pKey]) !== snapshotWishes) newHighlights.wishes = true;
-                }
-                if (partnerState.casino) {
-                    Object.keys(partnerState.casino).forEach(cId => {
-                        if(partnerState.casino[cId]?.[pKey]) {
-                            if(!appState.casino[cId]) appState.casino[cId] = { benni: "", sarah: "" };
-                            appState.casino[cId][pKey] = partnerState.casino[cId][pKey];
-                            if(!snapshotCasino[cId] || snapshotCasino[cId][pKey] !== partnerState.casino[cId][pKey]) newHighlights.casino[cId] = true;
-                        }
-                    });
-                }
-                if (partnerState.couchLiveLog && partnerState.couchLiveLog.length > snapshotCouchLength) {
-                    let diff = partnerState.couchLiveLog.length - snapshotCouchLength; appState.couchLiveLog = partnerState.couchLiveLog;
-                    for(let i=0; i<diff; i++) { if(appState.couchLiveLog[i]) appState.couchLiveLog[i].isNew = true; }
-                    newHighlights.couchLiveLog = true;
-                }
-                if (partnerState.milestones) appState.milestones = partnerState.milestones;
-                if (partnerState.currentBetDeal) appState.currentBetDeal = partnerState.currentBetDeal;
-if (partnerState.fixedQuestionOrder) appState.fixedQuestionOrder = partnerState.fixedQuestionOrder;
-                if (partnerState.customQuestions) {
-                    partnerState.customQuestions.forEach(pq => {
-                        appState.customQuestions = appState.customQuestions || [];
-                        if(!appState.customQuestions.find(x => x.id === pq.id)) appState.customQuestions.push(pq);
-                    });
-                }
-
-                appState.lastSyncDate = new Date().toLocaleString('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
-                saveState(); updateAllLayouts(); buildAccordionList();
-                field.value = ''; showToast("Sync erfolgreich! 🎉");
-                switchMode('matches');
-            } catch(e) { alert("Code ungültig oder unvollständig."); }
-        }
-
         function checkHighlightAlert() {
             let total = Object.keys(newHighlights.answers || {}).length + Object.keys(newHighlights.casino || {}).length;
             if(newHighlights.checkIn) total++; if(newHighlights.missions) total++; if(newHighlights.wishes) total++; if(newHighlights.couchLiveLog) total++;
@@ -10101,7 +9983,8 @@ if (partnerState.fixedQuestionOrder) appState.fixedQuestionOrder = partnerState.
         function clearNewHighlights() {
             newHighlights = { answers: {}, checkIn: false, missions: false, wishes: false, casino: {}, couchLiveLog: false };
             if(appState.couchLiveLog) appState.couchLiveLog.forEach(item => item.isNew = false);
-            saveState(); updateAllLayouts(); showToast("Highlights bereinigt.");
+            updateAllLayouts(); 
+            showToast("Highlights bereinigt.");
         }
 
         function showToast(m) { 
@@ -10128,7 +10011,7 @@ if (partnerState.fixedQuestionOrder) appState.fixedQuestionOrder = partnerState.
             });
         }
 
-          window.onload = initApp;
+        window.onload = initApp;
     </script>
 </body>
 </html>
