@@ -10011,7 +10011,14 @@
             });
         }
 
-        window.onload = initApp;
+        // Ändere das am Ende deines Codes:
+window.onload = () => {
+    initApp();
+    // Kleine Verzögerung, um sicherzugehen, dass Firebase die Daten geladen hat
+    setTimeout(() => {
+        updateAllLayouts();
+    }, 1000); 
+};
     </script>
 </body>
 </html>
