@@ -9504,7 +9504,8 @@
         // ==========================================
 
 function getCombinedQuestionPool() {
-    let pool = staticHumanPool || [];
+    // Kombiniert deine festen Fragen mit den anonym eingeschleusten Fragen!
+    let pool = [...(staticHumanPool || []), ...(appState.customQuestions || [])];
 
     if (pool.length === 0) return [];
 
@@ -9523,7 +9524,6 @@ function getCombinedQuestionPool() {
     }
 
     // 2. Pool nach der festen Reihenfolge sortieren
-    // Wir nutzen ein Mapping, damit das Sortieren blitzschnell geht
     const orderMap = new Map();
     appState.shuffledOrder.forEach((id, index) => orderMap.set(id, index));
     
@@ -9726,7 +9726,6 @@ function getNewSwipeCard() {
         }
 
         const cCat = document.getElementById('card-cat'); if(cCat) cCat.innerText = categories[nextQ.cat] || "CouchClash";
-        // cMain ist schon definiert, wir setzen nur noch den Text:
         if(cMain) cMain.innerHTML = currentPartner === 'benni' ? nextQ.textBenni : nextQ.textSarah;
         appState.currentSwipeId = nextQ.id;
 
@@ -9742,7 +9741,7 @@ function getNewSwipeCard() {
             if(indYes) indYes.innerText = "JA";
         }
 
-        // Tippfehler cconst behoben!
+        // Tippfehler ist hier behoben!
         const card = document.getElementById('active-card');
         if(card) {
             card.style.transform = 'none'; card.style.opacity = '1';
@@ -9755,7 +9754,6 @@ function getNewSwipeCard() {
         console.error(error);
     }
 }
-
         function handleSwipeAction(decision) {
             const qId = appState.currentSwipeId; if(!qId) return;
             if (!appState.answers[qId]) appState.answers[qId] = { benni: null, sarah: null };
