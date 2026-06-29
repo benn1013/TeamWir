@@ -9434,44 +9434,38 @@
         let newHighlights = { answers: {}, checkIn: false, missions: false, wishes: false, casino: {}, couchLiveLog: false };
 
         function initApp() {
-    // 1. Theme und Rolle setzen
-    const savedRole = localStorage.getItem('zweiklang_device_role');
-    if (savedRole === 'sarah') { currentPartner = 'sarah'; } else { currentPartner = 'benni'; }
-
-    if(localStorage.getItem('zweiklang_dark') === 'true') {
-        document.body.classList.add('dark-theme');
-        const dtBtn = document.getElementById('dark-toggle-btn');
-        if(dtBtn) dtBtn.innerText = "☀️";
-    }
-    applyRoleTheming(currentPartner);
-
-    // 2. FIREBASE: Daten laden
-    database.ref('teamwir_live_data').on('value', (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-            calculateHighlights(appState, data);
-            appState = data;
-        } else {
-            // Falls leer, setze Default-Struktur damit die App nicht crasht
-            appState.answers = {};
-            appState.checkIn = { benni: { energy: 50, focus: 50 }, sarah: { energy: 50, focus: 50 } };
-            saveState();
-        }
-
-        // 3. Jetzt erst die UI aufbauen, wenn die Daten da sind
-        buildAccordionList();
-        rollBoxenstopp();
-        updateAllLayouts();
+        console.log("App startet...");
         
-        // Verstecke "Laden..." Nachricht explizit
-        const cMain = document.getElementById('card-main');
-        if (cMain && cMain.innerText === "Pool wird berechnet...") {
-            getNewSwipeCard();
-        }
-    });
+        // 1. Theme und Rolle laden
+        const savedRole = localStorage.getItem('zweiklang_device_role');
+        currentPartner = (savedRole === 'sarah') ? 'sarah' : 'benni';
+        applyRoleTheming(currentPartner);
 
-    initTouchEvents();
-}
+        // 2. Firebase Daten abrufen
+        database.ref('teamwir_live_data').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                appState = data;
+                console.log("Daten aus Cloud geladen");
+            } else {
+                console.log("Datenbank leer, erstelle Struktur...");
+                saveState();
+            }
+
+            // 3. UI aufbauen
+            buildAccordionList();
+            rollBoxenstopp();
+            updateAllLayouts();
+            
+            // WICHTIG: Hier triggern wir das Laden der ersten Frage, falls nötig
+            const cMain = document.getElementById('card-main');
+            if (cMain && (cMain.innerText.includes("Pool wird berechnet") || cMain.innerText.includes("Laden"))) {
+                getNewSwipeCard();
+            }
+        });
+
+        initTouchEvents();
+    }
 
         // ==========================================
         // DIE NEUE SAVE-FUNKTION (SCHICKT ALLES LIVE)
