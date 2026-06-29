@@ -380,14 +380,13 @@
         // DEIN FRAGEN-POOL HIER EINFÜGEN
         // ==========================================
         const staticHumanPool = [
-               // --- BLOCK 1 (EINTRÄGE 1 BIS 45) ---
             {
                 id: "b1_1", cat: "cat0",
                 textBenni: "Eingeweichtes Kochgeschirr tagelang in der Spüle stehenzulassen schiebt das Problem im Alltag nur nervig auf.",
                 textSarah: "Eingeweichtes Kochgeschirr tagelang in der Spüle stehenzulassen schiebt das Problem im Alltag nur nervig auf.",
                 textCouch: "Wer deklariert dreckige Pfannen lieber als 'muss einweichen', um Zeit beim Abwasch zu gewinnen?"
             },
-   {
+			 {
                 id: "b1_2", cat: "cat1",
                 textBenni: "Das ungeduldige Schimpfen im dichten Berufsverkehr sorgt auf dem Beifahrersitz für eine anstrengende Stimmung.",
                 textSarah: "Bennis ungeduldiges Schimpfen im dichten Berufsverkehr sorgt auf dem Beifahrersitz für eine anstrengende Stimmung.",
@@ -9351,6 +9350,8 @@
                 textSarah: "Deine bedingungslose Loyalität in schwierigen Momenten ist mein verlässlichster Anker im Leben.",
                 textCouch: "Was genau macht das Fundament unserer Beziehung in dieser intensiven Phase so unendlich stark?"
             },
+
+
         ]; 
 
         // ==========================================
@@ -9432,7 +9433,6 @@
         let newHighlights = { answers: {}, checkIn: false, missions: false, wishes: false, casino: {}, couchLiveLog: false };
 
         function initApp() {
-            // Einstellungen, die weiterhin lokal auf dem eigenen Handy bleiben (Design, Rolle)
             const savedRole = localStorage.getItem('zweiklang_device_role');
             if (savedRole === 'sarah') { currentPartner = 'sarah'; } else { currentPartner = 'benni'; }
 
@@ -9444,104 +9444,77 @@
             applyRoleTheming(currentPartner);
 
             // FIREBASE: Daten laden
-    database.ref('teamwir_live_data').on('value', (snapshot) => {
-        const data = snapshot.val();
-        
-        if (data) {
-            appState = data;
-            // Absicherung: Falls 'answers' in der Cloud noch fehlt, erstellen wir ein leeres Objekt, 
-            // damit die Zählung (Object.keys) nicht abstürzt.
-            if (!appState.answers) appState.answers = {};
-        } else {
-            // Nur wenn die Datenbank komplett leer ist
-            appState = { answers: {}, checkIn: {} };
-        }
+            database.ref('teamwir_live_data').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    appState = data;
+                    if (!appState.answers) appState.answers = {};
+                } else {
+                    appState = { answers: {}, checkIn: {} };
+                }
 
-        // WICHTIG: Erst JETZT, wo appState.answers sicher gefüllt ist, 
-        // updaten wir die UI und den Balken.
-        updateProgressBar();
-        buildAccordionList();
-        updateAllLayouts();
-        
-        // Verstecke "Laden..." und hole die RICHTIGE Karte
-        const cMain = document.getElementById('card-main');
-        if (cMain && cMain.innerText.includes("Pool wird berechnet")) {
-            getNewSwipeCard();
-        }
-    });
+                updateAllLayouts();
+                
+                const cMain = document.getElementById('card-main');
+                if (cMain && cMain.innerText.includes("Pool wird berechnet")) {
+                    getNewSwipeCard();
+                }
+            });
 
             initTouchEvents();
         }
 
-        // ==========================================
-        // DIE NEUE SAVE-FUNKTION (SCHICKT ALLES LIVE)
-        // ==========================================
         function saveState() { 
             appState.lastSyncDate = new Date().toLocaleString('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
-            database.ref('teamwir_live_data').set(appState);
+            // Error-Catch, damit das UI beim Speichern nicht einfriert
+            database.ref('teamwir_live_data').set(appState).catch(e => console.error("Firebase Error:", e));
         }
 
         // ==========================================
-        // HIGHLIGHT ENGINE FÜR NEUE EREIGNISSE
+        // ROBUSTER POOL GENERATOR
         // ==========================================
-        function calculateHighlights(oldState, newState) {
-            let pKey = currentPartner === 'benni' ? 'sarah' : 'benni';
-            if (newState.answers) {
-                Object.keys(newState.answers).forEach(qId => {
-                    if (newState.answers[qId][pKey] && (!oldState.answers || !oldState.answers[qId] || oldState.answers[qId][pKey] !== newState.answers[qId][pKey])) {
-                        newHighlights.answers[qId] = true;
-                    }
-                });
+        function getCombinedQuestionPool() {
+            // Firebase wandelt Arrays manchmal in Objekte um - das hier fängt den Fehler ab!
+            let customQ = [];
+            if (appState.customQuestions) {
+                customQ = Array.isArray(appState.customQuestions) ? appState.customQuestions : Object.values(appState.customQuestions);
             }
-            if (newState.checkIn?.[pKey]?.energy !== oldState.checkIn?.[pKey]?.energy || newState.checkIn?.[pKey]?.focus !== oldState.checkIn?.[pKey]?.focus) newHighlights.checkIn = true;
-            if (newState.missions?.[pKey]?.done !== oldState.missions?.[pKey]?.done) newHighlights.missions = true;
-            if (JSON.stringify(newState.wishes?.[pKey]) !== JSON.stringify(oldState.wishes?.[pKey])) newHighlights.wishes = true;
-            if (newState.couchLiveLog?.length > (oldState.couchLiveLog?.length || 0)) newHighlights.couchLiveLog = true;
+            let pool = [...(staticHumanPool || []), ...customQ];
+
+            if (pool.length === 0) return [];
+
+            let sOrder = [];
+            if (appState.shuffledOrder) {
+                sOrder = Array.isArray(appState.shuffledOrder) ? appState.shuffledOrder : Object.values(appState.shuffledOrder);
+            }
+
+            if (sOrder.length === 0) {
+                let ids = pool.map(q => q.id);
+                for (let i = ids.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [ids[i], ids[j]] = [ids[j], ids[i]];
+                }
+                appState.shuffledOrder = ids;
+                sOrder = ids;
+                database.ref('teamwir_live_data/shuffledOrder').set(ids).catch(e=>console.log(e));
+            }
+
+            const orderMap = new Map();
+            sOrder.forEach((id, index) => orderMap.set(id, index));
+            
+            pool.sort((a, b) => {
+                let indexA = orderMap.has(a.id) ? orderMap.get(a.id) : 99999;
+                let indexB = orderMap.has(b.id) ? orderMap.get(b.id) : 99999;
+                return indexA - indexB;
+            });
+
+            return pool;
         }
-
-        // ==========================================
-        // DER RESTLICHE APP CODE
-        // ==========================================
-
-function getCombinedQuestionPool() {
-    // Kombiniert deine festen Fragen mit den anonym eingeschleusten Fragen!
-    let pool = [...(staticHumanPool || []), ...(appState.customQuestions || [])];
-
-    if (pool.length === 0) return [];
-
-    // 1. Check: Gibt es schon eine gespeicherte Reihenfolge in Firebase?
-    if (!appState.shuffledOrder || appState.shuffledOrder.length === 0) {
-        // Nein? Dann extrahieren wir alle IDs und mischen sie EINMALIG
-        let ids = pool.map(q => q.id);
-        for (let i = ids.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [ids[i], ids[j]] = [ids[j], ids[i]];
-        }
-        
-        // Speichere die Reihenfolge im appState und pushe sie direkt in die Cloud
-        appState.shuffledOrder = ids;
-        database.ref('teamwir_live_data/shuffledOrder').set(ids);
-    }
-
-    // 2. Pool nach der festen Reihenfolge sortieren
-    const orderMap = new Map();
-    appState.shuffledOrder.forEach((id, index) => orderMap.set(id, index));
-    
-    pool.sort((a, b) => {
-        let indexA = orderMap.has(a.id) ? orderMap.get(a.id) : 99999;
-        let indexB = orderMap.has(b.id) ? orderMap.get(b.id) : 99999;
-        return indexA - indexB;
-    });
-
-    return pool;
-}
 
         function saveCurrentBetDeal() {
             const val = document.getElementById('input-current-bet').value.trim();
             appState.currentBetDeal = val;
-            saveState();
-            updateAllLayouts();
-            showToast("Wetteinsatz fixiert! 🎰");
+            saveState(); updateAllLayouts(); showToast("Wetteinsatz fixiert! 🎰");
         }
 
         function toggleDarkMode() {
@@ -9553,10 +9526,8 @@ function getCombinedQuestionPool() {
         }
 
         function assignPermanentRole(role) {
-            currentPartner = role;
-            localStorage.setItem('zweiklang_device_role', role);
-            applyRoleTheming(role);
-            showToast(`Gerät fest für ${role === 'benni' ? 'Benni' : 'Sarah'} gesperrt! 🔒`);
+            currentPartner = role; localStorage.setItem('zweiklang_device_role', role);
+            applyRoleTheming(role); showToast(`Gerät fest für ${role === 'benni' ? 'Benni' : 'Sarah'} gesperrt! 🔒`);
             updateAllLayouts();
         }
 
@@ -9613,22 +9584,23 @@ function getCombinedQuestionPool() {
             if(bBox) bBox.innerText = boxenstoppPool[Math.floor(Math.random() * boxenstoppPool.length)];
         }
 
+        // ==========================================
+        // SICHERE UPDATE-FUNKTION
+        // ==========================================
         function updateAllLayouts() {
-            updateEvaluationLists();
-            getNewSwipeCard();
-            renderAlltagModule();
-            renderCasinoFields();
-            renderCasinoReveal();
-            renderWishSelection();
-            renderCouchLiveLog();
-            renderMilestones();
-            checkHighlightAlert();
-            updateProgressBar();
+            // Einzelne try-catch Blöcke, damit ein Fehler in Bereich A nicht Bereich B blockiert!
+            try { updateEvaluationLists(); } catch(e){ console.log(e); }
+            try { getNewSwipeCard(); } catch(e){ console.log(e); }
+            try { renderAlltagModule(); } catch(e){ console.log(e); }
+            try { renderCasinoFields(); } catch(e){ console.log(e); }
+            try { renderCasinoReveal(); } catch(e){ console.log(e); }
+            try { renderWishSelection(); } catch(e){ console.log(e); }
+            try { renderCouchLiveLog(); } catch(e){ console.log(e); }
+            try { renderMilestones(); } catch(e){ console.log(e); }
+            try { updateProgressBar(); } catch(e){ console.log(e); }
             
             const betDisplay = document.getElementById('active-bet-display');
-            if(betDisplay) {
-                betDisplay.innerText = appState.currentBetDeal ? `🎰 Wetteinsatz: ${appState.currentBetDeal}` : "🎰 Aktueller Wetteinsatz: Noch kein Deal vereinbart.";
-            }
+            if(betDisplay) betDisplay.innerText = appState.currentBetDeal ? `🎰 Wetteinsatz: ${appState.currentBetDeal}` : "🎰 Aktueller Wetteinsatz: Noch kein Deal vereinbart.";
 
             document.querySelectorAll('.btn-role-toggle').forEach(b => b.style.border = "none");
             const activeBtn = document.getElementById(`set-role-${currentPartner}`);
@@ -9641,17 +9613,13 @@ function getCombinedQuestionPool() {
             const progressText = document.getElementById('cards-progress-text'); 
             
             const pool = getCombinedQuestionPool();
+            if(pool.length === 0) return;
+            
             let answered = Object.keys(appState.answers || {}).filter(qId => appState.answers[qId] && appState.answers[qId][currentPartner]).length;
             let percent = Math.min(Math.round((answered / pool.length) * 100), 100);
             
-            if(progressBlock && progressBar) {
-                progressBlock.style.display = 'block';
-                progressBar.style.width = `${percent}%`;
-            }
-
-            if(progressText) {
-                progressText.innerText = `${answered} / ${pool.length} Fragen beantwortet (${percent}%)`;
-            }
+            if(progressBlock && progressBar) { progressBlock.style.display = 'block'; progressBar.style.width = `${percent}%`; }
+            if(progressText) progressText.innerText = `${answered} / ${pool.length} Fragen beantwortet (${percent}%)`;
         }
 
         function buildAccordionList() {
@@ -9682,10 +9650,11 @@ function getCombinedQuestionPool() {
             let randId = "custom_" + Math.random().toString(36).substr(2, 9);
             let newObj = { id: randId, cat: "cat0", textBenni: tB, textSarah: tS, textCouch: tC };
             
-            appState.customQuestions = appState.customQuestions || [];
-            appState.customQuestions.push(newObj);
-            saveState();
-            updateAllLayouts();
+            // Auch hier Array-Schutz
+            let cQ = Array.isArray(appState.customQuestions) ? appState.customQuestions : Object.values(appState.customQuestions || {});
+            cQ.push(newObj);
+            appState.customQuestions = cQ;
+            saveState(); updateAllLayouts();
             
             document.getElementById('input-custom-q-benni').value = '';
             document.getElementById('input-custom-q-sarah').value = '';
@@ -9693,83 +9662,83 @@ function getCombinedQuestionPool() {
             showToast("In den Stapel gemischt! 🥷🏽🎲");
         }
 
-function getNewSwipeCard() {
-    // 1. Definiere cMain GANZ OBEN, damit wir überall darauf zugreifen können
-    const cMain = document.getElementById('card-main'); 
+        function getNewSwipeCard() {
+            const cMain = document.getElementById('card-main'); 
+            try {
+                const pool = getCombinedQuestionPool();
+                
+                if (!pool || pool.length === 0) {
+                    if(cMain) cMain.innerText = "Fehler: Fragen-Pool ist leer!";
+                    return;
+                }
+                
+                const nextQ = pool.find(q => {
+                    if (!appState.answers || !appState.answers[q.id] || typeof appState.answers[q.id] !== 'object') return true;
+                    return !appState.answers[q.id][currentPartner];
+                });
+                
+                const btnNo = document.querySelector('.action-btn.btn-no');
+                const btnYes = document.querySelector('.action-btn.btn-yes');
+                const indNo = document.querySelector('.card-indicator.indicator-no');
+                const indYes = document.querySelector('.card-indicator.indicator-yes');
 
-    // 2. HIER startet der Try-Block!
-    try {
-        const pool = getCombinedQuestionPool();
-        
-        // Sicherheits-Check
-        if (!pool || pool.length === 0) {
-            if(cMain) cMain.innerText = "Fehler: 'staticHumanPool' ist leer oder nicht definiert!";
-            return;
-        }
-        
-        const nextQ = pool.find(q => {
-            if (!appState.answers[q.id] || typeof appState.answers[q.id] !== 'object') return true;
-            return !appState.answers[q.id][currentPartner];
-        });
-        
-        const btnNo = document.querySelector('.action-btn.btn-no');
-        const btnYes = document.querySelector('.action-btn.btn-yes');
-        const indNo = document.querySelector('.card-indicator.indicator-no');
-        const indYes = document.querySelector('.card-indicator.indicator-yes');
+                if (!nextQ) {
+                    const cCat = document.getElementById('card-cat'); if(cCat) cCat.innerText = "Stapel leer!";
+                    if(cMain) cMain.innerText = "Wahnsinn, alle echten Clash-Fragen gemeistert!";
+                    if(btnNo) btnNo.innerText = "Nein";
+                    if(btnYes) btnYes.innerText = "Ja";
+                    return;
+                }
 
-        if (!nextQ) {
-            const cCat = document.getElementById('card-cat'); if(cCat) cCat.innerText = "Stapel leer!";
-            if(cMain) cMain.innerText = "Wahnsinn, alle echten Clash-Fragen gemeistert!";
-            if(btnNo) btnNo.innerText = "Nein";
-            if(btnYes) btnYes.innerText = "Ja";
-            return;
-        }
+                const cCat = document.getElementById('card-cat'); if(cCat) cCat.innerText = categories[nextQ.cat] || "CouchClash";
+                if(cMain) cMain.innerHTML = currentPartner === 'benni' ? nextQ.textBenni : nextQ.textSarah;
+                appState.currentSwipeId = nextQ.id;
 
-        const cCat = document.getElementById('card-cat'); if(cCat) cCat.innerText = categories[nextQ.cat] || "CouchClash";
-        if(cMain) cMain.innerHTML = currentPartner === 'benni' ? nextQ.textBenni : nextQ.textSarah;
-        appState.currentSwipeId = nextQ.id;
+                if (nextQ.id.startsWith('mat_')) {
+                    if(btnNo) btnNo.innerText = "Option A"; if(btnYes) btnYes.innerText = "Option B";
+                    if(indNo) indNo.innerText = "Option A"; if(indYes) indYes.innerText = "Option B";
+                } else {
+                    if(btnNo) btnNo.innerText = "Nein"; if(btnYes) btnYes.innerText = "Ja";
+                    if(indNo) indNo.innerText = "NEIN"; if(indYes) indYes.innerText = "JA";
+                }
 
-        if (nextQ.id.startsWith('mat_')) {
-            if(btnNo) btnNo.innerText = "Option A";
-            if(btnYes) btnYes.innerText = "Option B";
-            if(indNo) indNo.innerText = "Option A";
-            if(indYes) indYes.innerText = "Option B";
-        } else {
-            if(btnNo) btnNo.innerText = "Nein";
-            if(btnYes) btnYes.innerText = "Ja";
-            if(indNo) indNo.innerText = "NEIN";
-            if(indYes) indYes.innerText = "JA";
-        }
-
-        // Tippfehler ist hier behoben!
-        const card = document.getElementById('active-card');
-        if(card) {
-            card.style.transform = 'none'; card.style.opacity = '1';
-            card.querySelectorAll('.card-indicator').forEach(i => i.style.opacity = 0);
-        }
-        
-    } catch (error) { 
-        // Wenn jetzt etwas crasht, sehen wir es auf dem Bildschirm!
-        if(cMain) cMain.innerText = "Code-Fehler beim Laden: " + error.message;
-        console.error(error);
-    }
-}
-        function handleSwipeAction(decision) {
-            const qId = appState.currentSwipeId; if(!qId) return;
-            if (!appState.answers[qId]) appState.answers[qId] = { benni: null, sarah: null };
-            
-            let finalDecision = decision;
-            if (qId.startsWith('mat_')) {
-                if (decision === 'NEIN') finalDecision = 'A';
-                if (decision === 'JA') finalDecision = 'B';
+                const card = document.getElementById('active-card');
+                if(card) {
+                    card.style.transform = 'none'; card.style.opacity = '1';
+                    card.querySelectorAll('.card-indicator').forEach(i => i.style.opacity = 0);
+                }
+                
+            } catch (error) { 
+                if(cMain) cMain.innerText = "Code-Fehler beim Laden: " + error.message;
             }
-            
-            appState.answers[qId][currentPartner] = finalDecision; saveState(); 
-            const card = document.getElementById('active-card'); 
-            if(card) {
-                card.style.transition = 'transform 0.2s, opacity 0.2s';
-                card.style.transform = 'scale(0.8) translateY(-150px)'; card.style.opacity = '0';
-                setTimeout(() => { card.style.transition = 'none'; getNewSwipeCard(); }, 200);
+        }
+
+        function handleSwipeAction(decision) {
+            try {
+                const qId = appState.currentSwipeId; if(!qId) return;
+                
+                if (!appState.answers) appState.answers = {};
+                if (!appState.answers[qId] || typeof appState.answers[qId] !== 'object') {
+                    appState.answers[qId] = { benni: null, sarah: null };
+                }
+                
+                let finalDecision = decision;
+                if (qId.startsWith('mat_')) {
+                    if (decision === 'NEIN') finalDecision = 'A';
+                    if (decision === 'JA') finalDecision = 'B';
+                }
+                
+                appState.answers[qId][currentPartner] = finalDecision; 
+                saveState(); 
+                
+                const card = document.getElementById('active-card'); 
+                if(card) {
+                    card.style.transition = 'transform 0.2s, opacity 0.2s';
+                    card.style.transform = 'scale(0.8) translateY(-150px)'; card.style.opacity = '0';
+                    setTimeout(() => { card.style.transition = 'none'; getNewSwipeCard(); }, 200);
+                }
+            } catch (err) {
+                console.error("Fehler beim Swipe", err);
             }
         }
 
@@ -10052,14 +10021,12 @@ function getNewSwipeCard() {
             });
         }
 
-        // Ändere das am Ende deines Codes:
-window.onload = () => {
-    initApp();
-    // Kleine Verzögerung, um sicherzugehen, dass Firebase die Daten geladen hat
-    setTimeout(() => {
-        updateAllLayouts();
-    }, 1000); 
-};
+        window.onload = () => {
+            initApp();
+            setTimeout(() => {
+                updateAllLayouts();
+            }, 1000); 
+        };
     </script>
 </body>
 </html>
