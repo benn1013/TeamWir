@@ -9714,13 +9714,40 @@
         }
 
         function handleSwipeAction(decision) {
-            const qId = appState.currentSwipeId; if(!qId) return;
-            if (!appState.answers[qId]) appState.answers[qId] = { benni: null, sarah: null };
-            
-            let finalDecision = decision;
-            if (qId.startsWith('mat_')) {
-                if (decision === 'NEIN') finalDecision = 'A';
-                if (decision === 'JA') finalDecision = 'B';
+    const qId = appState.currentSwipeId; 
+    if(!qId) return;
+
+    // Sicherung 1: AppState sicherstellen
+    if (!appState.answers) appState.answers = {};
+    if (!appState.answers[qId]) appState.answers[qId] = { benni: null, sarah: null };
+    
+    let finalDecision = decision;
+    if (qId.startsWith('mat_')) {
+        if (decision === 'NEIN') finalDecision = 'A';
+        if (decision === 'JA') finalDecision = 'B';
+    }
+    
+    // Sicherung 2: Daten direkt in die Datenbank schreiben, statt nur lokal zu speichern
+    appState.answers[qId][currentPartner] = finalDecision;
+    
+    // Firebase Update erzwingen
+    database.ref('teamwir_live_data/answers/' + qId).set(appState.answers[qId])
+    .then(() => {
+        console.log("Erfolgreich gespeichert!");
+        updateAllLayouts(); // Layout erst aktualisieren, wenn Firebase "OK" gesagt hat
+    })
+    .catch((error) => {
+        alert("Speicher-Fehler: " + error.message);
+    });
+
+    // Karte ausblenden
+    const card = document.getElementById('active-card'); 
+    if(card) {
+        card.style.transition = 'transform 0.2s, opacity 0.2s';
+        card.style.transform = 'scale(0.8) translateY(-150px)'; card.style.opacity = '0';
+        setTimeout(() => { card.style.transition = 'none'; getNewSwipeCard(); }, 200);
+    }
+}
             }
             
             appState.answers[qId][currentPartner] = finalDecision; saveState(); 
