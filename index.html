@@ -9433,42 +9433,45 @@
 
         let newHighlights = { answers: {}, checkIn: false, missions: false, wishes: false, casino: {}, couchLiveLog: false };
 
-        function initApp() {
-            // Einstellungen, die weiterhin lokal auf dem eigenen Handy bleiben (Design, Rolle)
-            const savedRole = localStorage.getItem('zweiklang_device_role');
-            if (savedRole === 'sarah') { currentPartner = 'sarah'; } else { currentPartner = 'benni'; }
+        ffunction initApp() {
+    // 1. Theme und Rolle setzen
+    const savedRole = localStorage.getItem('zweiklang_device_role');
+    if (savedRole === 'sarah') { currentPartner = 'sarah'; } else { currentPartner = 'benni'; }
 
-            if(localStorage.getItem('zweiklang_dark') === 'true') {
-                document.body.classList.add('dark-theme');
-                const dtBtn = document.getElementById('dark-toggle-btn');
-                if(dtBtn) dtBtn.innerText = "☀️";
-            }
-            applyRoleTheming(currentPartner);
+    if(localStorage.getItem('zweiklang_dark') === 'true') {
+        document.body.classList.add('dark-theme');
+        const dtBtn = document.getElementById('dark-toggle-btn');
+        if(dtBtn) dtBtn.innerText = "☀️";
+    }
+    applyRoleTheming(currentPartner);
 
-            // DIE FIREBASE LIVE-VERBINDUNG STARTET HIER
-            database.ref('teamwir_live_data').on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    calculateHighlights(appState, data);
-                    appState = data;
-                } else {
-                    saveState(); // Wenn Datenbank leer, Grunddaten hochladen
-                }
-
-                // Fallbacks falls was in der DB fehlt
-                appState.answers = appState.answers || {};
-                appState.checkIn = appState.checkIn || { benni: { energy: 50, focus: 50 }, sarah: { energy: 50, focus: 50 } };
-                appState.missions = appState.missions || { benni: { index: 0, done: false }, sarah: { index: 1, done: false } };
-                appState.wishes = appState.wishes || { benni: [], sarah: [] };
-                appState.casino = appState.casino || { c1: { benni: "", sarah: "" }, c2: { benni: "", sarah: "" } };
-
-                buildAccordionList();
-                rollBoxenstopp();
-                updateAllLayouts();
-            });
-
-            initTouchEvents();
+    // 2. FIREBASE: Daten laden
+    database.ref('teamwir_live_data').on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+            calculateHighlights(appState, data);
+            appState = data;
+        } else {
+            // Falls leer, setze Default-Struktur damit die App nicht crasht
+            appState.answers = {};
+            appState.checkIn = { benni: { energy: 50, focus: 50 }, sarah: { energy: 50, focus: 50 } };
+            saveState();
         }
+
+        // 3. Jetzt erst die UI aufbauen, wenn die Daten da sind
+        buildAccordionList();
+        rollBoxenstopp();
+        updateAllLayouts();
+        
+        // Verstecke "Laden..." Nachricht explizit
+        const cMain = document.getElementById('card-main');
+        if (cMain && cMain.innerText === "Pool wird berechnet...") {
+            getNewSwipeCard();
+        }
+    });
+
+    initTouchEvents();
+}
 
         // ==========================================
         // DIE NEUE SAVE-FUNKTION (SCHICKT ALLES LIVE)
