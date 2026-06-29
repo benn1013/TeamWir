@@ -9693,54 +9693,64 @@ function getCombinedQuestionPool() {
             showToast("In den Stapel gemischt! 🥷🏽🎲");
         }
 
-        function getNewSwipeCard() {
-            const pool = getCombinedQuestionPool();
-			// --- NEU: Sicherheits-Check ---
+function getNewSwipeCard() {
+    // 1. Definiere cMain GANZ OBEN, damit wir überall darauf zugreifen können
+    const cMain = document.getElementById('card-main'); 
+
+    // 2. HIER startet der Try-Block!
+    try {
+        const pool = getCombinedQuestionPool();
+        
+        // Sicherheits-Check
         if (!pool || pool.length === 0) {
             if(cMain) cMain.innerText = "Fehler: 'staticHumanPool' ist leer oder nicht definiert!";
             return;
         }
-            const nextQ = pool.find(q => {
-                if (!appState.answers[q.id] || typeof appState.answers[q.id] !== 'object') return true;
-                return !appState.answers[q.id][currentPartner];
-            });
-            
-            const btnNo = document.querySelector('.action-btn.btn-no');
-            const btnYes = document.querySelector('.action-btn.btn-yes');
-            const indNo = document.querySelector('.card-indicator.indicator-no');
-            const indYes = document.querySelector('.card-indicator.indicator-yes');
+        
+        const nextQ = pool.find(q => {
+            if (!appState.answers[q.id] || typeof appState.answers[q.id] !== 'object') return true;
+            return !appState.answers[q.id][currentPartner];
+        });
+        
+        const btnNo = document.querySelector('.action-btn.btn-no');
+        const btnYes = document.querySelector('.action-btn.btn-yes');
+        const indNo = document.querySelector('.card-indicator.indicator-no');
+        const indYes = document.querySelector('.card-indicator.indicator-yes');
 
-            if (!nextQ) {
-                const cCat = document.getElementById('card-cat'); if(cCat) cCat.innerText = "Stapel leer!";
-                const cMain = document.getElementById('card-main'); if(cMain) cMain.innerText = "Wahnsinn, alle echten Clash-Fragen gemeistert!";
-                if(btnNo) btnNo.innerText = "Nein";
-                if(btnYes) btnYes.innerText = "Ja";
-                return;
-            }
+        if (!nextQ) {
+            const cCat = document.getElementById('card-cat'); if(cCat) cCat.innerText = "Stapel leer!";
+            if(cMain) cMain.innerText = "Wahnsinn, alle echten Clash-Fragen gemeistert!";
+            if(btnNo) btnNo.innerText = "Nein";
+            if(btnYes) btnYes.innerText = "Ja";
+            return;
+        }
 
-            const cCat = document.getElementById('card-cat'); if(cCat) cCat.innerText = categories[nextQ.cat] || "CouchClash";
-            const cMain = document.getElementById('card-main'); if(cMain) cMain.innerHTML = currentPartner === 'benni' ? nextQ.textBenni : nextQ.textSarah;
-            appState.currentSwipeId = nextQ.id;
+        const cCat = document.getElementById('card-cat'); if(cCat) cCat.innerText = categories[nextQ.cat] || "CouchClash";
+        // cMain ist schon definiert, wir setzen nur noch den Text:
+        if(cMain) cMain.innerHTML = currentPartner === 'benni' ? nextQ.textBenni : nextQ.textSarah;
+        appState.currentSwipeId = nextQ.id;
 
-            if (nextQ.id.startsWith('mat_')) {
-                if(btnNo) btnNo.innerText = "Option A";
-                if(btnYes) btnYes.innerText = "Option B";
-                if(indNo) indNo.innerText = "Option A";
-                if(indYes) indYes.innerText = "Option B";
-            } else {
-                if(btnNo) btnNo.innerText = "Nein";
-                if(btnYes) btnYes.innerText = "Ja";
-                if(indNo) indNo.innerText = "NEIN";
-                if(indYes) indYes.innerText = "JA";
-            }
+        if (nextQ.id.startsWith('mat_')) {
+            if(btnNo) btnNo.innerText = "Option A";
+            if(btnYes) btnYes.innerText = "Option B";
+            if(indNo) indNo.innerText = "Option A";
+            if(indYes) indYes.innerText = "Option B";
+        } else {
+            if(btnNo) btnNo.innerText = "Nein";
+            if(btnYes) btnYes.innerText = "Ja";
+            if(indNo) indNo.innerText = "NEIN";
+            if(indYes) indYes.innerText = "JA";
+        }
 
-            cconst card = document.getElementById('active-card');
+        // Tippfehler cconst behoben!
+        const card = document.getElementById('active-card');
         if(card) {
             card.style.transform = 'none'; card.style.opacity = '1';
             card.querySelectorAll('.card-indicator').forEach(i => i.style.opacity = 0);
-        } // <-- Diese Klammer schließt das if(card)
+        }
         
-    } catch (error) { // <-- NEU: Diese Klammer schließt den try-Block!
+    } catch (error) { 
+        // Wenn jetzt etwas crasht, sehen wir es auf dem Bildschirm!
         if(cMain) cMain.innerText = "Code-Fehler beim Laden: " + error.message;
         console.error(error);
     }
