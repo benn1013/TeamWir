@@ -9695,6 +9695,11 @@ function getCombinedQuestionPool() {
 
         function getNewSwipeCard() {
             const pool = getCombinedQuestionPool();
+			// --- NEU: Sicherheits-Check ---
+        if (!pool || pool.length === 0) {
+            if(cMain) cMain.innerText = "Fehler: 'staticHumanPool' ist leer oder nicht definiert!";
+            return;
+        }
             const nextQ = pool.find(q => {
                 if (!appState.answers[q.id] || typeof appState.answers[q.id] !== 'object') return true;
                 return !appState.answers[q.id][currentPartner];
@@ -9729,12 +9734,17 @@ function getCombinedQuestionPool() {
                 if(indYes) indYes.innerText = "JA";
             }
 
-            const card = document.getElementById('active-card'); 
-            if(card) {
-                card.style.transform = 'none'; card.style.opacity = '1';
-                card.querySelectorAll('.card-indicator').forEach(i => i.style.opacity = 0);
-            }
-        }
+            cconst card = document.getElementById('active-card');
+        if(card) {
+            card.style.transform = 'none'; card.style.opacity = '1';
+            card.querySelectorAll('.card-indicator').forEach(i => i.style.opacity = 0);
+        } // <-- Diese Klammer schließt das if(card)
+        
+    } catch (error) { // <-- NEU: Diese Klammer schließt den try-Block!
+        if(cMain) cMain.innerText = "Code-Fehler beim Laden: " + error.message;
+        console.error(error);
+    }
+}
 
         function handleSwipeAction(decision) {
             const qId = appState.currentSwipeId; if(!qId) return;
