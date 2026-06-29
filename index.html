@@ -9412,7 +9412,6 @@ let currentPartner = 'benni';
         let selectedLiveCategories = new Set(Object.keys(categories));
         let currentLiveQuestionObj = null;
         
-        // WICHTIG: Die Karte wird nur noch lokal getrackt, nicht mehr global überschrieben!
         let currentSwipeId = null; 
         
         let appState = {
@@ -9429,7 +9428,7 @@ let currentPartner = 'benni';
             customQuestions: [], 
             lastSyncDate: null,
             currentBetDeal: "",
-            fixedQuestionOrder: [] // Passt jetzt exakt zu deiner Datenbank!
+            fixedQuestionOrder: [] 
         };
 
         let newHighlights = { answers: {}, checkIn: false, missions: false, wishes: false, casino: {}, couchLiveLog: false };
@@ -9445,6 +9444,7 @@ let currentPartner = 'benni';
             }
             applyRoleTheming(currentPartner);
 
+            // GEHEIMER PFAD 1
             database.ref('teamwir_geheim_benni_sarah_99384/teamwir_live_data').on('value', (snapshot) => {
                 const data = snapshot.val();
                 
@@ -9455,7 +9455,6 @@ let currentPartner = 'benni';
                     saveState();
                 }
 
-                // WICHTIG: Kein getNewSwipeCard() beim Laden, damit die wischende Karte nicht gestört wird!
                 updateProgressBar();
                 buildAccordionList();
                 
@@ -9470,8 +9469,9 @@ let currentPartner = 'benni';
 
         function saveState() { 
             appState.lastSyncDate = new Date().toLocaleString('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
-database.ref('teamwir_geheim_benni_sarah_99384/teamwir_live_data').set(appState).catch(e => console.error("Firebase Error:", e));
-		}
+            // GEHEIMER PFAD 2
+            database.ref('teamwir_geheim_benni_sarah_99384/teamwir_live_data').set(appState).catch(e => console.error("Firebase Error:", e));
+        }
 
         function getCombinedQuestionPool() {
             let customQ = Array.isArray(appState.customQuestions) ? appState.customQuestions : Object.values(appState.customQuestions || {});
@@ -9489,8 +9489,9 @@ database.ref('teamwir_geheim_benni_sarah_99384/teamwir_live_data').set(appState)
                 }
                 appState.fixedQuestionOrder = ids;
                 sOrder = ids;
-database.ref('teamwir_geheim_benni_sarah_99384/teamwir_live_data/fixedQuestionOrder').set(ids).catch(e=>console.log(e));
-			}
+                // GEHEIMER PFAD 3
+                database.ref('teamwir_geheim_benni_sarah_99384/teamwir_live_data/fixedQuestionOrder').set(ids).catch(e=>console.log(e));
+            }
 
             const orderMap = new Map();
             sOrder.forEach((id, index) => orderMap.set(id, index));
@@ -9653,7 +9654,6 @@ database.ref('teamwir_geheim_benni_sarah_99384/teamwir_live_data/fixedQuestionOr
             const cMain = document.getElementById('card-main'); 
             const card = document.getElementById('active-card');
             
-            // DIE WICHTIGSTE ÄNDERUNG: Diese Hilfsfunktion zwingt die Karte immer zur Sichtbarkeit!
             const showCard = () => {
                 if(card) {
                     card.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out';
@@ -9687,7 +9687,7 @@ database.ref('teamwir_geheim_benni_sarah_99384/teamwir_live_data/fixedQuestionOr
                     if(cMain) cMain.innerText = "Wahnsinn, alle Fragen gemeistert!";
                     if(btnNo) btnNo.innerText = "Nein";
                     if(btnYes) btnYes.innerText = "Ja";
-                    showCard(); // <-- Sorgt dafür, dass du den Text auch wirklich siehst!
+                    showCard(); 
                     return;
                 }
 
@@ -9704,7 +9704,7 @@ database.ref('teamwir_geheim_benni_sarah_99384/teamwir_live_data/fixedQuestionOr
                     if(indNo) indNo.innerText = "NEIN"; if(indYes) indYes.innerText = "JA";
                 }
 
-                showCard(); // <-- Setzt die Karte endgültig in die Mitte und macht sie sichtbar
+                showCard(); 
                 
             } catch (error) { 
                 if(cMain) cMain.innerText = "Code-Fehler beim Laden: " + error.message;
@@ -9717,7 +9717,6 @@ database.ref('teamwir_geheim_benni_sarah_99384/teamwir_live_data/fixedQuestionOr
                 const qId = currentSwipeId; 
                 if(!qId) return;
                 
-                // 1. Visuelle Animation SOFORT starten (Karte fliegt weg)
                 const card = document.getElementById('active-card'); 
                 if(card) {
                     card.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s';
@@ -9727,7 +9726,6 @@ database.ref('teamwir_geheim_benni_sarah_99384/teamwir_live_data/fixedQuestionOr
                     card.style.opacity = '0';
                 }
                 
-                // 2. Wir warten 300 Millisekunden, lassen die Karte wegfliegen, DANN speichern wir
                 setTimeout(() => {
                     if (!appState.answers) appState.answers = {};
                     if (!appState.answers[qId] || typeof appState.answers[qId] !== 'object') {
@@ -9741,7 +9739,7 @@ database.ref('teamwir_geheim_benni_sarah_99384/teamwir_live_data/fixedQuestionOr
                     }
                     
                     appState.answers[qId][currentPartner] = finalDecision; 
-                    saveState(); // Jetzt geht es sicher in die Datenbank
+                    saveState(); 
                     
                     getNewSwipeCard(); 
                     updateProgressBar();
