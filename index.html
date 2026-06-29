@@ -9443,27 +9443,32 @@
             }
             applyRoleTheming(currentPartner);
 
-            // DIE FIREBASE LIVE-VERBINDUNG STARTET HIER
-            database.ref('teamwir_live_data').on('value', (snapshot) => {
-                const data = snapshot.val();
-                if (data) {
-                    calculateHighlights(appState, data);
-                    appState = data;
-                } else {
-                    saveState(); // Wenn Datenbank leer, Grunddaten hochladen
-                }
+            // FIREBASE: Daten laden
+    database.ref('teamwir_live_data').on('value', (snapshot) => {
+        const data = snapshot.val();
+        
+        if (data) {
+            appState = data;
+            // Absicherung: Falls 'answers' in der Cloud noch fehlt, erstellen wir ein leeres Objekt, 
+            // damit die Zählung (Object.keys) nicht abstürzt.
+            if (!appState.answers) appState.answers = {};
+        } else {
+            // Nur wenn die Datenbank komplett leer ist
+            appState = { answers: {}, checkIn: {} };
+        }
 
-                // Fallbacks falls was in der DB fehlt
-                appState.answers = appState.answers || {};
-                appState.checkIn = appState.checkIn || { benni: { energy: 50, focus: 50 }, sarah: { energy: 50, focus: 50 } };
-                appState.missions = appState.missions || { benni: { index: 0, done: false }, sarah: { index: 1, done: false } };
-                appState.wishes = appState.wishes || { benni: [], sarah: [] };
-                appState.casino = appState.casino || { c1: { benni: "", sarah: "" }, c2: { benni: "", sarah: "" } };
-
-                buildAccordionList();
-                rollBoxenstopp();
-                updateAllLayouts();
-            });
+        // WICHTIG: Erst JETZT, wo appState.answers sicher gefüllt ist, 
+        // updaten wir die UI und den Balken.
+        updateProgressBar();
+        buildAccordionList();
+        updateAllLayouts();
+        
+        // Verstecke "Laden..." und hole die RICHTIGE Karte
+        const cMain = document.getElementById('card-main');
+        if (cMain && cMain.innerText.includes("Pool wird berechnet")) {
+            getNewSwipeCard();
+        }
+    });
 
             initTouchEvents();
         }
@@ -9498,18 +9503,38 @@
         // DER RESTLICHE APP CODE
         // ==========================================
 
-        function getCombinedQuestionPool() {
-            if (!appState.fixedQuestionOrder) {
-                let pool = [...staticHumanPool, ...(appState.customQuestions || [])];
-                for (let i = pool.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [pool[i], pool[j]] = [pool[j], pool[i]];
-                }
-                appState.fixedQuestionOrder = pool;
-                saveState(); 
-            }
-            return appState.fixedQuestionOrder;
+function getCombinedQuestionPool() {
+    let pool = staticHumanPool || [];
+
+    if (pool.length === 0) return [];
+
+    // 1. Check: Gibt es schon eine gespeicherte Reihenfolge in Firebase?
+    if (!appState.shuffledOrder || appState.shuffledOrder.length === 0) {
+        // Nein? Dann extrahieren wir alle IDs und mischen sie EINMALIG
+        let ids = pool.map(q => q.id);
+        for (let i = ids.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [ids[i], ids[j]] = [ids[j], ids[i]];
         }
+        
+        // Speichere die Reihenfolge im appState und pushe sie direkt in die Cloud
+        appState.shuffledOrder = ids;
+        database.ref('teamwir_live_data/shuffledOrder').set(ids);
+    }
+
+    // 2. Pool nach der festen Reihenfolge sortieren
+    // Wir nutzen ein Mapping, damit das Sortieren blitzschnell geht
+    const orderMap = new Map();
+    appState.shuffledOrder.forEach((id, index) => orderMap.set(id, index));
+    
+    pool.sort((a, b) => {
+        let indexA = orderMap.has(a.id) ? orderMap.get(a.id) : 99999;
+        let indexB = orderMap.has(b.id) ? orderMap.get(b.id) : 99999;
+        return indexA - indexB;
+    });
+
+    return pool;
+}
 
         function saveCurrentBetDeal() {
             const val = document.getElementById('input-current-bet').value.trim();
