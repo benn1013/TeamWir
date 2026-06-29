@@ -386,8 +386,8 @@
                 textBenni: "Eingeweichtes Kochgeschirr tagelang in der Spüle stehenzulassen schiebt das Problem im Alltag nur nervig auf.",
                 textSarah: "Eingeweichtes Kochgeschirr tagelang in der Spüle stehenzulassen schiebt das Problem im Alltag nur nervig auf.",
                 textCouch: "Wer deklariert dreckige Pfannen lieber als 'muss einweichen', um Zeit beim Abwasch zu gewinnen?"
-            },
- {
+            }
+   {
                 id: "b1_2", cat: "cat1",
                 textBenni: "Das ungeduldige Schimpfen im dichten Berufsverkehr sorgt auf dem Beifahrersitz für eine anstrengende Stimmung.",
                 textSarah: "Bennis ungeduldiges Schimpfen im dichten Berufsverkehr sorgt auf dem Beifahrersitz für eine anstrengende Stimmung.",
@@ -9351,8 +9351,6 @@
                 textSarah: "Deine bedingungslose Loyalität in schwierigen Momenten ist mein verlässlichster Anker im Leben.",
                 textCouch: "Was genau macht das Fundament unserer Beziehung in dieser intensiven Phase so unendlich stark?"
             },
-
-
         ]; 
 
         // ==========================================
@@ -9434,38 +9432,41 @@
         let newHighlights = { answers: {}, checkIn: false, missions: false, wishes: false, casino: {}, couchLiveLog: false };
 
         function initApp() {
-        console.log("App startet...");
-        
-        // 1. Theme und Rolle laden
-        const savedRole = localStorage.getItem('zweiklang_device_role');
-        currentPartner = (savedRole === 'sarah') ? 'sarah' : 'benni';
-        applyRoleTheming(currentPartner);
+            // Einstellungen, die weiterhin lokal auf dem eigenen Handy bleiben (Design, Rolle)
+            const savedRole = localStorage.getItem('zweiklang_device_role');
+            if (savedRole === 'sarah') { currentPartner = 'sarah'; } else { currentPartner = 'benni'; }
 
-        // 2. Firebase Daten abrufen
-        database.ref('teamwir_live_data').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                appState = data;
-                console.log("Daten aus Cloud geladen");
-            } else {
-                console.log("Datenbank leer, erstelle Struktur...");
-                saveState();
+            if(localStorage.getItem('zweiklang_dark') === 'true') {
+                document.body.classList.add('dark-theme');
+                const dtBtn = document.getElementById('dark-toggle-btn');
+                if(dtBtn) dtBtn.innerText = "☀️";
             }
+            applyRoleTheming(currentPartner);
 
-            // 3. UI aufbauen
-            buildAccordionList();
-            rollBoxenstopp();
-            updateAllLayouts();
-            
-            // WICHTIG: Hier triggern wir das Laden der ersten Frage, falls nötig
-            const cMain = document.getElementById('card-main');
-            if (cMain && (cMain.innerText.includes("Pool wird berechnet") || cMain.innerText.includes("Laden"))) {
-                getNewSwipeCard();
-            }
-        });
+            // DIE FIREBASE LIVE-VERBINDUNG STARTET HIER
+            database.ref('teamwir_live_data').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    calculateHighlights(appState, data);
+                    appState = data;
+                } else {
+                    saveState(); // Wenn Datenbank leer, Grunddaten hochladen
+                }
 
-        initTouchEvents();
-    }
+                // Fallbacks falls was in der DB fehlt
+                appState.answers = appState.answers || {};
+                appState.checkIn = appState.checkIn || { benni: { energy: 50, focus: 50 }, sarah: { energy: 50, focus: 50 } };
+                appState.missions = appState.missions || { benni: { index: 0, done: false }, sarah: { index: 1, done: false } };
+                appState.wishes = appState.wishes || { benni: [], sarah: [] };
+                appState.casino = appState.casino || { c1: { benni: "", sarah: "" }, c2: { benni: "", sarah: "" } };
+
+                buildAccordionList();
+                rollBoxenstopp();
+                updateAllLayouts();
+            });
+
+            initTouchEvents();
+        }
 
         // ==========================================
         // DIE NEUE SAVE-FUNKTION (SCHICKT ALLES LIVE)
@@ -9711,40 +9712,13 @@
         }
 
         function handleSwipeAction(decision) {
-    const qId = appState.currentSwipeId; 
-    if(!qId) return;
-
-    // Sicherung 1: AppState sicherstellen
-    if (!appState.answers) appState.answers = {};
-    if (!appState.answers[qId]) appState.answers[qId] = { benni: null, sarah: null };
-    
-    let finalDecision = decision;
-    if (qId.startsWith('mat_')) {
-        if (decision === 'NEIN') finalDecision = 'A';
-        if (decision === 'JA') finalDecision = 'B';
-    }
-    
-    // Sicherung 2: Daten direkt in die Datenbank schreiben, statt nur lokal zu speichern
-    appState.answers[qId][currentPartner] = finalDecision;
-    
-    // Firebase Update erzwingen
-    database.ref('teamwir_live_data/answers/' + qId).set(appState.answers[qId])
-    .then(() => {
-        console.log("Erfolgreich gespeichert!");
-        updateAllLayouts(); // Layout erst aktualisieren, wenn Firebase "OK" gesagt hat
-    })
-    .catch((error) => {
-        alert("Speicher-Fehler: " + error.message);
-    });
-
-    // Karte ausblenden
-    const card = document.getElementById('active-card'); 
-    if(card) {
-        card.style.transition = 'transform 0.2s, opacity 0.2s';
-        card.style.transform = 'scale(0.8) translateY(-150px)'; card.style.opacity = '0';
-        setTimeout(() => { card.style.transition = 'none'; getNewSwipeCard(); }, 200);
-    }
-}
+            const qId = appState.currentSwipeId; if(!qId) return;
+            if (!appState.answers[qId]) appState.answers[qId] = { benni: null, sarah: null };
+            
+            let finalDecision = decision;
+            if (qId.startsWith('mat_')) {
+                if (decision === 'NEIN') finalDecision = 'A';
+                if (decision === 'JA') finalDecision = 'B';
             }
             
             appState.answers[qId][currentPartner] = finalDecision; saveState(); 
