@@ -9351,7 +9351,7 @@
                 textSarah: "Deine bedingungslose Loyalität in schwierigen Momenten ist mein verlässlichster Anker im Leben.",
                 textCouch: "Was genau macht das Fundament unserer Beziehung in dieser intensiven Phase so unendlich stark?"
             }
-            // ---> BENNI, FÜGE HIER DEINE RESTLICHEN 1494 FRAGEN EIN! <---
+            
         ]; 
 
         // ==========================================
@@ -9407,13 +9407,12 @@
             "Legt beide für die nächsten 5 Minuten alle Handys weg und haltet einfach nur wortlos Händchen.",
             "Flüstere deinem Partner jetzt ein Wort ins Ohr, das eure Verbundenheit perfekt beschreibt."
         ];
-
-        let currentPartner = 'benni';
+let currentPartner = 'benni';
         let currentMode = 'swipe';
         let selectedLiveCategories = new Set(Object.keys(categories));
         let currentLiveQuestionObj = null;
         
-        // WICHTIG: Diese Variable merkt sich die Karte lokal!
+        // WICHTIG: Die Karte wird nur noch lokal getrackt, nicht mehr global überschrieben!
         let currentSwipeId = null; 
         
         let appState = {
@@ -9430,7 +9429,7 @@
             customQuestions: [], 
             lastSyncDate: null,
             currentBetDeal: "",
-            shuffledOrder: []    
+            fixedQuestionOrder: [] // Passt jetzt exakt zu deiner Datenbank!
         };
 
         let newHighlights = { answers: {}, checkIn: false, missions: false, wishes: false, casino: {}, couchLiveLog: false };
@@ -9446,7 +9445,6 @@
             }
             applyRoleTheming(currentPartner);
 
-            // FIREBASE: Daten laden
             database.ref('teamwir_live_data').on('value', (snapshot) => {
                 const data = snapshot.val();
                 
@@ -9457,7 +9455,7 @@
                     saveState();
                 }
 
-                // WICHTIG: Nur UI updaten, ohne die aktuelle Karte zu zerstören!
+                // WICHTIG: Kein getNewSwipeCard() beim Laden, damit die wischende Karte nicht gestört wird!
                 updateProgressBar();
                 buildAccordionList();
                 
@@ -9476,18 +9474,12 @@
         }
 
         function getCombinedQuestionPool() {
-            let customQ = [];
-            if (appState.customQuestions) {
-                customQ = Array.isArray(appState.customQuestions) ? appState.customQuestions : Object.values(appState.customQuestions);
-            }
+            let customQ = Array.isArray(appState.customQuestions) ? appState.customQuestions : Object.values(appState.customQuestions || {});
             let pool = [...(staticHumanPool || []), ...customQ];
 
             if (pool.length === 0) return [];
 
-            let sOrder = [];
-            if (appState.shuffledOrder) {
-                sOrder = Array.isArray(appState.shuffledOrder) ? appState.shuffledOrder : Object.values(appState.shuffledOrder);
-            }
+            let sOrder = Array.isArray(appState.fixedQuestionOrder) ? appState.fixedQuestionOrder : Object.values(appState.fixedQuestionOrder || {});
 
             if (sOrder.length === 0) {
                 let ids = pool.map(q => q.id);
@@ -9495,9 +9487,9 @@
                     const j = Math.floor(Math.random() * (i + 1));
                     [ids[i], ids[j]] = [ids[j], ids[i]];
                 }
-                appState.shuffledOrder = ids;
+                appState.fixedQuestionOrder = ids;
                 sOrder = ids;
-                database.ref('teamwir_live_data/shuffledOrder').set(ids).catch(e=>console.log(e));
+                database.ref('teamwir_live_data/fixedQuestionOrder').set(ids).catch(e=>console.log(e));
             }
 
             const orderMap = new Map();
@@ -9587,7 +9579,6 @@
 
         function updateAllLayouts() {
             try { updateEvaluationLists(); } catch(e){ console.log(e); }
-            // WICHTIG: getNewSwipeCard() hier entfernt, damit die Karte nicht springt!
             try { renderAlltagModule(); } catch(e){ console.log(e); }
             try { renderCasinoFields(); } catch(e){ console.log(e); }
             try { renderCasinoReveal(); } catch(e){ console.log(e); }
@@ -9660,11 +9651,24 @@
 
         function getNewSwipeCard() {
             const cMain = document.getElementById('card-main'); 
+            const card = document.getElementById('active-card');
+            
+            // DIE WICHTIGSTE ÄNDERUNG: Diese Hilfsfunktion zwingt die Karte immer zur Sichtbarkeit!
+            const showCard = () => {
+                if(card) {
+                    card.style.transition = 'transform 0.3s ease-out, opacity 0.3s ease-out';
+                    card.style.transform = 'none'; 
+                    card.style.opacity = '1';
+                    card.querySelectorAll('.card-indicator').forEach(i => i.style.opacity = 0);
+                }
+            };
+
             try {
                 const pool = getCombinedQuestionPool();
                 
                 if (!pool || pool.length === 0) {
-                    if(cMain) cMain.innerText = "Fehler: Fragen-Pool ist leer!";
+                    if(cMain) cMain.innerText = "Fehler: Fragen-Pool ist leer! Hast du die Fragen eingefügt?";
+                    showCard();
                     return;
                 }
                 
@@ -9672,7 +9676,7 @@
                     if (!appState.answers || !appState.answers[q.id] || typeof appState.answers[q.id] !== 'object') return true;
                     return !appState.answers[q.id][currentPartner];
                 });
-                
+
                 const btnNo = document.querySelector('.action-btn.btn-no');
                 const btnYes = document.querySelector('.action-btn.btn-yes');
                 const indNo = document.querySelector('.card-indicator.indicator-no');
@@ -9683,13 +9687,13 @@
                     if(cMain) cMain.innerText = "Wahnsinn, alle Fragen gemeistert!";
                     if(btnNo) btnNo.innerText = "Nein";
                     if(btnYes) btnYes.innerText = "Ja";
+                    showCard(); // <-- Sorgt dafür, dass du den Text auch wirklich siehst!
                     return;
                 }
 
                 const cCat = document.getElementById('card-cat'); if(cCat) cCat.innerText = categories[nextQ.cat] || "CouchClash";
                 if(cMain) cMain.innerHTML = currentPartner === 'benni' ? nextQ.textBenni : nextQ.textSarah;
                 
-                // Wir speichern die ID LOKAL!
                 currentSwipeId = nextQ.id;
 
                 if (nextQ.id.startsWith('mat_')) {
@@ -9700,26 +9704,20 @@
                     if(indNo) indNo.innerText = "NEIN"; if(indYes) indYes.innerText = "JA";
                 }
 
-                const card = document.getElementById('active-card');
-                if(card) {
-                    card.style.transition = 'transform 0.2s';
-                    card.style.transform = 'none'; 
-                    card.style.opacity = '1';
-                    card.querySelectorAll('.card-indicator').forEach(i => i.style.opacity = 0);
-                }
+                showCard(); // <-- Setzt die Karte endgültig in die Mitte und macht sie sichtbar
                 
             } catch (error) { 
                 if(cMain) cMain.innerText = "Code-Fehler beim Laden: " + error.message;
+                showCard();
             }
         }
 
-        // HIER IST DAS HERZSTÜCK DER REPARATUR
         function handleSwipeAction(decision) {
             try {
                 const qId = currentSwipeId; 
                 if(!qId) return;
                 
-                // 1. Visuelle Animation SOFORT starten
+                // 1. Visuelle Animation SOFORT starten (Karte fliegt weg)
                 const card = document.getElementById('active-card'); 
                 if(card) {
                     card.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s';
@@ -9729,7 +9727,7 @@
                     card.style.opacity = '0';
                 }
                 
-                // 2. Warten, bis die Karte weggeflogen ist (300ms), DANN erst speichern
+                // 2. Wir warten 300 Millisekunden, lassen die Karte wegfliegen, DANN speichern wir
                 setTimeout(() => {
                     if (!appState.answers) appState.answers = {};
                     if (!appState.answers[qId] || typeof appState.answers[qId] !== 'object') {
@@ -9743,7 +9741,7 @@
                     }
                     
                     appState.answers[qId][currentPartner] = finalDecision; 
-                    saveState(); // Jetzt erst geht es an die Datenbank!
+                    saveState(); // Jetzt geht es sicher in die Datenbank
                     
                     getNewSwipeCard(); 
                     updateProgressBar();
@@ -10015,7 +10013,6 @@
             setTimeout(() => t.classList.remove('show'), 2200); 
         }
 
-        // TOUCH-REPARATUR: Robuster und unempfindlich für kleine Finger-Ruckler
         let sX = 0, cX = 0, isDragging = false;
         function initTouchEvents() {
             const card = document.getElementById('active-card'); if(!card) return;
@@ -10059,6 +10056,7 @@
                 updateAllLayouts();
             }, 1000); 
         };
+     
     </script>
 </body>
 </html>
