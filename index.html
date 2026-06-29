@@ -9413,7 +9413,7 @@
         let selectedLiveCategories = new Set(Object.keys(categories));
         let currentLiveQuestionObj = null;
         
-        // NEU: Diese Variable lebt nur auf deinem Handy, wird nicht von Firebase gelöscht!
+        // WICHTIG: Diese Variable merkt sich die Karte lokal!
         let currentSwipeId = null; 
         
         let appState = {
@@ -9451,18 +9451,18 @@
                 const data = snapshot.val();
                 
                 if (data) {
-                    // WICHTIG: Hier werden die Daten sanft gemerged, statt lokal alles wegzusprengen!
                     appState = { ...appState, ...data };
                     if (!appState.answers) appState.answers = {};
                 } else {
-                    // Wenn die Datenbank komplett leer ist, schieben wir unsere sauberen Startwerte hoch
                     saveState();
                 }
 
-                updateAllLayouts();
+                // WICHTIG: Nur UI updaten, ohne die aktuelle Karte zu zerstören!
+                updateProgressBar();
+                buildAccordionList();
                 
                 const cMain = document.getElementById('card-main');
-                if (cMain && cMain.innerText.includes("Pool wird berechnet")) {
+                if (cMain && (cMain.innerText.includes("Pool wird berechnet") || cMain.innerText.includes("Laden"))) {
                     getNewSwipeCard();
                 }
             });
@@ -9587,7 +9587,7 @@
 
         function updateAllLayouts() {
             try { updateEvaluationLists(); } catch(e){ console.log(e); }
-            try { getNewSwipeCard(); } catch(e){ console.log(e); }
+            // WICHTIG: getNewSwipeCard() hier entfernt, damit die Karte nicht springt!
             try { renderAlltagModule(); } catch(e){ console.log(e); }
             try { renderCasinoFields(); } catch(e){ console.log(e); }
             try { renderCasinoReveal(); } catch(e){ console.log(e); }
@@ -9680,7 +9680,7 @@
 
                 if (!nextQ) {
                     const cCat = document.getElementById('card-cat'); if(cCat) cCat.innerText = "Stapel leer!";
-                    if(cMain) cMain.innerText = "Wahnsinn, alle echten Clash-Fragen gemeistert!";
+                    if(cMain) cMain.innerText = "Wahnsinn, alle Fragen gemeistert!";
                     if(btnNo) btnNo.innerText = "Nein";
                     if(btnYes) btnYes.innerText = "Ja";
                     return;
@@ -9689,7 +9689,7 @@
                 const cCat = document.getElementById('card-cat'); if(cCat) cCat.innerText = categories[nextQ.cat] || "CouchClash";
                 if(cMain) cMain.innerHTML = currentPartner === 'benni' ? nextQ.textBenni : nextQ.textSarah;
                 
-                // HIER IST DAS GEHEIMNIS: Wir speichern die ID nicht in der Datenbank, sondern lokal!
+                // Wir speichern die ID LOKAL!
                 currentSwipeId = nextQ.id;
 
                 if (nextQ.id.startsWith('mat_')) {
@@ -9702,7 +9702,9 @@
 
                 const card = document.getElementById('active-card');
                 if(card) {
-                    card.style.transform = 'none'; card.style.opacity = '1';
+                    card.style.transition = 'transform 0.2s';
+                    card.style.transform = 'none'; 
+                    card.style.opacity = '1';
                     card.querySelectorAll('.card-indicator').forEach(i => i.style.opacity = 0);
                 }
                 
@@ -9711,31 +9713,42 @@
             }
         }
 
+        // HIER IST DAS HERZSTÜCK DER REPARATUR
         function handleSwipeAction(decision) {
             try {
-                const qId = currentSwipeId; // Greift auf unsere lokale Variable zu!
+                const qId = currentSwipeId; 
                 if(!qId) return;
                 
-                if (!appState.answers) appState.answers = {};
-                if (!appState.answers[qId] || typeof appState.answers[qId] !== 'object') {
-                    appState.answers[qId] = { benni: null, sarah: null };
-                }
-                
-                let finalDecision = decision;
-                if (qId.startsWith('mat_')) {
-                    if (decision === 'NEIN') finalDecision = 'A';
-                    if (decision === 'JA') finalDecision = 'B';
-                }
-                
-                appState.answers[qId][currentPartner] = finalDecision; 
-                saveState(); 
-                
+                // 1. Visuelle Animation SOFORT starten
                 const card = document.getElementById('active-card'); 
                 if(card) {
-                    card.style.transition = 'transform 0.2s, opacity 0.2s';
-                    card.style.transform = 'scale(0.8) translateY(-150px)'; card.style.opacity = '0';
-                    setTimeout(() => { card.style.transition = 'none'; getNewSwipeCard(); }, 200);
+                    card.style.transition = 'transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s';
+                    if (decision === 'JA') card.style.transform = 'translateY(-100px) translateX(300px) rotate(20deg)';
+                    else if (decision === 'NEIN') card.style.transform = 'translateY(-100px) translateX(-300px) rotate(-20deg)';
+                    else card.style.transform = 'translateY(-300px) scale(0.8)';
+                    card.style.opacity = '0';
                 }
+                
+                // 2. Warten, bis die Karte weggeflogen ist (300ms), DANN erst speichern
+                setTimeout(() => {
+                    if (!appState.answers) appState.answers = {};
+                    if (!appState.answers[qId] || typeof appState.answers[qId] !== 'object') {
+                        appState.answers[qId] = { benni: "", sarah: "" };
+                    }
+                    
+                    let finalDecision = decision;
+                    if (qId.startsWith('mat_')) {
+                        if (decision === 'NEIN') finalDecision = 'A';
+                        if (decision === 'JA') finalDecision = 'B';
+                    }
+                    
+                    appState.answers[qId][currentPartner] = finalDecision; 
+                    saveState(); // Jetzt erst geht es an die Datenbank!
+                    
+                    getNewSwipeCard(); 
+                    updateProgressBar();
+                }, 300);
+
             } catch (err) {
                 console.error("Fehler beim Swipe", err);
             }
@@ -10002,20 +10015,40 @@
             setTimeout(() => t.classList.remove('show'), 2200); 
         }
 
-        let sX=0, cX=0;
+        // TOUCH-REPARATUR: Robuster und unempfindlich für kleine Finger-Ruckler
+        let sX = 0, cX = 0, isDragging = false;
         function initTouchEvents() {
             const card = document.getElementById('active-card'); if(!card) return;
-            card.addEventListener('touchstart', (e) => { sX = e.touches[0].clientX; card.style.transition = 'none'; }, {passive:true});
+            
+            card.addEventListener('touchstart', (e) => { 
+                sX = e.touches[0].clientX; 
+                cX = sX; 
+                isDragging = true;
+                card.style.transition = 'none'; 
+            }, {passive:true});
+            
             card.addEventListener('touchmove', (e) => {
-                cX = e.touches[0].clientX; const dX = cX - sX; card.style.transform = `translateX(${dX}px) rotate(${dX * 0.06}deg)`;
+                if(!isDragging) return;
+                cX = e.touches[0].clientX; 
+                const dX = cX - sX; 
+                card.style.transform = `translateX(${dX}px) rotate(${dX * 0.05}deg)`;
+                
                 const indY = card.querySelector('.indicator-yes'); if(indY) indY.style.opacity = dX > 30 ? Math.min(dX/100, 1) : 0;
                 const indN = card.querySelector('.indicator-no'); if(indN) indN.style.opacity = dX < -30 ? Math.min(Math.abs(dX)/100, 1) : 0;
             }, {passive:true});
+            
             card.addEventListener('touchend', () => {
-                const dX = cX - sX; if (Math.abs(cX) < 1) return;
-                if (dX > 110) handleSwipeAction('JA');
-                else if (dX < -110) handleSwipeAction('NEIN');
-                else { card.style.transition = 'transform 0.2s'; card.style.transform = 'none'; card.querySelectorAll('.card-indicator').forEach(i => i.style.opacity = 0); }
+                if(!isDragging) return;
+                isDragging = false;
+                const dX = cX - sX; 
+                
+                if (dX > 100) handleSwipeAction('JA');
+                else if (dX < -100) handleSwipeAction('NEIN');
+                else { 
+                    card.style.transition = 'transform 0.3s ease-out'; 
+                    card.style.transform = 'none'; 
+                    card.querySelectorAll('.card-indicator').forEach(i => i.style.opacity = 0); 
+                }
                 sX = cX = 0;
             });
         }
