@@ -1,0 +1,20 @@
+{
+  "name": "TeamWir",
+  "short_name": "TeamWir",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b0d14",
+  "theme_color": "#8a5aed",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3124/3124450.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3124/3124450.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
