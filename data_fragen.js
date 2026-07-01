@@ -1,1 +1,8985 @@
+const categories = { 
+            "cat0": "Alltag & Küchen-Chaos", "cat1": "Macken & Quirks", "cat2": "Kids & Familien-Orga", 
+            "cat3": "Finanzen & Lebensplanung", "cat4": "Romantik & Intimität", "cat5": "Gym, Hobbies & Me-Time", 
+            "cat6": "Hitzige Geschmackskämpfe", "cat7": "Absurde Dilemmas",
+            "cat8": "Freizeit & Alltags-Logistik", "cat9": "Urlaubs-Modus & Survival", "cat10": "Eltern-Schlafmangel (Parent-Life)",
+            "cat11": "Werte & Erziehung", "cat12": "Digitale Welt & Medien"
+        };
 
+        // ==========================================
+        // DEIN FRAGEN-POOL HIER EINFÜGEN
+        // ==========================================
+        const staticHumanPool = [
+            {
+                id: "b1_1", cat: "cat0",
+                textBenni: "Eingeweichtes Kochgeschirr tagelang in der Spüle stehenzulassen schiebt das Problem im Alltag nur nervig auf.",
+                textSarah: "Eingeweichtes Kochgeschirr tagelang in der Spüle stehenzulassen schiebt das Problem im Alltag nur nervig auf.",
+                textCouch: "Wer deklariert dreckige Pfannen lieber als 'muss einweichen', um Zeit beim Abwasch zu gewinnen?"
+            },
+			{
+                id: "b1_2", cat: "cat1",
+                textBenni: "Das ungeduldige Schimpfen im dichten Berufsverkehr sorgt auf dem Beifahrersitz für eine anstrengende Stimmung.",
+                textSarah: "Bennis ungeduldiges Schimpfen im dichten Berufsverkehr sorgt auf dem Beifahrersitz für eine anstrengende Stimmung.",
+                textCouch: "Wer von uns beiden verliert am Steuer bei Stau oder Dränglern spürbar schneller die Fassung?"
+            },
+            {
+                id: "b1_3", cat: "cat2",
+                textBenni: "Das herumliegende Spielzeug-Chaos am Abend zu bändigen zerrt nach einem langen Tag massiv an meinen Nerven.",
+                textSarah: "Das herumliegende Spielzeug-Chaos am Abend zu bändigen zerrt nach einem langen Tag massiv an meinen Nerven.",
+                textCouch: "Wen triggert unaufgeräumtes Kinderspielzeug im Wohnzimmer kurz vor dem Schlafengehen intensiver?"
+            },
+            {
+                id: "b1_4", cat: "cat3",
+                textBenni: "Vor größeren Anschaffungen vergleichen wir Ausstattungslisten viel zu lange, statt einfach pragmatisch zu entscheiden.",
+                textSarah: "Vor größeren Anschaffungen vergleichen wir Ausstattungslisten viel zu lange, statt einfach pragmatisch zu entscheiden.",
+                textCouch: "Wer von uns beiden wälzt Testberichte tagelang im Internet, bevor Geld ausgegeben wird?"
+            },
+            {
+                id: "b1_5", cat: "cat4",
+                textBenni: "Kleine Gesten und Umarmungen im Vorbeigehen kommen zwischen all den täglichen Pflichten aktuell viel zu kurz.",
+                textSarah: "Kleine Gesten und Umarmungen im Vorbeigehen kommen zwischen all den täglichen Pflichten aktuell viel zu kurz.",
+                textCouch: "Alltags-Zärtlichkeit: Geht die körperliche Nähe im reinen Funktionieren der Familienlogistik manchmal unter?"
+            },
+            {
+                id: "b1_6", cat: "cat5",
+                textBenni: "Bei einer intensiven Runde am PC vergesse ich mich emotional komplett und werde für das Haus unbewusst zu laut.",
+                textSarah: "Beim Zocken am PC vergisst Benni sich emotional komplett und wird für das Haus unbewusst zu laut.",
+                textCouch: "Zocker-Eskapaden: Wer braucht bei seinen Freizeitaktivitäten den deutlich höheren Schalldämpfer?"
+            },
+            {
+                id: "b1_7", cat: "cat6",
+                textBenni: "Eine klassische italienische Carbonara mit Sahne zu strecken ist für mich eine echte kulinarische Todsünde.",
+                textSarah: "Eine klassische italienische Carbonara mit Sahne zu strecken ist für mich eine echte kulinarische Todsünde.",
+                textCouch: "Küchen-Heiligtum: Wer versteht bei der absolut traditionellen Zubereitung von Gerichten keinen Spaß?"
+            },
+            {
+                id: "b1_8", cat: "cat7",
+                textBenni: "Ein ganzes Jahr ohne selbstgemachte Pizza aus dem Ofen wäre ein massiver Verlust an Lebensqualität.",
+                textSarah: "Ein ganzes Jahr ohne selbstgemachte Pizza aus dem Ofen wäre ein massiver Verlust an Lebensqualität.",
+                textCouch: "Verzicht-Szenario: Wer von uns beiden könnte unbeschwerter auf sein absolutes Lieblingsessen verzichten?"
+            },
+            {
+                id: "b1_9", cat: "cat8",
+                textBenni: "Leere Kartons strategisch zurück in den Schrank zu stellen, statt sie flachzulegen, nervt mich im Alltag.",
+                textSarah: "Leere Kartons strategisch zurück in den Schrank zu stellen, statt sie flachzulegen, nervt mich im Alltag.",
+                textCouch: "Verpackungs-Muster: Wer stellt leere Schachteln lieber wieder dekorativ zurück ins Regal?"
+            },
+            {
+                id: "b1_10", cat: "cat9",
+                textBenni: "Die Stunden direkt vor einer Urlaubsabreise sind bei uns von unnötiger und stressiger Hektik geprägt.",
+                textSarah: "Die Stunden direkt vor einer Urlaubsabreise sind bei uns von unnötiger und stressiger Hektik geprägt.",
+                textCouch: "Reisefieber: Wessen Nervenkostüm ist am Abreisetag dünner besaitet, wenn die Zeit knapp wird?"
+            },
+            {
+                id: "b1_11", cat: "cat10",
+                textBenni: "Die unsichtbare Planungsarbeit für Arzttermine, Kleidung und Logistik unseres Sohnes lastet ungleichmäßig auf uns.",
+                textSarah: "Die unsichtbare Planungsarbeit für Arzttermine, Kleidung und Logistik unseres Sohnes lastet ungleichmäßig auf uns.",
+                textCouch: "Mental Load: Wer hat die täglichen Termine und Besorgungen für den Kleinen strukturierter im Kopf?"
+            },
+            {
+                id: "b1_12", cat: "cat0",
+                textBenni: "Chronisch brennendes Licht in Räumen, in denen sich niemand aufhält, ist für mich ein echter Nervfaktor.",
+                textSarah: "Chronisch brennendes Licht in Räumen, in denen sich niemand aufhält, ist für mich ein echter Nervfaktor bei Benni.",
+                textCouch: "Wer läuft regelmäßig als Kontrollinstanz durchs Haus, um vergessene Lampen auszuschalten?"
+            },
+            {
+                id: "b1_13", cat: "cat1",
+                textBenni: "Mein extremes Niesen holt dich im Alltag regelmäßig komplett aus der Konzentration.",
+                textSarah: "Bennis extremes Niesen holt mich im Alltag regelmäßig komplett aus der Konzentration.",
+                textCouch: "Lautstärke-Schock: Wessen körperliche Geräusche dominieren die Geräuschkulisse in der Wohnung?"
+            },
+            {
+                id: "b1_14", cat: "cat2",
+                textBenni: "Wenn es um Konsequenz bei Verboten geht, knicke ich beim Kleinen viel zu schnell ein, wenn er mich ansieht.",
+                textSarah: "Wenn es um Konsequenz bei Verboten geht, knickt Benni beim Kleinen viel zu schnell ein, wenn er ihn ansieht.",
+                textCouch: "Erziehungs-Linie: Wer verkörpert im Alltag den lockereren Part, bei dem Ausnahmen erlaubt sind?"
+            },
+            {
+                id: "b1_15", cat: "cat3",
+                textBenni: "Wir trennen unsere privaten Konsumwünsche nicht strikt genug vom gemeinsamen Haushaltsbudget.",
+                textSarah: "Wir trennen unsere privaten Konsumwünsche nicht strikt genug vom gemeinsamen Haushaltsbudget.",
+                textCouch: "Geld-Fokus: Wer behält bei Spontankäufen und kleinen Alltagsausgaben eher den harten Überblick?"
+            },
+            {
+                id: "b1_16", cat: "cat4",
+                textBenni: "Feste handyfreie Zonen ab 21 Uhr auf dem Sofa würden unserer Atmosphäre als Paar sofort guttun.",
+                textSarah: "Feste handyfreie Zonen ab 21 Uhr auf dem Sofa würden unserer Atmosphäre als Paar sofort guttun.",
+                textCouch: "Digitaler Keil: Starren wir abends zu oft nebeneinander ins Display, statt einander Aufmerksamkeit zu schenken?"
+            },
+            {
+                id: "b1_17", cat: "cat5",
+                textBenni: "Wenn ein fest geplantes Workout wegen des Alltagsstresses ausfällt, schlägt mir das direkt auf die Laune.",
+                textSarah: "Wenn ein fest geplantes Workout wegen des Alltagsstresses ausfällt, schlägt Benni das direkt auf die Laune.",
+                textCouch: "Sport als Ventil: Wer wird unausgeglichener, wenn das Fitnessstudio oder die Bewegung zu kurz kommen?"
+            },
+            {
+                id: "b1_18", cat: "cat6",
+                textBenni: "Frischer Koriander im Essen schmeckt für mich nach Seife und ruiniert ein asiatisches Gericht komplett.",
+                textSarah: "Frischer Koriander im Essen schmeckt für mich nach Seife und ruiniert ein asiatisches Gericht komplett.",
+                textCouch: "Geschmacks-Veto: Gibt es eine Zutat, bei der unsere kulinarischen Welten unversöhnlich kollidieren?"
+            },
+            {
+                id: "b1_19", cat: "cat7",
+                textBenni: "Lebenslang nur noch eiskalt duschen zu dürfen wäre für mich das kleinere Übel als der komplette Verzicht auf Kaffee.",
+                textSarah: "Lebenslang nur noch eiskalt duschen zu dürfen wäre für mich das kleinere Übel als der komplette Verzicht auf Kaffee.",
+                textCouch: "Komfort-Check: Wer würde ohne warmes Wasser oder Koffein schneller die Nerven verlieren?"
+            },
+            {
+                id: "b1_20", cat: "cat8",
+                textBenni: "Getragene Socken landen zielsicher neben dem Wäschekorb statt darin – diese Stolperfallen nerven im Alltag.",
+                textSarah: "Bennis getragene Socken landen zielsicher neben dem Wäschekorb statt darin – diese Stolperfallen nerven im Alltag.",
+                textCouch: "Wäsche-Disziplin: Wer schafft den gezielten Wurf in den Korb chronisch nicht?"
+            },
+            {
+                id: "b1_21", cat: "cat9",
+                textBenni: "Ohne Google Maps oder ein funktionierendes Navigationssystem wäre mein Orientierungssinn auf Reisen aufgeschmissen.",
+                textSarah: "Ohne Google Maps oder ein funktionierendes Navigationssystem wäre Bennis Orientierungssinn auf Reisen aufgeschmissen.",
+                textCouch: "Pfadfinder-Qualitäten: Wer würde uns im Urlaub ohne Technik hoffnungslos in die falsche Richtung navigieren?"
+            },
+            {
+                id: "b1_22", cat: "cat10",
+                textBenni: "Nach einer unruhigen Nacht ist meine emotionale Belastbarkeit am frühen Morgen komplett im Keller.",
+                textSarah: "Nach einer unruhigen Nacht ist Bennis emotionale Belastbarkeit am frühen Morgen komplett im Keller.",
+                textCouch: "Morgen-Nerven: Wer kompensiert akuten Schlafmangel im Kleinkind-Alltag spürbar schlechter?"
+            },
+            {
+                id: "b1_23", cat: "cat0",
+                textBenni: "Den vollen Mülleimer weiter zu komprimieren, statt die Tüte zu wechseln, schiebt die Aufgabe nur faul auf.",
+                textSarah: "Den vollen Mülleimer weiter zu komprimieren, statt die Tüte zu wechseln, schiebt die Aufgabe nur faul auf.",
+                textCouch: "Müll-Tetris: Wer stapelt geschickter nach oben, um den Gang zur Tonne zu verzögern?"
+            },
+            {
+                id: "b1_24", cat: "cat1",
+                textBenni: "Das ununterbrochene Umherwandern beim Telefonieren quer durch alle Räume erzeugt eine nervöse Unruhe.",
+                textSarah: "Bennis ununterbrochenes Umherwandern beim Telefonieren quer durch alle Räume erzeugt eine nervöse Unruhe.",
+                textCouch: "Dauer-Läufer: Wer kann beim Telefonieren absolut nicht länger als zwei Minuten stillsitzen?"
+            },
+            {
+                id: "b1_25", cat: "cat2",
+                textBenni: "Ich erwische sich regelmäßig dabei, wie ich Erziehungsreaktionen im Stillen kritisch hinterfrage, statt einfach zu vertrauen.",
+                textSarah: "Ich erwische mich regelmäßig dabei, wie ich Bennis Erziehungsreaktionen im Stillen kritisch hinterfrage, statt einfach zu vertrauen.",
+                textCouch: "Instinkt-Check: Fällt es uns schwer, dem erzieherischen Handeln des Partners blind zu vertrauen?"
+            },
+            {
+                id: "b1_26", cat: "cat3",
+                textBenni: "Laufende Verträge, Versicherungen und Abos optimieren wir viel zu selten, wodurch wir bares Geld liegenlassen.",
+                textSarah: "Laufende Verträge, Versicherungen und Abos optimieren wir viel zu selten, wodurch wir bares Geld liegenlassen.",
+                textCouch: "Fixkosten-Bremse: Wer drückt sich hartnäckiger vor dem Sortieren von Papieren und Tarifwechseln?"
+            },
+            {
+                id: "b1_27", cat: "cat4",
+                textBenni: "Unsere Gespräche drehen sich momentan fast ausschließlich um Logistik, Aufgaben und Termine statt um uns.",
+                textSarah: "Unsere Gespräche drehen sich momentan fast ausschließlich um Logistik, Aufgaben und Termine statt um uns.",
+                textCouch: "Beziehungsebene: Reden wir im aktuellen Alltagstrott zu wenig über persönliche Wünsche und Gefühle?"
+            },
+            {
+                id: "b1_28", cat: "cat5",
+                textBenni: "Das genaue Dokumentieren von Trainingsfortschritten, Gewichten und Sätzen ist für mich essenziell beim Sport.",
+                textSarah: "Das genaue Dokumentieren von Trainingsfortschritten, Gewichten und Sätzen ist für Benni essenziell beim Sport.",
+                textCouch: "Fakten-Fokus: Wer braucht bei seinen Hobbies mehr Zahlen, Tabellen und messbare Daten?"
+            },
+            {
+                id: "b1_29", cat: "cat6",
+                textBenni: "Ein perfekt zubereitetes, scharfes thailändisches Curry schlägt für mich am Wochenende jede europäische Küche.",
+                textSarah: "Ein perfekt zubereitetes, scharfes thailändisches Curry schlägt für Benni am Wochenende jede europäische Küche.",
+                textCouch: "Asiatisch vs. Italienisch: Auf welche kulinarische Richtung können wir uns im Zweifel immer einigen?"
+            },
+            {
+                id: "b1_30", cat: "cat7",
+                textBenni: "Die Vorstellung, für den Rest des Lebens beim Einparken von Fremden beobachtet zu werden, wäre mein absoluter Albtraum.",
+                textSarah: "Die Vorstellung, für den Rest des Lebens beim Einparken von Fremden beobachtet zu werden, wäre mein absoluter Albtraum.",
+                textCouch: "Rampenlicht-Panik: Wer von uns beiden reagiert sensibler auf die kritischen Blicke fremder Menschen?"
+            },
+            {
+                id: "b1_31", cat: "cat8",
+                textBenni: "Pakete und Online-Bestellungen tagelang ungeöffnet im Flur stehenzulassen blockiert den Weg und stört die Ordnung.",
+                textSarah: "Pakete und Online-Bestellungen tagelang ungeöffnet im Flur stehenzulassen blockiert den Weg und stört die Ordnung.",
+                textCouch: "Post-Disziplin: Wer lässt angelieferte Kartons tagelang als Dekoration im Eingangsbereich stehen?"
+            },
+            {
+                id: "b1_32", cat: "cat9",
+                textBenni: "Beim Packen nehme ich grundsätzlich viel zu viele Kleidungsstücke mit, die am Ende ungenutzt wieder im Schrank landen.",
+                textSarah: "Beim Packen nimmt Benni grundsätzlich viel zu viele Kleidungsstücke mit, die am Ende ungenutzt wieder im Schrank landen.",
+                textCouch: "Übergepäck-Gefahr: Wer packt eher nach dem Motto 'Sicherheitshalber noch drei Wechseloptionen mehr'?"
+            },
+            {
+                id: "b1_33", cat: "cat10",
+                textBenni: "Der anhaltende Schlafmangel führt bei uns im Alltag spürbar schneller zu unnötigen, gereizten Reibereien.",
+                textSarah: "Der anhaltende Schlafmangel führt bei uns im Alltag spürbar schneller zu unnötigen, gereizten Reibereien.",
+                textCouch: "Akku-Grenze: Wer verliert bei chronischer Müdigkeit im Umgang miteinander schneller den freundlichen Ton?"
+            },
+            {
+                id: "b1_34", cat: "cat0",
+                textBenni: "Die Kühlschranktür minutenlang offen anzustarren, während man nach Inspiration sucht, ist eine meiner Standard-Macken.",
+                textSarah: "Die Kühlschranktür minutenlang offen anzustarren, während man nach Inspiration sucht, ist eine von Bennis Standard-Macken.",
+                textCouch: "Kühlschrank-Trance: Wer wartet öfter vor geöffneten Geräten auf eine kulinarische Eingebung?"
+            },
+            {
+                id: "b1_35", cat: "cat1",
+                textBenni: "Wenn mir eine Story einfällt, hole ich beim Erzählen viel zu weit aus und vergesse am Ende manchmal die Pointe.",
+                textSarah: "Wenn Benni eine Story einfällt, holt er beim Erzählen viel zu weit aus und vergesse am Ende manchmal die Pointe.",
+                textCouch: "Detail-Schleife: Wer verliert sich in Nebensätzen, statt einfach direkt auf den Punkt zu kommen?"
+            },
+            {
+                id: "b1_36", cat: "cat2",
+                textBenni: "Das strikte Einhalten der gelernten Abendroutine ist für mich der einzige Weg, um den Tag entspannt zu beenden.",
+                textSarah: "Das strikte Einhalten der gelernten Abendroutine ist für mich der einzige Weg, um den Tag entspannt zu beenden.",
+                textCouch: "Routine-Fokus: Wer reagiert nervöser, wenn der gewohnte Ablauf des Kleinen durch äußere Einflüsse verschoben wird?"
+            },
+            {
+                id: "b1_37", cat: "cat3",
+                textBenni: "Das Budget für meine eigenen Hobbies und Interessen muss ich im Alltag manchmal verbissen vor dir verteidigen.",
+                textSarah: "Das Budget für seine eigenen Hobbies und Interessen muss Benni im Alltag manchmal verbissen vor mir verteidigen.",
+                textCouch: "Hobby-Kosten: Wer rechtfertigt seine privaten Ausgaben für Freizeit und Leidenschaften intensiver?"
+            },
+            {
+                id: "b1_38", cat: "cat4",
+                textBenni: "Ich wünsche mir im Alltag mehr ehrliche Validierung, die absolut nichts mit erledigten Aufgaben oder dem Kind zu tun hat.",
+                textSarah: "Ich wünsche mir im Alltag mehr ehrliche Validierung von Benni, die absolut nichts mit erledigten Aufgaben oder dem Kind zu tun hat.",
+                textCouch: "Wertschätzung abseits der Pflicht: Reduzieren wir uns im Hamsterrad zu sehr auf unsere reinen Manager-Rollen?"
+            },
+            {
+                id: "b1_39", cat: "cat5",
+                textBenni: "Ein ganzes Wochenende komplett ohne familiäre oder sportliche Verpflichtungen wäre für mich die perfekte Erholung.",
+                textSarah: "Ein ganzes Wochenende komplett ohne familiäre oder sportliche Verpflichtungen wäre für Benni die perfekte Erholung.",
+                textCouch: "Me-Time-Traum: Wer von uns beiden sehnt sich im Moment dringender nach ein paar Tagen absolutem Stillstand?"
+            },
+            {
+                id: "b1_40", cat: "cat6",
+                textBenni: "Unsere selbstgemachte Pizza aus dem Outdoor-Ofen schlägt geschmeidig fast jeden italienischen Gastronomen im Umkreis.",
+                textSarah: "Unsere selbstgemachte Pizza aus dem Outdoor-Ofen schlägt geschmeidig fast jeden italienischen Gastronomen im Umkreis.",
+                textCouch: "Küchen-Stolz: Läuft unsere selbstgemachte Pizza bereits auf absolutem, konkurrenzlosem Restaurant-Niveau?"
+            },
+            {
+                id: "b1_41", cat: "cat7",
+                textBenni: "Die Wahl zwischen dem lebenslangen Verzicht auf Action-RPGs oder dem kompletten Verzicht auf asiatisches Essen fiele mir unerträglich schwer.",
+                textSarah: "Die Wahl zwischen dem lebenslangen Verzicht auf Action-RPGs oder dem kompletten Verzicht auf asiatisches Essen fiele Benni unerträglich schwer.",
+                textCouch: "Kultur-Opfer: Welcher Verlust würde die Feierabend-Kultur bei Benni härter im Kern treffen?"
+            },
+            {
+                id: "b1_42", cat: "cat8",
+                textBenni: "Die eingegangene Post wochenlang ungeöffnet auf dem Sideboard zu sammeln erzeugt beim Vorbeigehen ein unordentliches Gefühl.",
+                textSarah: "Die eingegangene Post wochenlang ungeöffnet auf dem Sideboard zu sammeln erzeugt beim Vorbeigehen ein unordentliches Gefühl.",
+                textCouch: "Briefkasten-Logistik: Wer drückt sich erfolgreicher vor dem Öffnen und Einsortieren der alltäglichen Bürokratie?"
+            },
+            {
+                id: "b1_43", cat: "cat9",
+                textBenni: "Im Urlaub brauche ich meistens mindestens drei Tage, um den Kopf komplett frei zu bekommen und mental im Entspannungsmodus zu landen.",
+                textSarah: "Im Urlaub braucht Benni meistens mindestens drei Tage, um den Kopf komplett frei zu bekommen und mental im Entspannungsmodus zu landen.",
+                textCouch: "Abschalt-Dauer: Wer nimmt den Stress aus dem Arbeitsalltag gedanklich länger mit in die Urlaubsreise?"
+            },
+            {
+                id: "b1_44", cat: "cat10",
+                textBenni: "Wenn der Kleine nachts beim ersten Jammern unruhig wird, stehe ich gedanklich sofort hellwach im Bett.",
+                textSarah: "Wenn der Kleine nachts beim ersten Jammern unruhig wird, stehe ich gedanklich sofort hellwach im Bett.",
+                textCouch: "Schlaf-Sensor: Wessen interner Alarm schlägt bei nächtlichen Geräuschen aus dem Kinderzimmer empfindlicher an?"
+            },
+            {
+                id: "b1_45", cat: "cat0",
+                textBenni: "Krümel nach dem Essen einfach vom Tisch auf den Boden zu wischen, statt sie aufzufangen, verschiebt das Reinigen nur.",
+                textSarah: "Krümel nach dem Essen einfach vom Tisch auf den Boden zu wischen, statt sie aufzufangen, verschiebt das Reinigen nur.",
+                textCouch: "Esstisch-Disziplin: Wer löst Krümelprobleme pragmatisch nach dem Prinzip 'Der Staubsauger wird es schon richten'?"
+            }, // --- BLOCK 2 (EINTRÄGE 46 BIS 90) ---
+            {
+                id: "b1_46", cat: "cat0",
+                textBenni: "Milchtüten oder Saftflaschen mit einem winzigen Schluck zurück in den Kühlschrank zu stellen ist eine unverschämte Angewohnheit.",
+                textSarah: "Milchtüten oder Saftflaschen mit einem winzigen Schluck zurück in den Kühlschrank zu stellen ist eine unverschämte Angewohnheit.",
+                textCouch: "Wer von uns beiden scheut das Entsorgen und stellt fast leere Verpackungen lieber wieder zurück in die Kühlung?"
+            },
+            {
+                id: "b1_47", cat: "cat1",
+                textBenni: "Das regelmäßige Verlegen des Haustürschlüssels und die anschließende panische Suche stellt die Geduld auf eine harte Probe.",
+                textSarah: "Dass Benni regelmäßig seinen Haustürschlüssel verlegt und dann panisch die Wohnung auf den Kopf stellt, nervt mich extrem.",
+                textCouch: "Schlüsselsuche: Wer von uns beiden verliert im Alltag regelmäßiger Gegenstände, die eigentlich einen festen Platz haben?"
+            },
+            {
+                id: "b1_48", cat: "cat2",
+                textBenni: "Pädagogisch wertvolles Holzspielzeug wird von unserem Sohn am Ende oft ignoriert, während der leere Pappkarton das Highlight ist.",
+                textSarah: "Pädagogisch wertvolles Holzspielzeug wird von unserem Sohn am Ende oft ignoriert, während der leere Pappkarton das Highlight ist.",
+                textCouch: "Spielzeug-Realität: Wer von uns beiden neigt eher dazu, überteuerten Beschäftigungs-Quatsch für den Kleinen zu kaufen?"
+            },
+            {
+                id: "b1_49", cat: "cat3",
+                textBenni: "Für professionelle Küchengeräte oder hochwertiges Trainings-Equipment gebe ich Geld aus, ohne auch nur eine Sekunde zu zögern.",
+                textSarah: "Für professionelle Küchengeräte oder hochwertiges Trainings-Equipment gibt Benni Geld aus, ohne auch nur eine Sekunde zu zögern.",
+                textCouch: "Qualitäts-Fetisch: Wer investiert kompromissloser in teure Profi-Marken, statt die günstigere Standard-Variante zu wählen?"
+            },
+            {
+                id: "b1_50", cat: "cat4",
+                textBenni: "Das letzte Stück Schokolade oder der beste Snack auf dem Sofa wird bei uns eher verbissen verteidigt als liebevoll geteilt.",
+                textSarah: "Das letzte Stück Schokolade oder der beste Snack auf dem Sofa wird bei uns eher verbissen verteidigt als liebevoll geteilt.",
+                textCouch: "Futterneid: Wer von uns beiden kennt beim letzten Bissen auf der Couch absolut keine Gnade oder Teilen mehr?"
+            },
+            {
+                id: "b1_51", cat: "cat5",
+                textBenni: "Ein brutales Workout im Gym ziehe ich aus reiner Disziplin auch dann knallhart durch, wenn ich weniger als fünf Stunden Schlaf hatte.",
+                textSarah: "Ein brutales Workout im Gym zieht Benni aus reiner Disziplin auch dann knallhart durch, wenn er weniger als fünf Stunden Schlaf hatte.",
+                textCouch: "Eisene Disziplin: Wer stellt den Trainingsplan kompromisslos über die aktuelle körperliche Erschöpfung?"
+            },
+            {
+                id: "b1_52", cat: "cat6",
+                textBenni: "Frische Pasta muss absolut al dente serviert werden – eine auch nur minimal zu weich gekochte Nudel ist beim Essen eine Enttäuschung.",
+                textSarah: "Frische Pasta muss absolut al dente serviert werden – eine auch nur minimal zu weich gekochte Nudel ist für Benni eine Enttäuschung.",
+                textCouch: "Nudel-Philosophie: Versteht einer von uns bei der perfekten Konsistenz von italienischer Pasta absolut keinen Spaß?"
+            },
+            {
+                id: "b1_53", cat: "cat7",
+                textBenni: "Die Vorstellung, in einem vollbesetzten Supermarkt lautstark Kinderlieder mitsingen zu müssen, ist schlimmer als ein handfester Stolperer in der Öffentlichkeit.",
+                textSarah: "Die Vorstellung, in einem vollbesetzten Supermarkt lautstark Kinderlieder mitsingen zu müssen, ist schlimmer als ein handfester Stolperer in der Öffentlichkeit.",
+                textCouch: "Peinlichkeits-Skala: Wer von uns beiden ist im Alltag empfindlicher, wenn eine Situation die ungeteilte Aufmerksamkeit von Fremden erzeugt?"
+            },
+            {
+                id: "b1_54", cat: "cat8",
+                textBenni: "Schuhe direkt mitten im Flur als Stolperfalle stehenzulassen, statt sie ins Regal zu stellen, ist pure Faulheit.",
+                textSarah: "Dass Benni seine Schuhe direkt mitten im Flur als Stolperfalle stehen lässt, statt sie ins Regal zu stellen, ist pure Faulheit.",
+                textCouch: "Flur-Ordnung: Wer blockiert den Eingangsbereich regelmäßiger mit achtlos ausgezogenen Schuhen?"
+            },
+            {
+                id: "b1_55", cat: "cat9",
+                textBenni: "Für einfache Wochenendausflüge eine halbe Apotheke einzupacken, um gegen jede theoretische Krankheit gewappnet zu sein, ist völlig übertrieben.",
+                textSarah: "Für einfache Wochenendausflüge eine halbe Apotheke einzupacken, um gegen jede theoretische Krankheit gewappnet zu sein, ist absolut vorausschauend.",
+                textCouch: "Apotheken-Check: Wer von uns beiden verfällt bei der Reiseplanung eher in den medizinischen Sicherheits-Modus?"
+            },
+            {
+                id: "b1_56", cat: "cat10",
+                textBenni: "Die wöchentliche Verhandlung darüber, wer am Sonntagmorgen etwas länger liegenbleiben darf, ist ein diplomatischer Kraftakt.",
+                textSarah: "Die wöchentliche Verhandlung darüber, wer am Sonntagmorgen etwas länger liegenbleiben darf, ist ein diplomatischer Kraftakt.",
+                textCouch: "Ausschlaf-Privileg: Wer von uns beiden braucht das Zugeständnis, am Wochenende mal eine Stunde zu regenerieren, dringender?"
+            },
+            {
+                id: "b1_57", cat: "cat0",
+                textBenni: "Beim Abwischen der Küchenzeile die Ecken und Kanten großzügig auszusparen hinterlässt kein wirklich sauberes Gefühl.",
+                textSarah: "Wenn Benni die Küchenzeile abwischt, spart er die Ecken und Kanten so großzügig aus, dass es eigentlich nicht sauber ist.",
+                textCouch: "Putz-Genauigkeit: Wer erledigt schnelle Reinigungsaufgaben nach dem Prinzip 'Hauptsache die Mitte glänzt'?"
+            },
+            {
+                id: "b1_58", cat: "cat1",
+                textBenni: "Aus reiner Gewohnheit alle zwei Minuten das Smartphone zu entsperren, selbst während eines Gesprächs, ist eine störende Unart.",
+                textSarah: "Dass Benni aus reiner Gewohnheit alle zwei Minuten das Smartphone entsperrt, selbst während eines Gesprächs, ist eine störende Unart.",
+                textCouch: "Handy-Sucht: Wer von uns beiden checkt das Display unbewusster und häufiger, ohne dass eine echte Nachricht eingegangen ist?"
+            },
+            {
+                id: "b1_59", cat: "cat2",
+                textBenni: "Gesunde Gemüsesnacks aufwendig in Sternenform auszustechen, nur damit sie am Ende auf dem Boden landen, ist vergebliche Liebesmüh.",
+                textSarah: "Gesunde Gemüsesnacks aufwendig in Sternenform auszustechen, nur damit sie am Ende auf dem Boden landen, ist vergebliche Liebesmüh.",
+                textCouch: "Snack-Design: Wer verliert sich bei der Zubereitung von Kindertellern eher in optischen Feinheiten?"
+            },
+            {
+                id: "b1_60", cat: "cat3",
+                textBenni: "Kleinere Alltagsausgaben rein im Kopf zu überschlagen, statt sie fest zu dokumentieren, führt schleichend zum Kontrollverlust.",
+                textSarah: "Kleinere Alltagsausgaben rein im Kopf zu überschlagen, statt sie fest zu dokumentieren, führt schleichend zum Kontrollverlust.",
+                textCouch: "Budget-Kontrolle: Wer von uns beiden vertraut lieber seinem Bauchgefühl, statt die Ausgaben schwarz auf weiß zu tracken?"
+            },
+            {
+                id: "b1_61", cat: "cat4",
+                textBenni: "Sich im Alltag für eine Minute einfach nur schweigend in die Augen zu schauen, fühlt sich mittlerweile fast ungewohnt an.",
+                textSarah: "Sich im Alltag für eine Minute einfach nur schweigend in die Augen zu schauen, fühlt sich mittlerweile fast ungewohnt an.",
+                textCouch: "Intimitäts-Fokus: Haben wir verlernt, die absolute Nähe des anderen ohne Ablenkung oder Worte auszuhalten?"
+            },
+            {
+                id: "b1_62", cat: "cat5",
+                textBenni: "Fitness- oder Gaming-Videos auf YouTube auf eineinhalbfacher Geschwindigkeit zu schauen, spart im Feierabend wertvolle Zeit.",
+                textSarah: "Dass Benni Fitness- oder Gaming-Videos auf YouTube auf eineinhalbfacher Geschwindigkeit schaut, macht mich beim Zuhören wahnsinnig.",
+                textCouch: "Effizienz-Wahn: Wer leidet unter der größeren Ungeduld beim Konsumieren von Medien oder Videos?"
+            },
+            {
+                id: "b1_63", cat: "cat6",
+                textBenni: "Scharfe Sauce oder Chiliflocken standardmäßig über absolut jedes Gericht zu kippen, zerstört die mühsam balancierten Aromen des Essens.",
+                textSarah: "Dass Benni scharfe Sauce oder Chiliflocken standardmäßig über absolut jedes Gericht kippt, zerstört die mühsam balancierten Aromen des Essens.",
+                textCouch: "Schärfe-Diktatur: Wer übertreibt es beim gemeinsamen Essen regelmäßig mit dem Nachwürzen?"
+            },
+            {
+                id: "b1_64", cat: "cat7",
+                textBenni: "Serien für den Rest des Lebens nur noch in doppelter Geschwindigkeit schauen zu dürfen, wäre erträglicher als ein permanentes Verbot des Airfryers.",
+                textSarah: "Serien für den Rest des Lebens nur noch in doppelter Geschwindigkeit schauen zu dürfen, wäre erträglicher als ein permanentes Verbot des Airfryers.",
+                textCouch: "Technik-Opfer: Für wen wäre der Entzug von modernen Küchen-Gadgets der absolute emotionale Untergang?"
+            },
+            {
+                id: "b1_65", cat: "cat8",
+                textBenni: "Müll in einen bereits überlaufenden Eimer zu werfen und darauf zu hoffen, dass die Konstruktion hält, ist ein riskantes Spiel.",
+                textSarah: "Dass Benni Müll in einen bereits überlaufenden Eimer wirft und darauf hofft, dass die Konstruktion hält, bringt mich regelmäßig auf die Palme.",
+                textCouch: "Müll-Risiko: Wer ignoriert den kritischen Füllstand der Tonne erfolgreicher und drückt einfach fester nach unten?"
+            },
+            {
+                id: "b1_66", cat: "cat9",
+                textBenni: "Im Urlaub nicht einfach spontan zu treiben, sondern vorab jeden Restaurantbesuch minutiös durchzuplanen, nimmt der Reise die Leichtigkeit.",
+                textSarah: "Im Urlaub nicht vorab die Restaurants zu recherchieren, führt am Ende nur dazu, dass wir hungrig in einer teuren Touristenfalle landen.",
+                textCouch: "Urlaubs-Struktur: Brauchen wir auf Reisen feste kulinarische Fixpunkte oder die absolute Spontaneität?"
+            },
+            {
+                id: "b1_67", cat: "cat10",
+                textBenni: "Nachts um 4 Uhr absolut lautlos aus dem Bett aufzustehen, um den Kleinen zu beruhigen, erfordert echtes Ninja-Talent.",
+                textSarah: "Nachts um 4 Uhr absolut lautlos aus dem Bett aufzustehen, um den Kleinen zu beruhigen, erfordert echtes Ninja-Talent.",
+                textCouch: "Nacht-Einsatz: Wer bewegt sich bei der nächtlichen Beruhigung unseres Sohnes eleganter und leiser durch das dunkle Haus?"
+            },
+            {
+                id: "b1_68", cat: "cat0",
+                textBenni: "Die Butterpackung nach der Benutzung völlig zerfleddert und unsauber abgekratzt im Kühlschrank zu hinterlassen, sieht einfach unappetitlich aus.",
+                textSarah: "Dass Benni die Butterpackung völlig zerfleddert und unsauber abgekratzt hinterlässt, sieht unappetitlich aus.",
+                textCouch: "Messer-Führung: Wer kratzt die Butter absolut chaotisch ab, statt eine saubere Struktur zu hinterlassen?"
+            },
+            {
+                id: "b1_69", cat: "cat1",
+                textBenni: "Beim Erzählen eines Witzes mitten im Satz die eigentliche Pointe zu vergessen, ist eine meiner klassischen Schwächen.",
+                textSarah: "Wenn Benni einen Witz erzählt, vergisst er ungelogen in der Hälfte der Fälle mittendrin die eigentliche Pointe.",
+                textCouch: "Storytelling-Fail: Wer verliert beim leidenschaftlichen Berichten im Alltag öfter komplett den roten Faden?"
+            },
+            {
+                id: "b1_70", cat: "cat2",
+                textBenni: "Selbst bei einfachsten Kinderspielen einen extremen, verbissenen Ehrgeiz zu entwickeln, liegt einfach in meiner Natur.",
+                textSarah: "Selbst bei einfachsten Kinderspielen entwickelt Benni einen extremen, verbissenen Ehrgeiz, der eigentlich nicht kindgerecht ist.",
+                textCouch: "Gewinner-Typ: Wer von uns beiden kann selbst bei absolut unbedeutenden Gesellschafts- oder Freizeitspielen schlechter verlieren?"
+            },
+            {
+                id: "b1_71", cat: "cat3",
+                textBenni: "Den exakten Kontostand und den finanziellen Puffer täglich per App zu überprüfen, gibt mir im Alltag eine notwendige Sicherheit.",
+                textSarah: "Den exakten Kontostand und den finanziellen Puffer täglich per App zu überprüfen, halte ich für eine leichte Kontroll-Macke von Benni.",
+                textCouch: "Finanz-Sicherheit: Wer von uns beiden verspürt den dringenderen Drang, die Zahlen des Haushalts lückenlos zu überwachen?"
+            },
+            {
+                id: "b1_72", cat: "cat4",
+                textBenni: "Eine im Voraus fest durchgeplante Date-Night fühlt sich für mich wertvoller an als ein spontanes 'wir schauen mal was passiert'.",
+                textSarah: "Eine im Voraus fest durchgeplante Date-Night fühlt sich für mich wertvoller an als ein spontanes 'wir schauen mal was passiert'.",
+                textCouch: "Date-Planung: Bevorzugen wir für unsere exklusive Paar-Zeit die strikte Organisation oder den unstrukturierten Zufall?"
+            },
+            {
+                id: "b1_73", cat: "cat5",
+                textBenni: "Teure Nahrungsergänzungsmittel oder spezielles Trainings-Equipment zu kaufen, das nach der ersten Euphorie monatelang verstaubt, ist Geldverschwendung.",
+                textSarah: "Dass Benni teure Supplements oder Fitness-Gear kauft, das nach zwei Wochen ungenutzt im Schrank steht, nervt mich.",
+                textCouch: "Hype-Opfer: Wer lässt sich von neuen Trends (Sport, Ernährung, Gadgets) schneller zu unüberlegten Käufen verleiten?"
+            },
+            {
+                id: "b1_74", cat: "cat6",
+                textBenni: "Für kleinere Beilagen oder Snacks den großen Backofen vorzuheizen, ist im Vergleich zum Airfryer reine Energie- und Zeitverschwendung.",
+                textSarah: "Benni nutzt den Airfryer mittlerweile für absolut alles, selbst wenn der normale Ofen für das Gericht deutlich besser wäre.",
+                textCouch: "Küchen-Effizienz: Wer weigert sich beharrlicher, klassische Küchengeräte zu nutzen, wenn es eine schnellere Alternative gibt?"
+            },
+            {
+                id: "h_b1_75", cat: "cat7",
+                textBenni: "Ein unskippbares, leuchtendes Werbe-Pop-up dauerhaft im eigenen Sichtfeld zu haben, wäre das schlimmere Schicksal als ein Leben lang in nassen Socken zu laufen.",
+                textSarah: "Ein unskippbares, leuchtendes Werbe-Pop-up dauerhaft im eigenen Sichtfeld zu haben, wäre das schlimmere Schicksal als ein Leben lang in nassen Socken zu laufen.",
+                textCouch: "Ekel-Faktor: Wer von uns beiden reagiert allergischer auf unangenehme körperliche Reize im Alltag?"
+            },
+            {
+                id: "b1_76", cat: "cat8",
+                textBenni: "Leere Pfandflaschen in einer gigantischen Tasche in der Speisekammer zu sammeln, bis es zu einem logistischen Problem wird, nervt tierisch.",
+                textSarah: "Dass Benni leere Pfandflaschen wochenlang sammelt, bis man die Speisekammer kaum noch betreten kann, nervt tierisch.",
+                textCouch: "Pfand-Logistik: Wer drückt sich erfolgreicher vor der Rückgabe und wartet, bis der Berg unübersehbar groß wird?"
+            },
+            {
+                id: "b1_77", cat: "cat9",
+                textBenni: "Das absolute Highlight im Urlaub ist das Aufspüren von versteckten, authentischen Lokalen abseits jeglicher Touristenpfade.",
+                textSarah: "Das absolute Highlight im Urlaub ist das Aufspüren von versteckten, authentischen Lokalen abseits jeglicher Touristenpfade.",
+                textCouch: "Gourmet-Reise: Ist uns die kulinarische Qualität und Authentizität des Essens im Urlaub wichtiger als das eigentliche Sightseeing?"
+            },
+            {
+                id: "b1_78", cat: "cat10",
+                textBenni: "Unseren Sohn nach einer harten Phase herzhaft lachen zu sehen, entschädigt augenblicklich für eine ganze Woche brutalen Schlafmangel.",
+                textSarah: "Unseren Sohn nach einer harten Phase herzhaft lachen zu sehen, entschädigt augenblicklich für eine ganze Woche brutalen Schlafmangel.",
+                textCouch: "Eltern-Glück: Sind wir emotional gut darin, die extremen Erschöpfungsphasen durch die schönen Momente direkt wieder zu vergessen?"
+            },
+            {
+                id: "b1_79", cat: "cat0",
+                textBenni: "Schranktüren oder Schubladen in der Küche mit viel zu viel Schwung zuzuknallen, sodass der gesamte Inhalt wackelt, ist eine nervige Angewohnheit.",
+                textSarah: "Dass Benni Schranktüren und Schubladen grundsätzlich mit maximalem Schwung zuknallt, macht mich in der Küche wahnsinnig.",
+                textCouch: "Dynamik-Check: Wer von uns beiden bewegt sich in der Küche deutlich grobmotorischer und lauter?"
+            },
+            {
+                id: "b1_80", cat: "cat1",
+                textBenni: "Beim Aufstehen von der Couch unbewusst so laut zu stöhnen und zu ächzen wie ein Achtzigjähriger, liegt einfach am harten Training.",
+                textSarah: "Wenn Benni von der Couch aufsteht, stöhnt und ächzt er in einer Lautstärke, die absolut Sorge bereitet.",
+                textCouch: "Alters-Vibe: Wer verhält sich körperlich beim Entspannen oder Bewegen unbewusst schon wie ein absoluter Rentner?"
+            },
+            {
+                id: "b1_81", cat: "cat2",
+                textBenni: "Kinderkleidung grundsätzlich eine Nummer zu groß zu kaufen, weil die Kleinen sowieso im Rekordtempo wachsen, ist absolut logisch.",
+                textSarah: "Kinderkleidung grundsätzlich eine Nummer zu groß zu kaufen, weil die Kleinen sowieso im Rekordtempo wachsen, sieht am Kind einfach schluffig aus.",
+                textCouch: "Shopping-Stil: Wer von uns beiden achtet beim Kleidungskauf für unseren Sohn mehr auf den aktuellen Sitz als auf die Haltbarkeit?"
+            },
+            {
+                id: "b1_82", cat: "cat3",
+                textBenni: "Stundenlang Automodelle im Internet zu konfigurieren und Ausstattungen zu vergleichen, ist für mich pure Entspannung ohne Kaufabsicht.",
+                textSarah: "Dass Benni stundenlang Autos online konfiguriert, die wir aktuell überhaupt nicht brauchen, ist für mich reine Zeitverschwendung.",
+                textCouch: "Traum-Konfigurator: Wer verliert sich online regelmäßiger in hypothetischen Luxus-Käufen und Ausstattungslisten?"
+            },
+            {
+                id: "b1_83", cat: "cat4",
+                textBenni: "Das Teilen von tiefen, unausgesprochenen Unsicherheiten oder Ängsten stärkt unsere Bindung mehr als jede geplante Aufmerksamkeit.",
+                textSarah: "Das Teilen von tiefen, unausgesprochenen Unsicherheiten oder Ängsten stärkt unsere Bindung mehr als jede geplante Aufmerksamkeit.",
+                textCouch: "Verwundbarkeit: Schaffen wir es im aktuellen Alltagsstress noch, uns dem Partner emotional komplett ungeschützt zu zeigen?"
+            },
+            {
+                id: "b1_84", cat: "cat5",
+                textBenni: "Ein schweres, produktives Training im Studio funktioniert für mich mental nur, wenn im Hintergrund aggressive oder hochenergetische Musik läuft.",
+                textSarah: "Ein schweres, produktives Training im Studio funktioniert für Benni mental nur, wenn im Hintergrund aggressive oder hochenergetische Musik läuft.",
+                textCouch: "Fokus-Sound: Wer braucht im Alltag beim Sport oder bei Aufgaben den lauteren, treibenderen Soundtrack im Ohr?"
+            },
+            {
+                id: "b1_85", cat: "cat6",
+                textBenni: "Ein perfekter Pizzateig braucht zwingend mindestens 48 Stunden kalte Gärung im Kühlschrank – alles andere ist nur flaches Brot.",
+                textSarah: "Dass Benni für eine Pizza eine zweitägige logistische Planung im Kühlschrank startet, grenzt an kulinarischen Wahnsinn.",
+                textCouch: "Teig-Kult: Wer von uns beiden betreibt bei der Zubereitung von Essen den deutlich höheren wissenschaftlichen Aufwand?"
+            },
+            {
+                id: "b1_86", cat: "cat7",
+                textBenni: "Ein ganzes Jahr lang ausschließlich Horrorfilme schauen zu müssen, wäre eine leichtere Strafe, als ein Jahr lang nur Bedienungsanleitungen zu lesen.",
+                textSarah: "Ein ganzes Jahr lang ausschließlich Horrorfilme schauen zu müssen, wäre eine leichtere Strafe, als ein Jahr lang nur Bedienungsanleitungen zu lesen.",
+                textCouch: "Unterhaltungs-Albtraum: Wer von uns beiden langweilt sich bei trockenen, rein funktionalen Texten oder Aufgaben schneller zu Tode?"
+            },
+            {
+                id: "b1_87", cat: "cat8",
+                textBenni: "Werkzeug oder Baumaterialien nach einem kleinen Projekt tagelang im Wohnraum liegenzulassen, ist für mich kein Weltuntergang.",
+                textSarah: "Dass Benni Werkzeug nach getaner Arbeit tagelang als Dekoration auf dem Tisch liegen lässt, stört mein ästhetisches Empfinden massiv.",
+                textCouch: "Handwerker-Ordnung: Wer vergisst nach einer erfolgreichen Reparatur grundsätzlich das sofortige Aufräumen des Equipments?"
+            },
+            {
+                id: "b1_88", cat: "cat9",
+                textBenni: "Vor der Hotelbuchung stundenlang negative Bewertungen zu analysieren, ist der einzige Schutz vor einer miesen Matratze oder schlechtem Service.",
+                textSarah: "Vor der Hotelbuchung stundenlang negative Bewertungen zu analysieren, ist eine paranoide Angewohnheit von Benni, die Zeit frisst.",
+                textCouch: "Bewertungs-Check: Wer von uns beiden lässt sich von einzelnen schlechten Rezensionen im Internet schneller verunsichern?"
+            },
+            {
+                id: "b1_89", cat: "cat10",
+                textBenni: "Das exakte Timing des Mittagsschlafs entscheidet bei unserem Sohn unbarmherzig darüber, ob der Abend harmonisch oder ein absolutes Drama wird.",
+                textSarah: "Das exakte Timing des Mittagsschlafs entscheidet bei unserem Sohn unbarmherzig darüber, ob der Abend harmonisch oder ein absolutes Drama wird.",
+                textCouch: "Schlaf-Taktik: Wer von uns beiden reagiert strategisch nervöser, wenn das Zeitfenster für den Tagschlaf verpasst wird?"
+            },
+            {
+                id: "b1_90", cat: "cat0",
+                textBenni: "Verpackungen in der Speisekammer mit roher Gewalt aufzureißen, statt eine Schere zu nutzen, hinterlässt ein absolut unordentliches Chaos.",
+                textSarah: "Dass Benni Cornflakes- oder Nudelpackungen mit roher Gewalt aufreißt, führt dazu, dass der Inhalt permanent im Schrank herumfliegt.",
+                textCouch: "Brutal-Opening: Wer öffnet verschlossene Lebensmittelverpackungen im Alltag deutlich zerstörerischer?"
+            },
+		// --- BLOCK 3 (EINTRÄGE 91 BIS 135) ---
+       
+            {
+                id: "b1_91", cat: "cat0",
+                textBenni: "Das Altpapier im Flur so hoch zu stapeln, bis es beim kleinsten Luftzug von alleine umkippt, nervt gewaltig.",
+                textSarah: "Dass Benni das Altpapier im Flur stapelt, bis es beim kleinsten Luftzug von alleine umkippt, nervt gewaltig.",
+                textCouch: "Papier-Turm: Wer ignoriert den überfüllten Altpapier-Korb im Alltag erfolgreicher?"
+            },
+            {
+                id: "b1_92", cat: "cat1",
+                textBenni: "Wichtige Passwörter chronisch zu vergessen und sich jedes Mal neu zu sperren, kostet einfach unnötig Zeit.",
+                textSarah: "Dass Benni seine Passwörter chronisch vergisst und sich überall sperrt, kostet im Alltag einfach unnötig Zeit.",
+                textCouch: "Passwort-Chaos: Wer von uns beiden kämpft regelmäßiger mit gesperrten Accounts und Verifizierungscodes?"
+            },
+            {
+                id: "b1_93", cat: "cat2",
+                textBenni: "Die Wickeltasche vor einem Ausflug nicht vorausschauend aufzufüllen, führt unterwegs unweigerlich in die Katastrophe.",
+                textSarah: "Die Wickeltasche vor einem Ausflug nicht vorausschauend aufzufüllen, führt unterwegs unweigerlich in die Katastrophe.",
+                textCouch: "Windel-Logistik: Wer checkt vor dem Verlassen des Hauses penibler, ob genug Feuchttücher und Ersatzkleidung an Bord sind?"
+            },
+            {
+                id: "b1_94", cat: "cat3",
+                textBenni: "Ein digitales Haushaltsbuch penibel zu führen, ist die einzige Möglichkeit, um größere Budget-Löcher zu verhindern.",
+                textSarah: "Ein digitales Haushaltsbuch penibel zu führen, ist die einzige Möglichkeit, um größere Budget-Löcher zu verhindern.",
+                textCouch: "Kassensturz: Wer von uns beiden plädiert im Alltag vehementer für eine strikte Kostenkontrolle?"
+            },
+            {
+                id: "b1_95", cat: "cat4",
+                textBenni: "Gemeinsame Playlists für gemütliche Abende auf der Couch zu erstellen, stärkt unsere Atmosphäre spürbar.",
+                textSarah: "Gemeinsame Playlists für gemütliche Abende auf der Couch zu erstellen, stärkt unsere Atmosphäre spürbar.",
+                textCouch: "Soundtrack der Beziehung: Wer von uns beiden übernimmt beim Entspannen auf dem Sofa meistens die musikalische Kontrolle?"
+            },
+            {
+                id: "b1_96", cat: "cat5",
+                textBenni: "Das Proteinpulver für den Shake exakt auf das Gramm genau abzuwiegen, ist für den maximalen Trainingserfolg absolut notwendig.",
+                textSarah: "Dass Benni sein Proteinpulver exakt auf das Gramm genau abwiegt, hat für mich Züge von einer leichten Labor-Macke.",
+                textCouch: "Gramm-Zähler: Wer nimmt es bei der Portionierung von Fitness-Nahrung oder Gewürzen im Alltag extrem genau?"
+            },
+            {
+                id: "b1_97", cat: "cat6",
+                textBenni: "Dicke, asiatische Udon-Nudeln schlagen geschmacklich und von der Konsistenz her fast jede klassische italienische Pasta.",
+                textSarah: "Dicke, asiatische Udon-Nudeln schlagen geschmacklich und von der Konsistenz her fast jede klassische italienische Pasta.",
+                textCouch: "Nudel-Duell: Wer von uns beiden tendiert im Zweifel eher zur asiatischen statt zur europäischen Küche?"
+            },
+            {
+                id: "b1_98", cat: "cat7",
+                textBenni: "Die harte Wahl: Ein Leben lang nur noch lauwarm duschen oder ein Leben lang absolut kein rundenbasiertes PC-Spiel mehr anrühren?",
+                textSarah: "Die harte Wahl: Ein Leben lang nur noch lauwarm duschen oder ein Leben lang absolut kein rundenbasiertes PC-Spiel mehr anrühren?",
+                textCouch: "Verzicht-Check: Wie tief sitzt Bennis Leidenschaft für seine Gaming-Kultur im Vergleich zum täglichen Badezimmer-Komfort?"
+            },
+            {
+                id: "b1_99", cat: "cat8",
+                textBenni: "Den Akku des E-Bikes nach einer langen Fahrt nicht direkt wieder an den Strom zu hängen, blockiert die nächste spontane Tour.",
+                textSarah: "Den Akku des E-Bikes nach einer langen Fahrt nicht direkt wieder an den Strom zu hängen, blockiert die nächste spontane Tour.",
+                textCouch: "Lade-Disziplin: Wer vergisst das rechtzeitige Laden von technischen Geräten oder Fahrzeugen im Alltag öfter?"
+            },
+            {
+                id: "b1_100", cat: "cat9",
+                textBenni: "Den Koffer erst am späten Vorabend der Abreise zu packen, spart tagelanges Chaos im Schlafzimmer.",
+                textSarah: "Den Koffer erst am späten Vorabend der Abreise zu packen, sorgt bei mir schon beim Zuschauen für Schweißausbrüche.",
+                textCouch: "Pack-Zeitpunkt: Last-Minute-Typ vs. Drei-Tage-Vorher-Planer – wer von uns beiden hat das bessere Zeitmanagement?"
+            },
+            {
+                id: "b1_101", cat: "cat10",
+                textBenni: "Wenn der Kleine nachts aufwacht, wird viel zu oft im Stillen abgewartet, wer sich als Erster aus dem Bett quält.",
+                textSarah: "Wenn der Kleine nachts aufwacht, wird viel zu oft im Stillen abgewartet, wer sich als Erster aus dem Bett quält.",
+                textCouch: "Nachtwache: Wer von uns beiden stellt sich im Halbschlaf tot, um dem nächtlichen Einsatz im Kinderzimmer zu entgehen?"
+            },
+            {
+                id: "b1_102", cat: "cat0",
+                textBenni: "Messer mit der scharfen Klinge nach oben in den Besteckkorb der Spülmaschine zu stecken, ist eine handfeste Verletzungsgefahr.",
+                textSarah: "Dass Benni die Messer mit der Klinge nach oben in den Besteckkorb steckt, ist eine handfeste Verletzungsgefahr.",
+                textCouch: "Sicherheits-Check: Wer räumt das Besteck absolut chaotisch ein, ohne an das spätere Ausräumen zu denken?"
+            },
+            {
+                id: "b1_103", cat: "cat1",
+                textBenni: "Im Kino an einer völlig unpassenden, ernsten Stelle plötzlich laut loszulachen, ist ein peinlicher Reflex von mir.",
+                textSarah: "Im Kino an einer völlig unpassenden, ernsten Stelle plötzlich laut loszulachen, ist ein peinlicher Reflex von Benni.",
+                textCouch: "Humor-Verschiebung: Wer lacht im Alltag eher über Dinge, die eigentlich überhaupt nicht witzig oder sogar makaber sind?"
+            },
+            {
+                id: "b1_104", cat: "cat2",
+                textBenni: "Beim Schieben des Kinderwagens eine gefühlte Formel-1-Geschwindigkeit an den Tag zu legen, spart einfach Zeit.",
+                textSarah: "Wenn Benni den Kinderwagen schiebt, legt er ein Tempo vor, das eher an ein Sprint-Training erinnert.",
+                textCouch: "Spaziergang-Pace: Wer gibt bei gemeinsamen Ausflügen zu Fuß unbarmherzig das schnellere Tempo vor?"
+            },
+            {
+                id: "b1_105", cat: "cat3",
+                textBenni: "Berufliche Weiterwicklungen und Karriere-Ziele müssen von uns im Alltag viel strategischer besprochen werden.",
+                textSarah: "Berufliche Weiterwicklungen und Karriere-Ziele müssen von uns im Alltag viel strategischer besprochen werden.",
+                textCouch: "Zukunfts-Fokus: Nehmen wir uns genug Zeit, um über die beruflichen Pläne und Ambitionen des Partners zu sprechen?"
+            },
+            {
+                id: "b1_106", cat: "cat4",
+                textBenni: "Unerwartete Küsse im Vorbeigehen zwischen Tür und Angel bedeuten mir im stressigen Alltag verdammt viel.",
+                textSarah: "Unerwartete Küsse im Vorbeigehen zwischen Tür und Angel bedeuten mir im stressigen Alltag verdammt viel.",
+                textCouch: "Micro-Dose-Romantik: Wer von uns beiden initiiert im Alltags-Chaos öfter eine schnelle, liebevolle Nähe?"
+            },
+            {
+                id: "b1_107", cat: "cat5",
+                textBenni: "Die Sportbekleidung nach dem Training direkt separat zu waschen, verhindert, dass die gesamte Wäsche den Geruch annimmt.",
+                textSarah: "Die Sportbekleidung nach dem Training direkt separat zu waschen, verhindert, dass die gesamte Wäsche den Geruch annimmt.",
+                textCouch: "Wäsche-Macken: Wer wirft verschwitzte Gym-Klamotten gedankenlos in den normalen Korb zu den Alltagstextilien?"
+            },
+            {
+                id: "b1_108", cat: "cat6",
+                textBenni: "Die Knoblauchmenge im Rezept standardmäßig zu verdreifachen, verfeinert fast jedes herzhafte Gericht.",
+                textSarah: "Dass Benni die Knoblauchmenge in absolut jedem Rezept eigenmächtig verdreifacht, grenzt an geschmackliche Sabotage.",
+                textCouch: "Knoblauch-Kult: Wer übertreibt es beim Kochen massiv mit intensiven Gewürzen und Zutaten?"
+            },
+            {
+                id: "b1_109", cat: "cat7",
+                textBenni: "Einen Monat lang ausschließlich von billigem Fast Food leben zu müssen, wäre schlimmer als ein Monat ohne jegliches Smartphone.",
+                textSarah: "Einen Monat lang ausschließlich von billigem Fast Food leben zu müssen, wäre schlimmer als ein Monat ohne jegliches Smartphone.",
+                textCouch: "Qualitäts-Check: Wer von uns beiden würde bei einer kulinarischen Schock-Diät schneller das emotionale Handtuch werfen?"
+            },
+            {
+                id: "b1_110", cat: "cat8",
+                textBenni: "Den Paketboten zu verpassen, weil man am PC oder beim Sport die Kopfhörer zu laut aufgedreht hat, ist extrem ärgerlich.",
+                textSarah: "Dass Benni den Paketboten verpasst, weil er die Kopfhörer am PC zu laut aufgedreht hat, passiert gefühlt ständig.",
+                textCouch: "Kopfhörer-Trance: Wer schottet sich akustisch so radikal von der Außenwelt ab, dass er nichts mehr mitbekommt?"
+            },
+            {
+                id: "b1_111", cat: "cat9",
+                textBenni: "Die Urlaubsfotos direkt in der ersten Woche nach der Rückreise zu sortieren, verhindert, dass sie als digitaler Datenmüll enden.",
+                textSarah: "Die Urlaubsfotos direkt in der ersten Woche nach der Rückreise zu sortieren, verhindert, dass sie als digitaler Datenmüll enden.",
+                textCouch: "Foto-Disziplin: Wer drückt sich erfolgreicher vor dem Ausmisten und Erstellen von gemeinsamen Fotoalben?"
+            },
+            {
+                id: "b1_112", cat: "cat10",
+                textBenni: "Den Kindersitz im Auto im absoluten Rekordtempo ein- und auszubauen, gehört mittlerweile zu meinen echten Talenten.",
+                textSarah: "Den Kindersitz im Auto im absoluten Rekordtempo ein- und auszubauen, gehört mittlerweile zu Bennis echten Talenten.",
+                textCouch: "Auto-Logistik: Wer von uns beiden kämpft frustrierter mit den Isofix-Halterungen und Gurtsystemen im Fahrzeug?"
+            },
+            {
+                id: "b1_113", cat: "cat0",
+                textBenni: "Klopapierrollen grundsätzlich so aufzuhängen, dass das Blatt zur Wand zeigt, widerspricht jeglicher Logik.",
+                textSarah: "Klopapierrollen grundsätzlich so aufzuhängen, dass das Blatt zur Wand zeigt, widerspricht jeglicher Logik.",
+                textCouch: "Bad-Kult: Wer von uns beiden achtet penibel auf die absolut richtige Ausrichtung der Toilettenpapierrolle?"
+            },
+            {
+                id: "b1_114", cat: "cat1",
+                textBenni: "Im Supermarkt zielsicher an der Kasse immer die Schlange zu erwischen, an der es am längsten dauert, ist mein persönlicher Fluch.",
+                textSarah: "Im Supermarkt zielsicher an der Kasse immer die Schlange zu erwischen, an der es am längsten dauert, ist Bennis persönlicher Fluch.",
+                textCouch: "Kassen-Pech: Wer von uns beiden hat beim Einkaufen das deutlich schlechtere Händchen bei der Schlangen-Wahl?"
+            },
+            {
+                id: "b1_115", cat: "cat2",
+                textBenni: "Die Kindersicherungen im Haus so massiv zu verbauen, dass selbst ein Erwachsener sie kaum aufkriegt, ist absolut übertrieben.",
+                textSarah: "Die Kindersicherungen im Haus so massiv zu verbauen, dass selbst ein Erwachsener sie kaum aufkriegt, ist absolut notwendig.",
+                textCouch: "Sicherheits-Wahn: Wer übertreibt es beim Thema 'kindersichere Wohnung' in den Augen des anderen massiv?"
+            },
+            {
+                id: "b1_116", cat: "cat3",
+                textBenni: "Sparpläne, Aktien und Altersvorsorge einmal im Monat detailliert zu analysieren, beruhigt die Nerven ungemein.",
+                textSarah: "Dass Benni Sparpläne und Kurse monatlich detailliert analysiert, halte ich für ein ziemlich trockenes Hobby.",
+                textCouch: "Zukunfts-Vorsorge: Wer von uns beiden blickt strategischer und kontrollierter auf die langfristigen Finanzen?"
+            },
+            {
+                id: "b1_117", cat: "cat4",
+                textBenni: "Kleine handgeschriebene Zettel oder Botschaften im Portemonnaie des anderen zu verstecken, ist eine richtig gute Geste.",
+                textSarah: "Kleine handgeschriebene Zettel oder Botschaften im Portemonnaie des anderen zu verstecken, ist eine richtig gute Geste.",
+                textCouch: "Analoge Romantik: Wer von uns beiden ist kreativer beim Verstecken von kleinen Liebesbotschaften im Alltag?"
+            },
+            {
+                id: "b1_118", cat: "cat5",
+                textBenni: "Das Kabelmanagement am Gaming-Schreibtisch absolut perfekt und unsichtbar zu ordnen, sorgt für den nötigen Fokus beim Zocken.",
+                textSarah: "Das Kabelmanagement am Schreibtisch absolut perfekt zu ordnen, ist eine optische Detail-Macke von Benni.",
+                textCouch: "Kabel-Ordnung: Wer flucht lauter über herumliegende Ladekabel und unordentliche Steckerleisten im Wohnraum?"
+            },
+            {
+                id: "b1_119", cat: "cat6",
+                textBenni: "Eine gute Tomatensoße muss mindestens drei Stunden leise köcheln – alles andere schmeckt einfach nach flüssiger Tomate.",
+                textSarah: "Dass Benni eine einfache Tomatensoße stundenlang einkochen lässt, erfordert am hungrigen Feierabend zu viel Geduld.",
+                textCouch: "Aroma-Kult: Wer hat beim Kochen die größere Ausdauer für komplexe Prozesse und lange Garzeiten?"
+            },
+            {
+                id: "b1_120", cat: "cat7",
+                textBenni: "Die Wahl: Für den Rest des Lebens im Hochsommer dicke Wollsocken im Bett tragen müssen oder jeden Morgen um 5 Uhr laufen gehen?",
+                textSarah: "Die Wahl: Für den Rest des Lebens im Hochsommer dicke Wollsocken im Bett tragen müssen oder jeden Morgen um 5 Uhr laufen gehen?",
+                textCouch: "Eisene Disziplin: Wer würde das harte Training am frühen Morgen wählen, nur um die Wollsocken im Bett zu umgehen?"
+            },
+            {
+                id: "b1_121", cat: "cat8",
+                textBenni: "Die Räder des Kinderwagens nach jedem Spaziergang im Regen akribisch zu reinigen, bevor er in den Flur darf, ist völlig übertrieben.",
+                textSarah: "Die Räder des Kinderwagens nach jedem Spaziergang im Regen akribisch zu reinigen, verhindert den feuchten Dreck im Eingangsbereich.",
+                textCouch: "Sauberkeits-Fokus: Wer sieht Schmutzspuren im Eingangsbereich entspannter und wer greift sofort zum Putzlappen?"
+            },
+            {
+                id: "b1_122", cat: "cat9",
+                textBenni: "Spontane Wochenendtrips komplett ohne feste Hotelbuchung oder Route zu starten, gibt mir ein unbändiges Gefühl von Freiheit.",
+                textSarah: "Spontane Wochenendtrips komplett ohne feste Hotelbuchung oder Route zu starten, erzeugt bei mir pures logistisches Unbehagen.",
+                textCouch: "Spontaneität vs. Planung: Wer braucht für einen Kurztrip zwingend das Sicherheitsnetz einer festen Buchung?"
+            },
+            {
+                id: "b1_123", cat: "cat10",
+                textBenni: "Beim zukünftigen Elternabend oder offiziellen Terminen unauffällig in der letzten Reihe abzutauchen, ist meine absolute Strategie.",
+                textSarah: "Beim zukünftigen Elternabend oder offiziellen Terminen unauffällig in der letzten Reihe abzutauchen, ist typisch für Benni.",
+                textCouch: "Bürokratie-Flucht: Wer von uns beiden drückt sich geschickter vor offiziellen, trockenen Elterngesprächen und Terminen?"
+            },
+            {
+                id: "b1_124", cat: "cat0",
+                textBenni: "Den benutzten Küchenschwamm wochenlang nicht auszutauschen, ist unhygienisch und hinterlässt beim Putzen kein gutes Gefühl.",
+                textSarah: "Dass Benni den benutzten Küchenschwamm wochenlang nicht austauscht, finde ich absolut unhygienisch.",
+                textCouch: "Schwamm-Verschleiß: Wer achtet penibler auf den regelmäßigen Wechsel der Reinigungsutensilien in der Küche?"
+            },
+            {
+                id: "b1_125", cat: "cat1",
+                textBenni: "Jede Aufbauanleitung komplett zu ignorieren und Möbel rein nach Intuition zusammenzubauen, ist der einzig sportliche Weg.",
+                textSarah: "Dass Benni jede IKEA-Anleitung ignoriert und Freistil baut, führt am Ende nur dazu, dass drei Schrauben übrig bleiben.",
+                textCouch: "Handwerker-Ehre: Wer studiert die Anleitung akribisch Schritt für Schritt und wer baut einfach direkt drauf los?"
+            },
+            {
+                id: "b1_126", cat: "cat2",
+                textBenni: "Kinderspielzeug, das nervige elektronische Geräusche im Dauerschleifen-Modus macht, entsorge ich am liebsten klammheimlich.",
+                textSarah: "Kinderspielzeug, das nervige elektronische Geräusche im Dauerschleifen-Modus macht, entsorgt Benni am liebsten klammheimlich.",
+                textCouch: "Lärm-Allergie: Wer verliert bei schrillem, lautem Plastikspielzeug im Kinderzimmer deutlich schneller die Fassung?"
+            },
+            {
+                id: "b1_127", cat: "cat3",
+                textBenni: "Zinsen, Tarife und Konditionen im Kopf mitrechnen zu können, spart im Gespräch mit Dienstleistern bares Geld.",
+                textSarah: "Dass Benni Zinsen, Tarife und Konditionen im Kopf mitrechnen kann, ist praktisch, wirkt aber manchmal leicht nerdig.",
+                textCouch: "Zahlen-Genie: Wer von uns beiden verhandelt im Alltag bei Verträgen oder Anschaffungen zäher um den besten Preis?"
+            },
+            {
+                id: "b1_128", cat: "cat4",
+                textBenni: "Über tiefste persönliche Zukunftsvisionen absolut offen zu sprechen, erfordert auf dem Sofa im Alltag echte Überwindung.",
+                textSarah: "Über tiefste persönliche Zukunftsvisionen absolut offen zu sprechen, erfordert auf dem Sofa im Alltag echte Überwindung.",
+                textCouch: "Zukunfts-Talk: Schaffen wir es abseits von Orga-Themen noch, über unsere ganz persönlichen Träume zu sprechen?"
+            },
+            {
+                id: "b1_129", cat: "cat5",
+                textBenni: "Die Supplements-Dosen im Schrank perfekt berührungssicher und nach Größe aufzureihen, beruhigt das optische Empfinden.",
+                textSarah: "Dass Benni seine Supplements-Dosen perfekt nach Größe aufreiht, ist eine extreme Symmetrie-Macke von ihm.",
+                textCouch: "Symmetrie-Tick: Wer von uns beiden braucht in Schränken und Regalen eine absolut akkurate Ordnung?"
+            },
+            {
+                id: "b1_130", cat: "cat6",
+                textBenni: "Ein hochwertiges Rindersteak darf maximal medium-rare auf den Teller – alles andere ruiniert das teure Fleisch komplett.",
+                textSarah: "Ein hochwertiges Rindersteak darf maximal medium-rare auf den Teller – alles andere ruiniert das teure Fleisch komplett.",
+                textCouch: "Fleisch-Kultur: Wer vertritt am Grill oder Herd die radikalere Meinung bezüglich des perfekten Garpunkts?"
+            },
+            {
+                id: "b1_131", cat: "cat7",
+                textBenni: "Die Wahl: Bei jedem Einkauf den Zettel zu Hause vergessen müssen oder ein ganzes Jahr lang absolut kein Smartphone nutzen?",
+                textSarah: "Die Wahl: Bei jedem Einkauf den Zettel zu Hause vergessen müssen oder ein ganzes Jahr lang absolut kein Smartphone nutzen?",
+                textCouch: "Abhängigkeits-Check: Wer von uns beiden ist im Alltag digitaler gefangen und würde ohne Handy komplett untergehen?"
+            },
+            {
+                id: "b1_132", cat: "cat8",
+                textBenni: "Die Tasche oder das Zubehör des Kinderwagens wochenlang mitten im engen Flur als Stolperfalle zu parken, nervt tierisch.",
+                textSarah: "Dass Benni die Tasche oder das Zubehör des Kinderwagens mitten im Flur als Stolperfalle parkt, nervt mich tierisch.",
+                textCouch: "Flur-Barriere: Wer stellt im Eingangsbereich regelmäßig Dinge ab, die eigentlich in den Abstellraum gehören?"
+            },
+            {
+                id: "b1_133", cat: "cat9",
+                textBenni: "Im Urlaub stundenlang unproduktiv am Strand zu liegen, fühlt sich für mich nach purem Leerlauf statt nach Erholung an.",
+                textSarah: "Im Urlaub nonstop von einer Sehenswürdigkeit zur nächsten zu hetzen, hat für mich absolut nichts mit Erholung zu tun.",
+                textCouch: "Urlaubs-Rhythmus: Action und Bewegung vs. absolute Ruhe und Entspannung am Strand – wer bremst wen aus?"
+            },
+            {
+                id: "b1_134", cat: "cat10",
+                textBenni: "Beim Vorlesen von Kinderbüchern die Stimmen extrem übertrieben zu verstellen, gehört für mich zum Pflichtprogramm.",
+                textSarah: "Beim Vorlesen von Kinderbüchern verstellt Benni die Stimmen so extrem übertrieben, dass der Kleine hellwach statt müde wird.",
+                textCouch: "Vorlese-Stil: Wer von uns beiden verkörpert beim abendlichen Buch-Vorlesen die deutlich theatralischere Rolle?"
+            },
+            {
+                id: "b1_135", cat: "cat0",
+                textBenni: "Halbvolle Wasser- oder Saftgläser überall in der Wohnung auf Sideboards stehenzulassen, sieht einfach unordentlich aus.",
+                textSarah: "Dass Benni halbvolle Gläser überall in der Wohnung auf Sideboards stehen lässt, sieht unordentlich aus.",
+                textCouch: "Gläser-Spur: Wer hinterlässt im Laufe des Tages eine unübersehbare Spur von benutzten Trinkgefäßen im Haus?"
+            }
+		// --- BLOCK 4 (EINTRÄGE 136 BIS 180) ---
+        ,
+        {
+            id: "b1_136", cat: "cat1",
+            textBenni: "Den Handtuchheizkörper im Badezimmer permanent auf maximaler Stufe laufen zu lassen, ist reine Energieverschwendung.",
+            textSarah: "Dass Benni den Handtuchheizkörper im Badezimmer permanent auf maximaler Stufe laufen lässt, ist reine Energieverschwendung.",
+            textCouch: "Heizungsterror: Wer von uns beiden dreht die Thermostate im Haus unbemerker nach oben oder unten?"
+        },
+        {
+            id: "b1_137", cat: "cat2",
+            textBenni: "Nachts um 3 Uhr im stockdunklen Schlafzimmer barfuß auf der Suche nach dem verlorenen Schnuller zu sein, zerrt an den Nerven.",
+            textSarah: "Nachts um 3 Uhr im stockdunklen Schlafzimmer barfuß auf der Suche nach dem verlorenen Schnuller zu sein, zerrt an den Nerven.",
+            textCouch: "Schnuller-Suche: Wer von uns beiden hat im Dunkeln den besseren Tastsinn, um den Kleinen schnell zu beruhigen?"
+        },
+        {
+            id: "b1_138", cat: "cat3",
+            textBenni: "Teure Streaming-Abos oder Apps monatelang ungenutzt weiterlaufen zu lassen, ist absolute Geldverschwendung.",
+            textSarah: "Teure Streaming-Abos oder Apps monatelang ungenutzt weiterlaufen zu lassen, ist absolute Geldverschwendung.",
+            textCouch: "Abo-Leichen: Wer von uns beiden behält den besseren Überblick über unsere monatlichen digitalen Fixkosten?"
+        },
+        {
+            id: "b1_139", cat: "cat4",
+            textBenni: "Abends beim gemeinsamen Film fast rituell nach zehn Minuten auf der Couch einzuschlafen, killt die Paar-Atmosphäre.",
+            textSarah: "Dass Benni abends beim gemeinsamen Film fast rituell nach zehn Minuten auf der Couch einschläft, killt die Paar-Atmosphäre.",
+            textCouch: "Couch-Vibe: Wer von uns beiden mutiert ab 21:30 Uhr auf dem Sofa unaufhaltsam zum absoluten Faultier?"
+        },
+        {
+            id: "b1_140", cat: "cat5",
+            textBenni: "Die exakte Tiefe bei schweren Kniebeugen im Gym penibel zu kontrollieren, ist für den Muskelaufbau unverzichtbar.",
+            textSarah: "Die exakte Tiefe bei schweren Kniebeugen im Gym penibel zu kontrollieren, ist für Benni unverzichtbar.",
+            textCouch: "Perfektions-Drang: Wer von uns beiden beäugt die eigene Ausführung bei Hobbies oder Sport deutlich kritischer?"
+        },
+        {
+            id: "b1_141", cat: "cat6",
+            textBenni: "Das Nudelwasser muss so salzig sein wie Meerwasser – ansonsten schmeckt die beste Pasta am Ende nach absolut gar nichts.",
+            textSarah: "Dass Benni das Nudelwasser salzt, als gäbe es kein Morgen mehr, halte ich für absolut übertrieben.",
+            textCouch: "Salz-Diktat: Wer von uns beiden geht beim Kochen oder Nachwürzen deutlich risikoreicher mit dem Salzstreuer um?"
+        },
+        {
+            id: "b1_142", cat: "cat7",
+            textBenni: "Die Wahl: Für den Rest des Lebens auf absolut jedes PC- und Konsolenspiel verzichten oder nie wieder einen Urlaubsflieger betreten dürfen?",
+            textSarah: "Die Wahl: Für den Rest des Lebens auf absolut jedes PC- und Konsolenspiel verzichten oder nie wieder einen Urlaubsflieger betreten dürfen?",
+            textCouch: "Kultur-Verzicht: Wer würde ohne digitale Welten oder ohne weite Reisen schneller den Verstand verlieren?"
+        },
+        {
+            id: "b1_143", cat: "cat8",
+            textBenni: "Das E-Bike nach einer Schlammfahrt tagelang ungereinigt in der Garage stehenzulassen, ruiniert auf Dauer die teure Technik.",
+            textSarah: "Das E-Bike nach einer Schlammfahrt tagelang ungereinigt in der Garage stehenzulassen, ruiniert auf Dauer die teure Technik.",
+            textCouch: "Material-Pflege: Wer von uns beiden nimmt die Reinigung und Wartung unserer Fahrräder oder Ausrüstung ernster?"
+        },
+        {
+            id: "b1_144", cat: "cat9",
+            textBenni: "Drei Stunden vor Abflug gestresst am Flughafen zu stehen, ist absolute und unnötige Zeitverschwendung.",
+            textSarah: "Weniger als drei Stunden vor Abflug am Flughafen zu sein, sorgt bei mir für massiven und unerträglichen Stress.",
+            textCouch: "Flughafen-Pace: Wer drängt bei der Reiseplanung auf maximale Pufferzeiten und wer reist lieber Last-Minute an?"
+        },
+        {
+            id: "b1_145", cat: "cat10",
+            textBenni: "Wenn der Kleine tagsüber schläft, sollte man die Zeit für den eigenen Akku nutzen, statt panisch den Haushalt zu machen.",
+            textSarah: "Wenn der Kleine tagsüber schläft, sollte man die Zeit für den eigenen Akku nutzen, statt panisch den Haushalt zu machen.",
+            textCouch: "Power-Nap: Wer von uns beiden kann tagsüber innerhalb von zwei Minuten auf Knopfdruck einschlafen, um Schlaf nachzuholen?"
+        },
+        {
+            id: "b1_146", cat: "cat0",
+            textBenni: "Hochwertige Küchenmesser stumpf in die Spülmaschine zu werfen, statt sie kurz per Hand abzuspülen, ist pure Bequemlichkeit.",
+            textSarah: "Hochwertige Küchenmesser stumpf in die Spülmaschine zu werfen, statt sie kurz per Hand abzuspülen, ist pure Bequemlichkeit.",
+            textCouch: "Messer-Pflege: Wer missachtet die goldenen Regeln der Küchenutensilien-Reinigung aus reiner Faulheit?"
+        },
+        {
+            id: "b1_147", cat: "cat1",
+            textBenni: "Bei absoluter Stille im Raum extrem laute Schluck- oder Kaugeräusche von sich zu geben, strapaziert meine Nerven massiv.",
+            textSarah: "Wenn Benni bei absoluter Stille trinkt, sind die Schluckgeräusche in der gesamten Wohnung unüberhörbar.",
+            textCouch: "Geräusch-Toleranz: Wer reagiert empfindlicher auf die ganz normalen, alltäglichen Körpergeräusche des Partners?"
+        },
+        {
+            id: "b1_148", cat: "cat2",
+            textBenni: "Zu viele blinkende Plastik-Geschenke von Verwandten verstopfen das Kinderzimmer und überfordern unseren Sohn komplett.",
+            textSarah: "Zu viele blinkende Plastik-Geschenke von Verwandten verstopfen das Kinderzimmer und überfordern unseren Sohn komplett.",
+            textCouch: "Geschenke-Bremse: Wer von uns beiden zieht im familiären Umfeld konsequenter die Reißleine bei zu viel Spielzeug-Konsum?"
+        },
+        {
+            id: "b1_149", cat: "cat3",
+            textBenni: "Bei Werkzeug oder Haushaltsgeräten billig zu kaufen bedeutet unweigerlich, dass man am Ende zweimal kauft.",
+            textSarah: "Bei Werkzeug oder Haushaltsgeräten billig zu kaufen bedeutet unweigerlich, dass man am Ende zweimal kauft.",
+            textCouch: "Pragmatismus vs. Geiz: Wer von uns beiden rechtfertigt teure Anschaffungen grundsätzlich mit dem Argument der Haltbarkeit?"
+        },
+        {
+            id: "b1_150", cat: "cat4",
+            textBenni: "Ein langer, intensiver Blick und ein ehrliches 'Danke für alles' geht im aktuellen Funktionieren als Eltern komplett unter.",
+            textSarah: "Ein langer, intensiver Blick und ein ehrliches 'Danke für alles' geht im aktuellen Funktionieren als Eltern komplett unter.",
+            textCouch: "Wortlose Verbindung: Schaffen wir es im Alltagstrott noch, uns abseits der Kinderlogistik tief in die Augen zu schauen?"
+        },
+        {
+            id: "b1_151", cat: "cat5",
+            textBenni: "Stundenlang Foren und Guides nach dem absolut perfekten Build für ein Action-RPG zu durchforsten, ist für mich pure Erholung.",
+            textSarah: "Dass Benni stundenlang Tabellen und Guides für seine PC-Spiele studiert, wirkt auf mich wie ein ziemlich trockenes Hobby.",
+            textCouch: "Nerd-Modus: Wer von uns beiden knallt sich bei seinen Hobbies tiefer in theoretische Details und Optimierungen?"
+        },
+        {
+            id: "b1_152", cat: "cat6",
+            textBenni: "Fertige Gewürzmischungen aus dem Supermarkt zu nutzen ist beim Kochen einfallslos – echtes Handwerk braucht den Mörser.",
+            textSarah: "Dass Benni jede Zutat einzeln mörsern muss, verlängert die Wartezeit auf das Essen am Abend oft unnötig.",
+            textCouch: "Küchen-Stolz: Wer von uns beiden betreibt beim Kochen insgeheim den deutlich größeren, fast schon arroganten Aufwand?"
+        },
+        {
+            id: "b1_153", cat: "cat7",
+            textBenni: "Die harte Wahl: Ein ganzes Jahr lang ausschließlich Socken mit fetten Löchern tragen oder ein Jahr lang jeden Morgen um 4 Uhr trainieren?",
+            textSarah: "Die harte Wahl: Ein ganzes Jahr lang ausschließlich Socken mit fetten Löchern tragen oder ein Jahr lang jeden Morgen um 4 Uhr trainieren?",
+            textCouch: "Disziplin-Check: Wer von uns beiden würde für die optische Ordnung der Socken das brutale Frühaufsteher-Workout wählen?"
+        },
+        {
+            id: "b1_154", cat: "cat8",
+            textBenni: "Einkäufe planlos in unzähligen labbrigen Plastiktüten statt in einer stabilen, durchdachten Klappbox nach Hause zu schleppen, nervt.",
+            textSarah: "Einkäufe planlos in unzähligen labbrigen Plastiktüten statt in einer stabilen, durchdachten Klappbox nach Hause zu schleppen, nervt.",
+            textCouch: "Einkaufs-Logistik: Wer von uns beiden plant den Transport der Lebensmittel vom Supermarkt ins Auto strukturierter?"
+        },
+        {
+            id: "b1_155", cat: "cat9",
+            textBenni: "Das gesamte Gepäck am allerersten Tag im Hotelzimmer akribisch in die Schränke einzuräumen, ist gelebte Spießigkeit.",
+            textSarah: "Zwei Wochen lang aus dem offenen, wühligen Koffer zu leben, erzeugt bei mir im Urlaub sofort ein unordentliches Gefühl.",
+            textCouch: "Schrank-Ordnung: Wer von uns beiden mutiert im Urlaub zum Instant-Auspacker und wer lebt lieber im Koffer-Chaos?"
+        },
+        {
+            id: "b1_156", cat: "cat10",
+            textBenni: "Aus reiner Zeitnot oder Erschöpfung beim Kleinen auf fertige Gläschen zurückzugreifen, erzeugt bei mir insgeheim ein schlechtes Gewissen.",
+            textSarah: "Aus reiner Zeitnot oder Erschöpfung beim Kleinen auf fertige Gläschen zurückzugreifen, erzeugt bei mir insgeheim ein schlechtes Gewissen.",
+            textCouch: "Ernährungs-Druck: Setzen wir uns beim Thema 'frisch gekochter Babybrei' selbst viel zu sehr unter logistischen Stress?"
+        },
+        {
+            id: "b1_157", cat: "cat0",
+            textBenni: "Das hölzerne Schneidebrett nach der Benutzung nicht sofort heiß abzuspülen, ist küchentechnisch absolut fahrlässig.",
+            textSarah: "Dass Benni beim Kochen ein riesiges Schlachtfeld aus ungespülten Brettern hinterlässt, strapaziert meine Geduld.",
+            textCouch: "Hygiene-Check: Wer von uns beiden nimmt die sofortige Reinigung von Schneidebrettern und Messern genauer?"
+        },
+        {
+            id: "b1_158", cat: "cat1",
+            textBenni: "Den Haustürschlüssel von innen stecken zu lassen, sodass der andere trotz eigenem Schlüssel nicht reinkommt, ist extrem nervig.",
+            textSarah: "Dass Benni den Schlüssel von innen stecken lässt, sodass ich vor verschlossener Tür stehe, macht mich regelmäßig fassungslos.",
+            textCouch: "Aussperr-Gefahr: Wer von uns beiden blockiert durch unbedachte Gewohnheiten unbewusst den Alltag des Partners?"
+        },
+        {
+            id: "b1_159", cat: "cat2",
+            textBenni: "Unseren Sohn für ein Wochenende komplett bei den Großeltern abzugeben, erzeugt bei mir ein leichtes, unruhiges Kontrollverlust-Gefühl.",
+            textSarah: "Unseren Sohn für ein Wochenende komplett bei den Großeltern abzugeben, erzeugt bei mir ein leichtes, unruhiges Kontrollverlust-Gefühl.",
+            textCouch: "Loslass-Schmerz: Wem von uns beiden fällt es schwerer, die Verantwortung für den Kleinen für ein paar Tage komplett abzugeben?"
+        },
+        {
+            id: "b1_160", cat: "cat3",
+            textBenni: "Versicherungen für eine jährliche Ersparnis von 20 Euro mühsam zu wechseln, steht in absolut keinem Verhältnis zum bürokratischen Aufwand.",
+            textSarah: "Auch kleine Ersparnisse summieren sich am Ende des Jahres – Benni ist da manchmal einfach ein bisschen zu bequem.",
+            textCouch: "Pfennigfuchser: Wer von uns beiden optimiert Verträge und Kosten selbst bei winzigen Beträgen mit absolutem Ehrgeiz?"
+        },
+        {
+            id: "b1_161", cat: "cat4",
+            textBenni: "Ein spontaner Wochenend-Kurztrip komplett ohne Kind und Verpflichtungen steht im Moment ganz weit oben auf meiner Wunschliste.",
+            textSarah: "Ein spontaner Wochenend-Kurztrip komplett ohne Kind und Verpflichtungen steht im Moment ganz weit oben auf meiner Wunschliste.",
+            textCouch: "Paar-Flucht: Sehnen wir uns beide insgeheim nach einer schnellen Auszeit komplett ohne die Rollen als Mama und Papa?"
+        },
+        {
+            id: "b1_162", cat: "cat5",
+            textBenni: "Nach einem schweren, maximalen Satz Kreuzheben kurz völlig platt auf dem Gym-Boden zu liegen, gehört zum produktiven Training einfach dazu.",
+            textSarah: "Wenn Benni nach dem Training völlig zerstört im Haus herumliegt, wirkt das auf mich manchmal leicht theatralisch.",
+            textCouch: "Erschöpfungs-Show: Wer von uns beiden zelebriert die eigene körperliche Müdigkeit nach dem Sport oder der Arbeit intensiver?"
+        },
+        {
+            id: "b1_163", cat: "cat6",
+            textBenni: "Gekauftes Pesto aus dem Glas zu nutzen, statt es in fünf Minuten im Mixer frisch hochzuziehen, ist eine geschmackliche Beleidigung.",
+            textSarah: "Gekauftes Pesto aus dem Glas zu nutzen, statt es in fünf Minuten im Mixer frisch hochzuziehen, ist eine geschmackliche Beleidigung.",
+            textCouch: "Convenience-Veto: Wer von uns beiden weigert sich strikter, fertige Lebensmittel oder Fix-Produkte zu verwenden?"
+        },
+        {
+            id: "b1_164", cat: "cat7",
+            textBenni: "Die Wahl: Für den Rest des Lebens im Kino ausschließlich Filmtrailer statt Hauptfilme schauen dürfen oder nie wieder in ein Restaurant gehen?",
+            textSarah: "Die Wahl: Für den Rest des Lebens im Kino ausschließlich Filmtrailer statt Hauptfilme schauen dürfen oder nie wieder in ein Restaurant gehen?",
+            textCouch: "Genuss-Check: Welcher Verlust würde unsere gemeinsame Ausgeh- und Feierabendkultur härter im Kern treffen?"
+        },
+        {
+            id: "b1_165", cat: "cat8",
+            textBenni: "Den Reifendruck beim Auto oder Fahrrad monatelang zu ignorieren, bis das Fahrverhalten schwammig wird, ist absolut unverantwortlich.",
+            textSarah: "Den Reifendruck beim Auto oder Fahrrad monatelang zu ignorieren, bis das Fahrverhalten schwammig wird, ist absolut unverantwortlich.",
+            textCouch: "Technik-Check: Wer von uns beiden kümmert sich strukturierter um die basale Sicherheit unserer Fortbewegungsmittel?"
+        },
+        {
+            id: "b1_166", cat: "cat9",
+            textBenni: "Am Abreisetag das Hotelzimmer oder die Ferienwohnung absolut besenrein und ordentlich zu hinterlassen, ist eine Frage des Anstands.",
+            textSarah: "Am Abreisetag das Hotelzimmer oder die Ferienwohnung absolut besenrein und ordentlich zu hinterlassen, ist eine Frage des Anstands.",
+            textCouch: "Check-Out-Disziplin: Wer verfällt kurz vor der Schlüsselübergabe im Urlaub in einen leichten Kontroll- und Putzwahn?"
+        },
+        {
+            id: "b1_167", cat: "cat10",
+            textBenni: "Wenn das Wickeln innerhalb einer Stunde zum dritten Mal nötig ist, verliere ich im Badezimmer endgültig meinen Humor.",
+            textSarah: "Wenn das Wickeln innerhalb einer Stunde zum dritten Mal nötig ist, verliert Benni im Badezimmer endgültig seinen Humor.",
+            textCouch: "Windel-Verschleiß: Wer behält bei den unappetitlichen Endgegner-Aufgaben des Babyalltags die besseren Nerven?"
+        },
+        {
+            id: "b1_168", cat: "cat0",
+            textBenni: "Den Herd nach dem Kochen nicht sofort sauberzuwischen, brennt Fettspritzer und Reste nur unnötig und dauerhaft ein.",
+            textSarah: "Dass Benni den Herd nach seinen Koch-Sessions oft stundenlang dreckig stehen lässt, nervt mich beim Betreten der Küche.",
+            textCouch: "Herd-Disziplin: Wer hinterlässt nach dem Brutzeln die deutlich intensiveren Verkrustungen auf den Platten?"
+        },
+        {
+            id: "b1_169", cat: "cat1",
+            textBenni: "Beim Zähneputzen ununterbrochen wild durch die gesamte Wohnung zu laufen, ist eine ziemlich nervöse und seltsame Angewohnheit.",
+            textSarah: "Dass Benni beim Zähneputzen kilometerweit durch alle Zimmer wandert, ist eine extrem skurrile Angewohnheit von ihm.",
+            textCouch: "Bad-Flucht: Wer schafft es absolut nicht, die drei Minuten Zahnpflege einfach mal still vor dem Spiegel zu verbringen?"
+        },
+        {
+            id: "b1_170", cat: "cat2",
+            textBenni: "Den Kinderwagen mit Einkäufen und Taschen so massiv zu überladen, dass er fast nach hinten kippt, ist im Alltag ziemlich riskant.",
+            textSarah: "Den Kinderwagen mit Einkäufen und Taschen so massiv zu überladen, dass er fast nach hinten kippt, ist im Alltag ziemlich riskant.",
+            textCouch: "Kinderwagen-Tetris: Wer nutzt das Fahrgestell unseres Sohnes regelmäßiger als ungesicherten Lastentransporter?"
+        },
+        {
+            id: "b1_171", cat: "cat3",
+            textBenni: "Bei Handwerker- oder Dienstleistungsrechnungen jede einzelne Position dreimal auf Fehler zu prüfen, ist absolut kaufmännische Pflicht.",
+            textSarah: "Dass Benni jede Rechnung wie ein strenger Prüfer zerlegt, kostet Zeit, hat uns aber definitiv schon Geld gespart.",
+            textCouch: "Rechnungs-Check: Wer von uns beiden guckt beim Kleingedruckten und den finalen Summen deutlich genauer hin?"
+        },
+        {
+            id: "b1_172", cat: "cat4",
+            textBenni: "Ein ganzer Abend auf dem Sofa, ohne ein einziges Mal über das Kind, den Haushalt oder Termine zu sprechen, tut uns dringend nötig.",
+            textSarah: "Ein ganzer Abend auf dem Sofa, ohne ein einziges Mal über das Kind, den Haushalt oder Termine zu sprechen, tut uns dringend nötig.",
+            textCouch: "Themen-Sperre: Fällt es uns schwer, im Gespräch miteinander die Rollen als Manager unseres Familienlebens komplett abzuschalten?"
+        },
+        {
+            id: "b1_173", cat: "cat5",
+            textBenni: "Beim Zocken jeden versteckten Winkel der Map penibel abzusuchen, statt einfach der Story zu folgen, gehört für mich zum echten Gaming.",
+            textSarah: "Dass Benni sich beim Gaming in absolut jedem virtuellen Eck verliert, erfordert beim Zuschauen echt viel Geduld.",
+            textCouch: "Loot-Wahn: Wer neigt bei seinen Interessen oder Hobbies zu einem extremen, zeitfressenden Perfektionismus?"
+        },
+        {
+            id: "b1_174", cat: "cat6",
+            textBenni: "Fleisch vor dem Garen stunden- oder tagelang in komplexen, selbstgemachten Marinaden zu ziehen, bestimmt den finalen Erfolg am Gaumen.",
+            textSarah: "Dass Benni aus jedem Stück Fleisch ein zweitägiges wissenschaftliches Projekt macht, grenzt an kulinarischen Nerd-Kult.",
+            textCouch: "Grill-Philosophie: Wer von uns beiden betreibt bei der Zubereitung von Proteinen den deutlich höheren Aufwand?"
+        },
+        {
+            id: "b1_175", cat: "cat7",
+            textBenni: "Die harte Wahl: Jeden Morgen direkt nach dem Aufstehen einen lauwarmen, abgestandenen Energy-Drink stürzen müssen oder nie wieder Kaffee?",
+            textSarah: "Die harte Wahl: Jeden Morgen direkt nach dem Aufstehen einen lauwarmen, abgestandenen Energy-Drink stürzen müssen oder nie wieder Kaffee?",
+            textCouch: "Koffein-Krise: Wer von uns beiden wäre ohne den morgendlichen, heißen Heißgetränk-Komfort im Alltag unausprochlicher?"
+        },
+        {
+            id: "b1_176", cat: "cat8",
+            textBenni: "Den vollen Müllsack am späten Abend nicht mehr rauszubringen, weil es draußen dunkel und ungemütlich ist, schiebt das Problem nur auf.",
+            textSarah: "Dass Benni den Müllsack abends lieber im Flur stehen lässt, statt kurz zur Tonne zu gehen, stört mich beim Vorbeigehen.",
+            textCouch: "Tonnen-Flucht: Wer drückt sich vor dem dunklen Gang zur Mülltonne am späten Abend hartnäckiger?"
+        },
+        {
+            id: "b1_177", cat: "cat9",
+            textBenni: "Sich direkt am allerersten Urlaubstag aus reiner Unvorsichtigkeit einen brutalen Sonnenbrand zu fangen, ruiniert die halbe Reise.",
+            textSarah: "Dass Benni das Thema Sonnencreme am ersten Urlaubstag meistens ignoriert und dann aussieht wie ein Krebs, ist ein echter Klassiker.",
+            textCouch: "Eincreme-Disziplin: Wer von uns beiden nimmt den UV-Schutz auf Reisen deutlich zu locker und zahlt am Ende den Preis?"
+        },
+        {
+            id: "b1_178", cat: "cat10",
+            textBenni: "Die tiefe Erleichterung, wenn der Kleine abends endlich ruhig in seinem Bett schläft, ist für mich der beste Moment des Tages.",
+            textSarah: "Die tiefe Erleichterung, wenn der Kleine abends endlich ruhig in seinem Bett schläft, ist für mich der beste Moment des Tages.",
+            textCouch: "Feierabend-Vibe: Fällt uns nach dem Einschlafen des Kleinen im ersten Moment erst mal eine gigantische, bleierne Last von den Schultern?"
+        },
+        {
+            id: "b1_179", cat: "cat0",
+            textBenni: "Den Abguss der Spüle voller Essensreste stehenzulassen, statt das Sieb direkt im Müll auszuleeren, ist absolut ekelhaft.",
+            textSarah: "Dass Benni die Essensreste im Abguss-Sieb der Spüle sammelt, statt sie direkt zu entsorgen, finde ich unhygienisch.",
+            textCouch: "Spülbecken-Hygiene: Wer von uns beiden reinigt das Sieb in der Küchenspüle konsequenter nach der Benutzung?"
+        },
+        {
+            id: "b1_180", cat: "cat1",
+            textBenni: "Die Angewohnheit, beim konzentrierten Nachdenken permanent mit dem Kugelschreiber zu klicken, kann im Raum Aggressionen schüren.",
+            textSarah: "Wenn Benni beim Nachdenken permanent mit dem Kugelschreiber klickt oder auf dem Tisch trommelt, strapaziert das meine Nerven massiv.",
+            textCouch: "Fokus-Macken: Wessen unbewusste Ticks beim Arbeiten oder Nachdenken besitzen das höhere nervliche Störpotenzial?"
+        } // --- BLOCK 5 (EINTRÄGE 181 BIS 225) ---
+        ,
+        {
+            id: "b1_181", cat: "cat2",
+            textBenni: "Vor unserem Sohn das Gesicht komplett ungerührt zu verziehen, während man heimlich hinter seinem Rücken einen Keks isst, ist die höchste Stufe der elterlichen Tarnung.",
+            textSarah: "Vor unserem Sohn das Gesicht komplett ungerührt zu verziehen, während man heimlich hinter seinem Rücken einen Keks isst, ist die höchste Stufe der elterlichen Tarnung.",
+            textCouch: "Heimlicher Snack-Konsum: Wer von uns beiden ist geschickter darin, Essen vor den hellwachen Augen des Kleinen zu verstecken?"
+        },
+        {
+            id: "b1_182", cat: "cat5",
+            textBenni: "Beim Joggen oder Training permanent den Puls auf der Smartwatch zu checken, blockiert das eigentliche, gesunde Körpergefühl.",
+            textSarah: "Dass Benni beim Sport nonstop die Werte auf seiner Smartwatch kontrolliert, wirkt auf mich fast schon ein bisschen verbissen.",
+            textCouch: "Bio-Tracking: Wer von uns beiden ist im Alltag abhängiger von den Fitness- und Gesundheitsdaten seiner Uhr?"
+        },
+        {
+            id: "b1_183", cat: "cat6",
+            textBenni: "Rigoros auf frische Kräuter statt getrocknete Gewürze aus dem Streuer zu bestehen, entscheidet beim Kochen über Hop oder Top.",
+            textSarah: "Rigoros auf frische Kräuter statt getrocknete Gewürze aus dem Streuer zu bestehen, entscheidet beim Kochen über Hop oder Top.",
+            textCouch: "Zutaten-Anspruch: Wer von uns beiden verweigert im Alltag kompromissloser den Einsatz von getrockneten Kräuter-Alternativen?"
+        },
+        {
+            id: "b1_184", cat: "cat0",
+            textBenni: "Die Zahnpastatube rücksichtslos in der Mitte statt ordentlich von hinten auszudrücken, hinterlässt im Bad ein unkoordiniertes Chaos.",
+            textSarah: "Dass Benni die Zahnpastatube rücksichtslos in der Mitte ausdrückt, sorgt dafür, dass die Tube am Ende völlig deformiert ist.",
+            textCouch: "Tuben-Disziplin: Wer drückt Zahnpasta und Cremes im Alltag absolut chaotisch und ohne System aus der Verpackung?"
+        },
+        {
+            id: "b1_185", cat: "cat1",
+            textBenni: "Beim Verlassen eines Raumes grundsätzlich zu vergessen, die Schranktüren wieder zu schließen, stört die optische Ordnung massiv.",
+            textSarah: "Dass Benni nach dem Herausholen von Sachen grundsätzlich alle Schranktüren sperrangelweit offen stehen lässt, nervt gewaltig.",
+            textCouch: "Offene Türen: Wer lässt Schubladen und Schränke im Haus nach der Benutzung standardmäßig offen stehen?"
+        },
+        {
+            id: "b1_186", cat: "cat3",
+            textBenni: "Größere finanzielle Rücklagen oder Investitionen ohne eine schriftliche, detaillierte Pro-Contra-Liste zu tätigen, ist absolut leichtsinnig.",
+            textSarah: "Größere finanzielle Rücklagen oder Investitionen ohne eine schriftliche, detaillierte Pro-Contra-Liste zu tätigen, ist absolut leichtsinnig.",
+            textCouch: "Investitions-Stil: Wer von uns beiden braucht bei großen finanziellen Entscheidungen deutlich mehr schriftliche Absicherung?"
+        },
+        {
+            id: "b1_187", cat: "cat4",
+            textBenni: "Ein ehrliches, tiefes Kompliment über das Aussehen des Partners abseits der reinen Funktionalität wird bei uns viel zu selten ausgesprochen.",
+            textSarah: "Ein ehrliches, tiefes Kompliment über das Aussehen des Partners abseits der reinen Funktionalität wird bei uns viel zu selten ausgesprochen.",
+            textCouch: "Optische Wertschätzung: Geht das gegenseitige Bewundern als attraktiver Partner im stressigen Alltags-Hamsterrad unter?"
+        },
+        {
+            id: "b1_188", cat: "cat7",
+            textBenni: "Die harte Wahl: Für den Rest des Lebens beim Kochen absolut keinen Airfryer mehr nutzen dürfen oder nie wieder ein Action-RPG anfassen?",
+            textSarah: "Die harte Wahl: Für den Rest des Lebens beim Kochen absolut keinen Airfryer mehr nutzen dürfen oder nie wieder ein Action-RPG anfassen?",
+            textCouch: "Kollaps der Feierabend-Kultur: Welcher dieser beiden radikalen Verzichte würde Bennis Alltag härter im Kern treffen?"
+        },
+        {
+            id: "b1_189", cat: "cat8",
+            textBenni: "Die Fenster beim Verlassen des Hauses auf Kipp stehenzulassen, während am Himmel dunkle Wolken aufziehen, ist absolut fahrlässig.",
+            textSarah: "Dass Benni bei unsicherem Wetter die Fenster offen lässt, sorgt bei mir unterwegs regelmäßig für nervöse Unruhe.",
+            textCouch: "Wetter-Paranoia: Wer von uns beiden checkt vor dem Verlassen des Hauses penibler den Zustand von Fenstern und Türen?"
+        },
+        {
+            id: "b1_190", cat: "cat9",
+            textBenni: "Sich im Urlaub sklavisch an einen festen Zeitplan für Besichtigungen zu halten, zerstört jegliche Leichtigkeit der Reise.",
+            textSarah: "Im Urlaub absolut keinen Plan zu haben, was man am Tag besichtigen will, führt am Ende nur zu unproduktiver Zeitverschwendung.",
+            textCouch: "Tagesstruktur auf Reisen: Brauchen wir im Urlaub feste logistische Ziele oder das absolute, ungeplante Treibenlassen?"
+        },
+        {
+            id: "b1_191", cat: "cat10",
+            textBenni: "Wenn die Nacht um 5:15 Uhr durch das erste gut gelaunte Brabbeln aus dem Kinderzimmer unbarmherzig beendet wird, brauche ich erst mal 20 Minuten Stille.",
+            textSarah: "Wenn die Nacht um 5:15 Uhr durch das erste gut gelaunte Brabbeln beendet wird, steht Benni die akute Müdigkeit ins Gesicht geschrieben.",
+            textCouch: "Frühstart: Wer von uns beiden verkraftet den verfrühten, plötzlichen Start in den Kleinkind-Morgen nervlich schlechter?"
+        },
+        {
+            id: "b1_192", cat: "cat0",
+            textBenni: "Benutzte Gläser oder Teller auf dem Sideboard direkt neben der eigentlich leeren Spülmaschine abzustellen, ist pure Bequemlichkeit.",
+            textSarah: "Dass Benni Geschirr lieber auf der Arbeitsplatte parkt, statt es die zwei Zentimeter weiter in die Spülmaschine zu stellen, nervt.",
+            textCouch: "Spülmaschinen-Verweigerung: Wer lässt gebrauchtes Geschirr regelmäßiger in unmittelbarer Nähe des Gerichts-Auffangbeckens stehen?"
+        },
+        {
+            id: "b1_193", cat: "cat1",
+            textBenni: "Beim Autofahren permanent die Radiosender durchzuzappen, statt einfach mal ein Lied in Ruhe durchlaufen zu lassen, macht mich wahnsinnig.",
+            textSarah: "Dass Benni beim Fahren im Sekundentakt die Lieder wechselt, weil ihm nichts gut genug ist, zerrt tierisch an meinen Nerven.",
+            textCouch: "Zapping-Terror: Wer besitzt am Steuer des Fahrzeugs die deutlich geringere Ausdauer bei der Musikauswahl?"
+        },
+        {
+            id: "b1_194", cat: "cat2",
+            textBenni: "Das akribische Desinfizieren von heruntergefallenem Spielzeug im Alltag wird ab einem gewissen Alter des Kindes völlig übertrieben.",
+            textSarah: "Dass Benni beim Thema Schmutz im Alltag manchmal viel zu entspannt ist, sehe ich mit Blick auf die Hygiene kritisch.",
+            textCouch: "Keim-Toleranz: Wer von uns beiden nimmt die Sauberkeit von Schnullern und Spielzeug im Alltag deutlich lockerer?"
+        },
+        {
+            id: "b1_195", cat: "cat3",
+            textBenni: "Unsere gemeinsamen Fixkosten alle sechs Monate radikal auf den Prüfstand zu stellen, schützt uns vor unnötigen Geldfressern.",
+            textSarah: "Unsere gemeinsamen Fixkosten alle sechs Monate radikal auf den Prüfstand zu stellen, schützt uns vor unnötigen Geldfressern.",
+            textCouch: "Spar-Inspektion: Wer initiiert im Alltag regelmäßiger das kritische Hinterfragen unserer laufenden Verträge und Konten?"
+        },
+        {
+            id: "b1_196", cat: "cat4",
+            textBenni: "Einfach mal eine halbe Stunde schweigend nebeneinander zu liegen und den Atem des anderen zu spüren, gibt mir ein tiefes Gefühl von Heimat.",
+            textSarah: "Einfach mal eine halbe Stunde schweigend nebeneinander zu liegen und den Atem des anderen zu spüren, gibt mir ein tiefes Gefühl von Heimat.",
+            textCouch: "Wortlose Nähe: Schaffen wir es im Alltag noch, die reine Gegenwart des Partners ohne Ablenkung durch Medien zu genießen?"
+        },
+        {
+            id: "b1_197", cat: "cat5",
+            textBenni: "Die schweren Gewichte im Fitnessstudio nach dem letzten Satz nicht ordentlich abzuräumen, widerspricht jeglicher Gym-Etikette.",
+            textSarah: "Die schweren Gewichte im Fitnessstudio nach dem letzten Satz nicht ordentlich abzuräumen, widerspricht jeglicher Gym-Etikette.",
+            textCouch: "Ordnungs-Prinzipien: Wer von uns beiden nimmt geschriebene oder ungeschriebene Regeln bei seinen Hobbies spürbar ernster?"
+        },
+        {
+            id: "b1_198", cat: "cat6",
+            textBenni: "Ein original italienischer Pizzateig braucht zwingend feinstes Tipo 00 Mehl – mit normalem Weizenmehl wird das Ergebnis einfach nur fad.",
+            textSarah: "Dass Benni für das Pizzabacken spezielles Import-Mehl braucht, halte ich insgeheim für eine leichte kulinarische Marotte.",
+            textCouch: "Zutaten-Kult: Wer von uns beiden neigt beim Einkaufen für bestimmte Rezepte zu einem extremen Marken-Perfektionismus?"
+        },
+        {
+            id: "b1_199", cat: "cat7",
+            textBenni: "Die harte Wahl: Ein Jahr lang jeden Tag ausschließlich das exakt gleiche Mittagessen essen oder ein Jahr lang absolut kein Smartphone nutzen?",
+            textSarah: "Die harte Wahl: Ein Jahr lang jeden Tag ausschließlich das exakt gleiche Mittagessen essen oder ein Jahr lang absolut kein Smartphone nutzen?",
+            textCouch: "Monotonie-Check: Wer würde die extreme kulinarische Langeweile wählen, nur um die Verbindung zur digitalen Welt zu retten?"
+        },
+        {
+            id: "b1_200", cat: "cat8",
+            textBenni: "Die leere Toilettenpapierrolle einfach auf dem Halter sitzenzulassen, statt die neue Rolle anzubrechen, ist der Gipfel der Bequemlichkeit.",
+            textSarah: "Dass Benni die leere Klopapierrolle auf dem Halter sitzen lässt, statt sie zu wechseln, bringt mich im Bad regelmäßig auf die Palme.",
+            textCouch: "Rollen-Wechsel: Wer drückt sich im Badezimmer erfolgreicher vor dem Entsorgen der leeren Papphülse?"
+        },
+        {
+            id: "b1_201", cat: "cat9",
+            textBenni: "Im Urlaub den halben Tag mit dem Suchen nach dem vermeintlich perfekten Parkplatz zu verschwenden, zerrt massiv an meinen Nerven.",
+            textSarah: "Benni parkt das Auto im Urlaub oft so weit abseits, dass der anschließende Fußweg zum Strand eher an eine Wanderung erinnert.",
+            textCouch: "Parkplatz-Taktik: Wer geht beim Abstellen des Fahrzeugs auf Reisen das deutlich geringere Risiko für Kratzer oder Knöllchen ein?"
+        },
+        {
+            id: "b1_202", cat: "cat10",
+            textBenni: "Die tiefe Angst, beim abendlichen Hinausschleichen aus dem Kinderzimmer auf eine knarzende Diele zu treten, ist mein täglicher Nervenkitzel.",
+            textSarah: "Die tiefe Angst, beim abendlichen Hinausschleichen aus dem Kinderzimmer auf eine knarzende Diele zu treten, ist mein täglicher Nervenkitzel.",
+            textCouch: "Ninja-Escape: Wer von uns beiden beherrscht die Kunst des absolut lautlosen Verlassens des Schlafraums nach dem Einschlafen besser?"
+        },
+        {
+            id: "b1_203", cat: "cat0",
+            textBenni: "Die Einkaufstüten nach dem Ausräumen einfach wochenlang ungeordnet in der Küche herumliegen zu lassen, sieht unmöglich aus.",
+            textSarah: "Dass Benni die leeren Einkaufstüten nach dem Auspacken einfach auf dem Boden liegen lässt, stört mein Ordnungsempfinden.",
+            textCouch: "Tüten-Chaos: Wer schiebt das ordentliche Zusammenfalten und Verstauen der Einkaufstaschen im Alltag länger auf?"
+        },
+        {
+            id: "b1_204", cat: "cat1",
+            textBenni: "Beim Erzählen einer Alltagssituation viermal den roten Faden zu verlieren und komplett abzuschweifen, erfordert echte Geduld beim Zuhören.",
+            textSarah: "Wenn Benni eine Story erzählt, baut er so viele unwichtige Nebenschauplätze ein, dass ich innerlich oft komplett abschalte.",
+            textCouch: "Ausschweifungs-Gefahr: Wer von uns beiden verliert sich beim Berichten von Erlebnissen regelmäßiger im absoluten Detail-Urwald?"
+        },
+        {
+            id: "b1_205", cat: "cat2",
+            textBenni: "Bei der Auswahl der Tagesmutter oder der Kita-Planung lasse ich dir insgeheim fast komplett die logistische Führung.",
+            textSarah: "Bei der Auswahl der Tagesmutter oder der Kita-Planung muss ich gefühlt die gesamte Recherche-Arbeit alleine stemmen.",
+            textCouch: "Familien-Logistik: Wer von uns beiden investiert deutlich mehr Zeit in das Vergleichen von Betreuungs- und Bildungsoptionen?"
+        },
+        {
+            id: "b1_206", cat: "cat3",
+            textBenni: "Größere Anschaffungen für das Haus oder die Freizeit im Nachhinein vor dem Partner emotional rechtfertigen zu müssen, nervt.",
+            textSarah: "Dass Benni größere Käufe manchmal erst tätigt und sie mir danach als 'absolut notwendig' verkauft, sehe ich kritisch.",
+            textCouch: "Rechtfertigungs-Modus: Wer von uns beiden muss seine Spontankäufe im Nachhinein intensiver vor dem Partner verteidigen?"
+        },
+        {
+            id: "b1_207", cat: "cat4",
+            textBenni: "Feste, rituelle Gesprächszeiten auf dem Sofa ohne jegliche Ablenkung würden unsere Kommunikation im Alltag sofort stabilisieren.",
+            textSarah: "Feste, rituelle Gesprächszeiten auf dem Sofa ohne jegliche Ablenkung würden unsere Kommunikation im Alltag sofort stabilisieren.",
+            textCouch: "Couch-Konferenz: Brauchen wir feste Termine für den ehrlichen Austausch abseits der reinen Alltags-Organisation?"
+        },
+        {
+            id: "b1_208", cat: "cat5",
+            textBenni: "Das unbändige Gefühl, bei einem Action-RPG nach stundenlangem Grind endlich das absolut perfekte, legendäre Item zu looten, ist unschlagbar.",
+            textSarah: "Dass Benni sich stundenlang über ein virtuelles Schwert oder Item am PC freuen kann, ist für mich absolut faszinierend.",
+            textCouch: "Gaming-Euphorie: Wer von uns beiden kann sich für rein digitale Erfolge oder virtuelle Meilensteine emotional intensiver begeistern?"
+        },
+        {
+            id: "b1_209", cat: "cat6",
+            textBenni: "Ein richtig scharfes asiatisches Gericht ist erst dann perfekt, wenn die Schärfe den Puls nach oben treibt – alles andere ist europäisiert.",
+            textSarah: "Benni kocht asiatische Gerichte manchmal so unbarmherzig scharf, dass man den eigentlichen Geschmack kaum noch wahrnimmt.",
+            textCouch: "Schärfe-Limit: Wer von uns beiden besitzt den spürbar empfindlicheren Toleranzbereich bei scharfen Gewürzen?"
+        },
+        {
+            id: "b1_210", cat: "cat7",
+            textBenni: "Die harte Wahl: Ein Leben lang ausschließlich im Stehen essen müssen oder für den Rest des Lebens auf jegliche Pizza verzichten?",
+            textSarah: "Die harte Wahl: Ein Leben lang ausschließlich im Stehen essen müssen oder für den Rest des Lebens auf jegliche Pizza verzichten?",
+            textCouch: "Pragmatismus-Check: Wer würde für den Erhalt der Pizza-Kultur klaglos den lebenslangen Verzicht auf den Esszimmerstuhl wählen?"
+        },
+        {
+            id: "b1_211", cat: "cat8",
+            textBenni: "Den Akku des E-Bikes wochenlang komplett leer im kalten Keller stehenzulassen, ruiniert die Lebensdauer der teuren Batterie.",
+            textSarah: "Den Akku des E-Bikes wochenlang komplett leer im kalten Keller stehenzulassen, ruiniert die Lebensdauer der teuren Batterie.",
+            textCouch: "Technik-Pflege: Wer von uns beiden behält den besseren und verantwortungsvolleren Überblick über den Zustand unseres Equipments?"
+        },
+        {
+            id: "b1_212", cat: "cat9",
+            textBenni: "Das absolute Highlight vor einer Reise ist das detaillierte Auskundschaften der lokalen Route auf Google Earth.",
+            textSarah: "Dass Benni vor dem Urlaub stundenlang die Umgebung via Satellitenbild analysiert, halte ich für eine mittelschwere Marotte.",
+            textCouch: "Vorab-Spionage: Wer verliert sich in der virtuellen Reisevorbereitung weit vor dem eigentlichen Abreisetag intensiver?"
+        },
+        {
+            id: "b1_213", cat: "cat10",
+            textBenni: "Die tägliche Diskussion darüber, ob der Kleine beim Einschlafen zu Recht quengelt oder ob man sofort eingreifen muss, kostet Nerven.",
+            textSarah: "Die tägliche Diskussion darüber, ob der Kleine beim Einschlafen zu Recht quengelt oder ob man sofort eingreifen muss, kostet Nerven.",
+            textCouch: "Einschlaf-Geduld: Wer von uns beiden hält das unruhige Quengeln unseres Sohnes im Bett emotional länger aus, ohne einzugreifen?"
+        },
+        {
+            id: "b1_214", cat: "cat0",
+            textBenni: "Die Brötchentüte nach dem Frühstück offen auf dem Tisch stehenzulassen, sodass die Reste steinhart werden, ist absolut unlogisch.",
+            textSarah: "Dass Benni die Brötchentüte nach dem Frühstück grundsätzlich offen stehen lässt, stört mich beim Aufräumen der Küche.",
+            textCouch: "Frische-Schutz: Wer vergisst im Alltag regelmäßiger das ordnungsgemäße Verschließen von angebrochenen Lebensmitteln?"
+        },
+        {
+            id: "b1_215", cat: "cat1",
+            textBenni: "Beim Sprechen unbewusst permanent mit den Fingern auf den Tisch zu trommeln, kann den Gesprächspartner extrem provozieren.",
+            textSarah: "Wenn Benni beim Reden im Minutentakt auf dem Tisch herumtrommelt, bringt mich das innerlich regelmäßig an den Rand des Wahnsinns.",
+            textCouch: "Rhythmus-Terror: Wessen unbewusste motorische Ticks erzeugen im gemeinsamen Alltag die höhere nervliche Belastung?"
+        },
+        {
+            id: "b1_216", cat: "cat2",
+            textBenni: "Den Kleinen morgens beim Anziehen in absolut unpassende, optisch wilde Farb-Kombinationen zu stecken, ist mir im Grunde völlig egal.",
+            textSarah: "Wenn Benni den Kleinen anzieht, wirft er farblich Dinge zusammen, die das ästhetische Empfinden massiv herausfordern.",
+            textCouch: "Style-Check: Wer von uns beiden legt beim Anziehen unseres Sohnes den deutlich größeren Fokus auf ein harmonisches Outfit?"
+        },
+        {
+            id: "b1_217", cat: "cat3",
+            textBenni: "Bei Versicherungsfragen blind dem Berater zu vertrauen, statt das Kleingedruckte selbst zu sezieren, ist absolut existenzgefährdend.",
+            textSarah: "Dass Benni bei Versicherungen jede Klausel zerlegt, ist trocken, bewahrt uns aber zuverlässig vor teuren Fehlern.",
+            textCouch: "Bürokratie-Misstrauen: Wer von uns beiden besitzt den kritischeren Blick bei Verträgen und offiziellem Papierkram?"
+        },
+        {
+            id: "b1_218", cat: "cat4",
+            textBenni: "Sich abends auf dem Sofa einfach mal zehn Minuten ohne Worte fest zu umarmen, lädt meinen emotionalen Akku sofort wieder auf.",
+            textSarah: "Sich abends auf dem Sofa einfach mal zehn Minuten ohne Worte fest zu umarmen, lädt meinen emotionalen Akku sofort wieder auf.",
+            textCouch: "Körperlicher Anker: Kommt die reine, wortlose körperliche Nähe im reinen Funktionieren des Alltagsstresses zu kurz?"
+        },
+        {
+            id: "b1_219", cat: "cat5",
+            textBenni: "Das eisenerne Einhalten meines Trainingssplans im Gym hat für mich im Alltag eine extrem hohe, nicht verhandelbare Priorität.",
+            textSarah: "Dass Benni seinen Trainingsplan im Gym über fast alles stellt, erfordert in unserer familiären Wochenplanung echt viel Flexibilität.",
+            textCouch: "Prioritäten-Clash: Wer von uns beiden verteidigt seine persönlichen Hobby-Zeiten im Alltag konsequenter gegen familiäre Pflichten?"
+        },
+        {
+            id: "b1_220", cat: "cat6",
+            textBenni: "Ein original italienisches Risotto muss perfekt schlotzig fließen – eine klebrige, feste Reismasse ist auf dem Teller ein Totalschaden.",
+            textSarah: "Ein original italienischer Risotto muss perfekt schlotzig fließen – eine klebrige, feste Reismasse ist für Benni auf dem Teller ein Totalschaden.",
+            textCouch: "Reis-Philosophie: Wer von uns beiden zieht bei der perfekten Konsistenz und Textur von Gerichten die härtere Grenze?"
+        },
+        {
+            id: "b1_221", cat: "cat7",
+            textBenni: "Die harte Wahl: Ein Jahr lang ausschließlich Horrorfilme im Fernsehen schauen müssen oder ein Jahr lang jeden Morgen um 4:30 Uhr ein HIIT-Workout?",
+            textSarah: "Die harte Wahl: Ein Jahr lang ausschließlich Horrorfilme im Fernsehen schauen müssen oder ein Jahr lang jeden Morgen um 4:30 Uhr ein HIIT-Workout?",
+            textCouch: "Belastungs-Check: Wer würde freiwillig den brutalen sportlichen Frühstart wählen, nur um dem Grusel auf dem Bildschirm zu entkommen?"
+        },
+        {
+            id: "b1_222", cat: "cat8",
+            textBenni: "Die leeren Post-Umschläge und Werbeprospekte tagelang ungeöffnet auf dem Sideboard im Flur verrotten zu lassen, sieht absolut schluffig aus.",
+            textSarah: "Dass Benni die Post tagelang ungelesen im Flur sammelt, erzeugt bei mir beim Vorbeigehen jedes Mal ein unordentliches Gefühl.",
+            textCouch: "Post-Stau: Wer von uns beiden besitzt die größere Ausdauer im Ignorieren von eingegangenen Briefen und Broschüren?"
+        },
+        {
+            id: "b1_223", cat: "cat9",
+            textBenni: "Im Urlaub den halben Koffer mit schweren Fachbüchern oder Trainings-Equipment zu füllen, das man am Ende kein einziges Mal anrührt, ist absurd.",
+            textSarah: "Dass Benni schwere Fachbücher oder Sportzeug in den Urlaub mitschleppt, das er am Ende sowieso nicht nutzt, blockiert wertvollen Platz.",
+            textCouch: "Alibi-Gepäck: Wer packt für Reisen regelmäßiger Dinge ein, die nur für das gute Gewissen gedacht sind und ungenutzt zurückkehren?"
+        },
+        {
+            id: "b1_224", cat: "cat10",
+            textBenni: "Wenn der Kleine beim Abendessen den Brei zielsicher im Radius von zwei Metern an die Wände schleudert, verliere ich innerlich kurz die Fassung.",
+            textSarah: "Wenn der Kleine beim Abendessen den Brei an die Wände schleudert, verliert Benni spürbar schneller die Nerven als ich.",
+            textCouch: "Schlachtfeld Esszimmer: Wer von uns beiden reagiert gelassener auf die unvermeidbaren kulinarischen Zerstörungen unseres Sohnes?"
+        },
+        {
+            id: "b1_225", cat: "cat0",
+            textBenni: "Das dreckige Schneidebrett nach dem Zwiebelschneiden einfach ungewaschen auf der Arbeitsplatte liegenzulassen, zieht Fliegen und Gerüche magisch an.",
+            textSarah: "Dass Benni benutzte Schneidebretter nach dem Kochen einfach dekorativ in der Küche liegen lässt, stört mich massiv.",
+            textCouch: "Küchen-Logistik: Wer räumt benutzte Arbeitswerkzeuge während des Kochens strukturierter direkt weg, um Chaos zu vermeiden?"
+        }// --- BLOCK 6 (EINTRÄGE 226 BIS 270) ---
+        ,
+        {
+            id: "b1_226", cat: "cat4",
+            textBenni: "Wenn wir streiten oder aneinandergeraten, ziehe ich mich lieber tagelang emotional zurück, statt das Problem sofort zu lösen.",
+            textSarah: "Wenn wir streiten oder aneinandergeraten, zieht Benni sich lieber tagelang emotional zurück, statt das Problem sofort zu lösen.",
+            textCouch: "Konflikt-Rückzug: Wer schweigt nach einem heftigen Streit länger, statt die Sache direkt wieder vom Tisch zu bekommen?"
+        },
+        {
+            id: "b1_227", cat: "cat4",
+            textBenni: "Ich habe oft das Gefühl, dass meine täglichen, unsichtbaren Kraftanstrengungen für uns von dir als absolut selbstverständlich hingenommen werden.",
+            textSarah: "Ich habe oft das Gefühl, dass meine täglichen, unsichtbaren Kraftanstrengungen für uns von Benni als absolut selbstverständlich hingenommen werden.",
+            textCouch: "Anerkennungs-Defizit: Wer von uns beiden sehnt sich im aktuellen Alltagstrott nach spürbar mehr offener Validierung?"
+        },
+        {
+            id: "b1_228", cat: "cat4",
+            textBenni: "Es fällt mir extrem schwer, berechtigte Kritik an meinem Verhalten oder meiner Laune anzunehmen, ohne sofort in eine aggressive Abwehrhaltung zu gehen.",
+            textSarah: "Es fällt Benni extrem schwer, berechtigte Kritik an seinem Verhalten oder seiner Laune anzunehmen, ohne sofort in eine aggressive Abwehrhaltung zu gehen.",
+            textCouch: "Kritik-Toleranz: Wer von uns beiden reagiert bei Fehlern oder Hinweisen des Partners spürbar trotziger und verletzter?"
+        },
+        {
+            id: "b1_229", cat: "cat4",
+            textBenni: "Seit wir Eltern sind, ist unsere rein partnerschaftliche und emotionale Verbindung als Liebespaar viel zu oft nur noch Nebensache.",
+            textSarah: "Seit wir Eltern sind, ist unsere rein partnerschaftliche und emotionale Verbindung als Liebespaar viel zu oft nur noch Nebensache.",
+            textCouch: "Rollen-Falle: Haben wir unsere Identität als Liebespaar zugunsten der reinen Elternfunktion ein Stück weit aus den Augen verloren?"
+        },
+        {
+            id: "b1_230", cat: "cat4",
+            textBenni: "Wenn einer von uns schlechte Laune hat, zieht das die emotionale Stimmung des anderen fast augenblicklich mit in den Keller.",
+            textSarah: "Wenn einer von uns schlechte Laune hat, zieht das die emotionale Stimmung des anderen fast augenblicklich mit in den Keller.",
+            textCouch: "Stimmungs-Spiegel: Wessen negative Energie oder Erschöpfung infiziert die Atmosphäre im Haus spürbar schneller?"
+        },
+        {
+            id: "b1_231", cat: "cat4",
+            textBenni: "Ich schlucke kleine Frustrationen im Alltag lieber wochenlang runter, bis das Fass irgendwann bei einer absoluten Kleinigkeit explodiert.",
+            textSarah: "Ich schlucke kleine Frustrationen im Alltag lieber wochenlang runter, bis das Fass irgendwann bei einer absoluten Kleinigkeit explodiert.",
+            textCouch: "Frust-Stau: Wer von uns beiden sammelt unbemerkt Reibungspunkte an, statt Kritik sofort direkt und offen anzusprechen?"
+        },
+        {
+            id: "b1_232", cat: "cat4",
+            textBenni: "Nach all den gemeinsamen Jahren seit 2011 kennen wir die wunden Punkte des anderen so genau, dass wir sie im Streit manchmal gezielt treffen.",
+            textSarah: "Nach all den gemeinsamen Jahren seit 2011 kennen wir die wunden Punkte des anderen so genau, dass Benni sie im Streit manchmal gezielt trifft.",
+            textCouch: "Verletzungs-Gefahr: Wer nutzt die emotionalen Schwachstellen des Partners im verbalen Schlagabtausch unbarmherziger aus?"
+        },
+        {
+            id: "b1_233", cat: "cat4",
+            textBenni: "Ich wünsche mir, dass wir abends wieder tiefe Gespräche über das Leben führen, statt nur die Logistik des nächsten Tages durchzuplanen.",
+            textSarah: "Ich wünsche mir, dass wir abends wieder tiefe Gespräche über das Leben führen, statt nur die Logistik des nächsten Tages durchzuplanen.",
+            textCouch: "Gesprächs-Qualität: Fehlt uns im Hamsterrad der mentale Tiefgang, weil Orga-Themen unsere gesamte Energie fressen?"
+        },
+        {
+            id: "b1_234", cat: "cat4",
+            textBenni: "Bei Meinungsverschiedenheiten geht es mir insgeheim oft mehr darum, recht zu behalten, als eine echte gemeinsame Lösung zu finden.",
+            textSarah: "Bei Meinungsverschiedenheiten geht es Benni insgeheim oft mehr darum, recht zu behalten, als eine echte gemeinsame Lösung zu finden.",
+            textCouch: "Rechthaberei: Wer kann eine hitzige Diskussion schlechter ohne ein finales, bestätigtes 'Ich hatte recht' beenden?"
+        },
+        {
+            id: "b1_235", cat: "cat4",
+            textBenni: "Die Initiative für körperliche Nähe, Zärtlichkeit oder Intimität geht in unserer Beziehung fast immer von derselben Person aus.",
+            textSarah: "Die Initiative für körperliche Nähe, Zärtlichkeit oder Intimität geht in unserer Beziehung fast immer von derselben Person aus.",
+            textCouch: "Nähe-Motor: Wer von uns beiden investiert im aktuellen Beziehungsgefüge mehr aktive Energie in das Initiieren von Intimität?"
+        },
+        {
+            id: "b1_236", cat: "cat1",
+            textBenni: "Wenn ich beruflich oder privat extrem gestresst bin, lasse ich meine Ungeduld viel zu oft ungerechtfertigt an dir aus.",
+            textSarah: "Wenn Benni beruflich oder privat extrem gestresst ist, lässt er seine Ungeduld viel zu oft ungerechtfertigt an mir aus.",
+            textCouch: "Blitzableiter: Wer neigt eher dazu, den Alltagsfrust unbewusst und ungerecht am unschuldigen Partner abzuladen?"
+        },
+        {
+            id: "b1_237", cat: "cat4",
+            textBenni: "Ich fühle mich in einsamen Momenten trotz unserer gemeinsamen Wohnung manchmal emotional nicht richtig von dir abgeholt.",
+            textSarah: "Ich fühle mich in einsamen Momenten trotz unserer gemeinsamen Wohnung manchmal emotional nicht richtig von Benni abgeholt.",
+            textCouch: "Einsamkeit zu zweit: Erleben wir trotz permanenter räumlicher Nähe Phasen einer spürbaren emotionalen Distanz?"
+        },
+        {
+            id: "b1_238", cat: "cat4",
+            textBenni: "Es fällt mir schwer, mich vor dir vollkommen verletzlich zu zeigen und Schwächen zuzugeben, ohne Angst vor Bewertung zu haben.",
+            textSarah: "Es fällt Benni schwer, sich vor mir vollkommen verletzlich zu zeigen und Schwächen zuzugeben, ohne Angst vor Bewertung zu haben.",
+            textCouch: "Ego-Schutz: Wer von uns beiden schützt seine inneren Unsicherheiten im Alltag verbissener vor den Blicken des Partners?"
+        },
+        {
+            id: "b1_239", cat: "cat2",
+            textBenni: "Die Aufteilung der ungeliebten Pflichtaufgaben im Haushalt und bei der Kindererziehung fühlt sich für mich aktuell ungerecht an.",
+            textSarah: "Die Aufteilung der ungeliebten Pflichtaufgaben im Haushalt und bei der Kindererziehung fühlt sich für mich aktuell ungerecht an.",
+            textCouch: "Lasten-Verteilung: Wer von uns beiden trägt im Moment die gefühlt schwerere Bürde bei den unliebsamen Alltagsaufgaben?"
+        },
+        {
+            id: "b1_240", cat: "cat4",
+            textBenni: "Ich habe oft das Gefühl, dass du mir bei Erzählungen nicht mehr richtig aktiv zuhörst, sondern gedanklich schon beim nächsten To-Do bist.",
+            textSarah: "Ich habe oft das Gefühl, dass Benni mir bei Erzählungen nicht mehr richtig aktiv zuhört, sondern gedanklich schon beim nächsten To-Do bist.",
+            textCouch: "Aufmerksamkeits-Check: Wer driftet bei Berichten des Partners im Kopf schneller in die eigene Aufgabenliste ab?"
+        },
+        {
+            id: "b1_241", cat: "cat4",
+            textBenni: "Wenn wir uns streiten, wird mein Tonfall viel zu schnell vorwurfsvoll und verletzend, statt sachlich und respektvoll zu bleiben.",
+            textSarah: "Wenn wir uns streiten, wird Bennis Tonfall viel zu schnell vorwurfsvoll und verletzend, statt sachlich und respektvoll zu bleiben.",
+            textCouch: "Streit-Kultur: Wer verliert im verbalen Schlagabtausch schneller die Kontrolle über die emotionale Schärfe der Worte?"
+        },
+        {
+            id: "b1_242", cat: "cat4",
+            textBenni: "Kleine Geschenke oder geplante Aufmerksamkeiten brauche ich im Alltag absolut nicht, mir reicht die reine verlässliche Präsenz.",
+            textSarah: "Kleine Geschenke oder geplante Aufmerksamkeiten brauche ich im Alltag absolut nicht, mir reicht die reine verlässliche Präsenz.",
+            textCouch: "Liebesbeweise: Wer von uns beiden legt einen spürbar höheren Wert auf kleine Aufmerksamkeiten und materielle Gesten?"
+        },
+        {
+            id: "b1_243", cat: "cat4",
+            textBenni: "Ich ertappe mich regelmäßig dabei, wie ich Verhaltensweisen von dir im Stillen negativ bewerte, statt das Gespräch direkt zu suchen.",
+            textSarah: "Ich ertappe mich regelmäßig dabei, wie ich Verhaltensweisen von Benni im Stillen negativ bewerte, statt das Gespräch direkt zu suchen.",
+            textCouch: "Stille Zensur: Wer frisst Unzufriedenheiten über Macken des Partners länger lautlos in sich hinein, statt sie anzusprechen?"
+        },
+        {
+            id: "b1_244", cat: "cat4",
+            textBenni: "Unsere Streitigkeiten drehen sich im Grunde seit Jahren immer um die exakt gleichen drei Kernthemen, ohne dass sich etwas ändert.",
+            textSarah: "Unsere Streitigkeiten drehen sich im Grunde seit Jahren immer um die exakt gleichen drei Kernthemen, ohne dass sich etwas ändert.",
+            textCouch: "Karussell-Effekt: Drehen wir uns bei Konflikten chronisch im Kreis, statt echte, dauerhafte Verhaltensänderungen umzusetzen?"
+        },
+        {
+            id: "b1_245", cat: "cat4",
+            textBenni: "Wenn du mir von einem Problem erzählst, will ich es sofort rational lösen, statt einfach nur empathisch zuzuhören.",
+            textSarah: "Wenn ich von einem Problem erzähle, will Benni es sofort rational lösen, statt einfach nur empathisch zuzuhören.",
+            textCouch: "Macher-Instinkt: Wer verfällt bei Sorgen des Partners sofort in den Lösungsmodus, statt einfach nur emotionalen Halt zu geben?"
+        },
+        {
+            id: "b1_246", cat: "cat10",
+            textBenni: "Die brutale Erschöpfung durch das Elternsein hat mein Verlangen nach intimer Paar-Zeit drastisch reduziert.",
+            textSarah: "Die brutale Erschöpfung durch das Elternsein hat mein Verlangen nach intimer Paar-Zeit drastisch reduziert.",
+            textCouch: "Akku-Kollaps: Wer leidet unter dem größeren Libido-Verlust durch den chronischen Schlafmangel des Familienlebens?"
+        },
+        {
+            id: "b1_247", cat: "cat4",
+            textBenni: "Ich mache in dieser Beziehung ungelogen deutlich mehr Kompromisse und Zugeständnisse für den Frieden als du.",
+            textSarah: "Ich mache in dieser Beziehung ungelogen deutlich mehr Kompromisse und Zugeständnisse für den Frieden als du.",
+            textCouch: "Kompromiss-Bereitschaft: Wer gibt bei Meinungsverschiedenheiten oder Plänen häufiger nach, um die Harmonie zu wahren?"
+        },
+        {
+            id: "b1_248", cat: "cat4",
+            textBenni: "Wenn ich einen Fehler gemacht habe, fällt es mir unerträglich schwer, über meinen Schatten zu springen und um Verzeihung zu bitten.",
+            textSarah: "Wenn Benni einen Fehler gemacht habe, fällt es ihm unerträglich schwer, über seinen Schatten zu springen und um Verzeihung zu bitten.",
+            textCouch: "Stolz-Falle: Wessen Ego blockiert im Nachgang eines Streits eine schnelle, ehrliche und reinigende Versöhnung intensiver?"
+        },
+        {
+            id: "b1_249", cat: "cat3",
+            textBenni: "Unsere langfristigen Lebensziele und Prioritäten für die nächsten zehn Jahre driften im Moment unbemerkt auseinander.",
+            textSarah: "Unsere langfristigen Lebensziele und Prioritäten für die nächsten zehn Jahre driften im Moment unbemerkt auseinander.",
+            textCouch: "Zukunfts-Vision: Haben wir noch exakt dieselbe Richtung im Kopf oder leben wir in Kernfragen schleichend aneinander vorbei?"
+        },
+        {
+            id: "b1_250", cat: "cat4",
+            textBenni: "Ich vermisse die absolute Unbeschwertheit und das alberne, gemeinsame Lachen aus unseren ersten Beziehungsjahren.",
+            textSarah: "Ich vermisse die absolute Unbeschwertheit und das alberne, gemeinsame Lachen aus unseren ersten Beziehungsjahren.",
+            textCouch: "Ernst des Lebens: Hat die logistische Verantwortung der letzten Jahre unseren gemeinsamen Humor ein Stück weit verdrängt?"
+        },
+        {
+            id: "b1_251", cat: "cat4",
+            textBenni: "Ein vergessener Beziehungs-Jahrestag würde mich emotional tief verletzen, selbst wenn wir behaupten, dass es uns nicht wichtig ist.",
+            textSarah: "Ein vergessener Beziehungs-Jahrestag würde mich emotional tief verletzen, selbst wenn wir behaupten, dass es uns nicht wichtig ist.",
+            textCouch: "Daten-Check: Wer von uns beiden nimmt symbolische Meilensteine und Jahrestage insgeheim ein ganzes Stück ernster?"
+        },
+        {
+            id: "b1_252", cat: "cat4",
+            textBenni: "Ich fühle mich von dir in meinen persönlichen Hobbies, meinem harten Training oder meinen Zielen nicht richtig unterstützt.",
+            textSarah: "Ich fühle mich von Benni in meinen persönlichen Interessen oder Zielen nicht richtig unterstützt.",
+            textCouch: "Freiraum-Support: Zeigen wir echtes, tiefes Interesse an den leidenschaftlichen Freizeitwelten des Partners?"
+        },
+        {
+            id: "b1_253", cat: "cat4",
+            textBenni: "Wenn du dich tagelang in deine emotionale Höhle zurückziehst, löst das bei mir ein unruhiges Gefühl der Zurückweisung aus.",
+            textSarah: "Wenn Benni sich tagelang in seine emotionale Höhle zurückzieht, löst das bei mir ein unruhiges Gefühl der Zurückweisung aus.",
+            textCouch: "Distanz-Symptom: Wer reagiert verunsicherter und sensibler auf Phasen des mentalen Rückzugs beim Partner?"
+        },
+        {
+            id: "b1_254", cat: "cat4",
+            textBenni: "Ich vergleiche unsere aktuelle Beziehungsqualität insgeheim manchmal mit der scheinbar perfekten Partnerschaft im Freundeskreis.",
+            textSarah: "Ich vergleiche unsere aktuelle Beziehungsqualität insgeheim manchmal mit der scheinbar perfekten Partnerschaft im Freundeskreis.",
+            textCouch: "Vergleichs-Falle: Neigt einer von uns dazu, unsere ganz eigene Beziehungsdynamik ungesund mit dem Außenbereich zu spiegeln?"
+        },
+        {
+            id: "b1_255", cat: "cat4",
+            textBenni: "Ein klärendes Gespräch nach einem Konflikt ist für mich erst dann emotional abgeschlossen, wenn wir uns wieder intensiv umarmen.",
+            textSarah: "Ein klärendes Gespräch nach einem Konflikt ist für mich erst dann emotional abgeschlossen, wenn wir uns wieder intensiv umarmen.",
+            textCouch: "Versöhnungs-Ritual: Brauchen wir nach einer Krise zwingend körperliche Nähe, um die Wunden im Kopf komplett zu schließen?"
+        },
+        {
+            id: "b1_256", cat: "cat4",
+            textBenni: "Ich unterdrücke eigene Wünsche oder Bedürfnisse, um anstrengende Diskussionen im Keim zu ersticken.",
+            textSarah: "Ich unterdrücke eigene Wünsche oder Bedürfnisse, um anstrengende Diskussionen im Keim zu ersticken.",
+            textCouch: "Unterordnung für den Frieden: Wer passt sich im Alltag stillschweigend zu sehr an, um die Harmonie nicht zu gefährden?"
+        },
+        {
+            id: "b1_257", cat: "cat4",
+            textBenni: "Wenn du unangekündigt gemeinsame Pläne änderst, erzeugt das bei mir sofort massiven Frust und das Gefühl von Missachtung.",
+            textSarah: "Wenn Benni unangekündigt gemeinsame Pläne ändert, erzeugt das bei mir sofort massiven Frust und das Gefühl von Missachtung.",
+            textCouch: "Verlässlichkeit: Wer braucht in unserer Beziehungslogistik die deutlich striktere Einhaltung von getroffenen Absprachen?"
+        },
+        {
+            id: "b1_258", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, dass wir verlernt haben, konstruktiv zu streiten, ohne dass es in einer Schlammschlacht aus Vorwürfen endet.",
+            textSarah: "Ich habe das Gefühl, dass wir verlernt haben, konstruktiv zu streiten, ohne dass es in einer Schlammschlacht aus Vorwürfen endet.",
+            textCouch: "Kriegsschauplatz: Enden unsere Diskussionen zu oft in einer unproduktiven Abrechnung mit alten Fehlern der Vergangenheit?"
+        },
+        {
+            id: "b1_259", cat: "cat4",
+            textBenni: "Die Macken des anderen bedingungslos zu akzeptieren fällt mir nach all den Jahren spürbar schwerer als am Anfang.",
+            textSarah: "Die Macken des anderen bedingungslos zu akzeptieren fällt mir nach all den Jahren spürbar schwerer als am Anfang.",
+            textCouch: "Geduldsfaden: Ist unsere gegenseitige Fehlertoleranz im Laufe der Partnerschaft dünner oder belastbarer geworden?"
+        },
+        {
+            id: "b1_260", cat: "cat4",
+            textBenni: "Ich wünsche mir, dass wir uns im Alltag wieder öfter intensiv küssen, statt nur einen flüchtigen Abschiedskuss zu geben.",
+            textSarah: "Ich wünsche mir, dass wir uns im Alltag wieder öfter intensiv küssen, statt nur einen flüchtigen Abschiedskuss zu geben.",
+            textCouch: "Zärtlichkeits-Check: Ist der leidenschaftliche Kuss bei uns zu einem rein funktionalen Begrüßungsritual verkommen?"
+        },
+        {
+            id: "b1_261", cat: "cat4",
+            textBenni: "Bei finanziellen Engpässen oder unvorhergesehenen Ausgaben blockiere ich sofort emotional und gehe in den Stress-Modus.",
+            textSarah: "Bei finanziellen Engpässen oder unvorhergesehenen Ausgaben blockiert Benni sofort emotional und geht in den Stress-Modus.",
+            textCouch: "Finanz-Angst: Wessen Sicherheitsbedürfnis wird bei unklaren finanziellen Unwägbarkeiten schneller und heftiger getriggert?"
+        },
+        {
+            id: "b1_262", cat: "cat4",
+            textBenni: "Ich fühle mich im Alltag oft einsam, obwohl wir im selben Raum nebeneinander auf der Couch sitzen.",
+            textSarah: "Ich fühle mich im Alltag oft einsam, obwohl wir im selben Raum neben Benni auf der Couch sitze.",
+            textCouch: "Digitaler Keil: Erleben wir im Alltag Momente einer Isolation zu zweit, während die Smartphones unsere Aufmerksamkeit fressen?"
+        },
+        {
+            id: "b1_263", cat: "cat4",
+            textBenni: "Es fällt mir schwer, dir blinde Loyalität entgegenzubringen, wenn ich der Meinung bin, dass du sachlich im Unrecht bist.",
+            textSarah: "Es fällt Benni schwer, mir blinde Loyalität entgegenzubringen, wenn er der Meinung ist, dass ich sachlich im Unrecht bin.",
+            textCouch: "Solidarität vs. Wahrheit: Stellen wir die absolute Rückendeckung nach außen hin über die persönliche Meinung?"
+        },
+        {
+            id: "b1_264", cat: "cat4",
+            textBenni: "Ich habe Angst, dass wir uns in ein paar Jahren absolut nichts mehr zu sagen haben, wenn unser Sohn selbstständiger wird.",
+            textSarah: "Ich habe Angst, dass wir uns in ein paar Jahren absolut nichts mehr zu sagen haben, wenn unser Sohn selbstständiger wird.",
+            textCouch: "Zukunfts-Sorge: Existiert bei uns die geheime Angst vor der emotionalen Leere, wenn die Kindererziehung weniger Raum einnimmt?"
+        },
+        {
+            id: "b1_265", cat: "cat4",
+            textBenni: "Ich fühle mich von dir kontrolliert oder eingeengt, wenn du detailliert nach meinen täglichen Plänen oder Ausgaben fragst.",
+            textSarah: "Ich fühle mich von Benni kontrolliert oder eingeengt, wenn er detailliert nach meinen täglichen Plänen oder Ausgaben fragt.",
+            textCouch: "Freiraum-Grenze: Wo verläuft bei uns die Linie zwischen liebevoller, gesunder Fürsorge und gefühlter Einengung?"
+        },
+        {
+            id: "b1_266", cat: "cat4",
+            textBenni: "Wenn du traurig oder deprimiert bist, weiß ich oft absolut nicht, wie ich dich richtig trösten oder unterstützen kann.",
+            textSarah: "Wenn Benni traurig oder deprimiert ist, weiß ich oft absolut nicht, wie ich ihn richtig trösten oder unterstützen kann.",
+            textCouch: "Gebrauchsanweisung: Verstehen wir die emotionale Sprache des Partners in schweren Phasen fehlerfrei und intuitiv?"
+        },
+        {
+            id: "b1_267", cat: "cat4",
+            textBenni: "Ich trage insgeheim alte Kränkungen oder Verletzungen aus vergangenen Jahren mit mir herum, die ich dir nie ganz verziehen habe.",
+            textSarah: "Ich trage insgeheim alte Kränkungen oder Verletzungen aus vergangenen Jahren mit mir herum, die ich Benni nie ganz verziehen habe.",
+            textCouch: "Schatten der Vergangenheit: Belasten unausgesprochene Altlasten oder alte Enttäuschungen unsere aktuelle Gegenwart?"
+        },
+        {
+            id: "b1_268", cat: "cat4",
+            textBenni: "Deine Familie oder dein enges Umfeld fordert im Alltag einen zeitlichen Rahmen ein, der unsere Paar-Zeit spürbar beschneidet.",
+            textSarah: "Bennis Familie oder sein enges Umfeld fordert im Alltag einen zeitlichen Rahmen ein, der unsere Paar-Zeit spürbar beschneidet.",
+            textCouch: "Abgrenzung: Schaffen wir es, unsere Beziehungs-Kernzelle konsequent genug gegen äußere Erwartungen abzuschirmen?"
+        },
+        {
+            id: "b1_269", cat: "cat4",
+            textBenni: "Ich wünsche mir, dass wir uns wieder gemeinsame, verrückte Abenteuer zutrauen, statt immer nur die sichere Karte zu spielen.",
+            textSarah: "Ich wünsche mir, dass wir uns wieder gemeinsame, verrückte Abenteuer zutrauen, statt immer nur die sichere Karte zu spielen.",
+            textCouch: "Risiko-Check: Ist uns im Laufe der Jahre die jugendliche Spontaneität und der Mut zu unvernünftigen Plänen komplett abhandengekommen?"
+        },
+        {
+            id: "b1_270", cat: "cat4",
+            textBenni: "Wenn du meine Nähe oder Zärtlichkeit suchst, blocke ich manchmal ab, weil mein eigener Akku im Alltag einfach restlos leer ist.",
+            textSarah: "Wenn Benni meine Nähe oder Zärtlichkeit sucht, blocke ich manchmal ab, weil mein eigener Akku im Alltag einfach restlos leer ist.",
+            textCouch: "Bedürfnis-Clash: Wie gehen wir damit um, wenn das Verlangen nach Nähe des einen auf die absolute Erschöpfung des anderen prallt?"
+        }// --- BLOCK 7 (EINTRÄGE 271 BIS 315) ---
+        ,
+        {
+            id: "b1_271", cat: "cat4",
+            textBenni: "Wenn Sarah wegen des Alltagsstresses schlechte Laune hat, fällt es mir verdammt schwer, das nicht sofort persönlich zu nehmen.",
+            textSarah: "Wenn ich wegen des Alltagsstresses schlechte Laune habe, lasse ich das unbewusst viel zu oft an Benni aus.",
+            textCouch: "Stimmungs-Spiegel: Wer zieht die emotionale Atmosphäre bei Stress unbarmherziger nach unten?"
+        },
+        {
+            id: "b1_272", cat: "cat4",
+            textBenni: "Dass Sarah wichtige emotionale Sorgen oft erst mit Freundinnen bespricht, statt direkt zu mir zu kommen, gibt mir das Gefühl, außen vor zu sein.",
+            textSarah: "Wichtige emotionale Sorgen bespreche ich oft erst mit meinen Freundinnen, bevor ich den Mut finde, mit Benni darüber zu reden.",
+            textCouch: "Erste Anlaufstelle: Holen wir uns bei Beziehungsfrust zu schnell emotionalen Rat von außerhalb?"
+        },
+        {
+            id: "b1_273", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, Sarah unterschätzt manchmal massiv, wie viel mentale Energie mich mein beruflicher Alltag im Einkauf aktuell kostet.",
+            textSarah: "Ich unterschätze manchmal massiv, wie viel mentale Energie Benni sein beruflicher Alltag im Einkauf aktuell kostet.",
+            textCouch: "Beruflicher Respekt: Haben wir ein tiefes Verständnis dafür, wie erschöpft der Partner nach dem Feierabend wirklich ist?"
+        },
+        {
+            id: "b1_274", cat: "cat4",
+            textBenni: "Wenn Sarah weint oder hochemotional reagiert, blockiere ich innerlich und versuche das Problem viel zu kühl wegzuanalysieren.",
+            textSarah: "Wenn ich weine oder hochemotional reagiere, wünsche ich mir von Benni einfach nur eine Umarmung statt rationaler Ratschläge.",
+            textCouch: "Tränen & Trost: Können wir die hochemotionalen Ausbrüche des Partners aushalten, ohne sofort in eine sachliche Abwehrhaltung zu gehen?"
+        },
+        {
+            id: "b1_275", cat: "cat0",
+            textBenni: "Sarahs Bedürfnis nach Ordnung im Haus kollidiert regelmäßig mit meinem Wunsch, nach einem harten Workout einfach mal alles stehenzulassen.",
+            textSarah: "Mein Bedürfnis nach Ordnung im Haus kollidiert regelmäßig mit Bennis Angewohnheit, nach dem Gym seine Sachen tagelang zu ignorieren.",
+            textCouch: "Ordnungs-Konflikt: Wer von uns beiden muss im Alltag spürbar mehr Kompromisse bei der Haushalts-Sauberkeit eingehen?"
+        },
+        {
+            id: "b1_276", cat: "cat2",
+            textBenni: "Dass Sarah mir beim Umgang mit dem Kleinen oft ungebetene Ratschläge gibt, vermittelt mir das Gefühl, sie vertraut meinen väterlichen Instinkten nicht.",
+            textSarah: "Ich ertappe mich oft dabei, wie ich Benni beim Umgang mit unserem Sohn korrigiere, statt seinem eigenen Instinkt zu vertrauen.",
+            textCouch: "Väterliche Intuition: Fällt es schwer, dem Partner bei der Kinderbetreuung die absolut freie Hand zu lassen?"
+        },
+        {
+            id: "b1_277", cat: "cat4",
+            textBenni: "Wenn Sarah abends stundenlang auf Instagram oder Social Media scrollt, fühle ich mich auf dem Sofa komplett unsichtbar.",
+            textSarah: "Wenn ich abends auf Social Media scrolle, nutze ich das als reinen mentalen Schutzraum, um den Alltagsstress auszublenden.",
+            textCouch: "Digitaler Rückzug: Nutzen wir unsere Smartphones abends unbewusst als emotionale Mauer gegen den Partner?"
+        },
+        {
+            id: "b1_278", cat: "cat4",
+            textBenni: "Ich wünsche mir, dass Sarah mir im Alltag wieder öfter von sich aus zeigt, dass sie mich als Mann attraktiv und begehrenswert findet.",
+            textSarah: "Im aktuellen Erschöpfungs-Modus vergesse ich viel zu oft, Benni zu zeigen, dass ich ihn immer noch extrem attraktiv finde.",
+            textCouch: "Begehren im Alltag: Geht das offene, körperliche Kompliment zwischen Windeln wechseln und Job komplett verloren?"
+        },
+        {
+            id: "b1_279", cat: "cat4",
+            textBenni: "Dass Sarah bei Konflikten manchmal tagelang ein eiskaltes Schweigen kultiviert, verletzt mich tiefer als jeder laute Streit.",
+            textSarah: "Wenn mich etwas verletzt, ziehe ich mich tagelang in mein Schweigen zurück, weil mir die Worte für eine Konfrontation fehlen.",
+            textCouch: "Mauer des Schweigens: Wer nutzt emotionalen Rückzug nach einem Konflikt unbarmherziger als Bestrafung für den anderen?"
+        },
+        {
+            id: "b1_280", cat: "cat4",
+            textBenni: "Sarah neigt bei Diskussionen dazu, alte Fehler von mir auszugraben, die eigentlich schon längst geklärt und verziehen waren.",
+            textSarah: "In hitzigen Momenten greife ich auf alte Fehler von Benni zurück, weil mir in der aktuellen Diskussion die Argumente ausgehen.",
+            textCouch: "Archivar der Fehler: Wer kann alte Beziehungs-Altlasten in Argumentationen schlechter ruhen lassen?"
+        },
+        {
+            id: "b1_281", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, dass Sarah meine Phasen der absoluten Erschöpfung manchmal als Desinteresse an ihr oder der Familie missversteht.",
+            textSarah: "Wenn Benni schweigend und platt auf dem Sofa liegt, interpretiere ich das viel zu schnell als emotionale Distanz zu mir.",
+            textCouch: "Müdigkeits-Missverständnis: Neigen wir dazu, die reine körperliche Erschöpfung des Partners als persönliche Zurückweisung zu deuten?"
+        },
+        {
+            id: "b1_282", cat: "cat3",
+            textBenni: "Dass Sarah Ausgaben für Kleidung oder Deko im Nachhinein oft als 'Schnäppchen' tarnt, finde ich finanztechnisch ziemlich anstrengend.",
+            textSarah: "Vor Benni rechtfertige ich meine spontanen Einkäufe oft mit Rabatten, um einer trockenen Diskussion über das Budget zu entgehen.",
+            textCouch: "Konsum-Rechtfertigung: Wer verharmlost seine kleinen, privaten Spontankäufe vor dem Partner geschickter?"
+        },
+        {
+            id: "b1_283", cat: "cat4",
+            textBenni: "Wenn Sarah mich kritisiert, reagiert mein Ego viel zu schnell mit einem Gegenangriff, statt erst mal in Ruhe zuzuhören.",
+            textSarah: "Wenn ich Benni auf einen Fehler hinweise, holt er sofort zum verbalen Gegenschlag aus, statt meine Perspektive anzunehmen.",
+            textCouch: "Gegenangriff als Schutz: Wer schaltet bei berechtigter Kritik des Partners schneller auf sture Verteidigung um?"
+        },
+        {
+            id: "b1_284", cat: "cat4",
+            textBenni: "Ich vermisse es, mit Sarah einfach mal ein ganzes Wochenende wegzufahren, ohne dass die Logistik rund um das Kind im Vordergrund steht.",
+            textSarah: "Ein Wochenende komplett ohne unseren Sohn zu verbringen, würde mir im ersten Moment extreme logistische Trennungsängste bereiten.",
+            textCouch: "Eltern-Auszeit: Sind wir bereit, die Verantwortung für ein paar Tage komplett abzugeben, um wieder nur Liebespaar zu sein?"
+        },
+        {
+            id: "b1_285", cat: "cat8",
+            textBenni: "Dass Sarah Verabredungen mit Freunden oder Termine manchmal sehr kurzfristig zusagt, wirft meine Wochenstruktur komplett über den Haufen.",
+            textSarah: "Bennis starre Wochenstruktur lässt im Alltag oft viel zu wenig Raum für spontane soziale Kontakte oder Treffen.",
+            textCouch: "Spontaneität vs. Struktur: Wer von uns beiden leidet unter kurzfristigen Planänderungen im Familienalltag intensiver?"
+        },
+        {
+            id: "b1_286", cat: "cat2",
+            textBenni: "Ich habe oft das Gefühl, dass Sarah insgeheim der Meinung ist, sie würde bei der Erziehung unseres Sohnes die einzig richtige Linie fahren.",
+            textSarah: "Ich glaube insgeheim manchmal, dass meine mütterliche Intuition in Erziehungsfragen der logischen Herangehensweise von Benni überlegen ist.",
+            textCouch: "Erziehungs-Hoheit: Kämpfen wir unbemerkt darum, wer von uns beiden die 'bessere' oder 'richtigere' Bindung zum Kind aufbaut?"
+        },
+        {
+            id: "b1_287", cat: "cat0",
+            textBenni: "Sarahs Angewohnheit, ungeliebte Aufgaben im Haushalt so lange zu ignorieren, bis ich sie entnervt selbst erledige, ist ein cleveres System.",
+            textSarah: "Ich lasse manche Dinge im Haushalt absichtlich liegen, weil ich weiß, dass Bennis Toleranzgrenze für Unordnung viel niedriger ist als meine.",
+            textCouch: "Aussitzen im Haushalt: Wer besitzt die besseren Nerven, um ungeliebte Aufgaben so lange zu ignorieren, bis der andere einknickt?"
+        },
+        {
+            id: "b1_288", cat: "cat2",
+            textBenni: "Ich wünsche mir von Sarah mehr ehrliche Bestätigung für meine Rolle als Vater, abseits des reinen Funktionierens im Alltag.",
+            textSarah: "Ich vergesse im Alltagsstress viel zu oft, Benni für seine großartige und liebevolle Art mit unserem Sohn offen zu loben.",
+            textCouch: "Väterliche Wertschätzung: Sagen wir dem Partner im aktuellen Hamsterrad oft genug, wie stolz wir auf seine Elternrolle sind?"
+        },
+        {
+            id: "b1_289", cat: "cat4",
+            textBenni: "Dass Sarah mich bei hitzigen Diskussionen vor anderen Menschen im Freundeskreis manchmal korrigiert, verletzt meinen Stolz massiv.",
+            textSarah: "In geselligen Runden korrigiere ich Bennis Erzählungen manchmal viel zu direkt, ohne zu merken, dass ich damit seinen Stolz verletze.",
+            textCouch: "Loyalität in der Öffentlichkeit: Fallen wir uns vor Dritten manchmal unbewusst in den Rücken, statt als absolute Einheit aufzutreten?"
+        },
+        {
+            id: "b1_290", cat: "cat4",
+            textBenni: "Wenn Sarah unglücklich mit einer Situation ist, verfällt sie viel zu schnell in eine jammernde Opferrolle, statt das Problem pragmatisch anzupacken.",
+            textSarah: "Wenn mich Dinge belasten, brauche ich erst mal Raum zum Jammern und Frust ablassen, bevor ich nach einer rationalen Lösung suchen kann.",
+            textCouch: "Problembewältigung: Wer braucht bei Rückschlägen erst mal das emotionale Ventil und wer will sofort die harte Lösung?"
+        },
+        {
+            id: "b1_291", cat: "cat4",
+            textBenni: "Seit 2011 haben wir uns als Paar emotional so stark verändert, dass ich mich manchmal frage, ob wir uns insgeheim fremd geworden sind.",
+            textSarah: "Seit unserem Start im Jahr 2011 haben wir uns so stark verändert, dass wir unsere Beziehungsdynamik komplett neu definieren müssen.",
+            textCouch: "Wandel der Zeit: Haben wir uns über die vielen gemeinsamen Jahre hinweg in dieselbe Richtung oder unbemerkt auseinanderentwickelt?"
+        },
+        {
+            id: "b1_292", cat: "cat4",
+            textBenni: "Ich spüre bei Sarah manchmal eine untergründige Unzufriedenheit mit unserem aktuellen Lebensstil, die sie mir gegenüber nie laut ausspricht.",
+            textSarah: "Manchmal überkommt mich im Alltag eine unbestimmte Unzufriedenheit, die absolut nichts mit Benni, sondern nur mit meiner eigenen Überforderung zu tun hat.",
+            textCouch: "Unausgesprochener Frust: Spüren wir die verdeckten Krisen oder unglücklichen Phasen des Partners, ohne dass Worte fallen?"
+        },
+        {
+            id: "b1_293", cat: "cat4",
+            textBenni: "Dass Sarah bei kleinen Missverständnissen sofort vom absolut schlimmsten Fall ausgeht, erzeugt bei uns unnötige emotionale Dramen.",
+            textSarah: "Bennis oft sehr distanzierte und kühle Art bei Missverständnissen zwingt mich regelrecht dazu, vom schlimmsten Szenario auszugehen.",
+            textCouch: "Krisen-Modus: Wer neigt bei kleinen partnerschaftlichen Reibereien schneller zu einer extremen, emotionalen Überreaktion?"
+        },
+        {
+            id: "b1_294", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, dass meine sexuelle Initiative von Sarah im Moment eher als lästige Pflichtaufgabe statt als Einladung zur Nähe verstanden wird.",
+            textSarah: "Wenn Benni Intimität einfordert, fehlt mir nach einem brutalen Tag mit dem Kleinen oft schlichtweg die körperliche Kapazität dafür.",
+            textCouch: "Intimes Gleichgewicht: Reden wir offen genug über die unterschiedlichen Kapazitäten und Bedürfnisse beim Thema Sex?"
+        },
+        {
+            id: "b1_295", cat: "cat3",
+            textBenni: "Sarah kritisiert mein Konsumverhalten beim Gaming oder Studio-Equipment, ignoriert dabei aber völlig ihre eigenen kostspieligen Interessen.",
+            textSarah: "Ich kritisiere Bennis Ausgaben für PC-Spiele oder Sport, weil ich finde, dass er dafür im Familienalltag zu viel Geld abzweigt.",
+            textCouch: "Hobby-Budget: Wer von uns beiden misst bei den privaten Ausgaben des Partners heimlich mit zweierlei Maß?"
+        },
+        {
+            id: "b1_296", cat: "cat4",
+            textBenni: "Wenn Sarah mich enttäuscht, ziehe ich eine emotionale Mauer hoch, die es ihr tagelang unmöglich macht, wieder an mich heranzukommen.",
+            textSarah: "Wenn Benni mich enttäuscht, zieht er eine emotionale Mauer hoch, vor der ich tagelang absolut hilflos und frustriert stehe.",
+            textCouch: "Schutzmauern: Wer schottet sich bei emotionalen Verletzungen radikaler ab und verweigert die sofortige Versöhnung?"
+        },
+        {
+            id: "b1_297", cat: "cat4",
+            textBenni: "Ich wünsche mir, dass Sarah mir im Alltag öfter signalisiert, dass meine harte Arbeit im Job die finanzielle Basis für unser Leben sichert.",
+            textSarah: "Ich nehme Bennis beruflichen Erfolg und seinen einsatz im Job oft als zu selbstverständlich wahr, ohne den Druck dahinter zu würdigen.",
+            textCouch: "Ernährer-Druck: Schenken wir dem Partner genug Anerkennung für die finanzielle und berufliche Last, die er für uns trägt?"
+        },
+        {
+            id: "b1_298", cat: "cat4",
+            textBenni: "Sarahs Angewohnheit, im Streit absolut unfaire Verallgemeinerungen wie 'Du machst nie...' zu nutzen, bringt mich sofort auf die Palme.",
+            textSarah: "Im Streit nutze ich oft pauschale Vorwürfe, weil Bennis logische Argumentation mich emotional komplett in die Enge treibt.",
+            textCouch: "Wortwahl im Konflikt: Wer von uns beiden neigt im Eifer des Gefechts zu unfairen, pauschalen Verallgemeinerungen?"
+        },
+        {
+            id: "b1_299", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, Sarah nutzt unsere gemeinsamen Gespräche auf dem Sofa oft nur als reine Entlastung für ihren eigenen Mental Load.",
+            textSarah: "Meine abendlichen Erzählungen über den Haushalt und das Kind sind für mich der einzige Weg, den mentalen Druck mit Benni zu teilen.",
+            textCouch: "Zuhör-Kapazität: Sind unsere abendlichen Couch-Gespräche ein echter Dialog oder oft nur das reine Abladen von Alltags-Frust?"
+        },
+        {
+            id: "b1_300", cat: "cat0",
+            textBenni: "Dass Sarah mir bei handwerklichen Aufgaben im Haus jeden Handgriff misstrauisch diktiert, killt meine Motivation augenblicklich.",
+            textSarah: "Wenn Benni handwerkliche Dinge erledigt, muss ich genau hinschauen, weil er manchmal wichtige Details für die spätere Nutzung übersieht.",
+            textCouch: "Bauleitung im Alltag: Wer von uns beiden mutiert bei Aufgaben des Partners unbewusst zum anstrengenden Kontrolleur?"
+        },
+        {
+            id: "b1_301", cat: "cat4",
+            textBenni: "Ich vermisse die Zeiten, in denen Sarah und ich stundenlang im Auto saßen, laute Musik gehört haben und einfach absolut unbeschwert waren.",
+            textSarah: "Ich vermisse die Zeiten, in denen Benni und ich stundenlang im Auto saßen, laute Musik gehört haben und einfach absolut unbeschwert waren.",
+            textCouch: "Nostalgie-Vibe: Welchen unbeschwerten Moment aus unserer gemeinsamen Historie vor den Kindern sollten wir dringend wiederholen?"
+        },
+        {
+            id: "b1_302", cat: "cat4",
+            textBenni: "Wenn Sarah ohne mich mit Freundinnen unterwegs ist, spüre ich insgeheim einen winzigen, irrationalen Stich von Verlustangst.",
+            textSarah: "Wenn ich ohne Benni unterwegs bin, genieße ich den Freiraum, frage mich aber manchmal, ob er mich in diesen Stunden vermisst.",
+            textCouch: "Verlustangst-Check: Wer von uns beiden leidet bei getrennten Aktivitäten insgeheim unter der größeren emotionalen Unruhe?"
+        },
+        {
+            id: "b1_303", cat: "cat1",
+            textBenni: "Sarahs Unpünktlichkeit bei gemeinsamen Verabredungen strapaziert mein zeitliches und kaufmännisches Strukturdenken massiv.",
+            textSarah: "Bennis extremer Pünktlichkeitswahn erzeugt im Alltag einen völlig unnötigen, stressigen Druck auf die gesamte Familie.",
+            textCouch: "Zeit-Diktat: Wer von uns beiden reagiert bei Verzögerungen oder Verspätungen im Ablauf spürbar gestresster?"
+        },
+        {
+            id: "b1_304", cat: "cat0",
+            textBenni: "Ich ertappe mich dabei, wie ich Sarahs kleine Haushaltsfehler absichtlich stehen lasse, um zu sehen, wann sie es selbst bemerkt.",
+            textSarah: "Ich habe das Gefühl, Benni testet mich im Haushalt manchmal heimlich, statt mich einfach nett auf eine Sache hinzuweisen.",
+            textCouch: "Heimliche Tests: Neigen wir dazu, dem Partner im Alltag stumme Fallen zu stellen, statt Unzufriedenheiten direkt anzusprechen?"
+        },
+        {
+            id: "b1_305", cat: "cat4",
+            textBenni: "Dass Sarah bei emotionalen Themen sofort in eine Verteidigungshaltung geht, macht es mir unmöglich, tiefere Probleme anzusprechen.",
+            textSarah: "Bennis oft sehr vorwurfsvoller Tonfall beim Ansprechen von Problemen zwingt mich augenblicklich in eine schützende Verteidigungshaltung.",
+            textCouch: "Sicherer Raum: Schaffen wir es im Alltag, Reibungspunkte so zu besprechen, dass sich kein Partner angegriffen fühlt?"
+        },
+        {
+            id: "b1_306", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, dass Sarah meine kleinen Liebesbeweise im Alltag (wie Kaffee bringen oder Besorgungen machen) überhaupt nicht als solche wahrnimmt.",
+            textSarah: "Bennis logische Hilfestellungen im Alltag sind praktisch, aber mir fehlen manchmal einfach die emotionalen Liebeserklärungen in Worten.",
+            textCouch: "Sprachen der Liebe: Verstehen wir die ganz individuellen Wege des Partners, seine Zuneigung im Alltag auszudrücken?"
+        },
+        {
+            id: "b1_307", cat: "cat4",
+            textBenni: "Seit wir ein Kind haben, fühle ich mich von Sarah emotional oft nur noch an zweiter Stelle hinter unserem Sohn platziert.",
+            textSarah: "Die intensive Bindung zu unserem Sohn fordert aktuell meine gesamte emotionale Kapazität, wodurch für Benni manchmal zu wenig Energie bleibt.",
+            textCouch: "Mutter-Kind-Fokus: Fühlt sich der Partner durch die intensive Zuwendung zum Kind in seinen eigenen emotionalen Bedürfnissen vernachlässigt?"
+        },
+        {
+            id: "b1_308", cat: "cat2",
+            textBenni: "Sarah neigt dazu, getroffene Absprachen bezüglich unserer Aufgabenverteilung im Nachhinein schleichend zu ihren Gunsten aufzuweichen.",
+            textSarah: "Benni beharrt starr auf einmal getroffenen Absprachen, selbst wenn sich die logistische Realität im Alltag komplett verändert hat.",
+            textCouch: "Flexibilität vs. Deal: Wie starr müssen wir an einmal vereinbarten Alltags-Strukturen und Plänen festhalten?"
+        },
+        {
+            id: "b1_309", cat: "cat4",
+            textBenni: "Wenn Sarah mir im Alltag Vorwürfe macht, verliere ich extrem schnell meinen respektvollen und ruhigen Tonfall.",
+            textSarah: "Wenn ich Benni im Alltag kritisiere, schlägt seine Reaktion viel zu schnell in einen aggressiven und verletzenden Unterton um.",
+            textCouch: "Tonfall-Kollaps: Wer verlässt bei alltäglichen Reibereien schneller das niveau einer respektvollen Kommunikation?"
+        },
+        {
+            id: "b1_310", cat: "cat10",
+            textBenni: "Ich habe Angst, dass der anhaltende Schlafmangel und die Alltagslogistik unsere Liebe schleichend und unbemerkt auffressen.",
+            textSarah: "Ich habe Angst, dass der anhaltende Schlafmangel und die Alltagslogistik unsere Liebe schleichend und unbemerkt auffressen.",
+            textCouch: "Erosions-Gefahr: Spüren wir beide die akute Bedrohung, uns im reinen Funktionieren als Familien-Manager als Paar zu verlieren?"
+        },
+        {
+            id: "b1_311", cat: "cat4",
+            textBenni: "Sarahs Angewohnheit, Probleme anzusprechen, wenn ich gerade gestresst von der Arbeit nach Hause komme, überfordert mich komplett.",
+            textSarah: "Wenn ich mit Problemen warte, bis Benni 'bereit' ist, werden wichtige Dinge in unserer Beziehung am Ende überhaupt nicht besprochen.",
+            textCouch: "Timing für Deep Talk: Wann ist im Alltag der absolut richtige Zeitpunkt, um unbequeme Wahrheiten auf den Tisch zu packen?"
+        },
+        {
+            id: "b1_312", cat: "cat3",
+            textBenni: "Ich wünsche mir, dass Sarah und ich wieder mehr gemeinsame Träume und Spontankäufe wagen, statt alles eiskalt durchzukalkulieren.",
+            textSarah: "Bennis kaufmännischer Fokus auf absolute finanzielle Sicherheit bremst meine kreativen Träume und Pläne manchmal schmerzhaft aus.",
+            textCouch: "Sicherheitsnetz vs. Abenteuer: Blockiert unser Fokus auf Stabilität die unvernünftige Leichtigkeit in unserer Beziehung?"
+        },
+        {
+            id: "b1_313", cat: "cat4",
+            textBenni: "Dass Sarah mich im Alltag bei Erschöpfung manchmal wie ein zusätzliches, unfähiges Kind behandelt, verletzt meinen Stolz tief.",
+            textSarah: "Wenn Benni im Alltag passiv auf dem Sofa verharrt, rutsche ich unbewusst viel zu schnell in eine bestimmende, mütterliche Rolle ihm gegenüber.",
+            textCouch: "Rollen-Vergiftung: Geraten wir bei akuter Müdigkeit in eine ungesunde Dynamik aus 'bestimmender Mutter' und 'passivem Partner'?"
+        },
+        {
+            id: "b1_314", cat: "cat5",
+            textBenni: "Ich habe das Gefühl, Sarah sieht in meinen sportlichen Zielen und den Gym-Plänen insgeheim eine egoistische Flucht vor dem Familienleben.",
+            textSarah: "Bennis eisernes Festhalten an seinen harten Gym-Routinen fühlt sich für mich in stressigen Phasen manchmal wie ein unbarmherziger Egoismus an.",
+            textCouch: "Sport-Egoismus: Ist das Gym für den einen ein gesundes Ventil, während es für den anderen eine logistische Mehrbelastung darstellt?"
+        },
+        {
+            id: "b1_315", cat: "cat4",
+            textBenni: "Trotz aller aktuellen Reibungspunkte und der Erschöpfung ist Sarah für mich nach wie vor die absolut einzige Frau, mit der ich dieses Leben leben will.",
+            textSarah: "Trotz aller aktuellen Reibungspunkte und der Erschöpfung ist Benni für mich nach wie vor der absolut einzige Mann, mit dem ich dieses Leben leben will.",
+            textCouch: "Das ewige Fundament: Steht unsere tiefe, unerschütterliche Liebe seit 2011 felsenfest über jedem noch so lauten Alltagsclash?"
+        }// --- BLOCK 8 (EINTRÄGE 316 BIS 360) ---
+        ,
+        {
+            id: "b1_316", cat: "cat4",
+            textBenni: "Wenn Sarah mir von ihren tiefen Sorgen erzählt, fühle ich mich manchmal hilflos und blockiere innerlich, statt einfach nur zuzuhören.",
+            textSarah: "Wenn ich Benni von meinen tiefen Sorgen erzähle, zieht er sich manchmal hilflos zurück, statt mir einfach nur emotionalen Halt zu geben.",
+            textCouch: "Empathie-Blockade: Wer von uns beiden zieht bei den tiefen emotionalen Sorgen des Partners schneller eine sachliche Schutzmauer hoch?"
+        },
+        {
+            id: "b1_317", cat: "cat4",
+            textBenni: "Sarahs Tonfall im Alltag transportiert für mich oft einen impliziten, mürrischen Vorwurf, selbst wenn die Worte völlig neutral sind.",
+            textSarah: "Benni reagiert auf meine alltäglichen Bitten oft sofort genervt, weil er hinter jedem Satz einen persönlichen Angriff vermutet.",
+            textCouch: "Tonfall-Trigger: Wer von uns beiden reagiert empfindlicher auf Nuancen in der Stimme des Partners?"
+        },
+        {
+            id: "b1_318", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, dass wir abends auf dem Sofa oft nur noch nebeneinander her existieren, statt echte gemeinsame Momente zu teilen.",
+            textSarah: "Ich habe das Gefühl, dass wir abends auf dem Sofa oft nur noch nebeneinander her existieren, statt echte gemeinsame Momente zu teilen.",
+            textCouch: "Isolation zu zweit: Starren wir abends zu oft unbewusst parallel auf unsere Displays, statt dem Partner Aufmerksamkeit zu schenken?"
+        },
+        {
+            id: "b1_319", cat: "cat4",
+            textBenni: "Wenn Sarah ohne mich oder den Kleinen Zeit verbringt, fällt es mir schwer, ihr diesen Freiraum vollkommen ohne untergründigen Frust zu gönnen.",
+            textSarah: "Wenn Benni ins Gym geht oder zockt, spüre ich manchmal einen leisen Neid, weil er sich seine Me-Time viel konsequenter einfordert als ich.",
+            textCouch: "Freiraum-Neid: Wer von uns beiden gönnt dem Partner seine ganz persönlichen Auszeiten insgeheim etwas weniger?"
+        },
+        {
+            id: "b1_320", cat: "cat4",
+            textBenni: "Ich wünsche mir, dass Sarah mich vor Freundinnen oder der Familie öfter positiv hervorhebt, statt kleine Alltags-Macken zu thematisieren.",
+            textSarah: "In Gesellschaft verfalle ich viel zu schnell in den Modus, über Bennis Macken zu scherzen, statt ihn offen vor anderen zu loben.",
+            textCouch: "Rückendeckung vor Dritten: Neigen wir im Beisein anderer dazu, den Partner eher zu kritisieren als ihm den Rücken zu stärken?"
+        },
+        {
+            id: "b1_321", cat: "cat10",
+            textBenni: "Sarahs Art, ihre Müdigkeit am Wochenende in absolute Hektik und Putzwahn umzuwandeln, setzt mich im Haus massiv unter Druck.",
+            textSarah: "Wenn Benni bei akuter Müdigkeit einfach lethargisch auf der Couch verharrt, triggert das meinen inneren Alltags-Stress extrem.",
+            textCouch: "Müdigkeits-Kompensation: Wer verwandelt Schlafmangel eher in anstrengenden Aktionismus und wer in absolute Passivität?"
+        },
+        {
+            id: "b1_322", cat: "cat4",
+            textBenni: "Ich habe oft das Gefühl, dass meine Erwartungen an einen entspannten Feierabend völlig unrealistisch mit Sarahs Plänen kollidieren.",
+            textSarah: "Bennis Vorstellung von einem entspannten Feierabend lässt oft völlig außer Acht, dass der Haushalt und die Orga nicht von alleine schwinden.",
+            textCouch: "Feierabend-Konflikt: Dringen wir im aktuellen Alltagstrott zu wenig zum Bedürfnis des Partners nach echter Entlastung durch?"
+        },
+        {
+            id: "b1_323", cat: "cat4",
+            textBenni: "Über unsere sexuellen Wünsche oder Veränderungen seit der Geburt zu sprechen, erzeugt bei mir im ersten Moment eine leichte Scham.",
+            textSarah: "Über unsere sexuellen Wünsche oder Veränderungen seit der Geburt offen zu sprechen, fällt mir im Alltag unendlich schwer.",
+            textCouch: "Intim-Talk: Schaffen wir es, über das Thema Sex völlig frei von Druck, Erwartungen oder gegenseitigen Vorwürfen zu reden?"
+        },
+        {
+			 id: "b1_324", cat: "cat4",
+            textBenni: "Dass Sarah Meilensteine oder Jahrestage emotional deutlich ernster nimmt als ich, sorgt bei mir vor solchen Daten für Stress.",
+            textSarah: "Bennis eher pragmatische Haltung zu Jahrestagen und symbolischen Daten verletzt mich manchmal in meinem romantischen Empfinden.",
+            textCouch: "Symbolische Daten: Wer legt in dieser Beziehung den spürbar höheren Wert auf das Zelebrieren von gemeinsamen Jahrestagen?"
+        },
+        {
+            id: "b1_325", cat: "cat4",
+            textBenni: "Ich habe manchmal die unbegründete Angst, dass Sarah mich wegen der körperlichen Veränderungen über die Jahre weniger attraktiv findet.",
+            textSarah: "Im aktuellen Alltags- und Mamamodus fällt es mir schwer, mich selbst körperlich attraktiv zu fühlen, was meine Nähe zu Benni blockiert.",
+            textCouch: "Körperliche Akzeptanz: Schaffen wir es, dem Partner die absolute Sicherheit zu geben, dass wir ihn genau so lieben und begehren, wie er heute ist?"
+        },
+        {
+            id: "b1_326", cat: "cat2",
+            textBenni: "Wenn Sarah Erziehungsmuster aus ihrer eigenen Kindheit eins zu eins kopiert, sehe ich das oft extrem kritisch.",
+            textSarah: "Wenn Benni bei unserem Sohn rein logisch und kaufmännisch argumentiert, fehlt mir da manchmal die pure mütterliche Empathie.",
+            textCouch: "Prägungen der Kindheit: Wo prallen die Erziehungsstile unserer eigenen Eltern im aktuellen Alltag am härtesten aufeinander?"
+        },
+        {
+            id: "b1_327", cat: "cat3",
+            textBenni: "Ich verberge kleinere, private Spontankäufe für meine Hobbies manchmal vor Sarah, um einer unnötigen Diskussion aus dem Weg zu gehen.",
+            textSarah: "Ich verberge kleinere Einkäufe für Kleidung oder Deko manchmal vor Benni, weil ich keine Lust auf eine kaufmännische Belehrung habe.",
+            textCouch: "Finanzielle Geheimnisse: Neigen wir dazu, Ausgaben für persönliche Leidenschaften vor dem Partner ein Stück weit zu verheimlichen?"
+        },
+        {
+            id: "b1_328", cat: "cat5",
+            textBenni: "Mich für meine Me-Time (wie Gym oder Freunde) im Alltag rechtfertigen zu müssen, erzeugt bei mir sofort eine trotzige Abwehrhaltung.",
+            textSarah: "Wenn Benni ohne Zögern seine Freizeit plant, schlucke ich meinen Frust oft runter, statt meine eigenen Bedürfnisse anzumelden.",
+            textCouch: "Freizeit-Rechtfertigung: Fühlt sich das Einfordern von persönlicher Me-Time bei uns manchmal wie ein egoistischer Akt an?"
+        },
+        {
+            id: "b1_329", cat: "cat4",
+            textBenni: "Sarahs subtile Zeichen der Missachtung im Streit (wie Augenrollen oder tiefes Seufzen) verletzen mich im Kern.",
+            textSarah: "Bennis kühle, fast schon arrogante Logik in Diskussionen bringt mich emotional viel zu schnell an die absolute Belastungsgrenze.",
+            textCouch: "Subtile Streit-Waffen: Welche unbewussten Reaktionen des Partners vergiften ein klärendes Gespräch innerhalb von Sekunden?"
+        },
+        {
+            id: "b1_330", cat: "cat4",
+            textBenni: "Ich erwarte von Sarah viel zu oft, dass sie meine aktuellen Bedürfnisse errät, ohne dass ich sie laut aussprechen muss.",
+            textSarah: "Benni zieht sich oft schweigend zurück und erwartet von mir, dass ich errate, was ihn gerade emotional belastet.",
+            textCouch: "Gedankenlesen: Scheitern wir im Alltag daran, Wünsche klar zu formulieren, weil wir erwarten, dass der Partner uns blind versteht?"
+        },
+        {
+            id: "b1_331", cat: "cat4",
+            textBenni: "Wenn Sarah beruflich gestresst oder unzufrieden ist, neige ich dazu, ihr sofort pragmatische Karriereratschläge zu erteilen, statt einfach zuzuhören.",
+            textSarah: "Wenn ich mich über meinen Job beklage, will Benni die Situation sofort kaufmännisch optimieren, statt meine Frustration einfach zu validieren.",
+            textCouch: "Beruflicher Frust: Erwarten wir vom Partner bei Jobproblemen die harte Lösung oder einfach nur ein offenes, empathisches Ohr?"
+        },
+        {
+            id: "b1_332", cat: "cat4",
+            textBenni: "Seit wir eine Familie sind, investieren wir absolut keine mentale Energie mehr in das Planen von exklusiver Paar-Zeit ohne Kind.",
+            textSarah: "Seit wir eine Familie sind, investieren wir absolut keine mentale Energie mehr in das Planen von exklusiver Paar-Zeit ohne Kind.",
+            textCouch: "Paar-Priorität: Haben wir das aktive Planen von Dates und exklusiver Nähe im reinen Funktionieren als Eltern komplett eingestellt?"
+        },
+        {
+            id: "b1_333", cat: "cat4",
+            textBenni: "Es gibt Momente im Alltag, in denen ich mich trotz der gemeinsamen Wohnung emotional meilenweit von Sarah entfernt fühle.",
+            textSarah: "Es gibt Momente im Alltag, in denen ich mich trotz der gemeinsamen Wohnung emotional meilenweit von Benni entfernt fühle.",
+            textCouch: "Physisch nah, mental fern: Erleben wir im Hamsterrad Phasen, in denen wir nur noch wie zwei WG-Mitbewohner nebeneinander herleben?"
+        },
+        {
+            id: "b1_334", cat: "cat4",
+            textBenni: "Wenn Sarah Konflikte mit Außenstehenden (wie Nachbarn oder Bekannten) hat, schlage ich mich im Zweifel viel zu oft auf die sachliche Gegenseite.",
+            textSarah: "Ich wünsche mir von Benni bei Konflikten im Außenbereich bedingungslose, loyale Rückendeckung, selbst wenn ich im Unrecht sein sollte.",
+            textCouch: "Absolute Loyalität: Stellen wir den bedingungslosen Schutz des Partners über die objektive, sachliche Wahrheit?"
+        },
+        {
+            id: "b1_335", cat: "cat4",
+            textBenni: "Ich schlucke Kritik im Alltag viel zu lange um des lieben Friedens willen runter, statt rechtzeitig ein reinigendes Gewitter zu riskieren.",
+            textSarah: "Ich gehe Konflikten im Alltag oft aus dem Weg, weil Bennis Diskussions-Ausdauer mich emotional schlichtweg überfordert.",
+            textCouch: "Harmoniesucht vs. Gewitter: Lassen wir unbemerkt zu viele kleine Reibungspunkte verrotten, bis es zur Explosion kommt?"
+        },
+        {
+            id: "b1_336", cat: "cat4",
+            textBenni: "Fiese Sätze oder Vorwürfe, die Sarah im Eifer eines vergangenen Streits gesagt hat, nagen insgeheim immer noch an meinem Ego.",
+            textSarah: "Verletzende Formulierungen, die Benni in alten Diskussionen genutzt hat, haben bei mir Spuren hinterlassen, die ich schwer vergessen kann.",
+            textCouch: "Verbales Echo: Tragen wir verdeckte Wunden aus alten Konflikten mit uns herum, die wir nie ganz aufgearbeitet haben?"
+        },
+        {
+            id: "b1_337", cat: "cat4",
+            textBenni: "Ich habe die reale, geheime Angst, dass wir uns im Laufe der nächsten Jahre als Liebespaar komplett verlieren und nur noch als Eltern funktionieren.",
+            textSarah: "Ich habe die reale, geheime Angst, dass wir uns im Laufe der nächsten Jahre als Liebespaar komplett verlieren und nur noch als Eltern funktionieren.",
+            textCouch: "Liebespaar-Erosion: Spüren wir beide den schleichenden Druck des Alltags, der unsere romantische Basis bedroht?"
+        },
+        {
+            id: "b1_338", cat: "cat4",
+            textBenni: "Dass Sarah mich im Alltag bei kleinsten Fehlern (wie falschen Besorgungen) maßregelt, verletzt meinen kaufmännischen und persönlichen Stolz.",
+            textSarah: "Wenn Benni im Alltag unkonzentriert agiert, reagiere ich viel zu schnell wie eine strenge Lehrerin statt wie eine Partnerin auf Augenhöhe.",
+            textCouch: "Beziehungs-Hierarchie: Rutschen wir im Alltagsstress zu oft in eine ungesunde Dynamik aus 'Kritiker' und 'Fehlermacher' ab?"
+        },
+        {
+            id: "b1_339", cat: "cat4",
+            textBenni: "Körperliche Zärtlichkeit und Umarmungen im Alltag machen mir nur dann Spaß, wenn sie nicht sofort mit der Erwartung auf Sex verknüpft sind.",
+            textSarah: "Körperliche Zärtlichkeit und Umarmungen im Alltag machen mir nur dann Spaß, wenn sie nicht sofort mit der Erwartung auf Sex verknüpft sind.",
+            textCouch: "Zärtlichkeit ohne Hintergedanken: Schaffen wir im Alltag genug Räume für reine, absichtslose körperliche Nähe?"
+        },
+        {
+            id: "b1_340", cat: "cat3",
+            textBenni: "Bei großen, langfristigen Zukunftsentscheidungen (wie Finanzen oder Projekten) vertraue ich Sarahs Intuition insgeheim viel zu wenig.",
+            textSarah: "Bei großen, langfristigen Zukunftsentscheidungen vertraue ich Bennis kaufmännischem Urteil absolut blind, ohne es zu hinterfragen.",
+            textCouch: "Zukunfts-Vertrauen: Wie ausgeglichen ist das Vertrauen in die strategischen und intuitiven Fähigkeiten des Partners?"
+        },
+        {
+            id: "b1_341", cat: "cat2",
+            textBenni: "Die mentale Last beim Planen von Familienfesten oder Geburtstagen überlasse ich viel zu bequem und vollständig Sarah.",
+            textSarah: "Die logistische Organisation von Feiern und Geschenken lastet im Hintergrund fast ausschließlich auf meinen Schultern.",
+            textCouch: "Event-Mental-Load: Wer von uns beiden schiebt im Hintergrund die meiste Planungsarbeit für familiäre Events?"
+        },
+        {
+            id: "b1_342", cat: "cat4",
+            textBenni: "Wenn wir ein Problem haben, muss ich das sofort ausdiskutieren – dass Sarah Bedenkzeit oder Rückzug braucht, blockiert mich komplett.",
+            textSarah: "Bei Konflikten brauche ich erst mal Zeit, um meine Gefühle zu sortieren – Bennis Drang nach sofortiger Klärung überfordert mich massiv.",
+            textCouch: "Kommunikationstempo: Wer drängt bei Reibungspunkten auf die sofortige Lösung und wer braucht erst mal Raum zum Nachdenken?"
+        },
+        {
+            id: "b1_343", cat: "cat9",
+            textBenni: "Im Urlaub erwarte ich von Sarah viel zu oft, dass sie sofort in den absoluten Entspannungsmodus schaltet, und bin genervt, wenn es nicht klappt.",
+            textSarah: "Im Urlaub brauche ich meistens ein paar Tage, um den Alltagsstress im Kopf zu bändigen – Bennis Ungeduld hilft mir dabei überhaupt nicht.",
+            textCouch: "Urlaubs-Akklimatisierung: Wer von uns beiden nimmt den mentalen Druck der Heimat länger mit in die gemeinsame Reise?"
+        },
+        {
+            id: "b1_344", cat: "cat5",
+            textBenni: "Ich habe manchmal das Gefühl, Sarah sieht in meinen Hobbies (wie Gaming oder Gym) nur eine zeitraubende Belastung für unser Familienleben.",
+            textSarah: "Bennis Hobbies nehmen im Alltag einen Raum ein, den ich mir selbst für meine Interessen im Moment absolut nicht zugestehen kann.",
+            textCouch: "Hobby-Akzeptanz: Betrachten wir die Leidenschaften des Partners als Bereicherung für seinen Akku oder als logistisches Hindernis?"
+        },
+        {
+            id: "b1_345", cat: "cat4",
+            textBenni: "Es gibt kleine, versteckte Enttäuschungen aus den letzten Monaten, die ich Sarah gegenüber aus Angst vor Streit nie laut ausgesprochen habe.",
+            textSarah: "Es gibt kleine, versteckte Enttäuschungen aus den letzten Monaten, die ich Benni gegenüber aus Angst vor Streit nie laut ausgesprochen habe.",
+            textCouch: "Stille Kränkungen: Sammeln wir im Hintergrund kleine emotionale Verletzungen an, statt sie sofort transparent zu klären?"
+        },
+        {
+            id: "b1_346", cat: "cat4",
+            textBenni: "Ich bin ungelogen der Part in dieser Beziehung, der den anderen nach einem harten Tag schneller wieder zum Lachen bringen kann.",
+            textSarah: "Ich bin ungelogen der Part in dieser Beziehung, der den anderen nach einem harten Tag schneller wieder zum Lachen bringen kann.",
+            textCouch: "Humor-Motor: Wer von uns beiden besitzt im Alltag die höhere Kompetenz, düstere Stimmungen durch Witz aufzulockern?"
+        },
+        {
+            id: "b1_347", cat: "cat10",
+            textBenni: "Wenn unser Sohn eine extreme Trotzphase hat, verliere ich die Nerven spürbar schneller und ziehe mich aus der Situation zurück.",
+            textSarah: "Wenn unser Sohn eine extreme Trotzphase hat, muss ich Bennis dünnes Nervenkostüm oft mitausbaden, statt Entlastung zu finden.",
+            textCouch: "Trotzphasen-Survival: Wer von uns beiden behält im akuten Kleinkind-Chaos die stabileren und kühleren Nerven?"
+        },
+        {
+            id: "b1_348", cat: "cat2",
+            textBenni: "Ich rutsche im Umgang mit dem Kleinen viel zu oft in die Rolle des reinen Spaß-Vaters ab, während Sarah die ungeliebten Verbote durchsetzen muss.",
+            textSarah: "Ich verkörpere im Alltag viel zu oft die Rolle der strengen Erzieherin, weil Benni bei Verboten viel zu inkonsequent agiert.",
+            textCouch: "Good Cop, Bad Cop: Ist unsere Rollenverteilung bei der Erziehung ausgewogen oder lastet der konsequente Part auf einer Person?"
+        },
+        {
+            id: "b1_349", cat: "cat5",
+            textBenni: "Das absolute Bedürfnis nach Tagen komplett ohne Partner und Kind im Haus zu verbringen, erzeugt bei mir insgeheim ein schlechtes Gewissen.",
+            textSarah: "Das absolute Bedürfnis nach Tagen komplett ohne Partner und Kind im Haus zu verbringen, erzeugt bei mir insgeheim ein schlechtes Gewissen.",
+            textCouch: "Radikale Auszeit: Sehnen wir uns beide insgeheim nach Phasen einer absoluten, temporären Isolation vom Familiengefüge?"
+        },
+        {
+            id: "b1_350", cat: "cat4",
+            textBenni: "Ich bin extrem stolz darauf, wie Sarah sich in den letzten Jahren persönlich und als Mutter entwickelt hat.",
+            textSarah: "Ich bin extrem stolz darauf, wie Benni sich in den letzten Jahren persönlich und als Vater entwickelt hat.",
+            textCouch: "Gegenseitiger Stolz: Sagen wir dem Partner im Alltag oft genug, wie sehr wir seinen persönlichen Reifeprozess bewundern?"
+        },
+        {
+            id: "b1_351", cat: "cat1",
+            textBenni: "Sarahs lautstarke Kritik an meinem Fahrstil im Auto ist im Grunde kein Hinweis auf Sicherheit, sondern reiner verkappter Beziehungsfrust.",
+            textSarah: "Bennis aggressiver und riskanter Fahrstil im dichten Verkehr zwingt mich regelrecht dazu, auf dem Beifahrersitz einzugreifen.",
+            textCouch: "Cockpit-Krieg: Ist das Auto bei uns ein Ventil für tiefer liegende partnerschaftliche Spannungen und Kontrollkämpfe?"
+        },
+        {
+            id: "b1_352", cat: "cat4",
+            textBenni: "Das Gleichgewicht zwischen Geben und Nehmen fühlt sich für mich in dieser Partnerschaft im Moment absolut fair und ausgeglichen an.",
+            textSarah: "Das Gleichgewicht zwischen Geben und Nehmen fühlt sich für mich in dieser Partnerschaft im Moment absolut fair und ausgeglichen an.",
+            textCouch: "Gerechtigkeits-Check: Hat ein Partner unbemerkt das Gefühl, deutlich mehr emotionale Energie in die Beziehung zu stecken als der andere?"
+        },
+        {
+            id: "b1_353", cat: "cat4",
+            textBenni: "Ich wünsche mir von Sarah mehr Offenheit für neue, unkonventionelle Erlebnisse oder Experimente abseits unserer gewohnten Routinen.",
+            textSarah: "Bennis Drang nach neuen Experimenten überfordert mich im aktuellen Erschöpfungszustand emotional und logistisch komplett.",
+            textCouch: "Routinen-Sicherheit vs. Experimente: Blockiert unser Bedürfnis nach Stabilität den gesunden Hunger auf neue Impulse?"
+        },
+        {
+            id: "b1_354", cat: "cat10",
+            textBenni: "Der akute Schlafmangel führt dazu, dass ich Sarah gegenüber im Alltag viel schneller respektlose oder patzige Antworten gebe.",
+            textSarah: "Unter akutem Schlafmangel verliert Benni jegliches Feingefühl im Tonfall, was mich emotional extrem verletzt und triggert.",
+            textCouch: "Respektgrenze bei Erschöpfung: Lassen wir den Schlafmangel als Ausrede für einen unfairen und scharfen Umgangston gelten?"
+        },
+        {
+            id: "b1_355", cat: "cat4",
+            textBenni: "Tief sitzende Ängste oder Albträume am Morgen mit Sarah zu teilen, fühlt sich für mich wie eine absolute emotionale Entlastung an.",
+            textSarah: "Wenn Benni morgens seine verletzlichen Gedanken oder Träume mit mir teilt, spüre ich eine tiefe, unerschütterliche Verbundenheit zu ihm.",
+            textCouch: "Morgen-Vulnerabilität: Nutzen wir die ersten Minuten des Tages für echte, ungeschützte emotionale Nähe abseits der To-Do-Listen?"
+        },
+        {
+            id: "b1_356", cat: "cat4",
+            textBenni: "Wenn Sarah mir etwas schenkt, das absolut nicht meinen Geschmack trifft, spiele ich ihr aus reiner Höflichkeit pure Begeisterung vor.",
+            textSarah: "Wenn Benni mir etwas schenkt, das absolut nicht meinen Geschmack trifft, spiele ich ihm aus reiner Höflichkeit pure Begeisterung vor.",
+            textCouch: "Ehrlichkeit bei Geschenken: Besitzen wir den Mut, Fehlkäufe des Partners offen zuzugeben, oder flüchten wir in die weiße Lüge?"
+        },
+        {
+            id: "b1_357", cat: "cat0",
+            textBenni: "Aufgaben im Haushalt, die Sarah erledigt hat, heimlich noch einmal nachzubessern, zeugt von einer ziemlichen Kontroll-Macke von mir.",
+            textSarah: "Dass Benni Dinge, die ich im Haushalt fertig gemacht habe, heimlich kontrolliert und optimiert, kränkt mein handwerkliches Selbstverständnis.",
+            textCouch: "Heimliche Qualitätskontrolle: Vertrauen wir der Arbeitsweise des Partners im Haushalt vollkommen oder bessern wir heimlich nach?"
+        },
+        {
+            id: "b1_358", cat: "cat4",
+            textBenni: "Nach einer Meinungsverschiedenheit bin ich meistens der Part, der den ersten Schritt auf Sarah zumacht, um die Blockade zu lösen.",
+            textSarah: "Nach einer Meinungsverschiedenheit bin ich meistens der Part, der den ersten Schritt auf Benni zumacht, um die Blockade zu lösen.",
+            textCouch: "Versöhnungs-Motor: Wer von uns beiden bricht nach einem Konflikt das eiskalte Schweigen mutiger und sucht den Körperkontakt?"
+        },
+        {
+            id: "b1_359", cat: "cat4",
+            textBenni: "Gemeinsame Familienfeiern oder Events erzeugen bei mir vorab so viel logistischen Stress, dass ich die Feste kaum genießen kann.",
+            textSarah: "Gemeinsame Familienfeiern oder Events erzeugen bei mir vorab so viel logistischen Stress, dass ich die Feste kaum genießen kann.",
+            textCouch: "Erwartungsdruck bei Feiern: Mutieren wir vor offiziellen Terminen unbewusst zu gestressten Managern statt unbeschwerten Gästen?"
+        },
+        {
+            id: "b1_360", cat: "cat4",
+            textBenni: "Trotz aller Herausforderungen des Kleinkind-Alltags gibt es für mich absolut keinen Zweifel daran, dass Sarah meine absolute Traumfrau ist.",
+            textSarah: "Trotz aller Herausforderungen des Kleinkind-Alltags gibt es für mich absolut keinen Zweifel daran, dass Benni mein absoluter Traummann ist.",
+            textCouch: "Das ewige Versprechen: Steht unsere grundlegende Entscheidung füreinander felsenfest über jedem noch so lauten Alltagsclash?"
+        }// --- BLOCK 9 (EINTRÄGE 361 BIS 405) ---
+        ,
+        {
+            id: "b1_361", cat: "cat4",
+            textBenni: "Wenn Sarah mir in hitzigen Diskussionen das Gefühl gibt, meine Argumente seien emotional unreif, verletzt mich das zutiefst.",
+            textSarah: "In Diskussionen werfe Benni manchmal viel zu schnell vor, dass er emotional unreif argumentiert, statt seine echte Verletzlichkeit zu sehen.",
+            textCouch: "Reife im Konflikt: Wer wirft dem Partner bei Meinungsverschiedenheiten schneller mangelnde emotionale Reife vor?"
+        },
+        {
+            id: "b1_362", cat: "cat4",
+            textBenni: "Dass Sarah wichtige Entscheidungen für unser Familienleben manchmal vorab mit ihrer Mutter bespricht, gibt mir das Gefühl, nur die zweite Wahl zu sein.",
+            textSarah: "Bevor ich mit Benni über schwierige Familienthemen rede, hole ich mir oft erst den Rat meiner Mutter, um meine eigenen Gedanken zu sortieren.",
+            textCouch: "Einfluss von außen: Haben familiäre Ratschläge von außerhalb einen zu großen Stellenwert in unseren internen Absprachen?"
+        },
+        {
+            id: "b1_363", cat: "cat4",
+            textBenni: "Ich habe oft die Befürchtung, dass Sarah insgeheim bereut, wie stark sich unser gemeinsames Leben und unsere Freiheit seit 2011 verändert haben.",
+            textSarah: "Manchmal trauere ich unserer absoluten Unbeschwertheit aus den Jahren nach 2011 nach, was Benni fälschlicherweise als Bereuen unserer Familie deutet.",
+            textCouch: "Vergangenheits-Sehnsucht: Neigt einer von uns beiden intensiver dazu, den alten Zeiten vor den großen Verpflichtungen nachzuweinen?"
+        },
+        {
+            id: "b1_364", cat: "cat4",
+            textBenni: "Wenn Sarah mich vor unserem Sohn kritisiert oder korrigiert, untergräbt das in meinen Augen meine grundlegende väterliche Autorität.",
+            textSarah: "Ich korrigiere Bennis Verhalten vor unserem Sohn viel zu oft direkt, statt mit meiner Kritik zu warten, bis wir unter uns sind.",
+            textCouch: "Erziehungs-Front: Schaffen wir es, vor dem Kleinen immer als absolut geschlossene, unangreifbare Einheit aufzutreten?"
+        },
+        {
+            id: "b1_365", cat: "cat4",
+            textBenni: "Sarahs Angewohnheit, im Streit plötzlich den Raum zu verlassen und die Diskussion einseitig abzubrechen, macht mich absolut rasend.",
+            textSarah: "Wenn mir in einer Diskussion mit Benni alles zu viel wird, flüchte ich aus dem Raum, um mich vor weiteren verbalen Verletzungen zu schützen.",
+            textCouch: "Flucht-Reflex: Wer bricht hitzige Gespräche durch physischen Rückzug unangekündigter und einseitiger ab?"
+        },
+        {
+            id: "b1_366", cat: "cat4",
+            textBenni: "Ich ertappe mich dabei, wie ich Sarah im Alltag manchmal bewusst mit eisigem Schweigen strafe, wenn sie mich vorher gekränkt hat.",
+            textSarah: "Wenn Benni mich verletzt hat, spüre ich tagelang eine emotionale Kälte von ihm, die mich im gemeinsamen Haus völlig isoliert.",
+            textCouch: "Strafendes Schweigen: Wer nutzt emotionale Kälte nach einer Krise radikaler, um dem Partner das eigene Missfallen zu demonstrieren?"
+        },
+        {
+            id: "b1_367", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, dass Sarah meine kleinen Aufmerksamkeiten (wie das Auto tanken oder Besorgungen machen) überhaupt nicht als Liebesbeweis zählen lässt.",
+            textSarah: "Bennis praktische Erleichterungen im Alltag sind toll, aber sie ersetzen für mich nicht das Bedürfnis nach ehrlichen, emotionalen Liebeserklärungen.",
+            textCouch: "Liebes-Definition: Sprechen wir beim Thema 'Zuneigung zeigen' im Alltag manchmal komplett unterschiedliche Sprachen?"
+        },
+        {
+            id: "b1_368", cat: "cat4",
+            textBenni: "Dass Sarah meine sportlichen Erfolge oder das eisene Einhalten meiner Gym-Pläne insgeheim für puren Egoismus hält, kränkt mich.",
+            textSarah: "Bennis extrem strenger Fokus auf sein Training fühlt sich für mich in stressigen Phasen wie eine Flucht vor der gemeinsamen Verantwortung an.",
+            textCouch: "Hobby vs. Familie: Empfinden wir die Auszeiten des Partners als notwendiges Ventil oder als logistische Last für den anderen?"
+        },
+        {
+            id: "b1_369", cat: "cat4",
+            textBenni: "Wenn wir über Probleme reden, wünsche ich mir von Sarah oft einfach mehr sachliche Logik statt rein emotionaler Vorwürfe.",
+            textSarah: "Wenn wir Konflikte haben, blockiert Bennis eiskalte kaufmännische Logik mein Bedürfnis, erst mal über meine echten Gefühle zu sprechen.",
+            textCouch: "Sachtext vs. Emotion: Wer driftet bei Beziehungsdiskussionen zu schnell in eine rein unterkühlte Argumentation ab?"
+        },
+        {
+            id: "b1_370", cat: "cat4",
+            textBenni: "Ich habe die Befürchtung, dass wir uns als Liebespaar bereits unbemerkt auseinandergelebt haben und nur noch wegen der Logistik zusammen sind.",
+            textSarah: "Ich habe die Befürchtung, dass wir uns als Liebespaar bereits unbemerkt auseinandergelebt haben und nur noch wegen der Logistik zusammen sind.",
+            textCouch: "WG-Modus: Beherrschen wir nur noch das fehlerfreie Management unseres Alltags oder brennt da noch das echte partnerschaftliche Feuer?"
+        },
+        {
+            id: "b1_371", cat: "cat4",
+            textBenni: "Sarahs Unpünktlichkeit bei gemeinsamen Terminen empfinde ich als mangelnden Respekt vor meiner Zeitplanung.",
+            textSarah: "Bennis militärischer Pünktlichkeitswahn setzt mich im Alltag mit dem Kleinen psychisch massiv und völlig unnötig unter Druck.",
+            textCouch: "Zeit-Konflikt: Wessen Umgang mit Fristen und Pünktlichkeit erzeugt in unserer Beziehung den höheren Stresslevel?"
+        },
+        {
+            id: "b1_372", cat: "cat4",
+            textBenni: "Ich wünsche mir von Sarah, dass sie mir bei Alltagsentscheidungen mehr Vertrauen schenkt, statt jeden Handgriff im Nachhinein zu kontrollieren.",
+            textSarah: "Ich kontrolliere Bennis Erledigungen im Alltag viel zu oft, weil er wichtige Details manchmal einfach zu pragmatisch und ungenau löst.",
+            textCouch: "Kontroll-Zwang: Wer von uns beiden kann Aufgaben des Partners schlechter unkommentiert und ungeprüft so stehen lassen?"
+        },
+        {
+            id: "b1_373", cat: "cat4",
+            textBenni: "Wenn Sarah mich kritisiert, schaltet mein Gehirn sofort auf sture Abwehr, statt ihre Perspektive überhaupt erst mal sacken zu lassen.",
+            textSarah: "Sobald ich Benni auf eine Schwachstelle hinweise, mauert er so massiv, dass ein konstruktives Gespräch unmöglich wird.",
+            textCouch: "Abwehrhaltung: Wer von uns beiden reagiert bei berechtigtem Feedback des Partners spürbar trotziger und verletzter?"
+        },
+        {
+            id: "b1_374", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, dass Sarah mir im aktuellen Alltagstrott die Initiative für körperliche Nähe oder Sex fast vollständig alleine überlässt.",
+            textSarah: "Nach einem vollgepackten Tag fehlt mir oft schlichtweg die mentale Kapazität, um von mir aus die Initiative für Intimität zu ergreifen.",
+            textCouch: "Nähe-Motor: Ist das Einfordern und Initiieren von zärtlichen Momenten bei uns ungerecht auf den Schultern einer Person verteilt?"
+        },
+        {
+            id: "b1_375", cat: "cat3",
+            textBenni: "Dass Sarah Ausgaben für Deko oder Kleidung vor mir manchmal verharmlost, empfinde ich als Vertrauensbruch bei unserem Budget.",
+            textSarah: "Ich verschweige Benni manche kleineren Spontankäufe, weil ich keine Lust auf seine kaufmännische Analyse unserer Finanzen habe.",
+            textCouch: "Budget-Geheimnisse: Wer von uns beiden tarnt seine privaten Konsumwünsche geschickter vor den Augen des Partners?"
+        },
+        {
+            id: "b1_376", cat: "cat4",
+            textBenni: "Wenn Sarah unglücklich ist, verfällt sie mir zu schnell in eine jammernde Passivität, statt die Dinge pragmatisch anzupacken.",
+            textSarah: "Wenn mich Dinge belasten, brauche ich erst mal Raum für meinen Frust, während Benni mich sofort mit harten Lösungen überrollt.",
+            textCouch: "Krisen-Bewältigung: Wer braucht bei Rückschlägen erst mal das emotionale Ventil und wer will sofort die rationale Lösung?"
+        },
+        {
+            id: "b1_377", cat: "cat4",
+            textBenni: "Ich trage alte, unausgesprochene Kränkungen aus vergangenen Jahren mit mir herum, die unsere aktuelle Beziehung belasten.",
+            textSarah: "Ich trage alte, unausgesprochene Kränkungen aus vergangenen Jahren mit mir herum, die unsere aktuelle Beziehung belasten.",
+            textCouch: "Schatten der Historie: Gibt es alte Verletzungen, die wir dem Partner insgeheim nie ganz verziehen haben und heimlich mitschleppen?"
+        },
+        {
+            id: "b1_378", cat: "cat4",
+            textBenni: "Dass Sarah mich im Alltag bei Müdigkeit manchmal wie ein zusätzliches, unorganisiertes Kind behandelt, kränkt meinen Stolz extrem.",
+            textSarah: "Wenn Benni erschöpft ist, rutsche ich viel zu schnell in eine mütterliche, bestimmende Rolle ihm gegenüber, die absolut unsexy ist.",
+            textCouch: "Rollen-Vergiftung: Geraten wir bei akutem Schlafmangel in eine Dynamik aus 'strenger Mutter' und 'passivem Partner'?"
+        },
+        {
+            id: "b1_379", cat: "cat4",
+            textBenni: "Ich vermisse die Zeiten, in denen Sarah und ich stundenlang ohne festes Ziel im Auto saßen, Musik gehört haben und absolut frei waren.",
+            textSarah: "Ich vermisse die Zeiten, in denen Benni und ich stundenlang ohne festes Ziel im Auto saßen, Musik gehört haben und absolut frei waren.",
+            textCouch: "Nostalgie-Vibe: Welchen unbeschwerten Zustand von früher sollten wir trotz Kind und Verpflichtungen dringend reaktivieren?"
+        },
+        {
+            id: "b1_380", cat: "cat4",
+            textBenni: "Wenn Sarah mich enttäuscht, ziehe ich eine emotionale Mauer hoch, vor der sie tagelang absolut hilflos steht.",
+            textSarah: "Wenn Benni mich enttäuscht, zieht er eine emotionale Mauer hoch, vor der ich tagelang absolut hilflos stehe.",
+            textCouch: "Schutzmauern: Wer schottet sich bei emotionalen Verletzungen radikaler ab und verweigert die sofortige Versöhnung?"
+        },
+        {
+            id: "b1_381", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, Sarah nutzt unsere gemeinsamen Abende oft nur als reine Plattform, um ihren eigenen Alltagsfrust bei mir abzuladen.",
+            textSarah: "Meine abendlichen Erzählungen sind mein einziger Weg, um den mentalen Druck des Tages mit Benni zu teilen und nicht durchzudrehen.",
+            textCouch: "Zuhör-Kapazität: Sind unsere abendlichen Gespräche ein echter Dialog oder oft nur das einseitige Abladen von Ballast?"
+        },
+        {
+            id: "b1_382", cat: "cat4",
+            textBenni: "Wenn Sarah ohne mich unterwegs ist, spüre ich insgeheim einen winzigen, unlogischen Stich von Eifersucht oder Verlustangst.",
+            textSarah: "Wenn ich ohne Benni Zeit verbringe, genieße ich das, frage mich aber manchmal, ob er mich in diesen Stunden überhaupt vermisst.",
+            textCouch: "Verlustangst-Check: Wer von uns beiden leidet bei getrennten Aktivitäten insgeheim unter der größeren emotionalen Unruhe?"
+        },
+        {
+            id: "b1_383", cat: "cat4",
+            textBenni: "Ich schlucke berechtigte Kritik im Alltag viel zu lange runter, bis das Fass bei einer absoluten Nichtigkeit explodiert.",
+            textSarah: "Ich schlucke berechtigte Kritik im Alltag viel zu lange runter, bis das Fass bei einer absoluten Nichtigkeit explodiert.",
+            textCouch: "Frust-Stau: Wer von uns beiden sammelt unbemerkt Reibungspunkte an, statt Kritik sofort direkt und offen anzusprechen?"
+        },
+        {
+            id: "b1_384", cat: "cat4",
+            textBenni: "Dass Sarah mich vor anderen Menschen im Freundeskreis manchmal korrigiert, empfinde ich als illoyal.",
+            textSarah: "In geselligen Runden korrigiere ich Bennis Berichte manchmal viel zu direkt, ohne zu merken, dass ich ihn damit vor anderen bloßstelle.",
+            textCouch: "Öffentliche Loyalität: Fallen wir uns vor Dritten unbewusst in den Rücken, statt als unschlagbares Team aufzutreten?"
+        },
+        {
+            id: "b1_385", cat: "cat4",
+            textBenni: "Ich habe oft das Gefühl, dass meine sexuelle Initiative von Sarah nur noch als logistischer To-Do-Punkt abgehakt wird.",
+            textSarah: "Wenn Benni Intimität fordert, fehlt mir nach dem Tag mit dem Kleinen oft schlichtweg die körperliche Energie für echte Leidenschaft.",
+            textCouch: "Intimes Gleichgewicht: Reden wir offen genug über die komplett unterschiedlichen Kapazitäten beim Thema körperliche Nähe?"
+        },
+        {
+            id: "b1_386", cat: "cat4",
+            textBenni: "Ich wünsche mir von Sarah mehr ehrliche Validierung für meine berufliche Last, die ich für unsere finanzielle Sicherheit trage.",
+            textSarah: "Ich nehme Bennis Einsatz im Job oft als zu selbstverständlich wahr, ohne den massiven Druck dahinter wirklich zu würdigen.",
+            textCouch: "Ernährer-Druck: Schenken wir dem Partner genug Respekt für die berufliche Verantwortung, die er für uns stemmt?"
+        },
+        {
+            id: "b1_387", cat: "cat4",
+            textBenni: "Sarahs Angewohnheit, im Streit unfaire Verallgemeinerungen wie 'Du machst nie...' zu nutzen, killt jegliche sachliche Gesprächsbasis.",
+            textSarah: "Im Streit nutze ich oft pauschale Vorwürfe, weil Bennis logische Argumentation mich emotional komplett in die Enge treibt.",
+            textCouch: "Wortwahl im Konflikt: Wer von uns beiden neigt im Eifer des Gefechts schneller zu unfairen Pauschalisierungen?"
+        },
+        {
+            id: "b1_388", cat: "cat2",
+            textBenni: "Ich rutsche beim Kleinen viel zu bequem in die Rolle des Spaß-Vaters ab, während Sarah die ungeliebte Erziehungsarbeit leisten muss.",
+            textSarah: "Ich verkörpere im Alltag viel zu oft die Rolle der strengen Erzieherin, weil Benni bei Verboten viel zu inkonsequent agiert.",
+            textCouch: "Good Cop, Bad Cop: Ist unsere Erziehungslinie ausgewogen oder lastet der konsequente Part einseitig auf einer Person?"
+        },
+        {
+            id: "b1_389", cat: "cat4",
+            textBenni: "Ein klärendes Gespräch nach einem Konflikt ist für mich erst dann abgeschlossen, wenn Sarah mich wieder fest in den Arm nimmt.",
+            textSarah: "Nach einer Krise brauche ich erst mal emotionalen Abstand – Bennis Drang nach sofortiger körperlicher Versöhnung überfordert mich.",
+            textCouch: "Versöhnungs-Ritual: Brauchen wir nach einem Streit sofort intensive körperliche Nähe oder erst mal Raum zum Abkühlen?"
+        },
+        {
+            id: "b1_390", cat: "cat4",
+            textBenni: "Ich fühle mich von Sarah in meinen persönlichen Zielen oder beim Training nicht wirklich emotional unterstützt.",
+            textSarah: "Ich fühle mich von Benni in meinen persönlichen Interessen oder Zielen nicht wirklich emotional unterstützt.",
+            textCouch: "Freiraum-Support: Zeigen wir echtes, tiefes Interesse an den individuellen Leidenschaften und Akku-Quellen des Partners?"
+        },
+        {
+            id: "b1_391", cat: "cat4",
+            textBenni: "Wenn Sarah Probleme anspricht, wenn ich gerade gestresst von der Arbeit komme, blockiert mein Gehirn sofort vollständig.",
+            textSarah: "Wenn ich mit meinen Sorgen warte, bis Benni 'bereit' ist, werden wichtige Dinge in dieser Beziehung am Ende überhaupt nicht besprochen.",
+            textCouch: "Timing für Deep Talk: Wann ist im stressigen Alltag der absolut richtige Moment, um Beziehungsfragen zu klären?"
+        },
+        {
+            id: "b1_392", cat: "cat4",
+            textBenni: "Ich unterdrücke eigene Wünsche oder Frustrationen, um anstrengende Diskussionen mit Sarah im Keim zu ersticken.",
+            textSarah: "Ich unterdrücke eigene Wünsche oder Frustrationen, um anstrengende Diskussionen mit Benni im Keim zu ersticken.",
+            textCouch: "Anpassung für den Frieden: Wer ordnet sich im Alltag stillschweigend zu sehr unter, um die Harmonie nicht zu gefährden?"
+        },
+        {
+            id: "b1_393", cat: "cat4",
+            textBenni: "Die gegenseitige Fehlertoleranz für die Macken des anderen ist bei uns nach all den Jahren spürbar dünner geworden.",
+            textSarah: "Die gegenseitige Fehlertoleranz für die Macken des anderen ist bei uns nach all den Jahren spürbar dünner geworden.",
+            textCouch: "Geduldsfaden: Sind wir im Laufe unserer Partnerschaft seit 2011 unbarmherziger oder nachsichtiger miteinander geworden?"
+        },
+        {
+            id: "b1_394", cat: "cat4",
+            textBenni: "Ich vermisse das unbeschwerte, albern-kindische Lachen, das Sarah und mich in unseren ersten Jahren ausgezeichnet hat.",
+            textSarah: "Ich vermisse das unbeschwerte, albern-kindische Lachen, das Benni und mich in unseren ersten Jahren ausgezeichnet hat.",
+            textCouch: "Ernst des Lebens: Hat die logistische Verantwortung unseres Alltags den gemeinsamen Humor ein Stück weit verdrängt?"
+        },
+        {
+            id: "b1_395", cat: "cat4",
+            textBenni: "Wenn Sarah unangekündigt unsere gemeinsamen Pläne ändert, erzeugt das bei mir sofort massiven Frust.",
+            textSarah: "Wenn Benni unangekündigt unsere gemeinsamen Pläne ändert, erzeugt das bei mir sofort massiven Frust.",
+            textCouch: "Verlässlichkeit: Wer von uns beiden braucht in der Alltagsstruktur die deutlich striktere Einhaltung von Absprachen?"
+        },
+        {
+            id: "b1_396", cat: "cat4",
+            textBenni: "Ich wünsche mir, dass Sarah mir im Alltag wieder öfter intensive Küsse schenkt, statt nur einen funktionalen Abschiedskuss.",
+            textSarah: "Ich wünsche mir, dass Benni mir im Alltag wieder öfter intensive Küsse schenkt, statt nur einen funktionalen Abschiedskuss.",
+            textCouch: "Zärtlichkeits-Check: Ist der leidenschaftliche Kuss bei uns zu einem rein logistischen Begrüßungsritual verkommen?"
+        },
+        {
+            id: "b1_397", cat: "cat4",
+            textBenni: "Daddeln oder mobiles Scrollen direkt nach dem Aufwachen im Bett killt unsere morgendliche Paar-Atmosphäre komplett.",
+            textSarah: "Dass Benni morgens als Erstes sein Smartphone checkt, statt mich im Bett bewusst wahrzunehmen, stört mich massiv.",
+            textCouch: "Morgen-Routine: Nutzen wir die ersten Minuten des Tages für den Partner oder flüchten wir sofort in die digitale Welt?"
+        },
+        {
+            id: "b1_398", cat: "cat4",
+            textBenni: "Ich habe manchmal das Gefühl, Sarah schämt sich insgeheim für meine ungeduldigen Ausbrüche in der Öffentlichkeit.",
+            textSarah: "Wenn Benni in der Öffentlichkeit ungeduldig oder laut wird, ist mir das vor fremden Menschen extrem unangenehm.",
+            textCouch: "Fremdscham-Faktor: Wer von uns beiden reagiert sensibler auf das soziale Fehlverhalten des Partners vor Dritten?"
+        },
+        {
+            id: "b1_399", cat: "cat4",
+            textBenni: "Über unbemerkt aufkeimenden Beziehungsfrust offen zu sprechen, schiebe ich aus Angst vor einem zähen Abend viel zu lange auf.",
+            textSarah: "Über unbemerkt aufkeimenden Beziehungsfrust offen zu sprechen, schiebe ich aus Angst vor einem zähen Abend viel zu lange auf.",
+            textCouch: "Konflikt-Aufschub: Wer drückt sich vor unbequemen Wahrheiten erfolgreicher, bis der Druck unerträglich wird?"
+        },
+        {
+            id: "b1_400", cat: "cat4",
+            textBenni: "Ich wünsche mir von Sarah, dass wir wieder mehr unvernünftige Abenteuer wagen, statt immer nur die absolut sichere Karte zu spielen.",
+            textSarah: "Bennis Drang nach unvernünftigen Plänen überfordert mich im aktuellen Erschöpfungszustand emotional und logistisch komplett.",
+            textCouch: "Sicherheitsnetz vs. Risiko: Blockiert unser Fokus auf Stabilität die unbeschwerte Leichtigkeit in unserer Beziehung?"
+        },
+        {
+            id: "b1_401", cat: "cat4",
+            textBenni: "Wenn Sarah meine Nähe sucht, blocke ich manchmal ab, weil meine mentale Kapazität durch den Alltag restlos erschöpft ist.",
+            textSarah: "Wenn Benni meine Nähe sucht, blocke ich manchmal ab, weil meine mentale Kapazität durch den Alltag restlos erschöpft ist.",
+            textCouch: "Bedürfnis-Clash: Wie gehen wir damit um, wenn das Verlangen nach Nähe des einen auf die absolute Überforderung des anderen prallt?"
+        },
+        {
+            id: "b1_402", cat: "cat4",
+            textBenni: "Ich fühle mich von Sarah in einsamen Momenten trotz unserer gemeinsamen Wohnung emotional nicht richtig abgeholt.",
+            textSarah: "Ich fühle mich von Benni in einsamen Momenten trotz unserer gemeinsamen Wohnung emotional nicht richtig abgeholt.",
+            textCouch: "Einsamkeit zu zweit: Erleben wir trotz permanenter räumlicher Nähe Phasen einer spürbaren emotionalen Distanz?"
+        },
+        {
+            id: "b1_403", cat: "cat4",
+            textBenni: "Nach einer Meinungsverschiedenheit bin ich meistens der Part, der den ersten Schritt zur Versöhnung machen muss.",
+            textSarah: "Nach einer Meinungsverschiedenheit bin ich meistens der Part, der den ersten Schritt zur Versöhnung machen muss.",
+            textCouch: "Versöhnungs-Motor: Wer von uns beiden bricht das eiskalte Schweigen nach einem Streit mutiger und sucht den Kontakt?"
+        },
+        {
+            id: "b1_404", cat: "cat4",
+            textBenni: "Ich habe Angst, dass wir uns in ein paar Jahren absolut nichts mehr zu sagen haben, wenn unser Sohn selbstständiger wird.",
+            textSarah: "Ich habe Angst, dass wir uns in ein paar Jahren absolut nichts mehr zu sagen haben, wenn unser Sohn selbstständiger wird.",
+            textCouch: "Zukunfts-Sorge: Existiert bei uns die geheime Angst vor der emotionalen Leere, wenn die Kindererziehung weniger Raum einnimmt?"
+        },
+        {
+            id: "b1_405", cat: "cat4",
+            textBenni: "Trotz aller aktuellen Reibungspunkte ist Sarah für mich nach wie vor die absolut einzige Frau, mit der ich dieses Leben leben will.",
+            textSarah: "Trotz aller aktuellen Reibungspunkte ist Benni für mich nach wie vor der absolut einzige Mann, mit dem ich dieses Leben leben will.",
+            textCouch: "Das ewige Versprechen: Steht unsere grundlegende Entscheidung füreinander felsenfest über jedem noch so lauten Alltagsclash?"
+        }// --- BLOCK 10 (EINTRÄGE 406 BIS 450) ---
+        ,
+        {
+            id: "b1_406", cat: "cat4",
+            textBenni: "Wenn Sarah mich beim Kochen kritisiert oder korrigiert, fühle ich mich in meinem kulinarischen Stolz sofort massiv angegriffen.",
+            textSarah: "Wenn Benni kocht, kann ich meine Kommentare oft nicht zurückhalten, weil er manche Dinge einfach viel zu kompliziert anpackt.",
+            textCouch: "Küchen-Hoheit: Wer von uns beiden reagiert empfindlicher, wenn der Partner sich ungefragt in den eigenen Koch-Prozess einmischt?"
+        },
+        {
+            id: "b1_407", cat: "cat10",
+            textBenni: "Ich bewundere zutiefst, wie bedingungslos und liebevoll Sarah die Bedürfnisse unseres Sohnes selbst in den härtesten Phasen über ihre eigenen stellt.",
+            textSarah: "Ich bewundere zutiefst, wie bedingungslos und liebevoll Benni die Bedürfnisse unseres Sohnes selbst in den härtesten Phasen über seine eigenen stellt.",
+            textCouch: "Eltern-Respekt: Sagen wir dem Partner eigentlich oft genug, wie fasziniert wir von seiner hingebungsvollen Rolle als Mutter oder Vater sind?"
+        },
+        {
+            id: "b1_408", cat: "cat4",
+            textBenni: "Dass Sarah kleine Konflikte oder Missverständnisse manchmal tagelang mit sich herumschleppt, statt sie sofort auszusprechen, belastet unsere Ehe.",
+            textSarah: "Ich brauche oft Zeit, um Reibungspunkte emotional zu verarbeiten, bevor ich mit Benni sachlich und ruhig darüber sprechen kann.",
+            textCouch: "Verarbeitungs-Tempo: Wer von uns beiden braucht nach einem Beziehungsclash spürbar länger Zeit für sich, um wieder normal atmen zu können?"
+        },
+        {
+            id: "b1_409", cat: "cat5",
+            textBenni: "Wenn ich nach einem vollgepackten Tag ins Gym flüchte, ist das für mich der einzige Weg, um als ausgeglichener Ehemann zurückzukommen.",
+            textSarah: "Wenn Benni nach einem stressigen Tag noch eisern ins Studio geht, fühle ich mich mit der Alltagslogistik im Haus oft im Stich gelassen.",
+            textCouch: "Akku-Aufladung vs. Pflicht: Ist Bennis Training ein gesundes Ventil für unsere Ehe oder eine logistische Zusatzbelastung für Sarah?"
+        },
+        {
+            id: "b1_410", cat: "cat4",
+            textBenni: "Ich habe oft das Gefühl, dass wir im reinen Funktionieren als Eltern verlernt haben, uns als Mann und Frau leidenschaftlich zu begehren.",
+            textSarah: "Der anstrengende Mamamodus blockiert im Moment oft meine Kapazität, mich fallen zu lassen und das Liebesleben aktiv zu priorisieren.",
+            textCouch: "Die intime Ebene: Haben wir das leidenschaftliche Begehren im reinen Hamsterrad des Alltagsmanagements schlechte Karten zugespielt?"
+        },
+        {
+            id: "b1_411", cat: "cat0",
+            textBenni: "Sarahs Angewohnheit, den Geschirrspüler nach einem absolut unlogischen System einzuräumen, fordert mein Strukturdenken täglich heraus.",
+            textSarah: "Dass Benni mein Einräumen in der Küche heimlich neu sortiert, empfinde ich als übertriebene und nervige Kontroll-Macke von ihm.",
+            textCouch: "Spülmaschinen-Tetris: Wer von uns beiden korrigiert die hauswirtschaftlichen Handgriffe des Partners insgeheim oder offen?"
+        },
+        {
+            id: "b1_412", cat: "cat4",
+            textBenni: "Wenn Sarah mir im Alltag unberechtigte Vorwürfe macht, verfällt mein Tonfall viel zu schnell in eine verletzende Ironie oder Zynismus.",
+            textSarah: "Bennis zynischer und kühler Unterton im Streit verletzt mich emotional oft viel tiefer als ein lautes, emotionales Wort.",
+            textCouch: "Scharfe Waffen: Wer von uns beiden verlässt bei alltäglichen Diskussionen schneller die respektvolle Kommunikationsebene?"
+        },
+        {
+            id: "b1_413", cat: "cat2",
+            textBenni: "Ich wünsche mir, dass Sarah und ich bei Erziehungsfragen noch kompromissloser als geschlossene Einheit vor unserem Sohn auftreten.",
+            textSarah: "Ich wünsche mir, dass Sarah und ich bei Erziehungsfragen noch kompromissloser als geschlossene Einheit vor unserem Sohn auftreten.",
+            textCouch: "Erziehungs-Front: Knickt einer von uns beiden bei Verboten im Beisein des Kindes unbewusst schneller ein als vereinbart?"
+        },
+        {
+            id: "b1_414", cat: "cat4",
+            textBenni: "Kleine Aufmerksamkeiten oder Geschenke brauche ich absolut nicht – ein langes, ehrliches Gespräch auf dem Sofa bedeutet mir viel mehr.",
+            textSarah: "Kleine Aufmerksamkeiten oder Geschenke brauche ich absolut nicht – ein langes, ehrliches Gespräch auf dem Sofa bedeutet mir viel mehr.",
+            textCouch: "Ehe-Wünsche: Bevorzugen wir für unsere Bindung im Moment eher die rein emotionale Zuwendung oder handfeste, entlastende Gesten?"
+        },
+        {
+            id: "b1_415", cat: "cat3",
+            textBenni: "Dass Sarah größere Spontankäufe manchmal erst tätigt und mir danach als 'Alternativlos' verkauft, nervt mein kaufmännisches Denken.",
+            textSarah: "Ich rechtfertige Anschaffungen vor Benni oft mit Rabatten, um seiner detaillierten Analyse unserer Ausgaben im Keim zu entgehen.",
+            textCouch: "Finanz-Kontrolle: Wer von uns beiden schaut beim gemeinsamen Haushaltsbudget im Alltag deutlich strenger und verbissener hin?"
+        },
+        {
+            id: "b1_416", cat: "cat4",
+            textBenni: "Ich habe die Befürchtung, dass Sarah unbemerkt alte Verletzungen aus unseren ersten Jahren seit 2011 immer noch mit sich herumschleppt.",
+            textSarah: "Es gibt emotionale Kränkungen aus unserer Vergangenheit seit 2011, die ich Benni insgeheim bis heute nicht ganz verziehen habe.",
+            textCouch: "Altlasten-Check: Belasten unaufgearbeitete Geister der Vergangenheit im Hintergrund unbemerkt unsere eheliche Gegenwart?"
+        },
+        {
+            id: "b1_417", cat: "cat10",
+            textBenni: "Wenn die Nächte extrem kurz sind, verliere ich im Umgang mit Sarah spürbar schneller meinen freundlichen und geduldigen Tonfall.",
+            textSarah: "Unter akutem Schlafmangel reagiert Benni im Alltag unbarmherzig patzig, was meine eigene Belastungsgrenze sofort crasht.",
+            textCouch: "Erschöpfungs-Filter: Lassen wir den chronischen Schlafmangel zu oft als Freifahrtschein für einen unfairen Umgangston gelten?"
+        },
+        {
+            id: "b1_418", cat: "cat4",
+            textBenni: "Ich wünsche mir von Sarah im Alltag mehr ehrliche Validierung für die kaufmännische Last, die ich im Beruf für unsere Absicherung trage.",
+            textSarah: "Ich vergesse im Alltagsstress viel zu oft, Bennis beruflichen Einsatz und den Druck in seiner Führungsposition offen zu würdigen.",
+            textCouch: "Respekt für den Job: Bekommt der Partner genug Anerkennung für die mentale und zeitliche Last, die er im Beruf für die Familie stemmt?"
+        },
+        {
+            id: "b1_419", cat: "cat4",
+            textBenni: "Wenn Sarah ohne mich mit ihren Freundinnen unterwegs ist, genieße ich die absolute Ruhe im Haus ohne jeden Funken von Missgönnen.",
+            textSarah: "Wenn Benni seine Me-Time einfordert, schlucke ich oft meinen Frust runter, statt mir selbst genauso konsequent meine Freiräume zu nehmen.",
+            textCouch: "Freiraum-Gleichgewicht: Wer von uns beiden plagt sich beim Einfordern von egoistischer Me-Time mit dem größeren schlechten Gewissen?"
+        },
+        {
+            id: "b1_420", cat: "cat4",
+            textBenni: "Ich vermisse die Zeiten, in denen Sarah und ich stundenlang im Auto saßen, einfach laute Musik gehört haben und absolut frei waren.",
+            textSarah: "Ich vermisse die Zeiten, in denen Benni und ich stundenlang im Auto saßen, einfach laute Musik gehört haben und absolut frei waren.",
+            textCouch: "Ehe-Nostalgie: Welches unbeschwerte Gefühl aus unseren Jahren vor dem Elternsein sollten wir dringend wieder reaktivieren?"
+        },
+        {
+            id: "b1_421", cat: "cat4",
+            textBenni: "Sarahs Angewohnheit, im Streit sofort unfaire Verallgemeinerungen wie 'Du machst nie...' zu nutzen, zerstört jede sachliche Gesprächsbasis.",
+            textSarah: "In hitzigen Momenten nutze ich oft pauschale Vorwürfe, weil Bennis logische Argumentation mich emotional komplett in die Enge treibt.",
+            textCouch: "Konflikt-Vokabular: Wer von uns beiden neigt im Eifer des Gefechts schneller zu unfairen, pauschalen Pauschalisierungen?"
+        },
+        {
+            id: "b1_422", cat: "cat4",
+            textBenni: "Ich fühle mich von Sarah in meinen persönlichen Zielen, meinen sportlichen Routinen oder meinen Leidenschaften absolut verstanden und unterstützt.",
+            textSarah: "Ich unterstütze Bennis sportliche Leidenschaften vollkommen, wünsche mir aber manchmal, dass er denselben Support für meine Interessen zeigt.",
+            textCouch: "Hobby-Support: Zeigen wir echtes, tiefes Interesse an den individuellen Kraftquellen und Akku-Stationen des Partners?"
+        },
+        {
+            id: "b1_423", cat: "cat4",
+            textBenni: "Wenn wir aneinandergeraten, bin ich ungelogen fast immer der Part, der den ersten Schritt zur Versöhnung machen muss.",
+            textSarah: "Nach einem Streit brauche ich erst mal emotionalen Abstand – Bennis Drang nach sofortiger Klärung blockiert mich komplett.",
+            textCouch: "Versöhnungs-Motor: Wer springt nach einer echten Beziehungs-Krise mutiger über den eigenen Schatten, um das Schweigen zu brechen?"
+        },
+        {
+            id: "b1_424", cat: "cat4",
+            textBenni: "Ein fester, handyfreier Abend pro Woche auf dem Sofa würde unserer Kommunikation als Ehepaar sofort spürbar neuen Aufwind geben.",
+            textSarah: "Ein fester, handyfreier Abend pro Woche auf dem Sofa würde unserer Kommunikation als Ehepaar sofort spürbar neuen Aufwind geben.",
+            textCouch: "Die digitale Wand: Starren wir abends zu oft unbewusst parallel ins Display, statt dem Menschen neben uns echte Aufmerksamkeit zu schenken?"
+        },
+        {
+            id: "b1_425", cat: "cat4",
+            textBenni: "Ich habe die reale Angst, dass wir uns in zehn Jahren absolut nichts mehr zu sagen haben, wenn unser Sohn ausgezogen oder selbstständig ist.",
+            textSarah: "Ich habe die reale Angst, dass wir uns in zehn Jahren absolut nichts mehr zu sagen haben, wenn unser Sohn ausgezogen oder selbstständig ist.",
+            textCouch: "Zukunfts-Sorge: Existiert bei uns die verdeckte Angst vor der emotionalen Leere, wenn das gemeinsame Projekt Kindererziehung endet?"
+        },
+        {
+            id: "b1_426", cat: "cat4",
+            textBenni: "Wenn Sarah traurig oder deprimiert ist, weiß ich oft absolut nicht, wie ich sie richtig trösten oder emotional auffangen kann.",
+            textSarah: "Wenn ich deprimiert bin, brauche ich von Benni einfach nur stilles Mitgefühl, statt sofort mit seinen harten Logik-Analysen konfrontiert zu werden.",
+            textCouch: "Gebrauchsanweisung: Verstehen wir die emotionale Sprache des Partners in seinen verletzlichen Phasen fehlerfrei?"
+        },
+        {
+            id: "b1_427", cat: "cat2",
+            textBenni: "Ich rutsche im Umgang mit unserem Sohn viel zu bequem in die Rolle des Spaß-Vaters ab, während Sarah die ungeliebte Konsequenz tragen muss.",
+            textSarah: "Ich verkörpere im Familienleben viel zu oft die Rolle der strengen Erzieherin, weil Benni bei Verboten viel zu schnell einknickt.",
+            textCouch: "Rollenverteilung im Kinderzimmer: Ist unser 'Good Cop, Bad Cop'-Gefüge ausgewogen oder ungerecht auf einer Person platziert?"
+        },
+        {
+            id: "b1_428", cat: "cat4",
+            textBenni: "Dass Sarah mich vor Dritten oder im Freundeskreis manchmal wegen kleinerer Alltagsfehler korrigiert, kränkt meinen Stolz massiv.",
+            textSarah: "In geselligen Runden korrigiere ich Bennis Berichte manchmal viel zu direkt, ohne zu merken, dass ich ihn damit unbewusst verletze.",
+            textCouch: "Öffentliche Loyalität: Treten wir vor Freunden und Familie ausnahmslos als absolut unangreifbares, solidarisches Duo auf?"
+        },
+        {
+            id: "b1_429", cat: "cat4",
+            textBenni: "Ich schlucke kleine Frustrationen im Ehealltag viel zu lange runter um des lieben Friedens willen, statt Reibungspunkte sofort transparent anzusprechen.",
+            textSarah: "Ich gehe Konflikten im Alltag oft aus dem Weg, weil Bennis Diskussions-Ausdauer mich emotional schlichtweg überfordert.",
+            textCouch: "Harmoniesucht vs. Ehrlichkeit: Lassen wir unbemerkt zu viele Frust-Punkte im Verborgenen gären, bis es zur Explosion kommt?"
+        },
+        {
+            id: "b1_430", cat: "cat4",
+            textBenni: "Trotz aller anstrengenden Phasen und der Erschöpfung steht meine grundlegende Entscheidung für Sarah als meine absolute Traumfrau felsenfest.",
+            textSarah: "Trotz aller anstrengenden Phasen und der Erschöpfung steht meine grundlegende Entscheidung für Benni als mein absoluter Traummann felsenfest.",
+            textCouch: "Das ewige Fundament: Besitzen wir das unerschütterliche Vertrauen, dass unsere Liebe seit 2011 jeden Alltagssturm übersteht?"
+        },
+        {
+            id: "b1_431", cat: "cat0",
+            textBenni: "Leere Verpackungen oder Kartons tagelang im Vorratsregal stehenzulassen, statt sie sofort flachzulegen und zu entsorgen, nervt gewaltig.",
+            textSarah: "Dass Benni leere Verpackungen einfach wieder zurückstellt, statt sie auf dem Weg zum Müll mitzunehmen, stört mich massiv.",
+            textCouch: "Verpackungs-Ignoranz: Wer läuft im Alltag erfolgreicher an Dingen vorbei, die eigentlich direkt in die Tonne gehören?"
+        },
+        {
+            id: "b1_432", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, Sarah nutzt unsere gemeinsamen Abende oft nur als reine Plattform, um ihren eigenen Alltagsballast bei mir abzuladen.",
+            textSarah: "Meine abendlichen Erzählungen über das Kind und das Haus sind mein einziges Ventil, um den Mental Load mit Benni zu teilen.",
+            textCouch: "Zuhör-Kapazität: Sind unsere abendlichen Gespräche auf dem Sofa ein echter Dialog oder oft nur das einseitige Abladen von Ballast?"
+        },
+        {
+            id: "b1_433", cat: "cat1",
+            textBenni: "Sarahs extremer Fokus auf absolute Pünktlichkeit erzeugt bei gemeinsamen Ausflügen einen völlig unnötigen, stressigen Druck.",
+            textSarah: "Bennis entspannte Gleichgültigkeit bei festen Uhrzeiten bringt mein logistisches Strukturdenken im Familienalltag regelmäßig zum Kollaps.",
+            textCouch: "Zeit-Diktat: Wer von uns beiden reagiert bei Verzögerungen oder drohenden Verspätungen im Ablauf spürbar gestresster?"
+        },
+        {
+            id: "b1_434", cat: "cat4",
+            textBenni: "Ich wünsche mir, dass Sarah und ich uns im Alltag wieder öfter intensiv und leidenschaftlich küssen, statt nur einen funktionalen Abschiedskuss zu geben.",
+            textSarah: "Ich wünsche mir, dass Benni und ich uns im Alltag wieder öfter intensiv und leidenschaftlich küssen, statt nur einen funktionalen Abschiedskuss zu geben.",
+            textCouch: "Zärtlichkeits-Check: Ist der Kuss bei uns zu einem rein logistischen, automatisierten Begrüßungsritual verkommen?"
+        },
+        {
+            id: "b1_435", cat: "cat4",
+            textBenni: "Wenn Sarah sich tagelang in ihre emotionale Höhle zurückzieht und nicht redet, löst das bei mir ein unruhiges Gefühl der Zurückweisung aus.",
+            textSarah: "Wenn mich Dinge belasten, brauche ich erst mal absolute Stille für mich, was Benni fälschlicherweise oft als Strafe gegen ihn deutet.",
+            textCouch: "Rückzugs-Symptom: Wer von uns beiden leidet unter Phasen des mentalen Schweigens beim Partner emotional intensiver?"
+        },
+        {
+            id: "b1_436", cat: "cat6",
+            textBenni: "Die traditionelle Zubereitung von original italienischen Gerichten ist für mich ein absolutes Heiligtum, bei dem ich keine Kompromisse dulde.",
+            textSarah: "Dass Benni aus jedem klassischen Rezept ein unumstößliches Dogma macht, grenzt für mich an leichten kulinarischen Hochmut.",
+            textCouch: "Küchen-Stolz: Wer versteht bei der absolut authentischen und kompromisslosen Zubereitung von Essen weniger Spaß?"
+        },
+        {
+            id: "b1_437", cat: "cat4",
+            textBenni: "Es gibt kleine, versteckte Enttäuschungen aus den letzten Wochen, die ich Sarah gegenüber aus Angst vor einem zähen Streit nie laut ausgesprochen habe.",
+            textSarah: "Es gibt kleine, versteckte Enttäuschungen aus den letzten Wochen, die ich Benni gegenüber aus Angst vor einem zähen Streit nie laut ausgesprochen habe.",
+            textCouch: "Stille Kränkungen: Sammeln wir im Hintergrund kleine emotionale Verletzungen an, statt sie sofort transparent und direkt zu klären?"
+        },
+        {
+            id: "b1_438", cat: "cat10",
+            textBenni: "Die tiefe Erleichterung, wenn unser Sohn abends endlich ruhig schläft, ist für mich der absolut beste und friedlichste Moment des Tages.",
+            textSarah: "Die tiefe Erleichterung, wenn unser Sohn abends endlich ruhig schläft, ist für mich der absolut beste und friedlichste Moment des Tages.",
+            textCouch: "Feierabend-Vibe: Fällt uns nach dem Einschlafen des Kleinen im ersten Moment erst mal eine gigantische, bleierne Last von den Schultern?"
+        },
+        {
+            id: "b1_439", cat: "cat4",
+            textBenni: "Wenn Sarah ohne Ankündigung getroffene Absprachen oder Pläne ändert, erzeugt das bei mir sofort massiven inneren Frust.",
+            textSarah: "Benni beharrt manchmal viel zu starr auf einmal getroffenen Plänen, selbst wenn die logistische Realität mit dem Kind Flexibilität erfordert.",
+            textCouch: "Verlässlichkeit vs. Flexibilität: Wer braucht in unserer Ehe die deutlich striktere Einhaltung von getroffenen Vereinbarungen?"
+        },
+        {
+            id: "b1_440", cat: "cat4",
+            textBenni: "Ich unterdrücke eigene Wünsche oder Frustrationen im Alltag, um anstrengende Grundsatzdiskussionen mit Sarah im Keim zu ersticken.",
+            textSarah: "Ich unterdrücke eigene Wünsche oder Frustrationen im Alltag, um anstrengende Grundsatzdiskussionen mit Benni im Keim zu ersticken.",
+            textCouch: "Anpassung für den Frieden: Wer ordnet seine eigenen Bedürfnisse im Moment stillschweigend zu sehr unter, um die Harmonie zu wahren?"
+        },
+        {
+            id: "b1_441", cat: "cat1",
+            textBenni: "Mein extremes Niesen holt Sarah im Alltag regelmäßig und völlig unvorbereitet aus der Konzentration, was mir insgeheim leid tut.",
+            textSarah: "Bennis unbarmherzig lautes Niesen erschreckt mich im Haus regelmäßig zu Tode – das hat absolut nichts mit einem normalen Geräusch zu tun.",
+            textCouch: "Lautstärke-Attacke: Wessen unwillkürliche körperliche Ticks besitzen in der Wohnung das höhere nervliche Störpotenzial?"
+        },
+        {
+            id: "b1_442", cat: "cat4",
+            textBenni: "Ich wünsche mir von Sarah, dass wir wieder mehr unvernünftige Abenteuer wagen, statt immer nur die absolut sichere, kalkulierte Karte zu spielen.",
+            textSarah: "Bennis Drang nach unvernünftigen Plänen überfordert mich im aktuellen Erschöpfungszustand emotional und logistisch komplett.",
+            textCouch: "Sicherheitsnetz vs. Risiko: Blockiert unser beider Fokus auf Stabilität die unbeschwerte Leichtigkeit in unserer Beziehung?"
+        },
+        {
+            id: "b1_443", cat: "cat4",
+            textBenni: "Wenn Sarah meine Nähe sucht, blocke ich manchmal ab, weil meine mentale Kapazität nach der Arbeit restlos erschöpft ist.",
+            textSarah: "Wenn Benni meine Nähe sucht, blocke ich manchmal ab, weil mein emotionaler Akku durch das Kind restlos leergesaugt ist.",
+            textCouch: "Bedürfnis-Clash: Wie gehen wir damit um, wenn das Verlangen nach Nähe des einen auf die absolute Überforderung des anderen prallt?"
+        },
+        {
+            id: "b1_444", cat: "cat4",
+            textBenni: "Ich bin ungelogen der Part in dieser Ehe, der den anderen nach einem harten Tag deutlich schneller wieder zum Lachen bringen kann.",
+            textSarah: "Ich bin ungelogen der Part in dieser Ehe, der den anderen nach einem harten Tag deutlich schneller wieder zum Lachen bringen kann.",
+            textCouch: "Humor-Motor: Wer von uns beiden besitzt im Alltag die höhere Kompetenz, düstere Stimmungen durch Witz aufzulockern?"
+        },
+        {
+            id: "b1_445", cat: "cat4",
+            textBenni: "Daddeln oder mobiles Scrollen direkt nach dem Aufwachen im Bett killt unsere morgendliche Paar-Atmosphäre im Keim.",
+            textSarah: "Dass Benni morgens als Erstes sein Smartphone checkt, statt mich im Bett bewusst wahrzunehmen, stört mich massiv.",
+            textCouch: "Morgen-Start: Nutzen wir die ersten Minuten des Tages für den Partner oder flüchten wir sofort in die digitale Welt?"
+        },
+        {
+            id: "b1_446", cat: "cat4",
+            textBenni: "Über tiefen, aufkeimenden Beziehungsfrust offen zu sprechen, schiebe ich aus Angst vor einem zähen Abend viel zu lange vor mir her.",
+            textSarah: "Über tiefen, aufkeimenden Beziehungsfrust offen zu sprechen, schiebe ich aus Angst vor einem zähen Abend viel zu lange vor mir her.",
+            textCouch: "Konflikt-Aufschub: Wer drückt sich vor unbequemen Wahrheiten erfolgreicher, bis der emotionale Druck unerträglich wird?"
+        },
+        {
+            id: "b1_447", cat: "cat4",
+            textBenni: "Dass Sarah mich im Alltag bei Erschöpfung manchmal wie ein zusätzliches, unfähiges Kind behandelt, verletzt meinen Stolz tief.",
+            textSarah: "Wenn Benni passiv auf dem Sofa verharrt, rutsche ich unbewusst viel zu schnell in eine bestimmende, mütterliche Rolle ihm gegenüber.",
+            textCouch: "Rollen-Vergiftung: Geraten wir bei akuter Müdigkeit in eine Dynamik aus 'bestimmender Mutter' und 'passivem Partner'?"
+        },
+        {
+            id: "b1_448", cat: "cat4",
+            textBenni: "Tief sitzende Ängste oder Albträume direkt am Morgen mit Sarah zu teilen, fühlt sich für mich wie eine absolute emotionale Entlastung aus.",
+            textSarah: "Wenn Benni morgens seine verletzlichen Gedanken mit mir teilt, spüre ich eine tiefe, unerschütterliche Verbundenheit zu ihm.",
+            textCouch: "Morgen-Vulnerabilität: Nutzen wir die ersten Minuten des Tages für echte, ungeschützte Nähe abseits der To-Do-Listen?"
+        },
+        {
+            id: "b1_449", cat: "cat0",
+            textBenni: "Aufgaben im Haushalt, die Sarah erledigt hat, heimlich noch einmal nachzubessern, zeugt von einer ziemlich Kontroll-Macke von mir.",
+            textSarah: "Dass Benni Dinge, die ich fertig gemacht habe, heimlich kontrolliert, kränkt mein handwerkliches Selbstverständnis.",
+            textCouch: "Heimliche Qualitätskontrolle: Vertrauen wir der Arbeitsweise des Partners vollkommen oder bessern wir insgeheim nach?"
+        },
+        {
+            id: "b1_450", cat: "cat4",
+            textBenni: "Ich bin extrem stolz darauf, wie unerschütterlich Sarah und ich als Team funktionieren, egal wie stressig der Alltag wird.",
+            textSarah: "Ich bin extrem stolz darauf, wie unerschütterlich Benni und ich als Team funktionieren, egal wie stressig der Alltag wird.",
+            textCouch: "Team-Stolz: Sagen wir dem Partner im aktuellen Hamsterrad oft genug, wie sehr wir seinen Einsatz als Fels in der Brandung bewundern?"
+        }// --- BLOCK 11 (EINTRÄGE 451 BIS 495) ---
+        ,
+        {
+            id: "b1_451", cat: "cat4",
+            textBenni: "Wenn ich heute alte Fotos von 2011 sehe, frage ich mich, ob wir den verliebten Optimismus von damals im Elternalltag komplett begraben haben.",
+            textSarah: "Wenn ich alte Fotos von 2011 sehe, vermisse ich die unbeschwerte Leichtigkeit, die durch die Verantwortung als Eltern massiv gelitten hat.",
+            textCouch: "Zeitmaschine: Welchen Teil unserer 'Vor-Kind-Identität' vermissen wir als Paar am schmerzlichsten?"
+        },
+        {
+            id: "b1_452", cat: "cat2",
+            textBenni: "Ich habe Angst, dass wir unserem Sohn durch unsere eigene Erziehung unbewusst die gleichen Fehler mitgeben, die unsere Eltern bei uns gemacht haben.",
+            textSarah: "Ich ertappe mich oft dabei, wie ich Verhaltensweisen meiner Mutter kopiere, obwohl ich mir geschworen habe, es bei unserem Sohn anders zu machen.",
+            textCouch: "Erziehungs-Erbe: Welche ungeliebten Muster unserer eigenen Kindheit schleppen wir als Eltern unbemerkt in unsere Erziehung hinein?"
+        },
+        {
+            id: "b1_453", cat: "cat4",
+            textBenni: "Wenn Sarahs Mutter ungefragt Tipps gibt, verteidige ich mich viel zu schnell, statt einfach ruhig unsere eigene Meinung zu vertreten.",
+            textSarah: "Wenn meine Mutter ungefragt Tipps gibt, fühle ich mich zwischen den Fronten zerrissen – zwischen der Loyalität zu ihr und dem Respekt vor Bennis Meinung.",
+            textCouch: "Familiäre Grenzen: Wie stark lassen wir uns in unsere elterliche Entscheidungsfreiheit von den Erwartungen der Großeltern beeinflussen?"
+        },
+        {
+            id: "b1_454", cat: "cat4",
+            textBenni: "Dass wir nach einem Streit oft stundenlang nicht miteinander reden, ist mein persönlicher Schutzmechanismus, um nicht noch mehr Porzellan zu zerschlagen.",
+            textSarah: "Bennis Schweigen nach einem Streit fühlt sich für mich wie ein kompletter Liebesentzug an, der mich wahnsinnig macht.",
+            textCouch: "Schutz vs. Bestrafung: Ist unser Schweigen nach Konflikten ein notwendiger Schutzraum oder ein machtvolles Instrument der Bestrafung?"
+        },
+        {
+            id: "b1_455", cat: "cat4",
+            textBenni: "Ich vergleiche unser Liebesleben seit der Geburt unseres Sohnes oft mit dem 'perfekten' Ideal, das wir 2011 hatten – und das frustriert mich.",
+            textSarah: "Ich glaube, wir beide hängen noch einem Idealbild unserer Ehe nach, das nach 15 Jahren und mit Kind schlichtweg nicht mehr existieren kann.",
+            textCouch: "Ideal-Falle: Trauern wir einem Beziehungs-Ideal nach, das schlichtweg nicht zu unserem heutigen Leben als Eltern passt?"
+        },
+        {
+            id: "b1_456", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, dass wir uns im Alltag nur noch als funktionierendes Team und nicht mehr als leidenschaftliches Paar wahrnehmen.",
+            textSarah: "Wir funktionieren perfekt als Manager unseres Lebens, aber die 'Ehe-Magie' geht in der Organisation völlig unter.",
+            textCouch: "Team vs. Paar: Sind wir im Moment eher geschäftliche Partner, die ein Unternehmen führen, oder geliebte Ehepartner?"
+        },
+        {
+            id: "b1_457", cat: "cat4",
+            textBenni: "Dass Sarah ihre Sorgen oft extern teilt, lässt mich an meiner Rolle als ihr engster Vertrauter zweifeln.",
+            textSarah: "Ich teile meine Sorgen erst mit Freundinnen, weil ich Benni nicht noch mehr mit meinen emotionalen Themen belasten will.",
+            textCouch: "Emotionale Loyalität: Ist das Teilen von Sorgen mit Dritten eine notwendige Entlastung oder eine Barriere zwischen uns beiden?"
+        },
+        {
+            id: "b1_458", cat: "cat4",
+            textBenni: "In meiner Wahrnehmung neigt Sarah dazu, mich bei Erziehungsentscheidungen vor dem Sohn zu diskreditieren, was mich massiv wütend macht.",
+            textSarah: "Ich korrigiere Benni vor dem Kleinen oft, weil ich seine Ansagen im Moment als absolut nicht kindgerecht oder zielführend empfinde.",
+            textCouch: "Die Fronten im Kinderzimmer: Haben wir eine klare Übereinkunft, wie wir Meinungsverschiedenheiten bei der Erziehung vor dem Kind lösen?"
+        },
+        {
+            id: "b1_459", cat: "cat4",
+            textBenni: "Ich wünsche mir von Sarah mehr Begeisterung für meine beruflichen Ambitionen, statt nur den Fokus auf die Work-Life-Balance zu legen.",
+            textSarah: "Bennis unbändiger Ehrgeiz im Job fühlt sich für mich oft so an, als wäre das Familienleben für ihn nur eine lästige Pflicht-Station.",
+            textCouch: "Karriere- vs. Familien-Fokus: Haben wir unterschiedliche Vorstellungen davon, welchen Stellenwert der Beruf für unsere gemeinsame Zukunft hat?"
+        },
+        {
+            id: "b1_460", cat: "cat4",
+            textBenni: "Wenn ich mich emotional öffne, habe ich insgeheim Angst, dass Sarah das als Schwäche auslegt und mich weniger begehrt.",
+            textSarah: "Ich finde es extrem attraktiv, wenn Benni sich emotional öffnet, interpretiere seine Zurückhaltung aber oft fälschlicherweise als Desinteresse.",
+            textCouch: "Verletzlichkeit: Ist unsere gegenseitige Verletzlichkeit ein Schlüssel zu echter Nähe oder haben wir Angst, dadurch an Anziehungskraft zu verlieren?"
+        },
+        {
+            id: "b1_461", cat: "cat4",
+            textBenni: "Ich ertappe mich dabei, wie ich Sarahs 'Mütter-Rolle' manchmal verurteile, weil ich das Gefühl habe, sie lässt den Spaß-Faktor zu kurz kommen.",
+            textSarah: "Benni nimmt die Rolle des Vaters oft zu leicht, während ich die Last der Verantwortung für die korrekte Entwicklung des Sohnes spüre.",
+            textCouch: "Rollen-Verurteilung: Verurteilen wir unbewusst den Erziehungsstil des anderen, statt uns gegenseitig als gleichwertige Eltern zu stützen?"
+        },
+        {
+            id: "b1_462", cat: "cat4",
+            textBenni: "Nach so vielen Jahren Beziehung habe ich das Gefühl, Sarah kennt meine Reaktionen so gut, dass sie mich manchmal gezielt 'programmiert'.",
+            textSarah: "Ich kenne Bennis Trigger so genau, dass ich in hitzigen Momenten leider weiß, wie ich ihn am effektivsten aus der Reserve locke.",
+            textCouch: "Emotionales Schachspiel: Nutzen wir das Wissen über die Schwächen des Partners unbewusst, um im Streit die Oberhand zu gewinnen?"
+        },
+        {
+            id: "b1_463", cat: "cat4",
+            textBenni: "Ich habe den Eindruck, Sarah sucht im Alltag bewusst nach Bestätigung von außen, statt sich diese von mir zu holen.",
+            textSarah: "Ich brauche die Bestätigung von außen, weil ich von Benni im Alltag oft nicht die Art von Aufmerksamkeit bekomme, die ich mir wünsche.",
+            textCouch: "Bestätigungs-Suche: Suchen wir uns unsere emotionale Anerkennung eher beim Partner oder bei anderen Menschen?"
+        },
+        {
+            id: "b1_464", cat: "cat4",
+            textBenni: "Wenn Sarah mich bittet, mehr im Haushalt zu tun, höre ich das als dauerhaften Vorwurf, nicht als Bitte um Unterstützung.",
+            textSarah: "Wenn ich Benni um Hilfe im Haushalt bitte, klingt das für ihn wie ein Vorwurf, was die Kommunikation jedes Mal sofort vergiftet.",
+            textCouch: "Kommunikations-Falle: Können wir Alltags-Bitten äußern, ohne dass der Partner sie sofort als persönlichen Angriff auf seine Kompetenz wertet?"
+        },
+        {
+            id: "b1_465", cat: "cat4",
+            textBenni: "Dass wir abends unsere Smartphones fast wie einen Schutzschild nutzen, ist für mich ein Zeichen für unsere emotionale Distanz.",
+            textSarah: "Wir beide flüchten abends in unsere digitalen Welten, weil der Druck, als Paar 'funktionieren' zu müssen, uns einfach zu groß geworden ist.",
+            textCouch: "Digitaler Rückzug: Ist unser exzessiver Handy-Konsum am Abend der Versuch, der emotionalen Arbeit an unserer Ehe zu entgehen?"
+        },
+        {
+            id: "b1_466", cat: "cat4",
+            textBenni: "Ich wünsche mir, dass Sarah mich ab und zu so ansieht, wie sie es 2011 getan hat – mit dieser unbändigen, neugierigen Begeisterung.",
+            textSarah: "Ich schaue Benni heute oft mit einem Blick an, der eher eine 'To-Do-Liste' abfragt, als die Begeisterung von 2011 widerzuspiegeln.",
+            textCouch: "Blick-Gewohnheit: Haben wir uns an den Blick des Partners gewöhnt und sehen ihn dadurch nur noch als Logistik-Partner?"
+        },
+        {
+            id: "b1_467", cat: "cat4",
+            textBenni: "Wenn ich über meine beruflichen Ängste spreche, habe ich das Gefühl, Sarah hört mir zu, versteht den Ernst der Lage aber nicht.",
+            textSarah: "Bennis berufliche Ängste sind oft so komplex, dass ich mich damit überfordert fühle, was ihn dann wiederum enttäuscht.",
+            textCouch: "Intellektuelle Intimität: Haben wir noch den Raum, die beruflichen Ängste des anderen tiefgreifend zu verstehen und zu tragen?"
+        },
+        {
+            id: "b1_468", cat: "cat4",
+            textBenni: "Sarahs Unzufriedenheit mit sich selbst strahlt im Alltag so stark ab, dass ich mich davon oft als Mann persönlich abgelehnt fühle.",
+            textSarah: "Dass Benni mein persönliches Unwohlsein mit mir selbst auf sich bezieht, setzt mich unter einen zusätzlichen Erwartungsdruck.",
+            textCouch: "Projektion: Übertragen wir unsere eigene Unzufriedenheit mit uns selbst unbewusst auf das Beziehungsverhältnis zum Partner?"
+        },
+        {
+            id: "b1_469", cat: "cat4",
+            textBenni: "Ich habe den Eindruck, Sarah hat im Moment absolut kein Interesse daran, unsere sexuelle Intimität wieder neu zu entdecken.",
+            textSarah: "Ich habe den Eindruck, Benni hat kein Verständnis dafür, dass meine Lust bei so viel Alltags-Last einfach keine Chance hat zu entstehen.",
+            textCouch: "Lust-Druck: Erzeugen wir durch das Thema Intimität eher neuen Druck, statt einander Raum für Entspannung zu geben?"
+        },
+        {
+            id: "b1_470", cat: "cat4",
+            textBenni: "Dass Sarah wichtige Entscheidungen manchmal trifft, ohne mich voll einzubeziehen, gibt mir das Gefühl, kein echtes Team zu sein.",
+            textSarah: "Ich treffe manche Entscheidungen alleine, weil ich bei Benni sonst befürchte, in langwierige, kaufmännische Diskussionen zu verfallen.",
+            textCouch: "Team-Entscheidungen: Haben wir das Vertrauen, dass jede Entscheidung gemeinsam getroffen wird, oder gibt es 'Ego-Entscheidungs-Zonen'?"
+        },
+        {
+            id: "b1_471", cat: "cat4",
+            textBenni: "Ich wünsche mir von Sarah mehr Loyalität, wenn es um meine Konflikte mit anderen Personen oder der Familie geht.",
+            textSarah: "Loyalität ist mir wichtig, aber Benni erwartet von mir oft, dass ich mich blind auf seine Seite stelle, auch wenn er im Unrecht ist.",
+            textCouch: "Bedingungslose Rückendeckung: Ist unsere Ehe ein Pakt, in dem wir uns immer gegenseitig decken, koste es was es wolle?"
+        },
+        {
+            id: "b1_472", cat: "cat4",
+            textBenni: "Unsere gemeinsamen Abendessen sind mittlerweile so vollgestopft mit Themen über den Sohn, dass wir als Ehepaar komplett verschwinden.",
+            textSarah: "Wenn wir abends nicht über den Sohn sprechen würden, hätten wir wahrscheinlich erst mal gar keine gemeinsamen Themen mehr.",
+            textCouch: "Themen-Notstand: Haben wir ohne die Organisation rund um das Kind noch genügend eigene Themen, die uns verbinden?"
+        },
+        {
+            id: "b1_473", cat: "cat4",
+            textBenni: "Wenn Sarah mich korrigiert, reagiere ich oft mit einem spöttischen Lächeln, das sie massiv provoziert.",
+            textSarah: "Bennis spöttisches Lächeln in Diskussionen ist für mich ein absolutes rotes Tuch, das mich sofort eskalieren lässt.",
+            textCouch: "Provokations-Trigger: Welche non-verbalen Signale nutzen wir im Streit, um den anderen gezielt aus der Fassung zu bringen?"
+        },
+        {
+            id: "b1_474", cat: "cat4",
+            textBenni: "Ich fühle mich von Sarah in der Ausübung meiner Hobbies manchmal subtil 'beobachtet' und bewertet.",
+            textSarah: "Bennis Hobbies wirken auf mich oft wie eine Flucht, und ich beobachte ihn kritisch, weil ich mir selbst diese Zeit nicht nehme.",
+            textCouch: "Beobachtungs-Kultur: Beobachten wir den Freiraum des anderen mit einer subtilen, urteilenden Haltung?"
+        },
+        {
+            id: "b1_475", cat: "cat4",
+            textBenni: "Ich habe Angst, dass Sarah und ich durch den täglichen Stress schleichend unsere gemeinsame Leidenschaft verlieren.",
+            textSarah: "Ich habe Angst, dass Benni und ich durch den täglichen Stress schleichend unsere gemeinsame Leidenschaft verlieren.",
+            textCouch: "Leidenschafts-Erosion: Kämpfen wir aktiv gegen das langsame Verschwinden der knisternden Energie in unserer Beziehung?"
+        },
+        {
+            id: "b1_476", cat: "cat4",
+            textBenni: "Sarah nimmt Ratschläge von Dritten oft ernster als meine, was mich zutiefst in meiner Rolle als Partner kränkt.",
+            textSarah: "Ich hole mir Rat von außen, weil Benni bei meinen Problemen oft zu nah dran ist und mir nicht neutral begegnen kann.",
+            textCouch: "Vertrauens-Verhältnis: Ist der Partner die erste Instanz für Beratung, oder suchen wir uns emotionale Sicherheit lieber außerhalb?"
+        },
+        {
+            id: "b1_477", cat: "cat4",
+            textBenni: "Wenn Sarah meine Erziehungsweise vor dem Sohn korrigiert, empfinde ich das als Verrat an unserem Team.",
+            textSarah: "Ich muss Benni vor dem Sohn korrigieren, weil ich sonst befürchte, dass wir als Eltern jegliche Autorität verlieren.",
+            textCouch: "Team-Autorität: Wie können wir gegensätzliche Meinungen vor dem Kind lösen, ohne die Integrität des anderen zu beschädigen?"
+        },
+        {
+            id: "b1_478", cat: "cat4",
+            textBenni: "Ich wünsche mir mehr körperliche Zärtlichkeit, die nicht auf Sex abzielt, um mich einfach wieder mit Sarah verbunden zu fühlen.",
+            textSarah: "Ich brauche Zärtlichkeit ohne den Druck, dass 'mehr' folgen muss, um mich wieder entspannt mit Benni verbinden zu können.",
+            textCouch: "Druckfreie Nähe: Schaffen wir Räume für Zärtlichkeit, in denen keine Erwartungen mitschwingen?"
+        },
+        {
+            id: "b1_479", cat: "cat4",
+            textBenni: "Dass Sarah meine berufliche Belastung nicht immer als 'echte' Belastung ansieht, frustriert mich.",
+            textSarah: "Bennis Job ist fordernd, aber manchmal wirkt sein Erschöpfungsgrad auf mich überzogen im Vergleich zur mentalen Last, die ich daheim trage.",
+            textCouch: "Belastungs-Vergleich: Erkennen wir die jeweils unterschiedliche Art der Erschöpfung des anderen als gleichwertig an?"
+        },
+        {
+            id: "b1_480", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, Sarah misstraut meinem Urteil in finanziellen Dingen zutiefst.",
+            textSarah: "Ich vertraue Bennis kaufmännischem Urteil, aber seine Risikobereitschaft beim Investieren macht mir manchmal schlaflose Nächte.",
+            textCouch: "Risiko-Verständnis: Haben wir einen gemeinsamen Konsens, wie viel Risiko für unsere finanzielle Sicherheit vertretbar ist?"
+        },
+        {
+            id: "b1_481", cat: "cat4",
+            textBenni: "Wenn Sarah im Streit weint, schaltet mein Kopf sofort ab – ich weiß dann nicht mehr, ob ich einlenken oder hart bleiben soll.",
+            textSarah: "Wenn ich im Streit weine, wünsche ich mir Bennis Nähe, statt seine ratlose Blockade oder sachliche Distanz.",
+            textCouch: "Tränen-Strategie: Brauchen wir nach einem Ausbruch mehr Empathie oder brauchen wir mehr klare Grenzen im Gespräch?"
+        },
+        {
+            id: "b1_482", cat: "cat4",
+            textBenni: "Ich habe Angst, dass wir als Paar in einer Routine feststecken, die uns auf Dauer unglücklich macht.",
+            textSarah: "Ich habe Angst, dass wir als Paar in einer Routine feststecken, die uns auf Dauer unglücklich macht.",
+            textCouch: "Routine-Gefahr: Ist unser Alltag ein stabiles Nest oder eine goldene Routine, die uns langfristig ausbrennen lässt?"
+        },
+        {
+            id: "b1_483", cat: "cat4",
+            textBenni: "Ich wünsche mir, dass Sarah mir öfter signalisiert, dass sie meinen persönlichen Weg (Gym, Gaming) respektiert.",
+            textSarah: "Ich wünsche mir, dass Benni mir öfter signalisiert, dass er meine Bedürfnisse nach Austausch und Nähe respektiert.",
+            textCouch: "Gegenseitiger Respekt: Gönnen wir dem Partner seine individuelle Art, den Akku aufzuladen, ohne diese zu bewerten?"
+        },
+        {
+            id: "b1_484", cat: "cat4",
+            textBenni: "Wenn Sarah Pläne ohne mich schmiedet, fühle ich mich manchmal überflüssig oder nicht als Teil ihres Lebens.",
+            textSarah: "Ich schmiede manchmal Pläne alleine, weil ich das Gefühl habe, Benni ist bei meinen Ideen nicht mit der nötigen Energie dabei.",
+            textCouch: "Gemeinsame Planung: Sind wir ein Team bei der Gestaltung unserer Freizeit oder leben wir zu oft in parallelen Welten?"
+        },
+        {
+            id: "b1_485", cat: "cat4",
+            textBenni: "Ich finde, wir haben das 'Wir-Gefühl' seit dem Kind zugunsten der Logistik vernachlässigt.",
+            textSarah: "Ich finde, wir haben das 'Wir-Gefühl' seit dem Kind zugunsten der Logistik vernachlässigt.",
+            textCouch: "Wir-Gefühl: Ist der Zusammenhalt als Ehepaar aktuell stärker oder schwächer als der Stress durch die Erziehung?"
+        },
+        {
+            id: "b1_486", cat: "cat4",
+            textBenni: "Sarahs Unpünktlichkeit macht mich im Alltag nervös, weil ich alles genau takten muss.",
+            textSarah: "Bennis Pünktlichkeits-Tick macht mich nervös, weil er keine Flexibilität für den Alltag mit dem Kleinen zulässt.",
+            textCouch: "Zeit-Logik: Brauchen wir eine striktere Übereinkunft, wie wir mit 'unvorhersehbaren' Verzögerungen im Alltag umgehen?"
+        },
+        {
+            id: "b1_487", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, wir hören uns nicht mehr richtig zu, sondern warten nur auf unsere Chance zu antworten.",
+            textSarah: "Ich habe das Gefühl, wir hören uns nicht mehr richtig zu, sondern warten nur auf unsere Chance zu antworten.",
+            textCouch: "Dialog-Kultur: Ist unser Gespräch ein Austausch oder ein Wettstreit um das 'letzte Wort' und die 'bessere Argumentation'?"
+        },
+        {
+            id: "b1_488", cat: "cat4",
+            textBenni: "Ich wünsche mir, dass Sarah öfter Initiative ergreift, anstatt immer nur auf meine Vorschläge zu reagieren.",
+            textSarah: "Ich würde mehr Initiative ergreifen, hätte ich nicht die Sorge, dass Benni meine Vorschläge direkt wieder kaufmännisch zerlegt.",
+            textCouch: "Initiative-Balance: Wer von uns beiden treibt die gemeinsamen Pläne voran und wer wartet eher ab?"
+        },
+        {
+            id: "b1_489", cat: "cat4",
+            textBenni: "Trotz des Stresses bin ich mir sicher: Sarah ist die Partnerin, mit der ich alt werden will.",
+            textSarah: "Trotz des Stresses bin ich mir sicher: Benni ist der Partner, mit dem ich alt werden will.",
+            textCouch: "Langzeit-Commitment: Steht unser Versprechen für die gemeinsame Zukunft felsenfest über den täglichen kleinen Clashs?"
+        },
+        {
+            id: "b1_490", cat: "cat4",
+            textBenni: "Sarahs Kritik an meiner Art, den Haushalt zu machen, ist für mich oft ein Angriff auf meine Person.",
+            textSarah: "Bennis Art, den Haushalt zu erledigen, ist in meinen Augen unsauber – ich kann nicht anders, als ihn zu korrigieren.",
+            textCouch: "Haushalts-Krieg: Wie können wir die Standards im Haushalt definieren, ohne uns gegenseitig als unfähig hinzustellen?"
+        },
+        {
+            id: "b1_491", cat: "cat4",
+            textBenni: "Ich habe das Gefühl, dass wir abends nicht mehr genug Energie haben, um echte Nähe aufzubauen.",
+            textSarah: "Ich habe das Gefühl, dass wir abends nicht mehr genug Energie haben, um echte Nähe aufzubauen.",
+            textCouch: "Energie-Problem: Müssen wir unsere Alltags-Orga radikal kürzen, um abends überhaupt noch Kapazität für uns zu haben?"
+        },
+        {
+            id: "b1_492", cat: "cat4",
+            textBenni: "Ich bin ungelogen derjenige, der in unserer Beziehung die meisten Kompromisse für den Frieden macht.",
+            textSarah: "Ich bin ungelogen diejenige, die in unserer Beziehung die meisten Kompromisse für den Frieden macht.",
+            textCouch: "Kompromiss-Bilanz: Wer von uns beiden glaubt ehrlicherweise, er stecke im Alltag mehr für den Partner zurück?"
+        },
+        {
+            id: "b1_493", cat: "cat4",
+            textBenni: "Ich wünsche mir mehr Anerkennung für meinen Einsatz in der Familie, statt ständiger Kritik an Details.",
+            textSarah: "Ich wünsche mir mehr Anerkennung für meinen Einsatz in der Familie, statt ständiger Kritik an Details.",
+            textCouch: "Lob-Kultur: Sagen wir dem Partner öfter, was er toll macht, anstatt immer nur auf die kleinen Defizite hinzuweisen?"
+        },
+        {
+            id: "b1_494", cat: "cat4",
+            textBenni: "Sarah und ich haben unterschiedliche Vorstellungen davon, was Qualität in unserer Ehe bedeutet.",
+            textSarah: "Benni und ich haben unterschiedliche Vorstellungen davon, was Qualität in unserer Ehe bedeutet.",
+            textCouch: "Ehe-Qualität: Haben wir den gleichen Kompass dafür, was eine erfolgreiche und glückliche Ehe ausmacht?"
+        },
+        {
+            id: "b1_495", cat: "cat4",
+            textBenni: "Unsere Liebe ist seit 2011 gewachsen, auch wenn sie aktuell durch die Belastung des Kleinkindes stark unter Druck steht.",
+            textSarah: "Unsere Liebe ist seit 2011 gewachsen, auch wenn sie aktuell durch die Belastung des Kleinkindes stark unter Druck steht.",
+            textCouch: "Resilienz: Glauben wir beide fest daran, dass unser Fundament diese anstrengende Phase als Eltern locker überlebt?"
+        }// --- BLOCK 12 (EINTRÄGE 496 BIS 540) ---
+        ,
+        {
+            id: "b1_496", cat: "cat4",
+            textBenni: "Ich bewundere an Sarah, wie sie trotz aller Müdigkeit immer wieder die Kraft findet, unserem Sohn ein liebevolles Umfeld zu schaffen.",
+            textSarah: "Ich bewundere an Benni, wie er trotz seines beruflichen Drucks immer wieder die Kraft findet, als präsenter und liebevoller Vater zu agieren.",
+            textCouch: "Stärke-Check: Welches Talent des Partners bewundern wir in seiner Rolle als Elternteil am allermeisten?"
+        },
+        {
+            id: "b1_497", cat: "cat4",
+            textBenni: "Unsere gemeinsamen Ziele seit 2011 zu erreichen, war für mich der größte Beweis, dass wir zusammen alles schaffen können.",
+            textSarah: "Unsere gemeinsamen Ziele seit 2011 zu erreichen, war für mich der größte Beweis, dass wir zusammen alles schaffen können.",
+            textCouch: "Team-Erfolge: Welcher bisher erreichte gemeinsame Meilenstein gibt uns heute noch das meiste Selbstvertrauen als Paar?"
+        },
+        {
+            id: "b1_498", cat: "cat4",
+            textBenni: "Wenn Sarah mich einfach so aus heiterem Himmel anlächelt, fühle ich mich sofort wieder wie an unserem ersten Tag.",
+            textSarah: "Wenn Benni mich einfach so aus heiterem Himmel anlächelt, fühle ich mich sofort wieder wie an unserem ersten Tag.",
+            textCouch: "Die Magie der kleinen Dinge: Welche Geste des Partners katapultiert uns sofort in das Gefühl der frühen Anfangszeit zurück?"
+        },
+        {
+            id: "b1_499", cat: "cat4",
+            textBenni: "Ich bin unglaublich dankbar, dass Sarah mein Fels in der Brandung ist, wenn der berufliche Druck mal wieder zu groß wird.",
+            textSarah: "Ich bin unglaublich dankbar, dass Benni mein Fels in der Brandung ist, wenn der Familienalltag mal wieder völlig eskaliert.",
+            textCouch: "Sicherer Hafen: In welchem Moment habe ich mich in den letzten Monaten vom Partner am meisten getragen und sicher gefühlt?"
+        },
+        {
+            id: "b1_500", cat: "cat4",
+            textBenni: "Sarahs Fähigkeit, auch in festgefahrenen Situationen immer noch eine Lösung oder einen Kompromiss zu finden, beeindruckt mich zutiefst.",
+            textSarah: "Bennis Fähigkeit, bei Problemen analytisch Ruhe zu bewahren und den Fokus auf das Wesentliche zu legen, bewundere ich sehr.",
+            textCouch: "Bewunderung pur: Welche Eigenschaft des Partners macht ihn zu einer so unersetzlichen Bereicherung für mein Leben?"
+        },
+        {
+            id: "b1_501", cat: "cat4",
+            textBenni: "Ich liebe es, wie Sarah unseren Sohn mit ihrer ganz eigenen, warmherzigen Art durch die Welt begleitet.",
+            textSarah: "Ich liebe es, wie Benni unserem Sohn mit seiner ganz eigenen, spielerischen Art die Welt erklärt.",
+            textCouch: "Eltern-Zauber: In welchem Moment beobachte ich den Partner heimlich dabei, wie er mit unserem Sohn umgeht, und denke: 'Einfach perfekt'?"
+        },
+        {
+            id: "b1_502", cat: "cat4",
+            textBenni: "Unser gemeinsames Lachen über Dinge, die nur wir beide verstehen, ist für mich das größte Privileg unserer Ehe.",
+            textSarah: "Unser gemeinsames Lachen über Dinge, die nur wir beide verstehen, ist für mich das größte Privileg unserer Ehe.",
+            textCouch: "Insider-Humor: Gibt es Momente, in denen wir uns nur kurz ansehen müssen und sofort beide wissen, dass wir das Gleiche denken?"
+        },
+        {
+            id: "b1_503", cat: "cat4",
+            textBenni: "Ich bin so stolz darauf, wie wir seit 2011 als Team an all den großen Hürden gewachsen sind, statt an ihnen zu scheitern.",
+            textSarah: "Ich bin so stolz darauf, wie Benni und ich seit 2011 als Team an all den großen Hürden gewachsen sind, statt an ihnen zu scheitern.",
+            textCouch: "Wachstums-Erfolg: Was macht unsere Verbindung heute stärker und belastbarer als noch vor zehn Jahren?"
+        },
+        {
+            id: "b1_504", cat: "cat4",
+            textBenni: "Ein gemeinsamer Abend ohne Kind, an dem wir einfach nur wieder wir selbst sein können, ist mein absolutes Highlight.",
+            textSarah: "Ein gemeinsamer Abend ohne Kind, an dem wir einfach nur wieder wir selbst sein können, ist mein absolutes Highlight.",
+            textCouch: "Paar-Zeit: Welche Art von 'Wir-Moment' gibt uns abseits aller Verpflichtungen die meiste Energie zurück?"
+        },
+        {
+            id: "b1_505", cat: "cat4",
+            textBenni: "Dass Sarah mich auch in meinen unperfekten Momenten liebt und akzeptiert, gibt mir eine Sicherheit, die ich nirgendwo sonst finde.",
+            textSarah: "Dass Benni mich auch in meinen unperfekten Momenten liebt und akzeptiert, gibt mir eine Sicherheit, die ich nirgendwo sonst finde.",
+            textCouch: "Bedingungslose Annahme: In welchen Momenten spüre ich am deutlichsten, dass mein Partner mich genau so liebt, wie ich bin?"
+        },
+        {
+            id: "b1_506", cat: "cat4",
+            textBenni: "Ich schätze an Sarah, dass sie mir auch dann ehrlich den Kopf wäscht, wenn ich mich gerade völlig verrenne.",
+            textSarah: "Ich schätze an Benni, dass er mir auch dann ehrlich den Kopf wäscht, wenn ich mich gerade völlig verrenne.",
+            textCouch: "Ehrliche Korrektur: Schaffen wir es, dem Partner auch unangenehme Wahrheiten mit einem liebevollen Unterton zu vermitteln?"
+        },
+        {
+            id: "b1_507", cat: "cat4",
+            textBenni: "Es gibt nichts Schöneres, als am Wochenende einfach gemeinsam auf der Couch zu frühstücken und die Welt draußen zu vergessen.",
+            textSarah: "Es gibt nichts Schöneres, als am Wochenende einfach gemeinsam auf der Couch zu frühstücken und die Welt draußen zu vergessen.",
+            textCouch: "Entschleunigungs-Moment: Welcher kleine, regelmäßige Ritual-Moment im Alltag ist für uns beide ein absoluter Anker?"
+        },
+        {
+            id: "b1_508", cat: "cat4",
+            textBenni: "Ich bin beeindruckt, wie Sarah die Balance zwischen ihren eigenen Bedürfnissen und den Anforderungen unserer Familie hält.",
+            textSarah: "Ich bin beeindruckt, wie Benni die Balance zwischen seinen eigenen Zielen und der Verantwortung für unsere Familie hält.",
+            textCouch: "Balance-Bewunderung: In welchen Situationen denke ich heimlich: 'Respekt, wie du das heute gemanagt hast'?"
+        },
+        {
+            id: "b1_509", cat: "cat4",
+            textBenni: "Unser gemeinsames Zuhause mit Sarah aufzubauen, ist das bisher größte und schönste Projekt meines Lebens.",
+            textSarah: "Unser gemeinsames Zuhause mit Benni aufzubauen, ist das bisher größte und schönste Projekt meines Lebens.",
+            textCouch: "Heimat-Gefühl: Was macht unser Zuhause zu dem Ort, an dem wir uns beide am absolut sichersten und verbundensten fühlen?"
+        },
+        {
+            id: "b1_510", cat: "cat4",
+            textBenni: "Ich finde es toll, wie Sarah mich immer wieder motiviert, über meinen eigenen Schatten zu springen und neue Dinge auszuprobieren.",
+            textSarah: "Ich finde es toll, wie Benni mich immer wieder motiviert, über meinen eigenen Schatten zu springen und neue Dinge auszuprobieren.",
+            textCouch: "Wachstums-Partner: Welchen positiven Einfluss auf meine persönliche Entwicklung hatte der Partner in den letzten Jahren am stärksten?"
+        },
+        {
+            id: "b1_511", cat: "cat4",
+            textBenni: "Das Wissen, dass Sarah hinter mir steht, egal welche berufliche Entscheidung ich treffe, gibt mir unfassbar viel Rückenwind.",
+            textSarah: "Das Wissen, dass Benni hinter mir steht, egal welche berufliche Entscheidung ich treffe, gibt mir unfassbar viel Rückenwind.",
+            textCouch: "Rückhalt: Fühlt sich unser Paar wie eine uneinnehmbare Festung, in der man für den Rest der Welt den Rücken frei hat?"
+        },
+        {
+            id: "b1_512", cat: "cat4",
+            textBenni: "Ich liebe Sarahs Art, wie sie auch bei kleinsten Alltagsdingen mit so viel Leidenschaft und Herzblut dabei sein kann.",
+            textSarah: "Ich liebe Bennis Art, wie er auch bei kleinsten Alltagsdingen mit so viel Leidenschaft und Herzblut dabei sein kann.",
+            textCouch: "Leidenschafts-Radar: In welchen alltäglichen Situationen blüht der Partner so richtig auf, dass es mich einfach nur glücklich macht?"
+        },
+        {
+            id: "b1_513", cat: "cat4",
+            textBenni: "Dass wir auch nach so vielen Jahren noch über dieselben Dinge streiten können, ist für mich ein Zeichen, dass wir uns nie egal geworden sind.",
+            textSarah: "Dass Benni und ich auch nach so vielen Jahren noch über dieselben Dinge streiten können, ist für mich ein Zeichen, dass wir uns nie egal geworden sind.",
+            textCouch: "Streit als Zeichen: Ist unser Reibungspotenzial vielleicht einfach der Beweis dafür, dass wir uns immer noch gegenseitig fordern und wichtig sind?"
+        },
+        {
+            id: "b1_514", cat: "cat4",
+            textBenni: "Sarah ist für mich nicht nur Partnerin, sondern der Mensch, dem ich mich am allernächsten fühle – ohne jedes Tabu.",
+            textSarah: "Benni ist für mich nicht nur Partner, sondern der Mensch, dem ich mich am allernächsten fühle – ohne jedes Tabu.",
+            textCouch: "Vertrauens-Level: Existiert zwischen uns eine Ehrlichkeit, die so tief geht, dass keine Scham mehr im Raum ist?"
+        },
+        {
+            id: "b1_515", cat: "cat4",
+            textBenni: "Ich bewundere Bennis absolute Verlässlichkeit als Vater – wenn er da ist, ist er zu 100% bei unserem Sohn.",
+            textSarah: "Ich bewundere Sarahs unerschütterliche Liebe als Mutter – wenn sie da ist, ist sie zu 100% für unseren Sohn da.",
+            textCouch: "Eltern-Bewunderung: In welchen Momenten spüre ich am stärksten den Stolz auf den Partner in seiner Rolle als Mama/Papa?"
+        },
+        {
+            id: "b1_516", cat: "cat4",
+            textBenni: "Dass wir unsere eigenen Traditionen als kleine Familie seit 2011 entwickelt haben, verbindet uns heute enger als alles andere.",
+            textSarah: "Dass Benni und ich unsere eigenen Traditionen als kleine Familie seit 2011 entwickelt haben, verbindet uns heute enger als alles andere.",
+            textCouch: "Eigene Riten: Welcher von uns selbst erfundene Brauch oder welches Ritual macht uns heute als Familie einzigartig?"
+        },
+        {
+            id: "b1_517", cat: "cat4",
+            textBenni: "Ich liebe es, wenn Sarah mich morgens kurz anlächelt, bevor der volle Wahnsinn des Tages losgeht.",
+            textSarah: "Ich liebe es, wenn Benni mich morgens kurz anlächelt, bevor der volle Wahnsinn des Tages losgeht.",
+            textCouch: "Morgen-Glück: Ist dieser kurze, stille Moment am Morgen unser wichtigstes Ritual, um den Tag gemeinsam zu begrüßen?"
+        },
+        {
+            id: "b1_518", cat: "cat4",
+            textBenni: "Dass wir trotz des Stresses noch so viel zusammen lachen können, ist unser größtes Erfolgsrezept als Ehepaar.",
+            textSarah: "Dass Benni und ich trotz des Stresses noch so viel zusammen lachen können, ist unser größtes Erfolgsrezept als Ehepaar.",
+            textCouch: "Humor als Kleber: Ist unser gemeinsames Lachen das, was uns in den schwierigsten Phasen des Elternseins zusammenhält?"
+        },
+        {
+            id: "b1_519", cat: "cat4",
+            textBenni: "Ich bin dankbar, dass Sarah mich auch mit meinen Ecken und Kanten vollkommen annimmt.",
+            textSarah: "Ich bin dankbar, dass Benni mich auch mit meinen Ecken und Kanten vollkommen annimmt.",
+            textCouch: "Ecken und Kanten: In welchem Moment habe ich mich besonders geliebt gefühlt, obwohl ich mich gerade absolut unmöglich verhalten habe?"
+        },
+        {
+            id: "b1_520", cat: "cat4",
+            textBenni: "Wir sind seit 2011 ein unschlagbares Team – ich möchte mit niemandem anderen durch die nächsten Jahre gehen.",
+            textSarah: "Wir sind seit 2011 ein unschlagbares Team – ich möchte mit niemandem anderen durch die nächsten Jahre gehen.",
+            textCouch: "Das unerschütterliche 'Ja': Ist unsere gemeinsame Geschichte für uns beide der Beweis für ein Leben, das für immer zusammen gehört?"
+        },
+        {
+            id: "b1_521", cat: "cat4",
+            textBenni: "Ich bewundere an Sarah ihre Art, wie sie den Haushalt und das Kind mit so einer Ruhe managed, wenn ich innerlich schon koche.",
+            textSarah: "Ich bewundere an Benni seine Art, wie er auch in stressigsten beruflichen Phasen immer wieder für uns als Familie da ist.",
+            textCouch: "Stille Bewunderung: Welche verborgene Kraft des Partners bewundere ich im Alltag stillschweigend, ohne sie oft auszusprechen?"
+        },
+        {
+            id: "b1_522", cat: "cat4",
+            textBenni: "Unsere gemeinsamen Abenteuer, die wir seit 2011 erlebt haben, sind für mich ein unendlicher Vorrat an Kraft für schwere Zeiten.",
+            textSarah: "Unsere gemeinsamen Abenteuer, die wir seit 2011 erlebt haben, sind für mich ein unendlicher Vorrat an Kraft für schwere Zeiten.",
+            textCouch: "Kraft-Quelle: Welches gemeinsame Erlebnis aus unserer Vergangenheit aktiviert sofort wieder unsere Verbundenheit?"
+        },
+        {
+            id: "b1_523", cat: "cat4",
+            textBenni: "Ich liebe Sarahs Art, wie sie kleine, banale Dinge des Alltags zu einem echten Erlebnis machen kann.",
+            textSarah: "Ich liebe Bennis Art, wie er selbst in den stressigsten Tagen noch ein kleines Highlight für mich oder den Kleinen schafft.",
+            textCouch: "Highlight-Generator: Wer von uns beiden schafft es im Alltag öfter, die kleinen Momente in etwas Besonderes zu verwandeln?"
+        },
+        {
+            id: "b1_524", cat: "cat4",
+            textBenni: "Dass Sarah meine beruflichen Herausforderungen auch dann unterstützt, wenn sie meinen privaten Freiraum einschränken, ist ein großes Geschenk.",
+            textSarah: "Dass Benni mich in meinen Projekten unterstützt, auch wenn es seine Pläne durchkreuzt, zeigt mir, wie wichtig ich ihm bin.",
+            textCouch: "Geopferte Zeit: Können wir die gegenseitige Unterstützung bei individuellen Zielen als Zeichen unserer großen Liebe sehen?"
+        },
+        {
+            id: "b1_525", cat: "cat4",
+            textBenni: "Ich fühle mich bei Sarah am sichersten, wenn sie einfach nur da ist, ohne dass wir reden oder leisten müssen.",
+            textSarah: "Ich fühle mich bei Benni am sichersten, wenn er einfach nur da ist, ohne dass wir reden oder leisten müssen.",
+            textCouch: "Sichere Präsenz: Wie oft schaffen wir es, diese Qualität von absolutem 'Da-Sein' ohne Erwartungen zuzulassen?"
+        },
+        {
+            id: "b1_526", cat: "cat4",
+            textBenni: "Ich bin stolz darauf, wie wir unsere Werte als Eltern definieren und dabei trotzdem noch wir selbst bleiben.",
+            textSarah: "Ich bin stolz darauf, wie Benni und ich unsere Werte als Eltern definieren und dabei trotzdem noch wir selbst bleiben.",
+            textCouch: "Gemeinsame Werte: Was ist der Kern unserer Familie, für den wir beide bereit sind, jeden Alltagssturm zu überstehen?"
+        },
+        {
+            id: "b1_527", cat: "cat4",
+            textBenni: "Unsere Fähigkeit, nach einem Streit wieder zusammenzukommen und uns ehrlich zu verzeihen, ist unser wichtigstes Gut.",
+            textSarah: "Unsere Fähigkeit, nach einem Streit wieder zusammenzukommen und uns ehrlich zu verzeihen, ist unser wichtigstes Gut.",
+            textCouch: "Versöhnungs-Stärke: Was macht uns als Paar so besonders darin, nicht an Groll festzuhalten, sondern immer wieder neu zu beginnen?"
+        },
+        {
+            id: "b1_528", cat: "cat4",
+            textBenni: "Ich liebe Sarahs Art, wie sie auch nach langen Tagen die Energie findet, für mich eine echte Partnerin zu sein.",
+            textSarah: "Ich liebe Bennis Art, wie er auch nach langen Tagen die Energie findet, für mich ein echter Partner zu sein.",
+            textCouch: "Partner-Power: Wie schaffen wir es, uns gegenseitig als 'Partner' zu sehen und nicht nur als 'Eltern-WG-Mitglieder'?"
+        },
+        {
+            id: "b1_529", cat: "cat4",
+            textBenni: "Dass ich mit Sarah über alles reden kann – von Finanzen bis zu tiefsten Ängsten –, macht unsere Ehe für mich einzigartig.",
+            textSarah: "Dass ich mit Benni über alles reden kann – von Finanzen bis zu tiefsten Ängsten –, macht unsere Ehe für mich einzigartig.",
+            textCouch: "Absolute Ehrlichkeit: Welches Thema trauen wir uns heute als Paar zu besprechen, das wir 2011 niemals hätten ansprechen können?"
+        },
+        {
+            id: "b1_530", cat: "cat4",
+            textBenni: "Ich bewundere, wie Sarah unsere kleine Familie als ihren Mittelpunkt begreift und jede Energie dort hineinsteckt.",
+            textSarah: "Ich bewundere, wie Benni unsere kleine Familie als seinen Mittelpunkt begreift und jede Energie dort hineinsteckt.",
+            textCouch: "Das 'Warum': Wenn wir uns ansehen, ist dann klar, warum wir uns 2011 für ein Leben zu zweit entschieden haben?"
+        },
+        {
+            id: "b1_531", cat: "cat4",
+            textBenni: "Ich schätze an Sarah, dass sie mir auch dann Raum gibt, wenn ich mich gerade einfach nur in mein Gaming zurückziehen muss.",
+            textSarah: "Ich schätze an Benni, dass er mir Raum für meine kleinen Auszeiten lässt, ohne meine Bedürfnisse negativ zu bewerten.",
+            textCouch: "Raum-Respekt: Haben wir gelernt, dem anderen sein 'Alleine-Sein' zu gönnen, ohne dabei eine Distanz zu spüren?"
+        },
+        {
+            id: "b1_532", cat: "cat4",
+            textBenni: "Unsere gemeinsame Geschichte seit 2011 ist für mich das wertvollste Buch, das wir bisher geschrieben haben.",
+            textSarah: "Unsere gemeinsame Geschichte seit 2011 ist für mich das wertvollste Buch, das wir bisher geschrieben haben.",
+            textCouch: "Rückblick & Ausblick: Welches Kapitel unserer gemeinsamen Geschichte war bisher das prägendste für unser heutiges Wir?"
+        },
+        {
+            id: "b1_533", cat: "cat4",
+            textBenni: "Dass wir nach einem stressigen Tag immer noch zusammen über denselben Witz lachen können, rettet mich oft vor der Resignation.",
+            textSarah: "Dass Benni und ich nach einem stressigen Tag immer noch zusammen über denselben Witz lachen können, rettet mich oft vor der Resignation.",
+            textCouch: "Lach-Therapie: Wie sehr wirkt unser gemeinsamer Humor als Schutzschild gegen die Anstrengungen unseres Alltags?"
+        },
+        {
+            id: "b1_534", cat: "cat4",
+            textBenni: "Ich fühle mich von Sarah absolut sicher, auch wenn ich meine verletzlichsten Seiten zeige.",
+            textSarah: "Ich fühle mich bei Benni absolut sicher, auch wenn ich meine verletzlichsten Seiten zeige.",
+            textCouch: "Sicherheits-Gefühl: Ist unser gegenseitiges Vertrauen heute so gewachsen, dass keine Schwäche mehr ein Risiko für unsere Liebe darstellt?"
+        },
+        {
+            id: "b1_535", cat: "cat4",
+            textBenni: "Ich bewundere Sarahs Art, wie sie den Alltag mit unserem Sohn so liebevoll und geduldig gestaltet.",
+            textSarah: "Ich bewundere Bennis Art, wie er unseren Sohn mit so viel Spaß und Freude durch den Alltag begleitet.",
+            textCouch: "Eltern-Stolz: Welcher Moment mit unserem Kind hat mich in letzter Zeit am meisten stolz auf den Partner gemacht?"
+        },
+        {
+            id: "b1_536", cat: "cat4",
+            textBenni: "Unsere gemeinsamen Ziele für die Zukunft machen mich optimistisch – ich weiß, wir schaffen das alles zusammen.",
+            textSarah: "Unsere gemeinsamen Ziele für die Zukunft machen mich optimistisch – ich weiß, wir schaffen das alles zusammen.",
+            textCouch: "Zukunft-Optimismus: Haben wir noch immer diesen gemeinsamen 'Wir-gegen-den-Rest-der-Welt'-Spirit, den wir 2011 hatten?"
+        },
+        {
+            id: "b1_537", cat: "cat4",
+            textBenni: "Ich schätze an Sarah, dass sie meine beruflichen Herausforderungen ernst nimmt und mich so gut es geht stützt.",
+            textSarah: "Ich schätze an Benni, dass er meine beruflichen Herausforderungen ernst nimmt und mich so gut es geht stützt.",
+            textCouch: "Rückenwind: Geben wir uns gegenseitig das Gefühl, dass wir uns in unseren beruflichen Ambitionen zu 100% gegenseitig unterstützen?"
+        },
+        {
+            id: "b1_538", cat: "cat4",
+            textBenni: "Unsere Fähigkeit, nach schwierigen Phasen wieder neu anzufangen, ist für mich der Beweis für unsere tiefe Liebe.",
+            textSarah: "Unsere Fähigkeit, nach schwierigen Phasen wieder neu anzufangen, ist für mich der Beweis für unsere tiefe Liebe.",
+            textCouch: "Neuanfang-Kraft: Was macht uns als Paar so besonders, dass wir nach jeder Krise immer wieder zu einander finden?"
+        },
+        {
+            id: "b1_539", cat: "cat4",
+            textBenni: "Ich liebe es, wenn Sarah und ich am Abend noch kurz zusammen reflektieren, was heute besonders schön war.",
+            textSarah: "Ich liebe es, wenn Benni und ich am Abend noch kurz zusammen reflektieren, was heute besonders schön war.",
+            textCouch: "Reflektions-Ritual: Wäre das Bewusstmachen der positiven Momente am Tagesende ein Ritual, das uns den Alltagsdruck nehmen würde?"
+        },
+        {
+            id: "b1_540", cat: "cat4",
+            textBenni: "Sarah, du bist nach all den Jahren immer noch die eine Person, mit der ich am liebsten mein Leben teile.",
+            textSarah: "Benni, du bist nach all den Jahren immer noch die eine Person, mit der ich am liebsten mein Leben teile.",
+            textCouch: "Das große Versprechen: Ist das heutige 'Ja' zueinander aus vollster Überzeugung viel stärker als das von 2011?"
+        }// --- BLOCK 13 (EINTRÄGE 541 BIS 585) ---
+        ,
+        {
+            id: "b1_541", cat: "cat8",
+            textBenni: "Dass Sarah beim Packen für unser Kind an Details denkt, die ich völlig übersehe, rettet uns im Urlaub oft den Tag.",
+            textSarah: "Dass Benni im Urlaub die gesamte Technik- und Transport-Logistik übernimmt, lässt mich erst richtig entspannen.",
+            textCouch: "Komplementäre Stärken: In welchen Momenten im Urlaub merken wir am stärksten, dass wir als Team unschlagbar sind?"
+        },
+        {
+            id: "b1_542", cat: "cat4",
+            textBenni: "Wenn Sarah mich einfach ohne Grund in den Arm nimmt, ist das für mich ein Zeichen, dass die emotionale Verbindung immer noch tief sitzt.",
+            textSarah: "Wenn Benni mich einfach ohne Grund in den Arm nimmt, ist das für mich ein Zeichen, dass die emotionale Verbindung immer noch tief sitzt.",
+            textCouch: "Unaufgeforderte Nähe: Wie oft gelingt es uns, die 'Sprache der Liebe' ohne Worte im Vorbeigehen zu sprechen?"
+        },
+        {
+            id: "b1_543", cat: "cat1",
+            textBenni: "Sarahs Unordentlichkeit mit ihren Kosmetikartikeln im Bad macht mich wahnsinnig, aber es gehört irgendwie zu ihr.",
+            textSarah: "Dass Benni das Waschbecken nach seiner Morgengymnastik oft mit einem Bartstoppeln-Chaos hinterlässt, ist ein fester Bestandteil unserer WG.",
+            textCouch: "Macken-Akzeptanz: Können wir über die nervigen Alltags-Ticks des Partners mittlerweile eher schmunzeln als uns ernsthaft darüber zu streiten?"
+        },
+        {
+            id: "b1_544", cat: "cat4",
+            textBenni: "Ich bewundere Sarahs Fähigkeit, bei unserem Sohn trotz akuter Müdigkeit noch eine Engelsgeduld aufzubringen.",
+            textSarah: "Ich bewundere Bennis Fähigkeit, selbst nach einem harten Arbeitstag noch mit unserem Sohn auf dem Boden herumzutollen.",
+            textCouch: "Vorbild-Funktion: Welche elterliche Eigenschaft des Partners inspiriert mich dazu, selbst ein besserer Vater/Mutter zu sein?"
+        },
+        {
+            id: "b1_545", cat: "cat3",
+            textBenni: "Dass wir bei größeren Investitionen für die gemeinsame Zukunft (Haus, Bau, Vorsorge) mittlerweile fast blind vertrauen, macht mich stolz.",
+            textSarah: "Dass wir bei größeren Investitionen für die gemeinsame Zukunft (Haus, Bau, Vorsorge) mittlerweile fast blind vertrauen, macht mich stolz.",
+            textCouch: "Finanzielle Einheit: Fühlen wir uns in unserer Zukunftsplanung heute als Einheit, die an einem Strang zieht?"
+        },
+        {
+            id: "b1_546", cat: "cat5",
+            textBenni: "Sarahs Support bei meinem Training gibt mir die nötige mentale Ruhe, um im Gym wirklich alles zu geben.",
+            textSarah: "Bennis Support bei meinen persönlichen Auszeiten gibt mir die nötige Ruhe, um mich nicht nur als Mutter, sondern auch als Frau zu fühlen.",
+            textCouch: "Akkuzellen: Wie sehr entlastet es unsere Ehe, wenn der andere uns den Rücken für unsere individuellen Kraftquellen freihält?"
+        },
+        {
+            id: "b1_547", cat: "cat4",
+            textBenni: "Wenn Sarah mir ein Kompliment macht, das nichts mit meiner Leistung zu tun hat, berührt mich das zutiefst.",
+            textSarah: "Wenn Benni mir ein Kompliment macht, das nichts mit meiner Leistung zu tun hat, berührt mich das zutiefst.",
+            textCouch: "Wahre Nähe: Sagen wir uns noch oft genug, warum wir den anderen als *Menschen* lieben, völlig unabhängig von dem, was er leistet?"
+        },
+        {
+            id: "b1_548", cat: "cat6",
+            textBenni: "Unsere gemeinsamen Koch-Abende am Wochenende sind für mich das absolute Highlight, um wieder als Paar zusammenzufinden.",
+            textSarah: "Unsere gemeinsamen Koch-Abende am Wochenende sind für mich das absolute Highlight, um wieder als Paar zusammenzufinden.",
+            textCouch: "Genuss-Ritual: Ist unsere Leidenschaft für gutes Essen die Brücke, auf der wir nach einer stressigen Woche wieder zueinanderfinden?"
+        },
+        {
+            id: "b1_549", cat: "cat0",
+            textBenni: "Dass Sarah das Problem mit der kaputten Spülmaschine sofort gelöst hat, zeigt mir wieder, dass sie der logistische Boss ist.",
+            textSarah: "Dass Benni die nervige Reparatur im Bad direkt übernommen hat, spart uns am Wochenende extrem viel Stress.",
+            textCouch: "Logistik-Boss: Gibt es Bereiche, in denen wir uns blind auf die Problemlösungskompetenz des Partners verlassen?"
+        },
+        {
+            id: "b1_550", cat: "cat4",
+            textBenni: "Sarah ist für mich nach wie vor der spannendste Mensch, den ich kenne – auch wenn wir uns seit 2011 in- und auswendig kennen.",
+            textSarah: "Benni ist für mich nach wie vor der spannendste Mensch, den ich kenne – auch wenn wir uns seit 2011 in- und auswendig kennen.",
+            textCouch: "Spannung nach 15 Jahren: Was ist die Eigenschaft an Benni/Sarah, die mich heute noch genauso fasziniert wie beim ersten Date?"
+        },
+        {
+            id: "b1_551", cat: "cat4",
+            textBenni: "Dass Sarah mich bei Konflikten auch mal 'sachlich stehen lässt', zwingt mich dazu, mein eigenes Ego zu hinterfragen.",
+            textSarah: "Dass Benni bei Konflikten manchmal hart bleibt, zwingt mich dazu, meine emotionalen Vorwürfe sachlicher zu sortieren.",
+            textCouch: "Wachstums-Reibung: Nutzen wir unsere Konflikte eigentlich schon dazu, um uns gegenseitig zu einer besseren Version unserer selbst zu pushen?"
+        },
+        {
+            id: "b1_552", cat: "cat10",
+            textBenni: "Wir haben als Eltern unseren ganz eigenen Stil entwickelt, der uns als Paar so unersetzlich macht.",
+            textSarah: "Wir haben als Eltern unseren ganz eigenen Stil entwickelt, der uns als Paar so unersetzlich macht.",
+            textCouch: "Eltern-Style: Welches Element unseres Erziehungsstils macht uns als Paar stolz, weil wir es völlig anders/besser machen als erwartet?"
+        },
+        {
+            id: "b1_553", cat: "cat4",
+            textBenni: "Ich wünsche mir, dass wir uns öfter mal 'einfach so' ansehen und wissen, dass wir das alles gemeinsam durchstehen.",
+            textSarah: "Ich wünsche mir, dass Benni und ich uns öfter mal 'einfach so' ansehen und wissen, dass wir das alles gemeinsam durchstehen.",
+            textCouch: "Blick-Kommunikation: Wie oft tauschen wir im Alltag diesen stillen 'Wir-schaffen-das'-Blick aus?"
+        },
+        {
+            id: "b1_554", cat: "cat4",
+            textBenni: "Ich liebe es, dass Sarah mein Leben seit 2011 so maßgeblich geformt und bereichert hat.",
+            textSarah: "Ich liebe es, dass Benni mein Leben seit 2011 so maßgeblich geformt und bereichert hat.",
+            textCouch: "Lebens-Architektur: Wie sähe mein heutiges Leben aus, wenn wir uns 2011 nicht getroffen hätten? Wäre es ärmer an Tiefe?"
+        },
+        {
+            id: "b1_555", cat: "cat4",
+            textBenni: "Ehrliche Gespräche über unsere Ängste sind für mich die höchste Form von Vertrauen, die wir haben.",
+            textSarah: "Ehrliche Gespräche über unsere Ängste sind für mich die höchste Form von Vertrauen, die wir haben.",
+            textCouch: "Vertrauens-Check: Gab es in der letzten Woche einen Moment, in dem wir uns wirklich komplett verletzlich gezeigt haben?"
+        },
+        {
+            id: "b1_556", cat: "cat4",
+            textBenni: "Sarahs Art, auch in harten Zeiten noch einen Witz zu machen, ist für mich der beste Schutz gegen Resignation.",
+            textSarah: "Bennis Art, auch in harten Zeiten noch einen Witz zu machen, ist für mich der beste Schutz gegen Resignation.",
+            textCouch: "Schutzschild Humor: Ist unser gemeinsamer schwarzer Humor die effektivste Waffe gegen die Schwere des Alltags?"
+        },
+        {
+            id: "b1_557", cat: "cat4",
+            textBenni: "Wenn wir zusammen durch den Supermarkt gehen, fühlt sich das für mich wie eine kleine, eingespielte Mission an.",
+            textSarah: "Wenn Benni und ich zusammen einkaufen, fühlt sich das für mich wie eine kleine, eingespielte Mission an.",
+            textCouch: "Team-Missionen: In welchen Alltagsmomenten spüren wir am deutlichsten, dass wir ein perfekt eingespieltes Duo sind?"
+        },
+        {
+            id: "b1_558", cat: "cat4",
+            textBenni: "Dass wir uns gegenseitig bei Karriere-Fragen so stark den Rücken freihalten, schätze ich enorm.",
+            textSarah: "Dass wir uns gegenseitig bei Karriere-Fragen so stark den Rücken freihalten, schätze ich enorm.",
+            textCouch: "Karriere-Support: Fühlt sich der Partner in seinem beruflichen Werdegang durch mich wirklich ermutigt?"
+        },
+        {
+            id: "b1_559", cat: "cat4",
+            textBenni: "Ich bewundere an Sarah ihre Fähigkeit, Prioritäten für unser Familienleben so sicher zu setzen, dass wir nicht im Chaos versinken.",
+            textSarah: "Ich bewundere an Benni seine Fähigkeit, für uns als Familie so klare Visionen zu entwickeln, die uns Orientierung geben.",
+            textCouch: "Orientierungs-Geber: Wer von uns beiden sorgt mit seinem Fokus dafür, dass unsere Familie nicht den Überblick verliert?"
+        },
+        {
+            id: "b1_560", cat: "cat4",
+            textBenni: "Unsere Ehe ist seit 2011 zu einem Ort geworden, an dem ich sein kann, wie ich bin – völlig ohne Maske.",
+            textSarah: "Unsere Ehe ist seit 2011 zu einem Ort geworden, an dem ich sein kann, wie ich bin – völlig ohne Maske.",
+            textCouch: "Echtheit: In welchen Momenten der letzten Woche habe ich mich bei dir zu 100% 'echt' und sicher gefühlt?"
+        },
+        {
+            id: "b1_561", cat: "cat4",
+            textBenni: "Die Art, wie Sarah unseren Sohn beim Spielen beobachtet, zeigt mir, wie viel Liebe in ihr steckt.",
+            textSarah: "Die Art, wie Benni unseren Sohn beim Spielen beobachtet, zeigt mir, wie viel Liebe in ihm steckt.",
+            textCouch: "Liebes-Zeuge: Was ist ein kleiner, banaler Moment, in dem ich gesehen habe, wie sehr mein Partner unsere Familie liebt?"
+        },
+        {
+            id: "b1_562", cat: "cat4",
+            textBenni: "Dass wir auch nach großen Reibungen immer wieder gemeinsam lachen können, rettet uns regelmäßig.",
+            textSarah: "Dass wir nach großen Reibungen immer wieder gemeinsam lachen können, rettet uns regelmäßig.",
+            textCouch: "Wiederfinden: Was ist das erste, was wir nach einem Streit tun, um wieder als Team zueinander zu finden?"
+        },
+        {
+            id: "b1_563", cat: "cat4",
+            textBenni: "Ich finde es unglaublich, wie Sarah das alles unter einen Hut bekommt – oft besser als ich.",
+            textSarah: "Ich finde es unglaublich, wie Benni das alles unter einen Hut bekommt – oft besser als ich.",
+            textCouch: "Respekt-Zoll: Wann habe ich dem Partner das letzte Mal offen für eine Leistung gedankt, die ich selbst nicht so gut könnte?"
+        },
+        {
+            id: "b1_564", cat: "cat4",
+            textBenni: "Gemeinsame, ruhige Abende auf der Couch sind meine absolute Lieblings-Energiequelle.",
+            textSarah: "Gemeinsame, ruhige Abende auf der Couch sind meine absolute Lieblings-Energiequelle.",
+            textCouch: "Stille Energie: Genießen wir die ruhigen Abende, oder hetzen wir gedanklich schon zum nächsten Programmpunkt?"
+        },
+        {
+            id: "b1_565", cat: "cat4",
+            textBenni: "Ich bin froh, dass Sarah mich auch in meinen nervigsten Zocker-Phasen so geduldig lässt.",
+            textSarah: "Ich bin froh, dass Benni mir meine Auszeiten für meine Interessen so großzügig zugesteht.",
+            textCouch: "Freiraum-Geschenk: Wie sehr bereichert es uns als Paar, wenn der andere vollkommen frei seine eigenen Dinge tun kann?"
+        },
+        {
+            id: "b1_566", cat: "cat4",
+            textBenni: "Unsere Kommunikation ist über die Jahre so tief geworden, dass wir oft keine Worte mehr brauchen.",
+            textSarah: "Unsere Kommunikation ist über die Jahre so tief geworden, dass wir oft keine Worte mehr brauchen.",
+            textCouch: "Wortlose Verbundenheit: Gibt es diese Momente der völligen Stille, in denen wir beide wissen, was im anderen vorgeht?"
+        },
+        {
+            id: "b1_567", cat: "cat4",
+            textBenni: "Sarah ist die Person, bei der ich meine Sorgen am besten ablegen kann.",
+            textSarah: "Benni ist die Person, bei der ich meine Sorgen am besten ablegen kann.",
+            textCouch: "Entlastungs-Ort: Ist unsere Beziehung der sicherste Ort auf der Welt, um die Last des Alltags abzuwerfen?"
+        },
+        {
+            id: "b1_568", cat: "cat4",
+            textBenni: "Ich bin stolz, dass wir gemeinsam ein Zuhause geschaffen haben, das sich für uns beide absolut richtig anfühlt.",
+            textSarah: "Ich bin stolz, dass wir gemeinsam ein Zuhause geschaffen haben, das sich für uns beide absolut richtig anfühlt.",
+            textCouch: "Heimat-Gefühl: Was ist die eine Sache in unserem Zuhause, die uns jeden Tag zeigt, dass wir hier als Team angekommen sind?"
+        },
+        {
+            id: "b1_569", cat: "cat4",
+            textBenni: "Wenn Sarah mich einfach ohne Grund küsst, fühle ich mich sofort wieder gesehen.",
+            textSarah: "Wenn Benni mich einfach ohne Grund küsst, fühle ich mich sofort wieder gesehen.",
+            textCouch: "Kuss-Effekt: Ist ein simpler, ungeplanter Kuss für uns die einfachste Methode, um die Verbindung zwischendurch zu refreshen?"
+        },
+        {
+            id: "b1_570", cat: "cat4",
+            textBenni: "Dass wir unsere eigenen Regeln aufgestellt haben, statt das Leben von anderen zu kopieren, macht uns stark.",
+            textSarah: "Dass wir unsere eigenen Regeln aufgestellt haben, statt das Leben von anderen zu kopieren, macht uns stark.",
+            textCouch: "Autonomie: In welchem Bereich unseres Lebens ziehen wir unser Ding durch, weil es sich für uns als Paar richtig anfühlt?"
+        },
+        {
+            id: "b1_571", cat: "cat4",
+            textBenni: "Ich liebe Sarahs Leidenschaft, mit der sie Dinge anpackt, die ihr wirklich wichtig sind.",
+            textSarah: "Ich liebe Bennis Leidenschaft, mit der er Dinge anpackt, die ihm wirklich wichtig sind.",
+            textCouch: "Leidenschafts-Blick: Woran erkenne ich beim Partner am schnellsten, dass er gerade Feuer und Flamme für etwas ist?"
+        },
+        {
+            id: "b1_572", cat: "cat4",
+            textBenni: "Unsere Ehe ist für mich der sicherste Raum, um auch mal schwach sein zu dürfen.",
+            textSarah: "Unsere Ehe ist für mich der sicherste Raum, um auch mal schwach sein zu dürfen.",
+            textCouch: "Schwäche als Stärke: Können wir die Schwäche des Partners als Einladung zur noch tieferen Verbundenheit annehmen?"
+        },
+        {
+            id: "b1_573", cat: "cat4",
+            textBenni: "Wenn wir gemeinsam über unsere Zukunft planen, spüre ich eine tiefe, innere Ruhe.",
+            textSarah: "Wenn wir gemeinsam über unsere Zukunft planen, spüre ich eine tiefe, innere Ruhe.",
+            textCouch: "Zukunfts-Sicherheit: Glauben wir beide fest daran, dass wir jede Herausforderung der kommenden Jahre gemeinsam rocken werden?"
+        },
+        {
+            id: "b1_574", cat: "cat4",
+            textBenni: "Dass wir unsere Beziehung immer wieder hinterfragen, ist für mich der Beweis, dass wir aneinander wachsen wollen.",
+            textSarah: "Dass wir unsere Beziehung immer wieder hinterfragen, ist für mich der Beweis, dass wir aneinander wachsen wollen.",
+            textCouch: "Wachstums-Willen: Ist unsere kritische Reflexion vielleicht das beste Kompliment, das wir uns gegenseitig machen können?"
+        },
+        {
+            id: "b1_575", cat: "cat4",
+            textBenni: "Ich bin dankbar, dass wir beide bereit sind, immer wieder neu bei null anzufangen, wenn es mal geknallt hat.",
+            textSarah: "Ich bin dankbar, dass Benni und ich beide bereit sind, immer wieder neu bei null anzufangen, wenn es mal geknallt hat.",
+            textCouch: "Neuanfang: Was ist der eine Schritt, den wir nach einem Streit machen, um sofort wieder eine Verbindungsebene aufzubauen?"
+        },
+        {
+            id: "b1_576", cat: "cat4",
+            textBenni: "Sarahs Art, den Kleinen zu trösten, beruhigt mich als Vater sofort mit.",
+            textSarah: "Bennis Art, den Kleinen zu trösten, beruhigt mich als Mutter sofort mit.",
+            textCouch: "Co-Regulierung: Hilft uns der Beobachtung des Partners beim Trösten des Kindes dabei, auch unsere eigene Anspannung zu senken?"
+        },
+        {
+            id: "b1_577", cat: "cat4",
+            textBenni: "Ich schätze an Sarah, dass sie mir auch dann Raum gibt, wenn ich gerade mal gar nicht kommunikativ bin.",
+            textSarah: "Ich schätze an Benni, dass er mir auch dann Raum gibt, wenn ich gerade mal gar nicht kommunikativ bin.",
+            textCouch: "Stille-Akzeptanz: Können wir die Phasen, in denen der andere nicht reden will, als gesundes Bedürfnis statt als Vorwurf annehmen?"
+        },
+        {
+            id: "b1_578", cat: "cat4",
+            textBenni: "Unsere gemeinsamen Abenteuer sind für mich wie Batterien, die wir zusammen aufladen können.",
+            textSarah: "Unsere gemeinsamen Abenteuer sind für mich wie Batterien, die wir zusammen aufladen können.",
+            textCouch: "Abenteuer-Energie: Welche Reise oder welches Projekt hat uns als Paar am meisten 'aufgeladen'?"
+        },
+        {
+            id: "b1_579", cat: "cat4",
+            textBenni: "Ich liebe es, dass wir heute über Themen sprechen können, die uns früher nur gestresst hätten.",
+            textSarah: "Ich liebe es, dass Benni und ich heute über Themen sprechen können, die uns früher nur gestresst hätten.",
+            textCouch: "Reifegrad: Welche Themen, die uns 2011 umgehauen hätten, besprechen wir heute mit einem Lächeln?"
+        },
+        {
+            id: "b1_580", cat: "cat4",
+            textBenni: "Dass wir auch nach stressigen Tagen immer noch die Kraft haben, 'Gute Nacht' mit einem Kuss zu sagen, bedeutet mir viel.",
+            textSarah: "Dass Benni und ich auch nach stressigen Tagen immer noch die Kraft haben, 'Gute Nacht' mit einem Kuss zu sagen, bedeutet mir viel.",
+            textCouch: "Gute-Nacht-Versprechen: Ist unser abendliches Ritual der stärkste Beweis, dass wir den Tag trotz aller Clashs versöhnt beenden?"
+        },
+        {
+            id: "b1_581", cat: "cat4",
+            textBenni: "Ich bin dankbar, dass wir beide den Anspruch haben, unser Leben aktiv zu gestalten, statt nur zuzusehen.",
+            textSarah: "Ich bin dankbar, dass Benni und ich beide den Anspruch haben, unser Leben aktiv zu gestalten, statt nur zuzusehen.",
+            textCouch: "Lebens-Gestaltung: Was ist die eine Sache, die wir dieses Jahr aktiv verändert haben, um uns als Paar wohler zu fühlen?"
+        },
+        {
+            id: "b1_582", cat: "cat4",
+            textBenni: "Sarahs Vertrauen in mich gibt mir die Sicherheit, dass ich mein Bestes geben kann.",
+            textSarah: "Bennis Vertrauen in mich gibt mir die Sicherheit, dass ich mein Bestes geben kann.",
+            textCouch: "Vertrauens-Basis: In welcher Situation haben wir zuletzt gemerkt, dass wir uns auch in brenzligen Momenten blind aufeinander verlassen?"
+        },
+        {
+            id: "b1_583", cat: "cat4",
+            textBenni: "Ich bin stolz, dass wir als Eltern immer noch Zeit für unsere eigenen Interessen finden.",
+            textSarah: "Ich bin stolz, dass Benni und ich immer noch Zeit für unsere eigenen Interessen finden.",
+            textCouch: "Individuelle Balance: Was war das letzte Mal, dass wir uns gegenseitig zu einer Auszeit ermutigt haben, die uns gut getan hat?"
+        },
+        {
+            id: "b1_584", cat: "cat4",
+            textBenni: "Unsere Ehe ist für mich eine ständige Entwicklung, auf die ich mich jeden Tag neu freue.",
+            textSarah: "Unsere Ehe ist für mich eine ständige Entwicklung, auf die ich mich jeden Tag neu freue.",
+            textCouch: "Entwicklungs-Freude: Welcher Aspekt unserer Beziehung hat sich in den letzten Monaten am positivsten weiterentwickelt?"
+        },
+        {
+            id: "b1_585", cat: "cat4",
+            textBenni: "Trotz aller Alltags-Clashs wünsche ich mir heute nichts mehr, als genau diesen Weg mit Sarah weiterzugehen.",
+            textSarah: "Trotz aller Alltags-Clashs wünsche ich mir heute nichts mehr, als genau diesen Weg mit Benni weiterzugehen.",
+            textCouch: "Weg-Wahl: Wenn wir heute auf 2011 zurückblicken und in die Zukunft schauen – ist das Ziel noch immer das gleiche?"
+        }, 
+	{
+                id: "b1_586", cat: "cat11",
+                textBenni: "Ich habe manchmal das Gefühl, mein Erziehungsansatz wird von dir als zu locker empfunden.",
+                textSarah: "Ich habe manchmal das Gefühl, mein Erziehungsansatz wird von dir als zu streng empfunden.",
+                textCouch: "Werte-Clash: Wo genau unterscheiden wir uns in unserer Vision, wie unser Kind später einmal die Welt sehen soll?"
+            },
+            {
+                id: "b1_587", cat: "cat12",
+                textBenni: "Das ständige Smartphone-Checken während wir eigentlich Zeit zu zweit haben, frustriert mich.",
+                textSarah: "Das ständige Smartphone-Checken während wir eigentlich Zeit zu zweit haben, frustriert mich.",
+                textCouch: "Digitaler Entzug: Wie sähe für uns ein Abend aus, an dem wir beide freiwillig für 4 Stunden komplett offline gehen?"
+            },
+            {
+                id: "b1_588", cat: "cat0",
+                textBenni: "Ich finde, wir organisieren unseren Wocheneinkauf noch immer zu ineffizient.",
+                textSarah: "Ich finde, wir organisieren unseren Wocheneinkauf noch immer zu ineffizient.",
+                textCouch: "Einkaufs-Duell: Wer ist eigentlich der 'Master of Logistics' bei unserem wöchentlichen Orga-Wahnsinn?"
+            },
+            {
+                id: "b1_589", cat: "cat5",
+                textBenni: "Mein Sport ist für mich kein 'Hobby', sondern essentiell für meine mentale Stabilität.",
+                textSarah: "Bennis Sport-Pensum fühlt sich manchmal wie ein Wettbewerb um unsere gemeinsame Zeit an.",
+                textCouch: "Balance-Akt: Wie viel 'Me-Time' ist gesund, bevor es zu einer Belastung für das 'Wir' wird?"
+            },
+            {
+                id: "b1_590", cat: "cat11",
+                textBenni: "Ich möchte, dass unser Kind früh lernt, auch mal Frust auszuhalten – das fehlt mir hier manchmal.",
+                textSarah: "Ich möchte, dass unser Kind sich bei uns immer geborgen fühlt, auch wenn es mal 'bequem' sein darf.",
+                textCouch: "Hart vs. Weich: Wo ziehen wir die Grenze zwischen Durchsetzungsvermögen und bedingungslosem Rückhalt?"
+            },
+            {
+                id: "b1_591", cat: "cat12",
+                textBenni: "Wenn ich zocke, ist das meine Form von 'Abschalten' – ich habe das Gefühl, das wird hier nicht immer anerkannt.",
+                textSarah: "Ich habe das Gefühl, das Zocken dient oft als Flucht vor unangenehmen Gesprächen oder Aufgaben.",
+                textCouch: "Gaming-Debatte: Ist zocken für uns Entspannung oder Eskapismus?"
+            },
+            {
+                id: "b1_592", cat: "cat3",
+                textBenni: "Wir sollten beim Hausbau/Finanzen öfter über die 'was-wäre-wenn'-Szenarien sprechen, statt nur den Plan zu verfolgen.",
+                textSarah: "Ich finde, wir sollten uns beim Hausbau/Finanzen mehr auf den Ist-Zustand konzentrieren, statt uns in Sorgen zu verlieren.",
+                textCouch: "Zukunfts-Angst: Sind wir als Team finanziell und mental auf die großen Krisen vorbereitet?"
+            },
+            {
+                id: "b1_593", cat: "cat9",
+                textBenni: "Ich glaube, wir haben unterschiedliche Vorstellungen davon, was ein 'erholsamer' Urlaub eigentlich bedeutet.",
+                textSarah: "Ich glaube, wir haben unterschiedliche Vorstellungen davon, was ein 'erholsamer' Urlaub eigentlich bedeutet.",
+                textCouch: "Urlaubs-Kompass: Action-Programm oder komplette Stille – wie finden wir den perfekten gemeinsamen Nenner?"
+            },
+            {
+                id: "b1_594", cat: "cat1",
+                textBenni: "Ich merke, dass ich mich bei bestimmten Themen manchmal zurückziehe, weil ich weiß, dass wir uns eh wieder im Kreis drehen.",
+                textSarah: "Ich merke, dass ich bei bestimmten Themen manchmal zu energisch werde, weil ich das Gefühl habe, nicht gehört zu werden.",
+                textCouch: "Sackgassen-Check: Welche Diskussion führen wir regelmäßig, ohne jemals eine echte Lösung zu finden?"
+            },
+            {
+                id: "b1_595", cat: "cat11",
+                textBenni: "Ich habe den Anspruch, dass wir unseren Kindern Unabhängigkeit vorleben.",
+                textSarah: "Ich habe den Anspruch, dass wir unseren Kindern Verbundenheit und familiäre Nähe vorleben.",
+                textCouch: "Vorbild-Rolle: Welchen einen Wert möchten wir, dass unser Kind später als erstes mit unserem Namen verbindet?"
+            },
+            {
+                id: "b1_596", cat: "cat12",
+                textBenni: "Ich finde, wir sollten unsere digitale Foto-Orga endlich mal gemeinsam professionalisieren.",
+                textSarah: "Ich finde, wir sollten unsere digitale Foto-Orga endlich mal gemeinsam professionalisieren.",
+                textCouch: "Erinnerungs-Chaos: Wie gehen wir mit unseren 50.000 Fotos auf den Handys um, ohne dass es in Arbeit ausartet?"
+            },
+            {
+                id: "b1_597", cat: "cat0",
+                textBenni: "Ich habe manchmal das Gefühl, mein Beitrag zur täglichen Familien-Orga wird als 'normal' vorausgesetzt.",
+                textSarah: "Ich habe manchmal das Gefühl, mein Beitrag zur täglichen Familien-Orga wird als 'normal' vorausgesetzt.",
+                textCouch: "Anerkennungs-Lücke: Wann haben wir uns das letzte Mal für etwas bedankt, das 'eigentlich selbstverständlich' ist?"
+            },
+            {
+                id: "b1_598", cat: "cat6",
+                textBenni: "Ich finde, wir sind bei der Wahl unserer Wochenend-Ausflüge zu unflexibel geworden.",
+                textSarah: "Ich finde, wir sind bei der Wahl unserer Wochenend-Ausflüge zu unflexibel geworden.",
+                textCouch: "Abenteuer-Check: Wann sind wir das letzte Mal komplett ohne Plan einfach irgendwo hingefahren?"
+            },
+            {
+                id: "b1_599", cat: "cat5",
+                textBenni: "Ich merke, dass ich mich oft schuldig fühle, wenn ich Zeit für mich nehme.",
+                textSarah: "Ich merke, dass ich mich oft schuldig fühle, wenn ich Zeit für mich nehme.",
+                textCouch: "Schuld-Barometer: Warum fällt es uns so schwer, dem anderen die Me-Time wirklich zu 100% zu gönnen?"
+            },
+            {
+                id: "b1_600", cat: "cat1",
+                textBenni: "Ich habe das Gefühl, unsere Kommunikation ist im Stress-Modus oft zu effizient und zu wenig menschlich.",
+                textSarah: "Ich habe das Gefühl, unsere Kommunikation ist im Stress-Modus oft zu effizient und zu wenig menschlich.",
+                textCouch: "Modus-Wechsel: Wie schaffen wir es, im Feierabend den 'Manager-Modus' komplett abzuschalten?"
+            },
+            {
+                id: "b1_601", cat: "cat2",
+                textBenni: "Ich wünsche mir, dass wir als Eltern bei der Erziehung noch konsequenter an einem Strang ziehen.",
+                textSarah: "Ich wünsche mir, dass wir als Eltern bei der Erziehung noch konsequenter an einem Strang ziehen.",
+                textCouch: "Einheits-Check: Wo ist unsere 'Erziehungs-Front' aktuell am brüchigsten?"
+            },
+            {
+                id: "b1_602", cat: "cat0",
+                textBenni: "Ich finde, wir könnten das Abendessen öfter als bewussten Ruhepunkt statt als Zeitdruck-Event gestalten.",
+                textSarah: "Ich finde, wir könnten das Abendessen öfter als bewussten Ruhepunkt statt als Zeitdruck-Event gestalten.",
+                textCouch: "Essens-Kultur: Wie können wir die Abendroutine entschleunigen, ohne dass die Orga auf der Strecke bleibt?"
+            },
+            {
+                id: "b1_603", cat: "cat4",
+                textBenni: "Ich glaube, wir haben unsere gemeinsame Vision als Paar über die Elternrolle hinweg etwas aus den Augen verloren.",
+                textSarah: "Ich glaube, wir haben unsere gemeinsame Vision als Paar über die Elternrolle hinweg etwas aus den Augen verloren.",
+                textCouch: "Paar-Fokus: Welche gemeinsame Aktivität, die nichts mit dem Kind zu tun hat, hat uns zuletzt wirklich 'gekickt'?"
+            },
+            {
+                id: "b1_604", cat: "cat3",
+                textBenni: "Ich habe das Gefühl, wir investieren zu wenig Zeit in unsere langfristige finanzielle Freiheit.",
+                textSarah: "Ich habe das Gefühl, wir investieren zu wenig Zeit in unsere langfristige finanzielle Freiheit.",
+                textCouch: "Money-Talk: Was ist für uns der Inbegriff von 'reich sein', wenn wir an unsere Familie denken?"
+            },
+            {
+                id: "b1_605", cat: "cat8",
+                textBenni: "Ich finde, wir sollten uns bei der Wahl der Tagesmutter/Betreuung öfter kritisch hinterfragen.",
+                textSarah: "Ich finde, wir sollten uns bei der Wahl der Tagesmutter/Betreuung öfter kritisch hinterfragen.",
+                textCouch: "Betreuungs-Check: Vertrauen wir blind oder sollten wir öfter aktiv das Gespräch suchen?"
+            },
+            {
+                id: "b1_606", cat: "cat6",
+                textBenni: "Ich finde unsere unterschiedliche Einstellung zur Ordnung in der Garage/im Keller faszinierend und frustrierend zugleich.",
+                textSarah: "Ich finde unsere unterschiedliche Einstellung zur Ordnung in der Garage/im Keller faszinierend und frustrierend zugleich.",
+                textCouch: "Ordnungs-Fronten: Wer ist der Hort der Unordnung und wer ist der Ordnungs-Polizist?"
+            },
+            {
+                id: "b1_607", cat: "cat7",
+                textBenni: "Wenn wir morgen alles stehen und liegen lassen könnten, um ein Jahr um die Welt zu reisen – würdest du es tun?",
+                textSarah: "Wenn wir morgen alles stehen und liegen lassen könnten, um ein Jahr um die Welt zu reisen – würdest du es tun?",
+                textCouch: "Abenteuer-Risiko: Was hält uns (neben dem Geld) eigentlich von unserem größten Traum ab?"
+            },
+            {
+                id: "b1_608", cat: "cat10",
+                textBenni: "Ich fühle mich manchmal wie der 'Spiele-Papa' und du wie die 'Orga-Mama'.",
+                textSarah: "Ich fühle mich manchmal wie der 'Spiele-Papa' und du wie die 'Orga-Mama'.",
+                textCouch: "Rollen-Check: Wie können wir die Rollen besser mischen, damit beide den gleichen 'Mental Load' tragen?"
+            },
+            {
+                id: "b1_609", cat: "cat1",
+                textBenni: "Ich habe das Gefühl, unsere unterschiedlichen Schlafbedürfnisse belasten unser Zusammenleben mehr, als wir zugeben.",
+                textSarah: "Ich habe das Gefühl, unsere unterschiedlichen Schlafbedürfnisse belasten unser Zusammenleben mehr, als wir zugeben.",
+                textCouch: "Nacht-Ruhe: Wie finden wir einen Kompromiss, bei dem keiner von uns übermüdet ist?"
+            },
+            {
+                id: "b1_610", cat: "cat5",
+                textBenni: "Ich finde, wir nehmen uns zu wenig Zeit für Sport, den wir *gemeinsam* machen könnten.",
+                textSarah: "Ich finde, wir nehmen uns zu wenig Zeit für Sport, den wir *gemeinsam* machen könnten.",
+                textCouch: "Team-Sport: Welche körperliche Aktivität könnten wir als Paar starten, die uns Spaß macht?"
+            },
+            {
+                id: "b1_611", cat: "cat11",
+                textBenni: "Ich möchte, dass unser Kind früh lernt, dass es okay ist, auch mal 'nein' zu sagen.",
+                textSarah: "Ich möchte, dass unser Kind früh lernt, dass Höflichkeit und Empathie an erster Stelle stehen.",
+                textCouch: "Werte-Dilemma: Wie vereinbaren wir 'Selbstbehauptung' und 'Nettsein' in unserer Erziehung?"
+            },
+            {
+                id: "b1_612", cat: "cat12",
+                textBenni: "Ich finde, wir verbringen zu viel Zeit mit dem Konsum von Inhalten und zu wenig mit der Erstellung von eigenen Dingen.",
+                textSarah: "Ich finde, wir verbringen zu viel Zeit mit dem Konsum von Inhalten und zu wenig mit der Erstellung von eigenen Dingen.",
+                textCouch: "Kreativ-Pause: Was könnten wir als Familie bauen, malen oder basteln, das wirklich Bestand hat?"
+            },
+            {
+                id: "b1_613", cat: "cat8",
+                textBenni: "Ich finde, unsere Kommunikation mit den Großeltern/Familie braucht klare Regeln.",
+                textSarah: "Ich finde, unsere Kommunikation mit den Großeltern/Familie braucht klare Regeln.",
+                textCouch: "Familien-Grenzen: Wann ist 'familiäre Hilfe' zu viel Einmischung?"
+            },
+            {
+                id: "b1_614", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir uns gegenseitig öfter die 'große Bühne' für unsere Erfolge geben.",
+                textSarah: "Ich wünsche mir, dass wir uns gegenseitig öfter die 'große Bühne' für unsere Erfolge geben.",
+                textCouch: "Erfolgs-Feier: Was war dein größter kleiner Triumph diese Woche, von dem ich noch nichts weiß?"
+            },
+            {
+                id: "b1_615", cat: "cat9",
+                textBenni: "Ich finde, wir sollten unsere jährlichen Urlaubsziele abwechselnd wählen, ohne Diskussion.",
+                textSarah: "Ich finde, wir sollten unsere jährlichen Urlaubsziele abwechselnd wählen, ohne Diskussion.",
+                textCouch: "Reise-Demokratie: Ist unsere Entscheidungsfindung bei großen Zielen fair?"
+            },
+            {
+                id: "b1_616", cat: "cat7",
+                textBenni: "Wenn du dich für eine Superkraft entscheiden könntest, die uns als Paar hilft – welche wäre das?",
+                textSarah: "Wenn du dich für eine Superkraft entscheiden könntest, die uns als Paar hilft – welche wäre das?",
+                textCouch: "Superhelden-Modus: Welche Schwachstelle könnten wir mit einer Superkraft sofort beheben?"
+            },
+            {
+                id: "b1_617", cat: "cat1",
+                textBenni: "Ich glaube, ich unterschätze oft, wie sehr meine Stimmung auf dich abfärbt.",
+                textSarah: "Ich glaube, ich unterschätze oft, wie sehr meine Stimmung auf dich abfärbt.",
+                textCouch: "Stimmungs-Spiegel: Wie schaffen wir es, dass die Laune des einen den anderen nicht 'ansteckt'?"
+            },
+            {
+                id: "b1_618", cat: "cat0",
+                textBenni: "Ich finde, wir sollten uns angewöhnen, den Sonntagabend als 'Reset-Button' zu nutzen.",
+                textSarah: "Ich finde, wir sollten uns angewöhnen, den Sonntagabend als 'Reset-Button' zu nutzen.",
+                textCouch: "Sonntags-Ritual: Wie sieht unser perfekter 'Wochen-Vorbereitungs-Check' aus?"
+            },
+            {
+                id: "b1_619", cat: "cat3",
+                textBenni: "Ich habe den Anspruch, dass wir unsere Altersvorsorge dieses Jahr auf ein neues Level heben.",
+                textSarah: "Ich habe den Anspruch, dass wir unsere Altersvorsorge dieses Jahr auf ein neues Level heben.",
+                textCouch: "Investitions-Check: Haben wir das gleiche Verständnis von 'Sicherheit'?"
+            },
+            {
+                id: "b1_620", cat: "cat10",
+                textBenni: "Ich finde, wir sollten bei der Erziehung öfter mal auf unser Bauchgefühl hören als auf Ratgeber.",
+                textSarah: "Ich finde, wir sollten bei der Erziehung öfter mal auf unser Bauchgefühl hören als auf Ratgeber.",
+                textCouch: "Ratgeber-Sucht: Wie viel Input von außen tut uns gut, wie viel verunsichert uns?"
+            },
+            {
+                id: "b1_621", cat: "cat2",
+                textBenni: "Ich merke, dass ich mich bei der Organisation des Alltags oft auf dich verlasse.",
+                textSarah: "Ich merke, dass ich mich bei der Organisation des Alltags oft auf dich verlasse.",
+                textCouch: "Mental-Load-Shift: Wie können wir die Orga-Last wirklich 50/50 teilen?"
+            },
+            {
+                id: "b1_622", cat: "cat6",
+                textBenni: "Ich finde es schwer, dir bei manchen Entscheidungen voll zu vertrauen, wenn ich nicht involviert bin.",
+                textSarah: "Ich finde es schwer, dir bei manchen Entscheidungen voll zu vertrauen, wenn ich nicht involviert bin.",
+                textCouch: "Vertrauens-Check: Bei welchen Entscheidungen müssen wir zwingend Rücksprache halten?"
+            },
+            {
+                id: "b1_623", cat: "cat12",
+                textBenni: "Ich finde, unsere Zeit am Handy sollte ab 21:00 Uhr tabu sein.",
+                textSarah: "Ich finde, unsere Zeit am Handy sollte ab 21:00 Uhr tabu sein.",
+                textCouch: "Digital-Verbot: Was könnten wir mit der Zeit anfangen, wenn das Handy aus ist?"
+            },
+            {
+                id: "b1_624", cat: "cat5",
+                textBenni: "Ich finde, wir brauchen öfter einen Abend, an dem wir einfach 'raus' kommen.",
+                textSarah: "Ich finde, wir brauchen öfter einen Abend, an dem wir einfach 'raus' kommen.",
+                textCouch: "Ausbruch-Versuch: Welchen Ort in unserer Umgebung haben wir viel zu selten besucht?"
+            },
+            {
+                id: "b1_625", cat: "cat8",
+                textBenni: "Ich finde, wir sollten unser Haus/unsere Wohnung öfter mal 'entrümpeln', um geistig frei zu werden.",
+                textSarah: "Ich finde, wir sollten unser Haus/unsere Wohnung öfter mal 'entrümpeln', um geistig frei zu werden.",
+                textCouch: "Minimalismus-Check: Was ist der eine Gegenstand, der uns nur Platz raubt?"
+            },
+            {
+                id: "b1_626", cat: "cat7",
+                textBenni: "Wenn wir in einem Film wären – welche Rolle würden wir als Paar spielen?",
+                textSarah: "Wenn wir in einem Film wären – welche Rolle würden wir als Paar spielen?",
+                textCouch: "Film-Paar: Sind wir eher das Drama oder die Action-Komödie?"
+            },
+            {
+                id: "b1_627", cat: "cat1",
+                textBenni: "Ich merke, dass ich bei Stress dazu neige, mich in Ironie zu flüchten.",
+                textSarah: "Ich merke, dass ich bei Stress dazu neige, mich in Ironie zu flüchten.",
+                textCouch: "Ironie-Falle: Wann ist mein Humor für dich eher verletzend als lustig?"
+            },
+            {
+                id: "b1_628", cat: "cat0",
+                textBenni: "Ich finde, wir sollten uns angewöhnen, den Tag mit einem ehrlichen 'Danke' zu beenden.",
+                textSarah: "Ich finde, wir sollten uns angewöhnen, den Tag mit einem ehrlichen 'Danke' zu beenden.",
+                textCouch: "Dankbarkeits-Check: Wofür bin ich heute bei dir besonders dankbar?"
+            },
+            {
+                id: "b1_629", cat: "cat3",
+                textBenni: "Ich glaube, wir haben unterschiedliche Vorstellungen davon, was 'luxuriös' ist.",
+                textSarah: "Ich glaube, wir haben unterschiedliche Vorstellungen davon, was 'luxuriös' ist.",
+                textCouch: "Luxus-Check: Was macht für uns einen 'reichen' Lebensstil aus – abseits vom Konto?"
+            },
+            {
+                id: "b1_630", cat: "cat10",
+                textBenni: "Ich finde, wir sollten bei der Erziehung viel mehr unsere eigenen Kindheitserfahrungen reflektieren.",
+                textSarah: "Ich finde, wir sollten bei der Erziehung viel mehr unsere eigenen Kindheitserfahrungen reflektieren.",
+                textCouch: "Erziehungs-Spiegel: Welchen Teil meiner eigenen Kindheit möchte ich auf gar keinen Fall an unser Kind weitergeben?"
+            },	
+           {
+                id: "b1_631", cat: "cat4",
+                textBenni: "Ich finde, wir sollten öfter aktiv Momente schaffen, in denen wir uns einfach nur in die Augen schauen, ohne zu reden.",
+                textSarah: "Ich finde, wir sollten öfter aktiv Momente schaffen, in denen wir uns einfach nur in die Augen schauen, ohne zu reden.",
+                textCouch: "Stille-Test: Wie lange halten wir es aus, uns schweigend anzusehen, bevor einer von uns anfängt zu lachen oder nervös wird?"
+            },
+            {
+                id: "b1_632", cat: "cat7",
+                textBenni: "Wenn wir heute eine gemeinsame Firma gründen müssten – was wäre unser Produkt?",
+                textSarah: "Wenn wir heute eine gemeinsame Firma gründen müssten – was wäre unser Produkt?",
+                textCouch: "Team-Vision: Sind wir eher die Produktentwickler oder die Verkäufer?"
+            },
+            {
+                id: "b1_633", cat: "cat1",
+                textBenni: "Ich merke, dass ich mich bei Komplimenten oft unwohl fühle, weil ich nicht weiß, wie ich reagieren soll.",
+                textSarah: "Ich merke, dass ich bei Komplimenten oft unwohl fühle, weil ich nicht weiß, wie ich reagieren soll.",
+                textCouch: "Komplimente-Hürde: Warum fällt es uns so schwer, Anerkennung einfach anzunehmen?"
+            },
+            {
+                id: "b1_634", cat: "cat11",
+                textBenni: "Ich möchte, dass unser Kind lernt, dass Fehler machen ein wichtiger Teil des Lernens ist.",
+                textSarah: "Ich möchte, dass unser Kind lernt, dass Sorgfalt und Fehlervermeidung schon sehr wichtig sind.",
+                textCouch: "Fehler-Kultur: Sind wir zu streng mit uns selbst und damit auch mit unserem Kind?"
+            },
+            {
+                id: "b1_635", cat: "cat12",
+                textBenni: "Ich finde, wir sollten unseren Daten-Müll (Clouds, E-Mails) endlich mal rigoros ausmisten.",
+                textSarah: "Ich finde, wir sollten unseren Daten-Müll (Clouds, E-Mails) endlich mal rigoros ausmisten.",
+                textCouch: "Digitaler Ballast: Welcher Teil unseres digitalen Lebens fühlt sich nach 'Arbeit' an?"
+            },
+            {
+                id: "b1_636", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, dass wir die Wochenenden oft mit Erledigungen 'vollballern', statt sie zu genießen.",
+                textSarah: "Ich habe das Gefühl, dass wir die Wochenenden oft mit Erledigungen 'vollballern', statt sie zu genießen.",
+                textCouch: "Wochenend-Check: Wann haben wir das letzte Mal einen Tag *nichts* geplant gehabt?"
+            },
+            {
+                id: "b1_637", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns gegenseitig zu neuen Hobbys inspirieren, statt nur in alten Mustern festzuhängen.",
+                textSarah: "Ich wünsche mir, dass wir uns gegenseitig zu neuen Hobbys inspirieren, statt nur in alten Mustern festzuhängen.",
+                textCouch: "Inspirations-Quelle: Welches Hobby des anderen würde ich gerne mal ausprobieren?"
+            },
+            {
+                id: "b1_638", cat: "cat6",
+                textBenni: "Ich finde unsere unterschiedlichen Ansichten über das Lüften bei geschlossenen/offenen Fenstern herrlich absurd.",
+                textSarah: "Ich finde unsere unterschiedlichen Ansichten über das Lüften bei geschlossenen/offenen Fenstern herrlich absurd.",
+                textCouch: "Frischluft-Krieg: Wie schaffen wir es, dass unser Raumklima nicht zum Streitpunkt wird?"
+            },
+            {
+                id: "b1_639", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, dass wir bei Geschenken für andere Familienmitglieder nie auf einen Nenner kommen.",
+                textSarah: "Ich habe das Gefühl, dass wir bei Geschenken für andere Familienmitglieder nie auf einen Nenner kommen.",
+                textCouch: "Schenken-Logik: Spontan-Geschenk oder wochenlange Recherche?"
+            },
+            {
+                id: "b1_640", cat: "cat3",
+                textBenni: "Ich glaube, wir könnten mehr Geld sparen, wenn wir unsere Abos konsequenter hinterfragen würden.",
+                textSarah: "Ich glaube, wir könnten mehr Geld sparen, wenn wir unsere Abos konsequenter hinterfragen würden.",
+                textCouch: "Abo-Dschungel: Welches Abo nutzen wir eigentlich kaum noch?"
+            },
+            {
+                id: "b1_641", cat: "cat10",
+                textBenni: "Ich wünsche mir, dass wir auch in stressigen Eltern-Phasen unseren Humor behalten.",
+                textSarah: "Ich wünsche mir, dass wir auch in stressigen Eltern-Phasen unseren Humor behalten.",
+                textCouch: "Humor-Check: Wann haben wir zuletzt über eine richtig dämliche Situation gelacht, die uns eigentlich hätte nerven müssen?"
+            },
+            {
+                id: "b1_642", cat: "cat9",
+                textBenni: "Ich finde, wir sollten uns trauen, auch mal 'unbequeme' Reiseziele auszuprobieren.",
+                textSarah: "Ich finde, wir sollten uns trauen, auch mal 'unbequeme' Reiseziele auszuprobieren.",
+                textCouch: "Komfort-Zone: Abenteuer oder All-Inclusive – wo liegt unsere gemeinsame Schnittmenge?"
+            },
+            {
+                id: "b1_643", cat: "cat2",
+                textBenni: "Ich habe manchmal Angst, dass wir als Eltern den Fokus auf das Paar-Sein verlieren.",
+                textSarah: "Ich habe manchmal Angst, dass wir als Eltern den Fokus auf das Paar-Sein verlieren.",
+                textCouch: "Parenting-Falle: Wie schaffen wir es, heute Abend kurz 'Benni & Sarah' und nicht 'Mama & Papa' zu sein?"
+            },
+            {
+                id: "b1_644", cat: "cat7",
+                textBenni: "Wenn wir morgen eine neue Sprache lernen müssten – welche wäre am sinnvollsten für uns?",
+                textSarah: "Wenn wir morgen eine neue Sprache lernen müssten – welche wäre am sinnvollsten für uns?",
+                textCouch: "Sprach-Barriere: Warum haben wir bisher keine gemeinsame Sprache gelernt?"
+            },
+            {
+                id: "b1_645", cat: "cat1",
+                textBenni: "Ich glaube, ich nehme Kritik an meinen Arbeitsweisen oft zu persönlich.",
+                textSarah: "Ich glaube, ich nehme Kritik an meinen Arbeitsweisen oft zu persönlich.",
+                textCouch: "Kritik-Filter: Wie kann der andere Kritik äußern, ohne dass ich direkt in den Verteidigungsmodus gehe?"
+            },
+            {
+                id: "b1_646", cat: "cat0",
+                textBenni: "Ich finde, wir sollten unsere 'To-Do-Listen' sichtbarer für beide machen.",
+                textSarah: "Ich finde, wir sollten unsere 'To-Do-Listen' sichtbarer für beide machen.",
+                textCouch: "Transparenz-Check: Wissen wir beide immer, was beim anderen gerade auf dem Tisch liegt?"
+            },
+            {
+                id: "b1_647", cat: "cat5",
+                textBenni: "Ich genieße es, wenn wir einfach mal zusammen gar nichts tun.",
+                textSarah: "Ich genieße es, wenn wir einfach mal zusammen gar nichts tun.",
+                textCouch: "Nichtstun-Modus: Wann war das letzte Mal, dass wir einfach nur auf dem Sofa lagen und nichts gemacht haben?"
+            },
+            {
+                id: "b1_648", cat: "cat6",
+                textBenni: "Ich finde es faszinierend, wie unterschiedlich wir mit verlorenen Dingen umgehen.",
+                textSarah: "Ich finde es faszinierend, wie unterschiedlich wir mit verlorenen Dingen umgehen.",
+                textCouch: "Suchen-Logik: Wer von uns gibt schneller auf, wenn etwas weg ist?"
+            },
+            {
+                id: "b1_649", cat: "cat8",
+                textBenni: "Ich finde, wir sollten öfter bewusst 'Nein' zu sozialen Verpflichtungen sagen.",
+                textSarah: "Ich finde, wir sollten öfter bewusst 'Nein' zu sozialen Verpflichtungen sagen.",
+                textCouch: "Nein-Sager: Fällt es uns schwer, Einladungen abzulehnen, um mehr Familienzeit zu haben?"
+            },
+            {
+                id: "b1_650", cat: "cat11",
+                textBenni: "Ich möchte, dass unser Kind einen gesunden Respekt vor der Natur entwickelt.",
+                textSarah: "Ich möchte, dass unser Kind einen gesunden Respekt vor der Natur entwickelt.",
+                textCouch: "Natur-Verbindung: Wie können wir unseren Alltag 'grüner' gestalten?"
+            },
+            {
+                id: "b1_651", cat: "cat12",
+                textBenni: "Ich finde, unsere Art der digitalen Kommunikation (WhatsApp) ist manchmal zu oberflächlich.",
+                textSarah: "Ich finde, unsere Art der digitalen Kommunikation (WhatsApp) ist manchmal zu oberflächlich.",
+                textCouch: "Deep-Talk-digital: Könnten wir uns auch öfter mal eine 'lange' Nachricht schreiben statt nur Emojis?"
+            },
+            {
+                id: "b1_652", cat: "cat3",
+                textBenni: "Ich möchte, dass wir uns mehr Gedanken über Spenden und soziales Engagement machen.",
+                textSarah: "Ich möchte, dass wir uns mehr Gedanken über Spenden und soziales Engagement machen.",
+                textCouch: "Werte-Teilen: Was ist für uns eine gute Sache, die wir unterstützen sollten?"
+            },
+            {
+                id: "b1_653", cat: "cat4",
+                textBenni: "Ich finde es wichtig, dass wir uns gegenseitig an unsere persönlichen Ziele erinnern.",
+                textSarah: "Ich finde es wichtig, dass wir uns gegenseitig an unsere persönlichen Ziele erinnern.",
+                textCouch: "Ziel-Check: Was ist dein wichtigstes persönliches Ziel für dieses Jahr?"
+            },
+            {
+                id: "b1_654", cat: "cat1",
+                textBenni: "Ich habe manchmal das Gefühl, ich rede zu viel über Arbeit, wenn ich gestresst bin.",
+                textSarah: "Ich habe manchmal das Gefühl, ich rede zu viel über Arbeit, wenn ich gestresst bin.",
+                textCouch: "Arbeits-Cut: Gibt es eine 'No-Work-Zone' bei uns?"
+            },
+            {
+                id: "b1_655", cat: "cat2",
+                textBenni: "Ich finde, wir sollten unser Kind öfter in kleine Entscheidungen mit einbeziehen.",
+                textSarah: "Ich finde, wir sollten unser Kind öfter in kleine Entscheidungen mit einbeziehen.",
+                textCouch: "Entscheidungs-Mitbestimmung: Wo darf unser Kind schon mitentscheiden?"
+            },
+            {
+                id: "b1_656", cat: "cat0",
+                textBenni: "Ich finde, wir sollten unsere Morgenroutine effizienter gestalten.",
+                textSarah: "Ich finde, wir sollten unsere Morgenroutine effizienter gestalten.",
+                textCouch: "Morgen-Modus: Ist der Morgen für uns ein Start in den Tag oder ein Sprint gegen die Zeit?"
+            },
+            {
+                id: "b1_657", cat: "cat5",
+                textBenni: "Ich finde, wir brauchen öfter eine gemeinsame Zeit ohne Agenda.",
+                textSarah: "Ich finde, wir brauchen öfter eine gemeinsame Zeit ohne Agenda.",
+                textCouch: "Agenda-Frei: Wenn wir heute 2 Stunden ohne Plan hätten, was würden wir tun?"
+            },
+            {
+                id: "b1_658", cat: "cat6",
+                textBenni: "Ich finde, wir sollten öfter unsere kulinarischen Grenzen erweitern.",
+                textSarah: "Ich finde, wir sollten öfter unsere kulinarischen Grenzen erweitern.",
+                textCouch: "Food-Experiment: Was ist das mutigste, was wir gemeinsam essen könnten?"
+            },
+            {
+                id: "b1_659", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass unser Kind lernt, dass es in Ordnung ist, anders zu sein.",
+                textSarah: "Ich wünsche mir, dass unser Kind lernt, dass es in Ordnung ist, anders zu sein.",
+                textCouch: "Individualität: Wie fördern wir die Eigenart unseres Kindes?"
+            },
+            {
+                id: "b1_660", cat: "cat12",
+                textBenni: "Ich finde, wir sollten unsere Passwörter/Konten endlich mal für den Notfall organisieren.",
+                textSarah: "Ich finde, wir sollten unsere Passwörter/Konten endlich mal für den Notfall organisieren.",
+                textCouch: "Notfall-Plan: Ist alles Wichtige für den Partner auffindbar?"
+            },
+            {
+                id: "b1_661", cat: "cat1",
+                textBenni: "Ich habe manchmal Angst, dass ich im Alltag die Leichtigkeit verliere.",
+                textSarah: "Ich habe manchmal Angst, dass ich im Alltag die Leichtigkeit verliere.",
+                textCouch: "Leichtigkeits-Check: Wie können wir den Alltag spielerischer gestalten?"
+            },
+            {
+                id: "b1_662", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über unsere 'Bucket List' sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere 'Bucket List' sprechen.",
+                textCouch: "Traum-Liste: Was steht ganz oben, was wir noch erleben wollen?"
+            },
+            {
+                id: "b1_663", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir uns öfter gegenseitig Komplimente für 'Nicht-Alltägliches' machen.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter gegenseitig Komplimente für 'Nicht-Alltägliches' machen.",
+                textCouch: "Kompliment-Challenge: Welches Kompliment für eine 'besondere Eigenschaft' hat mich heute erreicht?"
+            },
+            {
+                id: "b1_664", cat: "cat0",
+                textBenni: "Ich finde, wir sollten öfter bewusst 'Danke' sagen, auch wenn es für Kleinigkeiten ist.",
+                textSarah: "Ich finde, wir sollten öfter bewusst 'Danke' sagen, auch wenn es für Kleinigkeiten ist.",
+                textCouch: "Dankbarkeits-Level: Wie oft fühle ich mich von dir gesehen?"
+            },
+            {
+                id: "b1_665", cat: "cat5",
+                textBenni: "Ich finde, wir sollten öfter gemeinsam Musik hören, die uns beide verbindet.",
+                textSarah: "Ich finde, wir sollten öfter gemeinsam Musik hören, die uns beide verbindet.",
+                textCouch: "Soundtrack-Check: Welcher Song ist unser gemeinsames Lied?"
+            },
+            {
+                id: "b1_666", cat: "cat6",
+                textBenni: "Ich finde unsere unterschiedliche Herangehensweise an Feierlichkeiten interessant.",
+                textSarah: "Ich finde unsere unterschiedliche Herangehensweise an Feierlichkeiten interessant.",
+                textCouch: "Fest-Planung: Wie finden wir den Kompromiss zwischen Pflicht und Spaß?"
+            },
+            {
+                id: "b1_667", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass wir unserem Kind einen gesunden Umgang mit Medien beibringen.",
+                textSarah: "Ich wünsche mir, dass wir unserem Kind einen gesunden Umgang mit Medien beibringen.",
+                textCouch: "Medien-Check: Wie halten wir das Handy/TV im Kindesalter unter Kontrolle?"
+            },
+            {
+                id: "b1_668", cat: "cat12",
+                textBenni: "Ich finde, wir sollten öfter analoge Spiele spielen, statt am Bildschirm zu hängen.",
+                textSarah: "Ich finde, wir sollten öfter analoge Spiele spielen, statt am Bildschirm zu hängen.",
+                textCouch: "Spiele-Abend: Welches Spiel ist der nächste Favorit?"
+            },
+            {
+                id: "b1_669", cat: "cat8",
+                textBenni: "Ich habe manchmal das Gefühl, unsere Pläne für die Zukunft sind zu 'fest' und wenig flexibel.",
+                textSarah: "Ich habe manchmal das Gefühl, unsere Pläne für die Zukunft sind zu 'fest' und wenig flexibel.",
+                textCouch: "Planungs-Dilemma: Wie viel Raum für Spontanität brauchen wir?"
+            },
+            {
+                id: "b1_670", cat: "cat3",
+                textBenni: "Ich finde, wir sollten unsere Ausgaben für Luxus/Freizeit öfter hinterfragen.",
+                textSarah: "Ich finde, wir sollten unsere Ausgaben für Luxus/Freizeit öfter hinterfragen.",
+                textCouch: "Konsum-Check: Welcher Luxus ist uns das Geld wirklich wert?"
+            },
+            {
+                id: "b1_671", cat: "cat10",
+                textBenni: "Ich finde, wir sollten bei der Kinder-Orga öfter die Großeltern einbinden.",
+                textSarah: "Ich finde, wir sollten bei der Kinder-Orga öfter die Großeltern einbinden.",
+                textCouch: "Support-Netz: Wie nutzen wir unsere Ressourcen am besten?"
+            },
+            {
+                id: "b1_672", cat: "cat2",
+                textBenni: "Ich habe manchmal das Gefühl, unsere unterschiedlichen Erziehungsstile führen zu Missverständnissen.",
+                textSarah: "Ich habe manchmal das Gefühl, unsere unterschiedlichen Erziehungsstile führen zu Missverständnissen.",
+                textCouch: "Stil-Klarheit: Wie können wir in Konfliktsituationen besser kommunizieren?"
+            },
+            {
+                id: "b1_673", cat: "cat7",
+                textBenni: "Wenn wir morgen unseren Wohnort komplett wechseln könnten – wohin?",
+                textSarah: "Wenn wir morgen unseren Wohnort komplett wechseln könnten – wohin?",
+                textCouch: "Wohnort-Fantasie: Ist unsere Heimat für immer oder nur für jetzt?"
+            },
+            {
+                id: "b1_674", cat: "cat1",
+                textBenni: "Ich merke, dass ich bei Enttäuschungen oft dazu neige, mich zurückzuziehen.",
+                textSarah: "Ich merke, dass ich bei Enttäuschungen oft dazu neige, mich zurückzuziehen.",
+                textCouch: "Enttäuschungs-Management: Wie kann ich besser mit dir darüber reden, wenn ich enttäuscht bin?"
+            },
+            {
+                id: "b1_675", cat: "cat0",
+                textBenni: "Ich finde, wir sollten öfter über unsere Träume und Ängste sprechen, auch wenn der Alltag drängt.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Träume und Ängste sprechen, auch wenn der Alltag drängt.",
+                textCouch: "Wahrheits-Moment: Was beschäftigt mich aktuell am meisten?"
+            },	{
+                id: "b1_676", cat: "cat11",
+                textBenni: "Ich finde, wir sollten bei unserem Kind öfter die 'große Perspektive' statt des kleinen Konflikts sehen.",
+                textSarah: "Ich finde, wir sollten bei unserem Kind öfter die 'große Perspektive' statt des kleinen Konflikts sehen.",
+                textCouch: "Perspektiv-Wechsel: Was von dem, worüber wir uns heute streiten, ist in 5 Jahren noch relevant?"
+            },
+            {
+                id: "b1_677", cat: "cat12",
+                textBenni: "Ich finde, unsere Bildschirmzeit ist ein Spiegel unserer aktuellen Stressbelastung.",
+                textSarah: "Ich finde, unsere Bildschirmzeit ist ein Spiegel unserer aktuellen Stressbelastung.",
+                textCouch: "Stress-Barometer: Wann war das letzte Mal, dass wir das Handy bewusst für 24 Stunden weggelegt haben?"
+            },
+            {
+                id: "b1_678", cat: "cat0",
+                textBenni: "Ich finde, wir teilen die Hausarbeit fair, aber wir haben unterschiedliche Standards.",
+                textSarah: "Ich finde, wir teilen die Hausarbeit fair, aber wir haben unterschiedliche Standards.",
+                textCouch: "Standard-Clash: Wie viel 'perfekt' brauchen wir, um uns wohlzufühlen?"
+            },
+            {
+                id: "b1_679", cat: "cat5",
+                textBenni: "Ich glaube, wir haben verlernt, wie man als Paar einfach nur 'herumhängt' ohne ein Ziel.",
+                textSarah: "Ich glaube, wir haben verlernt, wie man als Paar einfach nur 'herumhängt' ohne ein Ziel.",
+                textCouch: "Ziel-Freiheit: Können wir einen Nachmittag ohne To-Do-Liste überleben?"
+            },
+            {
+                id: "b1_680", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir uns öfter an unsere gemeinsame Geschichte erinnern.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter an unsere gemeinsame Geschichte erinnern.",
+                textCouch: "Anker-Punkt: Was ist eine gemeinsame Erinnerung, die uns sofort wieder zusammenschweißt?"
+            },
+            {
+                id: "b1_681", cat: "cat3",
+                textBenni: "Ich finde, wir sollten unsere finanziellen Ziele öfter visualisieren.",
+                textSarah: "Ich finde, wir sollten unsere finanziellen Ziele öfter visualisieren.",
+                textCouch: "Vision-Board: Wo sehen wir uns finanziell in 10 Jahren?"
+            },
+            {
+                id: "b1_682", cat: "cat10",
+                textBenni: "Ich wünsche mir, dass wir als Eltern auch mal 'fünf gerade sein lassen'.",
+                textSarah: "Ich wünsche mir, dass wir als Eltern auch mal 'fünf gerade sein lassen'.",
+                textCouch: "Perfektions-Falle: Wann war das letzte Mal, dass wir bewusst 'unperfekt' waren?"
+            },
+            {
+                id: "b1_683", cat: "cat6",
+                textBenni: "Ich finde es spannend, wie unterschiedlich wir Geschenke aussuchen.",
+                textSarah: "Ich finde es spannend, wie unterschiedlich wir Geschenke aussuchen.",
+                textCouch: "Geschenke-Stil: Schenken wir eher pragmatisch oder emotional?"
+            },
+            {
+                id: "b1_684", cat: "cat2",
+                textBenni: "Ich wünsche mir mehr Vertrauen in meine Entscheidungen, wenn es um das Kind geht.",
+                textSarah: "Ich wünsche mir mehr Vertrauen in meine Entscheidungen, wenn es um das Kind geht.",
+                textCouch: "Vertrauens-Basis: Wann haben wir uns zuletzt bei einer Erziehungsentscheidung blind vertraut?"
+            },
+            {
+                id: "b1_685", cat: "cat7",
+                textBenni: "Wenn wir morgen eine gemeinsame Wohltätigkeitsorganisation gründen könnten – welcher Zweck?",
+                textSarah: "Wenn wir morgen eine gemeinsame Wohltätigkeitsorganisation gründen könnten – welcher Zweck?",
+                textCouch: "Zweck-Wahl: Was bewegt uns beide gleichermaßen?"
+            },
+            {
+                id: "b1_686", cat: "cat1",
+                textBenni: "Ich merke, dass ich bei emotionalen Themen oft dazu neige, 'dicht' zu machen.",
+                textSarah: "Ich merke, dass ich bei emotionalen Themen oft dazu neige, 'dicht' zu machen.",
+                textCouch: "Schutz-Wall: Wie können wir uns signalisieren, wenn einer von uns gerade eine Pause braucht?"
+            },
+            {
+                id: "b1_687", cat: "cat8",
+                textBenni: "Ich finde, wir sollten unsere Kommunikation mit Freunden noch besser abstimmen.",
+                textSarah: "Ich finde, wir sollten unsere Kommunikation mit Freunden noch besser abstimmen.",
+                textCouch: "Freundes-Orga: Wer von uns pflegt welche Kontakte und wie oft?"
+            },
+            {
+                id: "b1_688", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass wir unserem Kind einen gesunden Umgang mit Enttäuschungen vorleben.",
+                textSarah: "Ich wünsche mir, dass wir unserem Kind einen gesunden Umgang mit Enttäuschungen vorleben.",
+                textCouch: "Vorbild-Funktion: Wie gehen wir selbst mit Enttäuschungen um?"
+            },
+            {
+                id: "b1_689", cat: "cat12",
+                textBenni: "Ich finde, unsere Smart-Home-Orga ist manchmal mehr Arbeit als Hilfe.",
+                textSarah: "Ich finde, unsere Smart-Home-Orga ist manchmal mehr Arbeit als Hilfe.",
+                textCouch: "Tech-Check: Macht uns die Technik das Leben wirklich einfacher?"
+            },
+            {
+                id: "b1_690", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir wieder öfter 'kleine Abenteuer' in den Alltag einbauen.",
+                textSarah: "Ich wünsche mir, dass wir wieder öfter 'kleine Abenteuer' in den Alltag einbauen.",
+                textCouch: "Abenteuer-Ideen: Was ist das kleinste Abenteuer, das wir morgen starten könnten?"
+            },
+            {
+                id: "b1_691", cat: "cat0",
+                textBenni: "Ich finde, unsere Abendroutine sollte mehr Ruhe ausstrahlen.",
+                textSarah: "Ich finde, unsere Abendroutine sollte mehr Ruhe ausstrahlen.",
+                textCouch: "Ruhe-Insel: Wie schaffen wir den Übergang vom Alltag zum Feierabend?"
+            },
+            {
+                id: "b1_692", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über unsere langfristigen Träume sprechen, nicht nur über Budgets.",
+                textSarah: "Ich finde, wir sollten öfter über unsere langfristigen Träume sprechen, nicht nur über Budgets.",
+                textCouch: "Traum-Budget: Welcher Traum ist uns so wichtig, dass wir dafür sparen würden?"
+            },
+            {
+                id: "b1_693", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir uns öfter gegenseitig zeigen, wie wichtig wir uns sind.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter gegenseitig zeigen, wie wichtig wir uns sind.",
+                textCouch: "Anerkennungs-Weg: Welches kleine Geständnis macht dich heute glücklich?"
+            },
+            {
+                id: "b1_694", cat: "cat1",
+                textBenni: "Ich merke, dass ich bei Überforderung dazu neige, ungeduldig zu werden.",
+                textSarah: "Ich merke, dass ich bei Überforderung dazu neige, ungeduldig zu werden.",
+                textCouch: "Ungedulds-Check: Wie können wir uns bei Stress gegenseitig besser erden?"
+            },
+            {
+                id: "b1_695", cat: "cat11",
+                textBenni: "Ich möchte, dass unser Kind früh lernt, für seine eigene Meinung einzustehen.",
+                textSarah: "Ich möchte, dass unser Kind früh lernt, dass Mitgefühl wichtiger ist als Recht haben.",
+                textCouch: "Meinungs-Vielfalt: Wie fördern wir beides?"
+            },
+            {
+                id: "b1_696", cat: "cat12",
+                textBenni: "Ich finde, wir sollten unsere digitale Kommunikation (z.B. Kalender) noch besser synchronisieren.",
+                textSarah: "Ich finde, wir sollten unsere digitale Kommunikation (z.B. Kalender) noch besser synchronisieren.",
+                textCouch: "Sync-Check: Funktioniert unser Orga-Tool für uns beide?"
+            },
+            {
+                id: "b1_697", cat: "cat2",
+                textBenni: "Ich wünsche mir, dass wir bei Erziehungs-Differenzen immer einig vor dem Kind auftreten.",
+                textSarah: "Ich wünsche mir, dass wir bei Erziehungs-Differenzen immer einig vor dem Kind auftreten.",
+                textCouch: "Front-Bildung: Wie sprechen wir uns am besten vor dem Kind ab?"
+            },
+            {
+                id: "b1_698", cat: "cat9",
+                textBenni: "Ich finde, wir sollten öfter Reiseberichte/Fotos von früher gemeinsam durchgehen.",
+                textSarah: "Ich finde, wir sollten öfter Reiseberichte/Fotos von früher gemeinsam durchgehen.",
+                textCouch: "Reise-Nostalgie: Welcher Trip war unser absolutes Highlight?"
+            },
+            {
+                id: "b1_699", cat: "cat6",
+                textBenni: "Ich finde unsere unterschiedlichen Ansichten zur Haushaltsführung spannend.",
+                textSarah: "Ich finde unsere unterschiedlichen Ansichten zur Haushaltsführung spannend.",
+                textCouch: "Haushalts-Philosophie: Was ist unser Kern-Prinzip?"
+            },
+            {
+                id: "b1_700", cat: "cat7",
+                textBenni: "Wenn wir in einem Parallel-Universum leben könnten – wo wären wir?",
+                textSarah: "Wenn wir in einem Parallel-Universum leben könnten – wo wären wir?",
+                textCouch: "Parallel-Leben: Was würden wir dort anders machen?"
+            },
+            {
+                id: "b1_701", cat: "cat8",
+                textBenni: "Ich finde, wir sollten unsere jährlichen Rituale (Weihnachten/Geburtstage) noch bewusster planen.",
+                textSarah: "Ich finde, wir sollten unsere jährlichen Rituale (Weihnachten/Geburtstage) noch bewusster planen.",
+                textCouch: "Ritual-Check: Welches Ritual möchten wir auf jeden Fall für unser Kind etablieren?"
+            },
+            {
+                id: "b1_702", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir öfter mal 'einfach weg' fahren, ohne Plan.",
+                textSarah: "Ich wünsche mir, dass wir öfter mal 'einfach weg' fahren, ohne Plan.",
+                textCouch: "Spontan-Modus: Wohin führt uns unser nächster Spontan-Ausflug?"
+            },
+            {
+                id: "b1_703", cat: "cat3",
+                textBenni: "Ich finde, wir sollten unsere Ausgaben für Ernährung kritisch prüfen.",
+                textSarah: "Ich finde, wir sollten unsere Ausgaben für Ernährung kritisch prüfen.",
+                textCouch: "Ernährungs-Budget: Wo ist Qualität uns mehr wert als Sparen?"
+            },
+            {
+                id: "b1_704", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir uns öfter gegenseitig zeigen, warum wir uns damals verliebt haben.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter gegenseitig zeigen, warum wir uns damals verliebt haben.",
+                textCouch: "Verliebtheits-Check: Was ist das eine, das mich jeden Tag aufs Neue begeistert?"
+            },
+            {
+                id: "b1_705", cat: "cat1",
+                textBenni: "Ich glaube, ich unterschätze oft, wie sehr mich die Erwartungen anderer belasten.",
+                textSarah: "Ich glaube, ich unterschätze oft, wie sehr mich die Erwartungen anderer belasten.",
+                textCouch: "Erwartungs-Druck: Wie können wir uns gegenseitig von gesellschaftlichem Druck befreien?"
+            },
+            {
+                id: "b1_706", cat: "cat11",
+                textBenni: "Ich möchte, dass unser Kind den Wert von Arbeit/Anstrengung früh versteht.",
+                textSarah: "Ich möchte, dass unser Kind den Wert von Arbeit/Anstrengung früh versteht.",
+                textCouch: "Arbeits-Ethik: Wie vermitteln wir das ohne Druck?"
+            },
+            {
+                id: "b1_707", cat: "cat12",
+                textBenni: "Ich finde, wir sollten mehr über unsere Online-Sicherheit wissen.",
+                textSarah: "Ich finde, wir sollten mehr über unsere Online-Sicherheit wissen.",
+                textCouch: "Sicherheits-Check: Wo sind wir angreifbar?"
+            },
+            {
+                id: "b1_708", cat: "cat0",
+                textBenni: "Ich finde, wir brauchen öfter einen 'Paar-Abend', ohne Regeln.",
+                textSarah: "Ich finde, wir brauchen öfter einen 'Paar-Abend', ohne Regeln.",
+                textCouch: "Regelfreie-Zeit: Was ist unser nächstes, komplett freies Event?"
+            },
+            {
+                id: "b1_709", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir öfter gemeinsam 'in Bewegung' sind.",
+                textSarah: "Ich wünsche mir, dass wir öfter gemeinsam 'in Bewegung' sind.",
+                textCouch: "Aktivitäts-Check: Was steht auf unserem gemeinsamen Bewegungs-Plan?"
+            },
+            {
+                id: "b1_710", cat: "cat6",
+                textBenni: "Ich finde unsere unterschiedliche Art, Konflikte zu lösen, spannend.",
+                textSarah: "Ich finde unsere unterschiedliche Art, Konflikte zu lösen, spannend.",
+                textCouch: "Lösungs-Suche: Wie können wir unsere Ansätze ergänzen?"
+            },
+            {
+                id: "b1_711", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass wir unserem Kind den Wert von Freundschaften vermitteln.",
+                textSarah: "Ich wünsche mir, dass wir unserem Kind den Wert von Freundschaften vermitteln.",
+                textCouch: "Freundschafts-Werte: Was macht einen wahren Freund aus?"
+            },
+            {
+                id: "b1_712", cat: "cat12",
+                textBenni: "Ich finde, wir sollten uns mehr Zeit nehmen, um neue Technologien gemeinsam zu entdecken.",
+                textSarah: "Ich finde, wir sollten uns mehr Zeit nehmen, um neue Technologien gemeinsam zu entdecken.",
+                textCouch: "Tech-Entdecker: Welches Gadget könnte unser Leben bereichern?"
+            },
+            {
+                id: "b1_713", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, unsere Pläne für gemeinsame Zeit sind oft zu ambitioniert.",
+                textSarah: "Ich habe das Gefühl, unsere Pläne für gemeinsame Zeit sind oft zu ambitioniert.",
+                textCouch: "Ambitions-Check: Wie finden wir das richtige Maß?"
+            },
+            {
+                id: "b1_714", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über unsere finanzielle Freiheit in der Rente sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere finanzielle Freiheit in der Rente sprechen.",
+                textCouch: "Renten-Träume: Was ist unser Ziel-Szenario?"
+            },
+            {
+                id: "b1_715", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir uns öfter kleine 'Liebesbeweise' im Alltag machen.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter kleine 'Liebesbeweise' im Alltag machen.",
+                textCouch: "Alltags-Liebe: Was ist die kleinste Geste, die mich heute zum Lächeln bringt?"
+            },
+            {
+                id: "b1_716", cat: "cat1",
+                textBenni: "Ich habe Angst, dass wir im Stress die Empathie füreinander verlieren.",
+                textSarah: "Ich habe Angst, dass wir im Stress die Empathie füreinander verlieren.",
+                textCouch: "Empathie-Check: Wie können wir uns im Stress gegenseitig unterstützen?"
+            },
+            {
+                id: "b1_717", cat: "cat0",
+                textBenni: "Ich finde, wir sollten öfter gemeinsam bewusst Zeit in der Natur verbringen.",
+                textSarah: "Ich finde, wir sollten öfter gemeinsam bewusst Zeit in der Natur verbringen.",
+                textCouch: "Natur-Reset: Welcher Ort in der Umgebung bringt uns zur Ruhe?"
+            },
+            {
+                id: "b1_718", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir öfter gemeinsam neue Dinge lernen.",
+                textSarah: "Ich wünsche mir, dass wir öfter gemeinsam neue Dinge lernen.",
+                textCouch: "Lern-Projekt: Was ist das nächste, was wir gemeinsam meistern wollen?"
+            },
+            {
+                id: "b1_719", cat: "cat6",
+                textBenni: "Ich finde, wir sollten unsere gemeinsamen Abende öfter 'handyfrei' gestalten.",
+                textSarah: "Ich finde, wir sollten unsere gemeinsamen Abende öfter 'handyfrei' gestalten.",
+                textCouch: "Handy-Tabu: Wie strikt wollen wir das umsetzen?"
+            },
+            {
+                id: "b1_720", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass wir unser Kind ermutigen, seine eigene Stimme zu finden.",
+                textSarah: "Ich wünsche mir, dass wir unser Kind ermutigen, seine eigene Stimme zu finden.",
+                textCouch: "Stimme-Finden: Wie unterstützen wir unser Kind dabei am besten?"
+            }, {
+                id: "b1_721", cat: "cat4",
+                textBenni: "Ich finde, wir ergänzen uns in Krisenzeiten erstaunlich gut – du bist der Anker, ich bin der Motor.",
+                textSarah: "Ich finde, wir ergänzen uns in Krisenzeiten erstaunlich gut – ich bin der Anker, du bist der Motor.",
+                textCouch: "Stärken-Check: Welcher Bereich unseres gemeinsamen Lebens läuft gerade so gut, dass wir es fast als 'normal' hinnehmen?"
+            },
+            {
+                id: "b1_722", cat: "cat5",
+                textBenni: "Ich bin unglaublich stolz darauf, wie wir es geschafft haben, unsere Freiräume zu bewahren, ohne die Bindung zu verlieren.",
+                textSarah: "Ich bin unglaublich stolz darauf, wie wir es geschafft haben, unsere Freiräume zu bewahren, ohne die Bindung zu verlieren.",
+                textCouch: "Freiheits-Bonus: Welcher persönliche Erfolg des anderen hat mich in letzter Zeit besonders beeindruckt?"
+            },
+            {
+                id: "b1_723", cat: "cat4",
+                textBenni: "Ich glaube, unsere Fähigkeit, über Fehler zu lachen, ist das Fundament unserer Stabilität.",
+                textSarah: "Ich glaube, unsere Fähigkeit, über Fehler zu lachen, ist das Fundament unserer Stabilität.",
+                textCouch: "Lach-Faktor: Was war das letzte Missgeschick, bei dem wir beide gleichzeitig loslachen mussten?"
+            },
+            {
+                id: "b1_724", cat: "cat0",
+                textBenni: "Ich schätze es sehr, wie wir uns gegenseitig unterstützen, wenn einer von uns einen schlechten Tag hat.",
+                textSarah: "Ich schätze es sehr, wie wir uns gegenseitig unterstützen, wenn einer von uns einen schlechten Tag hat.",
+                textCouch: "Support-Moment: Was ist die liebste kleine Geste des anderen, die mir sofort ein Lächeln entlockt?"
+            },
+            {
+                id: "b1_725", cat: "cat11",
+                textBenni: "Ich finde, wir vermitteln unserem Kind jeden Tag durch unser Handeln, was Liebe wirklich bedeutet.",
+                textSarah: "Ich finde, wir vermitteln unserem Kind jeden Tag durch unser Handeln, was Liebe wirklich bedeutet.",
+                textCouch: "Werte-Leuchten: Welche Eigenschaft unseres Kindes spiegelt unsere beste Seite wider?"
+            },
+            {
+                id: "b1_726", cat: "cat4",
+                textBenni: "Ich merke, dass unsere Anziehungskraft auch nach all der Zeit nicht nachgelassen hat – im Gegenteil.",
+                textSarah: "Ich merke, dass unsere Anziehungskraft auch nach all der Zeit nicht nachgelassen hat – im Gegenteil.",
+                textCouch: "Anziehungs-Punkt: Was an dir entdecke ich heute immer noch als neu und aufregend?"
+            },
+            {
+                id: "b1_727", cat: "cat3",
+                textBenni: "Ich bin froh, dass wir beim Thema Finanzen so ein eingespieltes Team sind.",
+                textSarah: "Ich bin froh, dass wir beim Thema Finanzen so ein eingespieltes Team sind.",
+                textCouch: "Finanz-Erfolg: Was haben wir gemeinsam geschafft, auf das wir stolz sein können?"
+            },
+            {
+                id: "b1_728", cat: "cat5",
+                textBenni: "Ich liebe die Art und Weise, wie wir unsere gemeinsame Freizeit planen – immer mit dem Fokus auf Qualität.",
+                textSarah: "Ich liebe die Art und Weise, wie wir unsere gemeinsame Freizeit planen – immer mit dem Fokus auf Qualität.",
+                textCouch: "Qualitäts-Zeit: Was ist ein Erlebnis, das wir unbedingt wiederholen müssen?"
+            },
+            {
+                id: "b1_729", cat: "cat9",
+                textBenni: "Ich finde, unsere Art, neue Umgebungen zu erkunden, ist einfach perfekt für uns beide.",
+                textSarah: "Ich finde, unsere Art, neue Umgebungen zu erkunden, ist einfach perfekt für uns beide.",
+                textCouch: "Reise-Glück: Was macht uns als Reisepartner so unschlagbar?"
+            },
+            {
+                id: "b1_730", cat: "cat1",
+                textBenni: "Ich finde es bewundernswert, wie du schwierige Themen immer wieder versuchst, konstruktiv anzusprechen.",
+                textSarah: "Ich finde es bewundernswert, wie du schwierige Themen immer wieder versuchst, konstruktiv anzusprechen.",
+                textCouch: "Kommunikations-Erfolg: Welches Konfliktthema haben wir in letzter Zeit richtig gut gelöst?"
+            }, {
+                id: "b1_731", cat: "cat4",
+                textBenni: "Ich finde es toll, wie wir auch in stressigen Zeiten unseren gemeinsamen Humor nicht verlieren.",
+                textSarah: "Ich finde es toll, wie wir auch in stressigen Zeiten unseren gemeinsamen Humor nicht verlieren.",
+                textCouch: "Lach-Bonus: Was war der Moment, in dem wir uns gegenseitig aus einer stressigen Situation 'herausgelacht' haben?"
+            },
+            {
+                id: "b1_732", cat: "cat5",
+                textBenni: "Ich bewundere deine Zielstrebigkeit – sie motiviert mich jeden Tag, auch an mir zu arbeiten.",
+                textSarah: "Ich bewundere deine Zielstrebigkeit – sie motiviert mich jeden Tag, auch an mir zu arbeiten.",
+                textCouch: "Inspirations-Quelle: Welcher deiner Erfolge hat mich in letzter Zeit besonders stolz gemacht?"
+            },
+            {
+                id: "b1_733", cat: "cat0",
+                textBenni: "Ich bin dankbar für die kleinen, fast unsichtbaren Dinge, die du im Alltag für mich tust.",
+                textSarah: "Ich bin dankbar für die kleinen, fast unsichtbaren Dinge, die du im Alltag für mich tust.",
+                textCouch: "Alltags-Helden: Was ist ein Handgriff, den der andere erledigt, den ich heute einmal bewusst wahrnehme?"
+            },
+            {
+                id: "b1_734", cat: "cat1",
+                textBenni: "Ich fühle mich bei dir immer sicher, egal wie chaotisch die Welt um uns herum ist.",
+                textSarah: "Ich fühle mich bei dir immer sicher, egal wie chaotisch die Welt um uns herum ist.",
+                textCouch: "Sicherheits-Gefühl: Was ist der Moment des Tages, in dem ich mich am meisten bei dir 'angekommen' fühle?"
+            },
+            {
+                id: "b1_735", cat: "cat11",
+                textBenni: "Ich bin stolz darauf, welche Werte wir unserem Kind gemeinsam vermitteln.",
+                textSarah: "Ich bin stolz darauf, welche Werte wir unserem Kind gemeinsam vermitteln.",
+                textCouch: "Werte-Stolz: Welcher Wert unseres Kindes zeigt mir, dass wir als Team großartige Arbeit leisten?"
+            },
+            {
+                id: "b1_736", cat: "cat4",
+                textBenni: "Ich mag es, wie wir uns gegenseitig Raum geben, um eigene Ideen zu entwickeln.",
+                textSarah: "Ich mag es, wie wir uns gegenseitig Raum geben, um eigene Ideen zu entwickeln.",
+                textCouch: "Raum-Wunder: Welcher meiner Träume hat durch deine Unterstützung erst richtig Fahrt aufgenommen?"
+            },
+            {
+                id: "b1_737", cat: "cat3",
+                textBenni: "Ich finde es klasse, wie wir als Team bei größeren Projekten (wie dem Nestbau) zusammenhalten.",
+                textSarah: "Ich finde es klasse, wie wir als Team bei größeren Projekten zusammenhalten.",
+                textCouch: "Projekt-Erfolg: Welcher kleine Meilenstein bei unserem Nestbau hat uns gezeigt, wie gut wir harmonieren?"
+            },
+            {
+                id: "b1_738", cat: "cat8",
+                textBenni: "Ich schätze unsere gemeinsame Tradition, wichtige Momente bewusst zu feiern.",
+                textSarah: "Ich schätze unsere gemeinsame Tradition, wichtige Momente bewusst zu feiern.",
+                textCouch: "Feier-Laune: Welchen 'kleinen' Anlass sollten wir dieses Jahr unbedingt feiern?"
+            },
+            {
+                id: "b1_739", cat: "cat5",
+                textBenni: "Ich liebe es, wie wir zusammen neue Energie tanken können, auch wenn es nur ein gemeinsamer Kaffee ist.",
+                textSarah: "Ich liebe es, wie wir zusammen neue Energie tanken können, auch wenn es nur ein gemeinsamer Kaffee ist.",
+                textCouch: "Energie-Quelle: Was ist unser liebstes 'schnelles' Ritual, das uns sofort wieder verbindet?"
+            },
+            {
+                id: "b1_740", cat: "cat1",
+                textBenni: "Ich bewundere deine Fähigkeit, in schwierigen Situationen immer das Gute zu sehen.",
+                textSarah: "Ich bewundere deine Fähigkeit, in schwierigen Situationen immer das Gute zu sehen.",
+                textCouch: "Optimismus-Check: Welche positive Nachricht habe ich heute für dich, die du noch nicht kennst?"
+            }, {
+                id: "b1_741", cat: "cat11",
+                textBenni: "Ich finde es gut, dass wir bei unserem Kind auf eine gewisse Struktur achten, auch wenn es manchmal anstrengend ist.",
+                textSarah: "Ich finde es gut, dass wir bei unserem Kind auf eine gewisse Struktur achten, auch wenn es manchmal anstrengend ist.",
+                textCouch: "Struktur-Check: Gibt es eine Routine, die wir dringend lockern sollten?"
+            },
+            {
+                id: "b1_742", cat: "cat12",
+                textBenni: "Ich habe das Gefühl, wir könnten unsere digitalen Abos noch stärker ausmisten.",
+                textSarah: "Ich habe das Gefühl, wir könnten unsere digitalen Abos noch stärker ausmisten.",
+                textCouch: "Abo-Detox: Welcher digitale Dienst hat uns diesen Monat mehr Nerven als Nutzen gebracht?"
+            },
+            {
+                id: "b1_743", cat: "cat0",
+                textBenni: "Ich bin stolz darauf, wie wir unsere Wochenplanung mittlerweile im Griff haben.",
+                textSarah: "Ich bin stolz darauf, wie wir unsere Wochenplanung mittlerweile im Griff haben.",
+                textCouch: "Planungs-Stolz: Was ist unser bisher größter gemeinsamer Sieg in der Alltags-Orga?"
+            },
+            {
+                id: "b1_744", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns gegenseitig öfter zu kleinen Auszeiten im Alltag ermutigen.",
+                textSarah: "Ich wünsche mir, dass wir uns gegenseitig öfter zu kleinen Auszeiten im Alltag ermutigen.",
+                textCouch: "Auszeit-Turbo: Wann darf der andere morgen einfach mal 30 Minuten 'weg' sein?"
+            },
+            {
+                id: "b1_745", cat: "cat4",
+                textBenni: "Ich finde es schön, dass wir uns auch nach all der Zeit noch gegenseitig überraschen können.",
+                textSarah: "Ich finde es schön, dass wir uns auch nach all der Zeit noch gegenseitig überraschen können.",
+                textCouch: "Überraschungs-Moment: Was war die letzte kleine Sache, die mich völlig unerwartet gefreut hat?"
+            },
+            {
+                id: "b1_746", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter über unsere Zukunftsträume sprechen, auch wenn der Alltag uns einholt.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Zukunftsträume sprechen, auch wenn der Alltag uns einholt.",
+                textCouch: "Traum-Zeit: Welchen Traum haben wir in letzter Zeit viel zu selten erwähnt?"
+            },
+            {
+                id: "b1_747", cat: "cat11",
+                textBenni: "Ich finde, wir machen einen tollen Job dabei, unserem Kind Empathie vorzuleben.",
+                textSarah: "Ich finde, wir machen einen tollen Job dabei, unserem Kind Empathie vorzuleben.",
+                textCouch: "Empathie-Check: In welcher Situation hat mich unser Kind zuletzt positiv überrascht?"
+            },
+            {
+                id: "b1_748", cat: "cat12",
+                textBenni: "Ich finde, wir sollten öfter unsere digitalen Fotos auch mal wieder ausdrucken.",
+                textSarah: "Ich finde, wir sollten öfter unsere digitalen Fotos auch mal wieder ausdrucken.",
+                textCouch: "Foto-Wahl: Welches Foto ist für mich das 'Bild des Jahres'?"
+            },
+            {
+                id: "b1_749", cat: "cat0",
+                textBenni: "Ich finde, wir schaffen es immer besser, Konflikte konstruktiv zu besprechen.",
+                textSarah: "Ich finde, wir schaffen es immer besser, Konflikte konstruktiv zu besprechen.",
+                textCouch: "Konflikt-Erfolg: Welchen Streit haben wir zuletzt richtig gut 'moderiert'?"
+            },
+            {
+                id: "b1_750", cat: "cat5",
+                textBenni: "Ich finde, wir sollten uns öfter als Paar kleine 'Dates' im Alltag gönnen.",
+                textSarah: "Ich finde, wir sollten uns öfter als Paar kleine 'Dates' im Alltag gönnen.",
+                textCouch: "Date-Idee: Was ist unser nächster gemeinsamer kleiner Ausbruch?"
+            },
+            {
+                id: "b1_751", cat: "cat4",
+                textBenni: "Ich bin froh, dass wir so offen über unsere Ängste und Sorgen sprechen können.",
+                textSarah: "Ich bin froh, dass wir so offen über unsere Ängste und Sorgen sprechen können.",
+                textCouch: "Sorgen-Freiheit: Was kann ich dir heute abnehmen, damit du dich sicherer fühlst?"
+            },
+            {
+                id: "b1_752", cat: "cat3",
+                textBenni: "Ich finde, wir haben ein gutes Gefühl für unsere gemeinsamen Prioritäten bei Ausgaben.",
+                textSarah: "Ich finde, wir haben ein gutes Gefühl für unsere gemeinsamen Prioritäten bei Ausgaben.",
+                textCouch: "Prioritäten-Check: Was ist uns bei unseren Finanzen gerade am wichtigsten?"
+            },
+            {
+                id: "b1_753", cat: "cat1",
+                textBenni: "Ich bewundere deine Ausdauer bei Herausforderungen.",
+                textSarah: "Ich bewundere deine Ausdauer bei Herausforderungen.",
+                textCouch: "Ausdauer-Check: Wann war ich zuletzt von deiner Hartnäckigkeit beeindruckt?"
+            },
+            {
+                id: "b1_754", cat: "cat2",
+                textBenni: "Ich finde, wir finden immer einen guten Kompromiss bei Erziehungsfragen.",
+                textSarah: "Ich finde, wir finden immer einen guten Kompromiss bei Erziehungsfragen.",
+                textCouch: "Kompromiss-Stärke: Welche Erziehungs-Idee von dir fand ich am besten?"
+            },
+            {
+                id: "b1_755", cat: "cat6",
+                textBenni: "Ich finde es toll, wie wir unsere unterschiedlichen Vorlieben bei der Freizeitgestaltung kombinieren.",
+                textSarah: "Ich finde es toll, wie wir unsere unterschiedlichen Vorlieben bei der Freizeitgestaltung kombinieren.",
+                textCouch: "Kombinations-Talent: Was ist unser bestes 'Hybrid-Erlebnis' gewesen?"
+            },
+            {
+                id: "b1_756", cat: "cat9",
+                textBenni: "Ich bin dankbar für unsere gemeinsamen Reiseerlebnisse.",
+                textSarah: "Ich bin dankbar für unsere gemeinsamen Reiseerlebnisse.",
+                textCouch: "Reise-Dank: Welcher Ort hat uns beide am meisten verändert?"
+            },
+            {
+                id: "b1_757", cat: "cat8",
+                textBenni: "Ich finde, unsere Art, Feste zu feiern, ist einzigartig.",
+                textSarah: "Ich finde, unsere Art, Feste zu feiern, ist einzigartig.",
+                textCouch: "Fest-Glanz: Was macht unsere Familienfeste besonders?"
+            },
+            {
+                id: "b1_758", cat: "cat11",
+                textBenni: "Ich bin froh, dass wir bei Werten wie 'Ehrlichkeit' keine Kompromisse machen.",
+                textSarah: "Ich bin froh, dass wir bei Werten wie 'Ehrlichkeit' keine Kompromisse machen.",
+                textCouch: "Ehrlichkeits-Check: Wann war es zuletzt schwierig, aber richtig, ehrlich zu sein?"
+            },
+            {
+                id: "b1_759", cat: "cat12",
+                textBenni: "Ich finde, wir sollten öfter unsere 'Tech-freien' Zonen genießen.",
+                textSarah: "Ich finde, wir sollten öfter unsere 'Tech-freien' Zonen genießen.",
+                textCouch: "Tech-Pause: Wann genießen wir die Stille am meisten?"
+            },
+            {
+                id: "b1_760", cat: "cat0",
+                textBenni: "Ich schätze unsere gemeinsame Morgenroutine sehr.",
+                textSarah: "Ich schätze unsere gemeinsame Morgenroutine sehr.",
+                textCouch: "Morgen-Glück: Welches kleine Element am Morgen macht dich zufrieden?"
+            },
+            {
+                id: "b1_761", cat: "cat5",
+                textBenni: "Ich liebe es, wie wir zusammen neue Energie sammeln können.",
+                textSarah: "Ich liebe es, wie wir zusammen neue Energie sammeln können.",
+                textCouch: "Energie-Tanken: Wo ist unser liebster Rückzugsort?"
+            },
+            {
+                id: "b1_762", cat: "cat4",
+                textBenni: "Ich finde es bewundernswert, wie du immer versuchst, das Beste aus der Situation zu machen.",
+                textSarah: "Ich finde es bewundernswert, wie du immer versuchst, das Beste aus der Situation zu machen.",
+                textCouch: "Positiv-Fokus: Was haben wir aus einer 'misslichen' Lage gemeinsam gelernt?"
+            },
+            {
+                id: "b1_763", cat: "cat7",
+                textBenni: "Wenn wir morgen ein neues Hobby starten würden – was wäre das?",
+                textSarah: "Wenn wir morgen ein neues Hobby starten würden – was wäre das?",
+                textCouch: "Hobby-Idee: Was liegt seit langem auf unserer 'Vielleicht'-Liste?"
+            },
+            {
+                id: "b1_764", cat: "cat1",
+                textBenni: "Ich finde, wir haben eine tolle Art, über unsere Fehler zu sprechen.",
+                textSarah: "Ich finde, wir haben eine tolle Art, über unsere Fehler zu sprechen.",
+                textCouch: "Fehler-Dialog: Was haben wir zuletzt aus einem Missverständnis gelernt?"
+            },
+            {
+                id: "b1_765", cat: "cat11",
+                textBenni: "Ich finde, wir sind tolle Vorbilder, was den Umgang mit anderen Menschen angeht.",
+                textSarah: "Ich finde, wir sind tolle Vorbilder, was den Umgang mit anderen Menschen angeht.",
+                textCouch: "Vorbild-Check: Welche menschliche Eigenschaft wollen wir unserem Kind mitgeben?"
+            },
+            {
+                id: "b1_766", cat: "cat12",
+                textBenni: "Ich bin froh, dass wir uns bei Tech-Themen immer gut ergänzen.",
+                textSarah: "Ich bin froh, dass wir uns bei Tech-Themen immer gut ergänzen.",
+                textCouch: "Tech-Team: Wer von uns lernt schneller neue Anwendungen?"
+            },
+            {
+                id: "b1_767", cat: "cat0",
+                textBenni: "Ich schätze unser gemeinsames Abendessen als festen Ankerpunkt.",
+                textSarah: "Ich schätze unser gemeinsames Abendessen als festen Ankerpunkt.",
+                textCouch: "Abend-Anker: Was war das Thema, das uns heute Abend wirklich beschäftigt hat?"
+            },
+            {
+                id: "b1_768", cat: "cat5",
+                textBenni: "Ich liebe unseren gemeinsamen Antrieb, aktiv zu bleiben.",
+                textSarah: "Ich liebe unseren gemeinsamen Antrieb, aktiv zu bleiben.",
+                textCouch: "Antriebs-Check: Was motiviert uns beide am meisten?"
+            },
+            {
+                id: "b1_769", cat: "cat6",
+                textBenni: "Ich finde unsere Art, Kompromisse zu finden, wirklich beeindruckend.",
+                textSarah: "Ich finde unsere Art, Kompromisse zu finden, wirklich beeindruckend.",
+                textCouch: "Kompromiss-Glück: Was ist ein Kompromiss, der sich wie ein Gewinn angefühlt hat?"
+            },
+            {
+                id: "b1_770", cat: "cat3",
+                textBenni: "Ich bin stolz, dass wir gemeinsam unsere finanziellen Ziele verfolgen.",
+                textSarah: "Ich bin stolz, dass wir gemeinsam unsere finanziellen Ziele verfolgen.",
+                textCouch: "Finanz-Team: Wo sind wir gerade besonders erfolgreich?"
+            },
+            {
+                id: "b1_771", cat: "cat8",
+                textBenni: "Ich finde, wir meistern den Spagat zwischen Alltag und Familie großartig.",
+                textSarah: "Ich finde, wir meistern den Spagat zwischen Alltag und Familie großartig.",
+                textCouch: "Spagat-Erfolg: Worauf bin ich stolz?"
+            },
+            {
+                id: "b1_772", cat: "cat4",
+                textBenni: "Ich genieße unsere gemeinsamen 'Qualitäts-Gespräche' sehr.",
+                textSarah: "Ich genieße unsere gemeinsamen 'Qualitäts-Gespräche' sehr.",
+                textCouch: "Gesprächs-Tiefgang: Welches Thema hat uns zuletzt besonders berührt?"
+            },
+            {
+                id: "b1_773", cat: "cat1",
+                textBenni: "Ich finde, wir ergänzen uns bei Problemlösungen perfekt.",
+                textSarah: "Ich finde, wir ergänzen uns bei Problemlösungen perfekt.",
+                textCouch: "Lösungs-Synergie: Was war die letzte Sache, die wir gemeinsam gelöst haben?"
+            },
+            {
+                id: "b1_774", cat: "cat9",
+                textBenni: "Ich bin froh, dass wir ähnliche Vorstellungen von Abenteuer haben.",
+                textSarah: "Ich bin froh, dass wir ähnliche Vorstellungen von Abenteuer haben.",
+                textCouch: "Abenteuer-Schnitt: Was war das letzte Erlebnis, das uns 'näher' gebracht hat?"
+            },
+            {
+                id: "b1_775", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass unser Kind unsere Offenheit für die Welt behält.",
+                textSarah: "Ich wünsche mir, dass wir die Neugier unseres Kindes fördern.",
+                textCouch: "Neugier-Check: Was haben wir zuletzt gemeinsam mit dem Kind gelernt?"
+            },
+            {
+                id: "b1_776", cat: "cat12",
+                textBenni: "Ich finde unsere gemeinsamen digitalen Projekte spannend.",
+                textSarah: "Ich finde unsere gemeinsamen digitalen Projekte spannend.",
+                textCouch: "Projekt-Erfolg: Was haben wir zuletzt digital 'gebaut'?"
+            },
+            {
+                id: "b1_777", cat: "cat0",
+                textBenni: "Ich schätze unsere gemeinsame Fähigkeit, den Alltag zu organisieren.",
+                textSarah: "Ich schätze unsere gemeinsame Fähigkeit, den Alltag zu organisieren.",
+                textCouch: "Orga-Erfolg: Was läuft gerade wie geschmiert?"
+            },
+            {
+                id: "b1_778", cat: "cat5",
+                textBenni: "Ich finde es schön, dass wir uns gegenseitig zum Lachen bringen können.",
+                textSarah: "Ich finde es schön, dass wir uns gegenseitig zum Lachen bringen können.",
+                textCouch: "Lach-Moment: Worüber haben wir heute gemeinsam gegrinst?"
+            },
+            {
+                id: "b1_779", cat: "cat6",
+                textBenni: "Ich bin froh, dass wir unsere unterschiedlichen Vorlieben respektieren.",
+                textSarah: "Ich bin froh, dass wir unsere unterschiedlichen Vorlieben respektieren.",
+                textCouch: "Respekt-Check: Wo war ich heute besonders dankbar für deine Toleranz?"
+            },
+            {
+                id: "b1_780", cat: "cat3",
+                textBenni: "Ich finde es gut, wie wir über unsere Zukunftspläne diskutieren.",
+                textSarah: "Ich finde es gut, wie wir über unsere Zukunftspläne diskutieren.",
+                textCouch: "Zukunfts-Glück: Worauf freuen wir uns gemeinsam am meisten?"
+            },
+            {
+                id: "b1_781", cat: "cat8",
+                textBenni: "Ich bin stolz auf unsere gemeinsame Entwicklung in den letzten Jahren.",
+                textSarah: "Ich bin stolz auf unsere gemeinsame Entwicklung in den letzten Jahren.",
+                textCouch: "Entwicklungs-Check: Welche gemeinsame Veränderung feiern wir gerade?"
+            },
+            {
+                id: "b1_782", cat: "cat4",
+                textBenni: "Ich liebe es, wie wir zusammen planen und träumen.",
+                textSarah: "Ich liebe es, wie wir zusammen planen und träumen.",
+                textCouch: "Traum-Echo: Welcher Wunsch, den wir mal geäußert haben, wird jetzt wahr?"
+            },
+            {
+                id: "b1_783", cat: "cat1",
+                textBenni: "Ich bin dankbar für deine Geduld in schwierigen Phasen.",
+                textSarah: "Ich bin dankbar für deine Geduld in schwierigen Phasen.",
+                textCouch: "Gedulds-Geschenk: Wann war ich zuletzt besonders dankbar für deine Ruhe?"
+            },
+            {
+                id: "b1_784", cat: "cat11",
+                textBenni: "Ich finde, wir sind tolle Eltern – jeder auf seine Art.",
+                textSarah: "Ich finde, wir sind tolle Eltern – jeder auf seine Art.",
+                textCouch: "Eltern-Team: Was ist die Eigenschaft an uns als Eltern, die ich besonders mag?"
+            },
+            {
+                id: "b1_785", cat: "cat1",
+                textBenni: "Ich merke, dass ich bei dir immer ganz ich selbst sein kann, ohne mich verstellen zu müssen.",
+                textSarah: "Ich merke, dass ich bei dir immer ganz ich selbst sein kann, ohne mich verstellen zu müssen.",
+                textCouch: "Echt-heits-Check: An welchem Ort oder in welcher Situation fühle ich mich bei dir am meisten 'zuhause'?"
+            }, {
+                id: "b1_786", cat: "cat1",
+                textBenni: "Manchmal habe ich das Gefühl, dass du meine Grenzen im Alltag übergehst, ohne es zu merken.",
+                textSarah: "Manchmal habe ich das Gefühl, dass du meine Grenzen im Alltag übergehst, ohne es zu merken.",
+                textCouch: "Grenzen-Test: Wo fühle ich mich aktuell in unserer Beziehung 'überfahren'?"
+            },
+            {
+                id: "b1_787", cat: "cat2",
+                textBenni: "Ich habe Angst, dass wir uns als Paar in der Elternrolle komplett verlieren.",
+                textSarah: "Ich habe Angst, dass wir als Paar in der Elternrolle komplett verlieren.",
+                textCouch: "Identitäts-Verlust: Welcher Teil unserer Paarbeziehung ist seit dem Kind zu kurz gekommen?"
+            },
+            {
+                id: "b1_788", cat: "cat3",
+                textBenni: "Wir reden über Finanzen, aber haben wir wirklich die gleichen langfristigen Prioritäten?",
+                textSarah: "Wir reden über Finanzen, aber haben wir wirklich die gleichen langfristigen Prioritäten?",
+                textCouch: "Prioritäten-Check: Was würdest du für uns ändern, wenn Geld keine Rolle spielen würde?"
+            },
+            {
+                id: "b1_789", cat: "cat6",
+                textBenni: "Ich finde, du bist bei Kritik an meiner Familie oft zu vorschnell und voreingenommen.",
+                textSarah: "Ich finde, du verteidigst deine Familie manchmal blind, statt meine Perspektive zu sehen.",
+                textCouch: "Familien-Front: Wie finden wir eine neutrale Position bei Familien-Konflikten?"
+            },
+            {
+                id: "b1_790", cat: "cat7",
+                textBenni: "Was ist eine Eigenschaft an mir, die dich regelmäßig auf die Palme bringt?",
+                textSarah: "Was ist eine Eigenschaft an mir, die dich regelmäßig auf die Palme bringt?",
+                textCouch: "Ehrliche Abrechnung: Was müssen wir an uns ändern, um weniger zu streiten?"
+            },
+            {
+                id: "b1_791", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, unsere Arbeitsteilung ist nicht so fair, wie wir uns das einreden.",
+                textSarah: "Ich habe das Gefühl, unsere Arbeitsteilung ist nicht so fair, wie wir uns das einreden.",
+                textCouch: "Fairness-Audit: Wer trägt eigentlich wirklich den größeren 'Mental Load'?"
+            },
+            {
+                id: "b1_792", cat: "cat11",
+                textBenni: "Ich mache mir Sorgen, dass wir bei unserem Kind zu viele eigene Defizite kompensieren.",
+                textSarah: "Ich mache mir Sorgen, dass wir bei unserem Kind zu viele eigene Defizite kompensieren.",
+                textCouch: "Projektion: Welche unserer eigenen ungelösten Probleme übertragen wir unbewusst auf das Kind?"
+            },
+            {
+                id: "b1_793", cat: "cat12",
+                textBenni: "Ich finde, unser digitaler Konsum macht uns als Paar oberflächlicher.",
+                textSarah: "Ich finde, unser digitaler Konsum macht uns als Paar oberflächlicher.",
+                textCouch: "Digitaler Entzug: Was würden wir tun, wenn wir heute 48 Stunden ohne Internet wären?"
+            },
+            {
+                id: "b1_794", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, dass wir uns im Alltag oft nur noch 'verwalten', statt zu leben.",
+                textSarah: "Ich habe das Gefühl, dass wir uns im Alltag oft nur noch 'verwalten', statt zu leben.",
+                textCouch: "Verwaltungs-Falle: Wie brechen wir aus der Routine aus, ohne das Chaos zu riskieren?"
+            },
+            {
+                id: "b1_795", cat: "cat5",
+                textBenni: "Ich fühle mich oft schlecht, wenn ich Zeit für mich nehme – wer ist daran schuld?",
+                textSarah: "Ich fühle mich oft schlecht, wenn ich Zeit für mich nehme – wer ist daran schuld?",
+                textCouch: "Schuld-Gefühl: Wer von uns beiden übt implizit Druck auf den anderen aus?"
+            },
+            {
+                id: "b1_796", cat: "cat1",
+                textBenni: "Ich habe manchmal den Eindruck, dass du meine Bedürfnisse nur erfüllst, um Ruhe zu haben.",
+                textSarah: "Ich habe manchmal den Eindruck, dass du meine Bedürfnisse nur erfüllst, um Ruhe zu haben.",
+                textCouch: "Echtheits-Check: Handeln wir aus Liebe oder aus Konfliktscheue?"
+            },
+            {
+                id: "b1_797", cat: "cat4",
+                textBenni: "Glaubst du, wir wären noch zusammen, wenn wir kein Kind hätten?",
+                textSarah: "Glaubst du, wir wären noch zusammen, wenn wir kein Kind hätten?",
+                textCouch: "Fundament-Frage: Was hält uns abseits vom Kind zusammen?"
+            },
+            {
+                id: "b1_798", cat: "cat6",
+                textBenni: "Ich habe das Gefühl, dass wir uns in Diskussionen oft um Kopf und Kragen reden.",
+                textSarah: "Ich habe das Gefühl, dass wir uns in Diskussionen oft um Kopf und Kragen reden.",
+                textCouch: "Diskussions-Stil: Wann ist es an der Zeit, ein Thema einfach mal ruhen zu lassen?"
+            },
+            {
+                id: "b1_799", cat: "cat3",
+                textBenni: "Ich habe den Eindruck, wir haben eine unterschiedliche Definition von 'Luxus'.",
+                textSarah: "Ich habe den Eindruck, wir haben eine unterschiedliche Definition von 'Luxus'.",
+                textCouch: "Werte-Check: Was ist ein Luxus, auf den ich nicht verzichten will?"
+            },
+            {
+                id: "b1_800", cat: "cat8",
+                textBenni: "Wie sehr beeinflusst unser Umfeld eigentlich unsere Entscheidungen als Paar?",
+                textSarah: "Wie sehr beeinflusst unser Umfeld eigentlich unsere Entscheidungen als Paar?",
+                textCouch: "Einfluss-Analyse: Leben wir unser eigenes Leben oder erfüllen wir Erwartungen?"
+            },
+            {
+                id: "b1_801", cat: "cat11",
+                textBenni: "Welchen Fehler unserer Eltern wiederholen wir gerade unbewusst?",
+                textSarah: "Welchen Fehler unserer Eltern wiederholen wir gerade unbewusst?",
+                textCouch: "Eltern-Spiegel: Woran erkenne ich meine Mutter/meinen Vater in mir?"
+            },
+            {
+                id: "b1_802", cat: "cat12",
+                textBenni: "Ich finde, wir flüchten uns bei Problemen zu oft in unsere digitalen Endgeräte.",
+                textSarah: "Ich finde, wir flüchten uns bei Problemen zu oft in unsere digitalen Endgeräte.",
+                textCouch: "Flucht-Check: Wann hast du das letzte Mal dein Handy benutzt, um einem Gespräch auszuweichen?"
+            },
+            {
+                id: "b1_803", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir hören uns im Alltag oft nicht mehr richtig zu.",
+                textSarah: "Ich habe das Gefühl, wir hören uns im Alltag oft nicht mehr richtig zu.",
+                textCouch: "Zuhör-Falle: Wann war das letzte Mal, dass ich wirklich 'präsent' bei dir war?"
+            },
+            {
+                id: "b1_804", cat: "cat5",
+                textBenni: "Wie sehr habe ich mich seit unserem Start verändert und passt das noch zu dir?",
+                textSarah: "Wie sehr habe ich mich seit unserem Start verändert und passt das noch zu dir?",
+                textCouch: "Veränderungs-Check: Welchen Teil von dir vermisse ich manchmal?"
+            },
+            {
+                id: "b1_805", cat: "cat1",
+                textBenni: "Ich finde, wir sind beide zu stur, wenn es darum geht, eigene Fehler zuzugeben.",
+                textSarah: "Ich finde, wir sind beide zu stur, wenn es darum geht, eigene Fehler zuzugeben.",
+                textCouch: "Sturheits-Skala: Wer von uns beiden entschuldigt sich zuerst?"
+            },
+            {
+                id: "b1_806", cat: "cat2",
+                textBenni: "Ich habe Angst, dass wir unseren Kindern zu wenig 'echte' Erlebnisse bieten.",
+                textSarah: "Ich habe Angst, dass wir unseren Kindern zu wenig 'echte' Erlebnisse bieten.",
+                textCouch: "Erlebnis-Druck: Wie viel 'Programm' braucht ein Kind wirklich?"
+            },
+            {
+                id: "b1_807", cat: "cat9",
+                textBenni: "Ich glaube, dass wir beim Thema 'Reisen' oft Kompromisse machen, die eigentlich keinem gefallen.",
+                textSarah: "Ich glaube, dass wir beim Thema 'Reisen' oft Kompromisse machen, die eigentlich keinem gefallen.",
+                textCouch: "Kompromiss-Falle: Was ist der letzte Urlaub, den wir beide wirklich zu 100% genossen haben?"
+            },
+            {
+                id: "b1_808", cat: "cat6",
+                textBenni: "Warum haben wir oft so unterschiedliche Ansichten bei der Auswahl unseres sozialen Umfelds?",
+                textSarah: "Warum haben wir oft so unterschiedliche Ansichten bei der Auswahl unseres sozialen Umfelds?",
+                textCouch: "Sozial-Check: Welcher Freund/Freundin passt besser zu uns als Paar?"
+            },
+            {
+                id: "b1_809", cat: "cat7",
+                textBenni: "Wenn wir in 20 Jahren auf heute schauen – was werden wir bereuen?",
+                textSarah: "Wenn wir in 20 Jahren auf heute schauen – was werden wir bereuen?",
+                textCouch: "Reue-Prävention: Was können wir heute ändern, um es nicht zu bereuen?"
+            },
+            {
+                id: "b1_810", cat: "cat10",
+                textBenni: "Wie sehr belastet der Schlafmangel unser Vertrauen ineinander?",
+                textSarah: "Wie sehr belastet der Schlafmangel unser Vertrauen ineinander?",
+                textCouch: "Müdigkeits-Check: Wie können wir die Last des Schlafmangels besser teilen?"
+            },
+            {
+                id: "b1_811", cat: "cat11",
+                textBenni: "Ich habe Angst, dass wir unser Kind zu sehr in unsere eigenen Vorstellungen pressen.",
+                textSarah: "Ich habe Angst, dass wir unser Kind zu sehr in unsere eigenen Vorstellungen pressen.",
+                textCouch: "Press-Check: Welchen Erwartungsdruck üben wir unbewusst aus?"
+            },
+            {
+                id: "b1_812", cat: "cat12",
+                textBenni: "Ich glaube, unser Konsum von sozialen Medien verzerrt unser Bild von einem 'perfekten' Familienleben.",
+                textSarah: "Ich glaube, unser Konsum von sozialen Medien verzerrt unser Bild von einem 'perfekten' Familienleben.",
+                textCouch: "Perfektions-Wahn: Wie können wir unsere 'echte' Realität mehr wertschätzen?"
+            },
+            {
+                id: "b1_813", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir reden zu wenig über unsere tatsächlichen Gefühle und zu viel über Aufgaben.",
+                textSarah: "Ich habe das Gefühl, wir reden zu wenig über unsere tatsächlichen Gefühle und zu viel über Aufgaben.",
+                textCouch: "Gefühls-Ebene: Wie kriegen wir das Gefühlte zurück in den Dialog?"
+            },
+            {
+                id: "b1_814", cat: "cat5",
+                textBenni: "Wie viel 'Ich' darf in unserem 'Wir' noch existieren?",
+                textSarah: "Wie viel 'Ich' darf in unserem 'Wir' noch existieren?",
+                textCouch: "Autonomie-Check: Fühle ich mich aktuell noch als eigene Person?"
+            },
+            {
+                id: "b1_815", cat: "cat4",
+                textBenni: "Ich finde, wir sollten kritischer mit unserer eigenen Paardynamik umgehen.",
+                textSarah: "Ich finde, wir sollten kritischer mit unserer eigenen Paardynamik umgehen.",
+                textCouch: "Dynamik-Check: Welche Muster wiederholen wir immer wieder?"
+            },
+            {
+                id: "b1_816", cat: "cat1",
+                textBenni: "Ich finde, wir nehmen uns gegenseitig viel zu oft als 'selbstverständlich' hin.",
+                textSarah: "Ich finde, wir nehmen uns gegenseitig viel zu oft als 'selbstverständlich' hin.",
+                textCouch: "Selbstverständnis-Check: Was könnte ich heute tun, um deine Arbeit wertzuschätzen?"
+            },
+            {
+                id: "b1_817", cat: "cat3",
+                textBenni: "Ich glaube, unsere finanziellen Sorgen lassen uns manchmal blind für das Schöne sein.",
+                textSarah: "Ich glaube, unsere finanziellen Sorgen lassen uns manchmal blind für das Schöne sein.",
+                textCouch: "Sorgen-Fokus: Wie können wir trotz finanzieller Herausforderungen 'glücklich' sein?"
+            },
+            {
+                id: "b1_818", cat: "cat8",
+                textBenni: "Ich finde, wir sollten öfter Nein zu Dingen sagen, die uns eigentlich nichts bringen.",
+                textSarah: "Ich finde, wir sollten öfter Nein zu Dingen sagen, die uns eigentlich nichts bringen.",
+                textCouch: "Nein-Training: Was ist die letzte Sache, die wir nur aus 'Anstand' gemacht haben?"
+            },
+            {
+                id: "b1_819", cat: "cat6",
+                textBenni: "Ich habe das Gefühl, wir streiten uns oft über Dinge, die gar nicht das wahre Problem sind.",
+                textSarah: "Ich habe das Gefühl, wir streiten uns oft über Dinge, die gar nicht das wahre Problem sind.",
+                textCouch: "Kern-Problem: Was liegt unter der Oberfläche unseres letzten Streits?"
+            },
+            {
+                id: "b1_820", cat: "cat11",
+                textBenni: "Wie sehr beeinflussen unsere eigenen Eltern unsere aktuelle Erziehungshaltung?",
+                textSarah: "Wie sehr beeinflussen unsere eigenen Eltern unsere aktuelle Erziehungs- Haltung?",
+                textCouch: "Prägungs-Check: Was tun wir genau wie unsere Eltern, obwohl wir es eigentlich nie wollten?"
+            },
+            {
+                id: "b1_821", cat: "cat12",
+                textBenni: "Ich finde, wir sollten unsere digitale Kommunikation noch besser von 'Arbeit' trennen.",
+                textSarah: "Ich finde, wir sollten unsere digitale Kommunikation noch besser von 'Arbeit' trennen.",
+                textCouch: "Digital-Grenze: Ab wann ist ein Nachricht-Check 'Arbeitszeit'?"
+            },
+            {
+                id: "b1_822", cat: "cat2",
+                textBenni: "Ich habe das Gefühl, wir sind bei Erziehungsentscheidungen oft zu wenig mutig.",
+                textSarah: "Ich habe das Gefühl, wir sind bei Erziehungsentscheidungen oft zu wenig mutig.",
+                textCouch: "Mut-Check: Was wäre eine erzieherische Entscheidung, die uns mal 'echt' fordern würde?"
+            },
+            {
+                id: "b1_823", cat: "cat0",
+                textBenni: "Ich glaube, unsere Kommunikation ist im Stress oft zu scharf.",
+                textSarah: "Ich glaube, unsere Kommunikation im Stress ist oft zu scharf.",
+                textCouch: "Tonfall-Check: Wie können wir sanfter miteinander umgehen, wenn wir müde sind?"
+            },
+            {
+                id: "b1_824", cat: "cat5",
+                textBenni: "Ich finde, wir sollten öfter über unsere persönlichen Bedürfnisse außerhalb der Ehe sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere persönlichen Bedürfnisse außerhalb der Ehe sprechen.",
+                textCouch: "Bedürfnis-Check: Was fehlt mir außerhalb der Ehe, um glücklich zu sein?"
+            },
+            {
+                id: "b1_825", cat: "cat4",
+                textBenni: "Wie schaffen wir es, bei Meinungsverschiedenheiten respektvoll zu bleiben?",
+                textSarah: "Wie schaffen wir es, bei Meinungsverschiedenheiten respektvoll zu bleiben?",
+                textCouch: "Respekt-Level: Was ist die Grenze, die wir nie überschreiten sollten?"
+            },
+            {
+                id: "b1_826", cat: "cat1",
+                textBenni: "Ich habe manchmal den Eindruck, du hörst mir gar nicht wirklich zu.",
+                textSarah: "Ich habe manchmal den Eindruck, du hörst mir gar nicht wirklich zu.",
+                textCouch: "Zuhör-Check: Wie zeigst du mir, dass du bei mir bist?"
+            },
+            {
+                id: "b1_827", cat: "cat9",
+                textBenni: "Ich finde, unsere Art zu reisen ist mittlerweile zu 'vorhersehbar' geworden.",
+                textSarah: "Ich finde, unsere Art zu reisen ist mittlerweile zu 'vorhersehbar' geworden.",
+                textCouch: "Reise-Mut: Was wäre die wildeste Reise, die wir uns trauen würden?"
+            },
+            {
+                id: "b1_828", cat: "cat3",
+                textBenni: "Ich finde, wir sollten unsere finanziellen Entscheidungen öfter kritisch hinterfragen.",
+                textSarah: "Ich finde, wir sollten unsere finanziellen Entscheidungen öfter kritisch hinterfragen.",
+                textCouch: "Finanz-Check: Haben wir den Überblick?"
+            },
+            {
+                id: "b1_829", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, unsere Zukunfts-Visionen driften langsam auseinander.",
+                textSarah: "Ich habe das Gefühl, unsere Zukunfts-Visionen driften langsam auseinander.",
+                textCouch: "Vision-Check: Wohin soll die gemeinsame Reise gehen?"
+            },
+            {
+                id: "b1_830", cat: "cat6",
+                textBenni: "Ich finde unsere unterschiedliche Art, Konflikte auszusprechen, anstrengend.",
+                textSarah: "Ich finde unsere unterschiedliche Art, Konflikte auszusprechen, anstrengend.",
+                textCouch: "Aussprech-Modus: Wie finden wir einen gemeinsamen Nenner?"
+            },
+            {
+                id: "b1_831", cat: "cat11",
+                textBenni: "Wie sehr beeinflussen uns die Erwartungen unserer Freunde bei der Erziehung?",
+                textSarah: "Wie sehr beeinflussen uns die Erwartungen unserer Freunde bei der Erziehung?",
+                textCouch: "Erwartungs-Check: Sind wir noch wir selbst?"
+            },
+            {
+                id: "b1_832", cat: "cat12",
+                textBenni: "Ich finde, wir sollten öfter unsere digitalen Geräte beiseitelegen, um uns anzusehen.",
+                textSarah: "Ich finde, wir sollten öfter unsere digitalen Geräte beiseitelegen, um uns anzusehen.",
+                textCouch: "Blick-Check: Wann hast du mir zuletzt tief in die Augen geschaut?"
+            },
+            {
+                id: "b1_833", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, unsere gemeinsame Zeit ist zu stark durchstrukturiert.",
+                textSarah: "Ich habe das Gefühl, unsere gemeinsame Zeit ist zu stark durchstrukturiert.",
+                textCouch: "Freiheits-Check: Wo ist Raum für Zufall?"
+            },
+            {
+                id: "b1_834", cat: "cat5",
+                textBenni: "Ich finde, wir sollten uns öfter gegenseitig neue Impulse für unsere Freizeit geben.",
+                textSarah: "Ich finde, wir sollten uns öfter gegenseitig neue Impulse für unsere Freizeit geben.",
+                textCouch: "Impuls-Check: Was steht auf der Liste für dieses Jahr?"
+            },
+            {
+                id: "b1_835", cat: "cat4",
+                textBenni: "Ich habe das Gefühl, wir nehmen uns zu wenig Zeit, um uns als Paar zu feiern.",
+                textSarah: "Ich habe das Gefühl, wir nehmen uns zu wenig Zeit, um uns als Paar zu feiern.",
+                textCouch: "Feier-Check: Warum zelebrieren wir uns nicht öfter?"
+            },
+            {
+                id: "b1_836", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter über unsere Fehler reden, ohne uns gegenseitig zu verurteilen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Fehler reden, ohne uns gegenseitig zu verurteilen.",
+                textCouch: "Fehler-Dialog: Was fällt mir an meinem Umgang mit Fehlern schwer?"
+            },
+            {
+                id: "b1_837", cat: "cat11",
+                textBenni: "Ich möchte, dass unser Kind früh lernt, seinen eigenen Weg zu gehen.",
+                textSarah: "Ich möchte, dass unser Kind früh lernt, dass Familie die Basis ist.",
+                textCouch: "Weg-Wahl: Wie balancieren wir Freiheit und Bindung?"
+            },
+            {
+                id: "b1_838", cat: "cat12",
+                textBenni: "Ich finde unsere digitale Welt manchmal zu laut.",
+                textSarah: "Ich finde unsere digitale Welt manchmal zu laut.",
+                textCouch: "Stille-Check: Was bedeutet 'Ruhe' für uns digital?"
+            },
+            {
+                id: "b1_839", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, dass wir uns im Alltag zu wenig über unsere kleinen Erfolge freuen.",
+                textSarah: "Ich habe das Gefühl, dass wir uns im Alltag zu wenig über unsere kleinen Erfolge freuen.",
+                textCouch: "Erfolgs-Check: Was war mein kleinster Erfolg heute?"
+            },
+            {
+                id: "b1_840", cat: "cat5",
+                textBenni: "Ich finde, wir brauchen öfter neue Anreize, um uns fit zu halten.",
+                textSarah: "Ich finde, wir brauchen öfter neue Anreize, um uns fit zu halten.",
+                textCouch: "Fit-Check: Was machen wir dieses Jahr gemeinsam für die Gesundheit?"
+            },
+            {
+                id: "b1_841", cat: "cat6",
+                textBenni: "Ich finde unsere Meinungsverschiedenheiten bei der Kinderbetreuung oft schwierig.",
+                textSarah: "Ich finde unsere Meinungsverschiedenheiten bei der Kinderbetreuung oft schwierig.",
+                textCouch: "Betreuungs-Check: Wo hakt es am meisten?"
+            },
+            {
+                id: "b1_842", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über unsere Altersvorsorge sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Altersvorsorge sprechen.",
+                textCouch: "Alters-Check: Was ist unsere gemeinsame Vision?"
+            },
+            {
+                id: "b1_843", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter eine Auszeit als Familie.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter eine Auszeit als Familie.",
+                textCouch: "Auszeit-Check: Was bedeutet eine 'Pause' für uns als Familie?"
+            },
+            {
+                id: "b1_844", cat: "cat4",
+                textBenni: "Ich finde, unsere Kommunikation über Gefühle könnte noch ehrlicher sein.",
+                textSarah: "Ich finde, unsere Kommunikation über Gefühle könnte noch ehrlicher sein.",
+                textCouch: "Gefühls-Check: Wo bin ich gerade nicht ehrlich zu dir?"
+            },
+            {
+                id: "b1_845", cat: "cat1",
+                textBenni: "Ich habe das Gefühl, wir vernachlässigen manchmal das, was uns als Paar stark macht.",
+                textSarah: "Ich habe das Gefühl, wir vernachlässigen manchmal das, was uns als Paar stark macht.",
+                textCouch: "Stärke-Check: Was ist unser unschlagbares Paar-Merkmal?"
+            }, {
+                id: "b1_846", cat: "cat1",
+                textBenni: "Ich habe den Eindruck, dass wir manchmal zu sehr darauf bedacht sind, 'perfekt' zu wirken.",
+                textSarah: "Ich habe den Eindruck, dass wir manchmal zu sehr darauf bedacht sind, 'perfekt' zu wirken.",
+                textCouch: "Fassaden-Check: Wo spielen wir uns gegenseitig etwas vor?"
+            },
+            {
+                id: "b1_847", cat: "cat2",
+                textBenni: "Ich finde, wir sollten bei unserem Kind konsequenter bei den Regeln bleiben.",
+                textSarah: "Ich finde, wir sollten bei unserem Kind öfter die Regeln anpassen, wenn die Situation es erfordert.",
+                textCouch: "Regel-Dilemma: Wer von uns ist der 'Regel-Wächter' und wer der 'Anpasser'?"
+            },
+            {
+                id: "b1_848", cat: "cat3",
+                textBenni: "Ich habe das Gefühl, unsere unterschiedlichen Ausgabengewohnheiten belasten unser Vertrauen.",
+                textSarah: "Ich habe das Gefühl, unsere unterschiedlichen Ausgabengewohnheiten belasten unser Vertrauen.",
+                textCouch: "Finanz-Vertrauen: Wie viel Freiheit braucht jeder beim Ausgeben?"
+            },
+            {
+                id: "b1_849", cat: "cat6",
+                textBenni: "Ich finde unsere unterschiedliche Art, mit Konflikten bei Freunden umzugehen, anstrengend.",
+                textSarah: "Ich finde unsere unterschiedliche Art, mit Konflikten bei Freunden umzugehen, anstrengend.",
+                textCouch: "Freundes-Konflikt: Was ist unsere gemeinsame Linie?"
+            },
+            {
+                id: "b1_850", cat: "cat7",
+                textBenni: "Wenn wir morgen unseren kompletten Lebensstil ändern müssten – was wäre das erste, das geht?",
+                textSarah: "Wenn wir morgen unseren kompletten Lebensstil ändern müssten – was wäre das erste, das geht?",
+                textCouch: "Lifestyle-Audit: Was belastet uns mehr als es uns nützt?"
+            },
+            {
+                id: "b1_851", cat: "cat8",
+                textBenni: "Ich finde, wir sollten öfter über unsere 'No-Gos' im Alltag sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere 'No-Gos' im Alltag sprechen.",
+                textCouch: "No-Go-Check: Was ist das eine, das heute gar nicht geht?"
+            },
+            {
+                id: "b1_852", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass wir unseren Kindern mehr Mut zur Lücke beibringen.",
+                textSarah: "Ich wünsche mir, dass wir unseren Kindern mehr Struktur beibringen.",
+                textCouch: "Werte-Clash: Wie balancieren wir Lücke und Struktur?"
+            },
+            {
+                id: "b1_853", cat: "cat12",
+                textBenni: "Ich finde, wir sollten unsere digitale Kommunikation noch besser an unseren Alltag anpassen.",
+                textSarah: "Ich finde, wir sollten unsere digitale Kommunikation noch besser an unseren Alltag anpassen.",
+                textCouch: "Digitale Orga: Was ist der größte Zeitfresser im digitalen Alltag?"
+            },
+            {
+                id: "b1_854", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter einen 'Ehrlichkeit-Check' im Alltag.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter einen 'Ehrlichkeit-Check' im Alltag.",
+                textCouch: "Ehrlichkeit-Check: Was habe ich dir diese Woche verschwiegen, um dich zu schonen?"
+            },
+            {
+                id: "b1_855", cat: "cat5",
+                textBenni: "Ich finde, wir brauchen öfter Zeit für uns zwei – ohne Ablenkung.",
+                textSarah: "Ich finde, wir brauchen öfter Zeit für uns zwei – ohne Ablenkung.",
+                textCouch: "Ablenkungs-Check: Was steht uns aktuell am meisten im Weg?"
+            },
+            {
+                id: "b1_856", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir uns öfter an unsere gemeinsamen Visionen erinnern.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter an unsere gemeinsamen Visionen erinnern.",
+                textCouch: "Vision-Check: Welcher Traum verbindet uns heute noch am meisten?"
+            },
+            {
+                id: "b1_857", cat: "cat1",
+                textBenni: "Ich habe das Gefühl, dass wir uns bei Kleinigkeiten festbeißen.",
+                textSarah: "Ich habe das Gefühl, dass wir uns bei Kleinigkeiten festbeißen.",
+                textCouch: "Fokus-Check: Wie kommen wir vom Detail zum Wesentlichen?"
+            },
+            {
+                id: "b1_858", cat: "cat11",
+                textBenni: "Ich möchte, dass unser Kind früh lernt, seinen eigenen Weg zu gehen.",
+                textSarah: "Ich möchte, dass unser Kind früh lernt, seinen eigenen Weg zu gehen.",
+                textCouch: "Weg-Check: Unterstützen wir unser Kind genug?"
+            },
+            {
+                id: "b1_859", cat: "cat12",
+                textBenni: "Ich finde, wir sollten unsere digitale Welt noch kritischer betrachten.",
+                textSarah: "Ich finde, wir sollten unsere digitale Welt noch kritischer betrachten.",
+                textCouch: "Digital-Kritik: Was ist das Gefährlichste an unserem digitalen Alltag?"
+            },
+            {
+                id: "b1_860", cat: "cat0",
+                textBenni: "Ich finde, wir brauchen öfter eine 'Stimme' füreinander.",
+                textSarah: "Ich finde, wir brauchen öfter eine 'Stimme' füreinander.",
+                textCouch: "Stimme-Check: Wie können wir den anderen besser unterstützen?"
+            },
+            {
+                id: "b1_861", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir öfter neue Dinge gemeinsam erleben.",
+                textSarah: "Ich wünsche mir, dass wir öfter neue Dinge gemeinsam erleben.",
+                textCouch: "Erlebnis-Check: Wann haben wir zuletzt etwas komplett Neues versucht?"
+            },
+            {
+                id: "b1_862", cat: "cat6",
+                textBenni: "Ich finde unsere Art, mit Meinungsverschiedenheiten umzugehen, manchmal zu laut.",
+                textSarah: "Ich finde unsere Art, mit Meinungsverschiedenheiten umzugehen, manchmal zu laut.",
+                textCouch: "Lautstärke-Check: Wie können wir leiser streiten?"
+            },
+            {
+                id: "b1_863", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über unsere finanzielle Zukunft nachdenken.",
+                textSarah: "Ich finde, wir sollten öfter über unsere finanzielle Zukunft nachdenken.",
+                textCouch: "Zukunft-Check: Was brauchen wir für die finanzielle Sicherheit?"
+            },
+            {
+                id: "b1_864", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, unsere Pläne für die Familie sind manchmal zu starr.",
+                textSarah: "Ich habe das Gefühl, unsere Pläne für die Familie sind manchmal zu starr.",
+                textCouch: "Flexibilitäts-Check: Was können wir heute spontaner angehen?"
+            },
+            {
+                id: "b1_865", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir uns öfter Komplimente machen.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter Komplimente machen.",
+                textCouch: "Kompliment-Check: Was hat dich heute an mir berührt?"
+            },
+            {
+                id: "b1_866", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter unsere Schwächen gemeinsam akzeptieren.",
+                textSarah: "Ich finde, wir sollten öfter unsere Schwächen gemeinsam akzeptieren.",
+                textCouch: "Schwächen-Check: Wo können wir noch toleranter sein?"
+            },
+            {
+                id: "b1_867", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass wir unser Kind ermutigen, seine eigene Meinung zu sagen.",
+                textSarah: "Ich wünsche mir, dass wir unser Kind ermutigen, seine eigene Meinung zu sagen.",
+                textCouch: "Meinungs-Stolz: Welcher Ausdruck unseres Kindes hat mich heute stolz gemacht?"
+            },
+            {
+                id: "b1_868", cat: "cat12",
+                textBenni: "Ich finde, unsere Zeit am Handy sollte bewusster sein.",
+                textSarah: "Ich finde, unsere Zeit am Handy sollte bewusster sein.",
+                textCouch: "Bewusstseins-Check: Wofür nutzen wir unsere Handyzeit wirklich?"
+            },
+            {
+                id: "b1_869", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter einen 'Tag für uns'.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter einen 'Tag für uns'.",
+                textCouch: "Tag-Check: Wann ist der nächste Paar-Tag?"
+            },
+            {
+                id: "b1_870", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns öfter gegenseitig neue Ziele setzen.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter gegenseitig neue Ziele setzen.",
+                textCouch: "Ziel-Check: Was ist mein neues Ziel für unsere Beziehung?"
+            },
+            {
+                id: "b1_871", cat: "cat6",
+                textBenni: "Ich finde unsere Art, uns gegenseitig zu fordern, toll.",
+                textSarah: "Ich finde unsere Art, uns gegenseitig zu fordern, toll.",
+                textCouch: "Fordern-Check: In welcher Hinsicht forderst du mich heute?"
+            },
+            {
+                id: "b1_872", cat: "cat3",
+                textBenni: "Ich finde, wir sollten unsere finanziellen Möglichkeiten öfter feiern.",
+                textSarah: "Ich finde, wir sollten unsere finanziellen Möglichkeiten öfter feiern.",
+                textCouch: "Feier-Check: Was haben wir gemeinsam erreicht?"
+            },
+            {
+                id: "b1_873", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter eine Auszeit vom Alltag.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter eine Auszeit vom Alltag.",
+                textCouch: "Auszeit-Check: Wo ist unser perfekter Ort zum Abschalten?"
+            },
+            {
+                id: "b1_874", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textSarah: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textCouch: "Feier-Check: Warum lieben wir uns heute besonders?"
+            },
+            {
+                id: "b1_875", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter unsere gemeinsame Entwicklung feiern.",
+                textSarah: "Ich finde, wir sollten öfter unsere gemeinsame Entwicklung feiern.",
+                textCouch: "Entwicklungs-Check: Was haben wir zusammen gelernt?"
+            },
+            {
+                id: "b1_876", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass wir unserem Kind die Welt zeigen.",
+                textSarah: "Ich wünsche mir, dass wir unserem Kind die Welt zeigen.",
+                textCouch: "Welt-Entdecker: Welchen Ort müssen wir als Familie unbedingt besuchen?"
+            },
+            {
+                id: "b1_877", cat: "cat12",
+                textBenni: "Ich finde, unsere digitale Dokumentation sollte einfacher sein.",
+                textSarah: "Ich finde, unsere digitale Dokumentation sollte einfacher sein.",
+                textCouch: "Orga-Check: Wie können wir unsere Fotos einfacher teilen?"
+            },
+            {
+                id: "b1_878", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter ein gemeinsames Ziel.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter ein gemeinsames Ziel.",
+                textCouch: "Ziel-Check: Welches Projekt steht als nächstes an?"
+            },
+            {
+                id: "b1_879", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns öfter neue Herausforderungen suchen.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter neue Herausforderungen suchen.",
+                textCouch: "Herausforderungs-Check: Was ist unsere nächste Herausforderung?"
+            },
+            {
+                id: "b1_880", cat: "cat6",
+                textBenni: "Ich finde unsere Art, uns zu streiten, interessant.",
+                textSarah: "Ich finde unsere Art, uns zu streiten, interessant.",
+                textCouch: "Streit-Check: Was haben wir im letzten Streit gelernt?"
+            },
+            {
+                id: "b1_881", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über unsere Ausgaben sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Ausgaben sprechen.",
+                textCouch: "Finanz-Check: Wie können wir unsere Ausgaben besser steuern?"
+            },
+            {
+                id: "b1_882", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, unsere Pläne für die Familie sind oft zu ambitioniert.",
+                textSarah: "Ich habe das Gefühl, unsere Pläne für die Familie sind oft zu ambitioniert.",
+                textCouch: "Pläne-Check: Wie schaffen wir es, den Alltag zu entspannen?"
+            },
+            {
+                id: "b1_883", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir unsere Liebe öfter mit kleinen Gesten zeigen.",
+                textSarah: "Ich wünsche mir, dass wir unsere Liebe öfter mit kleinen Gesten zeigen.",
+                textCouch: "Gesten-Check: Was ist eine kleine Geste, die mich heute glücklich macht?"
+            },
+            {
+                id: "b1_884", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter über unsere Ängste reden.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Ängste reden.",
+                textCouch: "Angst-Check: Was macht mir aktuell Sorgen?"
+            },
+            {
+                id: "b1_885", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass unser Kind die Welt mit offenen Augen sieht.",
+                textSarah: "Ich wünsche mir, dass unser Kind die Welt mit offenen Augen sieht.",
+                textCouch: "Augen-Check: Was hat unser Kind heute überrascht?"
+            },
+            {
+                id: "b1_886", cat: "cat12",
+                textBenni: "Ich finde unsere digitale Welt spannend.",
+                textSarah: "Ich finde unsere digitale Welt spannend.",
+                textCouch: "Digital-Check: Welchen Aspekt unserer digitalen Welt schätzen wir besonders?"
+            },
+            {
+                id: "b1_887", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter gemeinsame Momente im Alltag.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter gemeinsame Momente im Alltag.",
+                textCouch: "Moment-Check: Welcher Moment hat uns heute verbunden?"
+            },
+            {
+                id: "b1_888", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns öfter neue Ziele stecken.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter neue Ziele stecken.",
+                textCouch: "Ziel-Check: Was ist ein Ziel, das wir diese Woche erreichen?"
+            },
+            {
+                id: "b1_889", cat: "cat6",
+                textBenni: "Ich finde unsere Art, uns zu ergänzen, toll.",
+                textSarah: "Ich finde unsere Art, uns zu ergänzen, toll.",
+                textCouch: "Ergänzungs-Check: Wo ergänzen wir uns heute am besten?"
+            },
+            {
+                id: "b1_890", cat: "cat3",
+                textBenni: "Ich finde, wir sollten unsere finanziellen Ziele öfter feiern.",
+                textSarah: "Ich finde, wir sollten unsere finanziellen Ziele öfter feiern.",
+                textCouch: "Erfolgs-Check: Welches Ziel haben wir zuletzt erreicht?"
+            },
+            {
+                id: "b1_891", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter eine gemeinsame Zeit.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter eine gemeinsame Zeit.",
+                textCouch: "Zeit-Check: Wann ist unsere nächste gemeinsame Auszeit?"
+            },
+            {
+                id: "b1_892", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir unsere Liebe jeden Tag neu entdecken.",
+                textSarah: "Ich wünsche mir, dass wir unsere Liebe jeden Tag neu entdecken.",
+                textCouch: "Entdeckungs-Check: Was habe ich heute Neues an dir bemerkt?"
+            },
+            {
+                id: "b1_893", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter über unsere Träume reden.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Träume reden.",
+                textCouch: "Traum-Check: Welcher Traum hat uns heute beschäftigt?"
+            },
+            {
+                id: "b1_894", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass unser Kind unsere Werte lebt.",
+                textSarah: "Ich wünsche mir, dass unser Kind unsere Werte lebt.",
+                textCouch: "Werte-Check: Wie können wir Werte noch besser vorleben?"
+            },
+            {
+                id: "b1_895", cat: "cat12",
+                textBenni: "Ich finde, unsere digitale Welt ist ein toller Ort für Inspiration.",
+                textSarah: "Ich finde, unsere digitale Welt ist ein toller Ort für Inspiration.",
+                textCouch: "Inspirations-Check: Wo hast du zuletzt etwas Inspirierendes digital gefunden?"
+            },
+            {
+                id: "b1_896", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter ein gemeinsames Ritual.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter ein gemeinsames Ritual.",
+                textCouch: "Ritual-Check: Welches neue Ritual könnten wir morgen starten?"
+            },
+            {
+                id: "b1_897", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns öfter gegenseitig herausfordern.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter gegenseitig herausfordern.",
+                textCouch: "Herausforderungs-Check: Wie können wir uns heute gegenseitig pushen?"
+            },
+            {
+                id: "b1_898", cat: "cat6",
+                textBenni: "Ich finde unsere Art, Probleme zu lösen, beeindruckend.",
+                textSarah: "Ich finde unsere Art, Probleme zu lösen, beeindruckend.",
+                textCouch: "Lösungs-Check: Wie können wir die nächste Herausforderung gemeinsam angehen?"
+            },
+            {
+                id: "b1_899", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über unsere finanzielle Zukunft sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere finanzielle Zukunft sprechen.",
+                textCouch: "Zukunfts-Check: Was ist uns in 10 Jahren finanziell wichtig?"
+            },
+            {
+                id: "b1_900", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter einen gemeinsamen Plan für die Familie.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter einen gemeinsamen Plan für die Familie.",
+                textCouch: "Plan-Check: Wo steht unser Familien-Projekt gerade?"
+            },
+            {
+                id: "b1_901", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textSarah: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textCouch: "Feier-Check: Was ist ein Grund, warum wir uns heute feiern sollten?"
+            },
+            {
+                id: "b1_902", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter über unsere Fehler reden.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Fehler reden.",
+                textCouch: "Fehler-Check: Was war mein wichtigster Fehler diese Woche?"
+            },
+            {
+                id: "b1_903", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass wir unser Kind ermutigen, seine eigene Stimme zu finden.",
+                textSarah: "Ich wünsche mir, dass wir unser Kind ermutigen, seine eigene Stimme zu finden.",
+                textCouch: "Stimme-Check: Wie kann ich mein Kind heute unterstützen?"
+            },
+            {
+                id: "b1_904", cat: "cat12",
+                textBenni: "Ich finde, unsere digitale Welt braucht öfter mal einen 'Reset-Button'.",
+                textSarah: "Ich finde, unsere digitale Welt braucht öfter mal einen 'Reset-Button'.",
+                textCouch: "Reset-Check: Was bedeutet 'Ruhe' für uns digital?"
+            },
+            {
+                id: "b1_905", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter eine gemeinsame Zeit.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter eine gemeinsame Zeit.",
+                textCouch: "Zeit-Check: Wie gestalten wir unseren Abend heute?"
+            },
+            {
+                id: "b1_906", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns öfter neue Ziele stecken.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter neue Ziele stecken.",
+                textCouch: "Ziel-Check: Was ist mein neues Ziel für uns?"
+            },
+            {
+                id: "b1_907", cat: "cat6",
+                textBenni: "Ich finde unsere Art, uns zu streiten, interessant.",
+                textSarah: "Ich finde unsere Art, uns zu streiten, interessant.",
+                textCouch: "Streit-Check: Wie kommen wir nach einem Streit wieder zusammen?"
+            },
+            {
+                id: "b1_908", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über unsere Ausgaben sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Ausgaben sprechen.",
+                textCouch: "Ausgaben-Check: Was hat mich heute überrascht?"
+            },
+            {
+                id: "b1_909", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, unsere Pläne für die Zukunft sind zu 'fest'.",
+                textSarah: "Ich habe das Gefühl, unsere Pläne für die Zukunft sind zu 'fest'.",
+                textCouch: "Flexibilitäts-Check: Was können wir heute lockerer sehen?"
+            },
+            {
+                id: "b1_910", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textSarah: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textCouch: "Feier-Check: Warum ist heute ein guter Tag für uns?"
+            },
+            {
+                id: "b1_911", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter über unsere Sorgen sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Sorgen sprechen.",
+                textCouch: "Sorgen-Check: Was kann ich heute von dir nehmen?"
+            },
+            {
+                id: "b1_912", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass wir unserem Kind die Welt zeigen.",
+                textSarah: "Ich wünsche mir, dass wir unserem Kind die Welt zeigen.",
+                textCouch: "Welt-Check: Wo wollen wir als Familie als nächstes hin?"
+            },
+            {
+                id: "b1_913", cat: "cat12",
+                textBenni: "Ich finde unsere digitale Welt ist ein toller Ort.",
+                textSarah: "Ich finde unsere digitale Welt ist ein toller Ort.",
+                textCouch: "Digital-Check: Welches digitale Tool hilft uns am meisten?"
+            },
+            {
+                id: "b1_914", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter einen 'Reset'.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter einen 'Reset'.",
+                textCouch: "Reset-Check: Was hilft uns am schnellsten, neu zu starten?"
+            },
+            {
+                id: "b1_915", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns öfter neue Ziele setzen.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter neue Ziele setzen.",
+                textCouch: "Ziel-Check: Was ist unsere nächste gemeinsame Herausforderung?"
+            },
+            {
+                id: "b1_916", cat: "cat6",
+                textBenni: "Ich finde unsere Art, Kompromisse zu finden, toll.",
+                textSarah: "Ich finde unsere Art, Kompromisse zu finden, toll.",
+                textCouch: "Kompromiss-Check: Welcher Kompromiss hat uns heute gerettet?"
+            },
+            {
+                id: "b1_917", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über unsere finanzielle Freiheit sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere finanzielle Freiheit sprechen.",
+                textCouch: "Freiheits-Check: Was bedeutet Freiheit für mich?"
+            },
+            {
+                id: "b1_918", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, unsere Pläne für die Familie sind toll.",
+                textSarah: "Ich habe das Gefühl, unsere Pläne für die Familie sind toll.",
+                textCouch: "Plan-Check: Was ist das nächste Familien-Abenteuer?"
+            },
+            {
+                id: "b1_919", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textSarah: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textCouch: "Feier-Check: Was ist ein Grund zum Feiern?"
+            },
+            {
+                id: "b1_920", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter über unsere Fehler reden.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Fehler reden.",
+                textCouch: "Fehler-Check: Was habe ich heute gelernt?"
+            }, {
+                id: "b1_921", cat: "cat1",
+                textBenni: "Ich habe den Eindruck, dass wir manchmal mehr Zeit damit verbringen, uns zu rechtfertigen, als uns zuzuhören.",
+                textSarah: "Ich habe den Eindruck, dass wir manchmal mehr Zeit damit verbringen, uns zu rechtfertigen, als uns zuzuhören.",
+                textCouch: "Rechtfertigungs-Falle: Wann war das letzte Mal, dass ich einfach nur zugehört habe, ohne mich verteidigen zu wollen?"
+            },
+            {
+                id: "b1_922", cat: "cat2",
+                textBenni: "Ich finde, wir sollten uns öfter fragen, ob wir unser Kind 'erziehen' oder 'begleiten'.",
+                textSarah: "Ich finde, wir sollten uns öfter fragen, ob wir unser Kind 'erziehen' oder 'begleiten'.",
+                textCouch: "Erziehungs-Paradigma: Wo liegt für uns der Unterschied in unserem täglichen Handeln?"
+            },
+            {
+                id: "b1_923", cat: "cat3",
+                textBenni: "Ich habe das Gefühl, unsere unterschiedlichen Einstellungen zum Thema Sparen/Ausgeben sind eine dauerhafte Reibungsfläche.",
+                textSarah: "Ich habe das Gefühl, unsere unterschiedlichen Einstellungen zum Thema Sparen/Ausgeben sind eine dauerhafte Reibungsfläche.",
+                textCouch: "Finanz-Temperament: Wie werden wir aus dieser 'Reibung' eine 'Synergie'?"
+            },
+            {
+                id: "b1_924", cat: "cat6",
+                textBenni: "Ich finde es oft schwierig, wie du meine Kritik an deinen Plänen als persönlichen Angriff wertest.",
+                textSarah: "Ich finde es oft schwierig, wie du meine Pläne als 'zu chaotisch' abtust, statt sie als Einladung zum Mitmachen zu sehen.",
+                textCouch: "Planungs-Clash: Wie können wir gemeinsam planen, ohne dass einer sich kontrolliert und der andere sich ignoriert fühlt?"
+            },
+            {
+                id: "b1_925", cat: "cat7",
+                textBenni: "Wenn wir in 30 Jahren auf unser Leben schauen, was ist die eine Entscheidung, bei der wir mutiger hätten sein sollen?",
+                textSarah: "Wenn wir in 30 Jahren auf unser Leben schauen, was ist die eine Entscheidung, bei der wir mutiger hätten sein sollen?",
+                textCouch: "Mut-Audit: Wo halten wir uns aktuell unnötig zurück?"
+            },
+            {
+                id: "b1_926", cat: "cat11",
+                textBenni: "Ich mache mir manchmal Sorgen, dass wir unserem Kind zu viel abnehmen.",
+                textSarah: "Ich mache mir manchmal Sorgen, dass wir unserem Kind zu wenig Halt bieten.",
+                textCouch: "Wachstums-Schmerz: An welcher Stelle müssen wir uns bewusst zurücknehmen, damit unser Kind wächst?"
+            },
+            {
+                id: "b1_927", cat: "cat12",
+                textBenni: "Ich finde, unsere Art zu kommunizieren wird durch das ständige Tippen von Nachrichten unpersönlicher.",
+                textSarah: "Ich finde, unsere Art zu kommunizieren wird durch das ständige Tippen von Nachrichten unpersönlicher.",
+                textCouch: "Wort-Wahl: Können wir wieder öfter 'echt' telefonieren oder reden, statt nur zu schreiben?"
+            },
+            {
+                id: "b1_928", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter einen 'Ehrlichkeit-Check' im Alltag.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter einen 'Ehrlichkeit-Check' im Alltag.",
+                textCouch: "Ehrlichkeit-Check: Welches 'kleine' Problem schweigen wir gerade tot?"
+            },
+            {
+                id: "b1_929", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns öfter gegenseitig zu neuen Hobbys ermutigen.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter gegenseitig zu neuen Hobbys ermutigen.",
+                textCouch: "Hobby-Check: Was würde der andere wohl tun, wenn er keine 'Verantwortung' für mich hätte?"
+            },
+            {
+                id: "b1_930", cat: "cat4",
+                textBenni: "Ich habe das Gefühl, unsere Intimität leidet unter dem Alltags-Stress.",
+                textSarah: "Ich habe das Gefühl, unsere Intimität leidet unter dem Alltags-Stress.",
+                textCouch: "Intimitäts-Check: Wie können wir die Flamme im Dauerbetrieb der Elternrolle am Leben erhalten?"
+            },
+            {
+                id: "b1_931", cat: "cat1",
+                textBenni: "Ich habe den Eindruck, dass du meine Art der Problemlösung oft als 'falsch' betrachtest.",
+                textSarah: "Ich habe den Eindruck, dass du meine Art der Problemlösung oft als 'zu emotional' betrachtest.",
+                textCouch: "Lösungs-Clash: Wie finden wir eine Sprache, die für beide Ansätze offen ist?"
+            },
+            {
+                id: "b1_932", cat: "cat8",
+                textBenni: "Ich finde, wir sollten öfter über unsere langfristigen Ziele als Familie sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere langfristigen Ziele als Familie sprechen.",
+                textCouch: "Ziel-Horizont: Wo stehen wir in 5 Jahren, wenn alles optimal läuft?"
+            },
+            {
+                id: "b1_933", cat: "cat6",
+                textBenni: "Ich finde es oft schwierig, wenn wir uns vor Freunden/Familie uneinig zeigen.",
+                textSarah: "Ich finde es oft schwierig, wenn wir uns vor Freunden/Familie uneinig zeigen.",
+                textCouch: "Fronten-Check: Wie können wir bei Meinungsverschiedenheiten nach außen ein Team bleiben?"
+            },
+            {
+                id: "b1_934", cat: "cat11",
+                textBenni: "Ich habe Sorge, dass unser Kind zu sehr in 'unsere' Schubladen gesteckt wird.",
+                textSarah: "Ich habe Sorge, dass unser Kind zu sehr in 'unsere' Schubladen gesteckt wird.",
+                textCouch: "Schubladen-Check: Welches Image haben wir unserem Kind unbewusst übergestülpt?"
+            },
+            {
+                id: "b1_935", cat: "cat12",
+                textBenni: "Ich finde, unsere Zeit am Handy sollte öfter 'nach Vereinbarung' sein.",
+                textSarah: "Ich finde, unsere Zeit am Handy sollte öfter 'nach Vereinbarung' sein.",
+                textCouch: "Vereinbarungs-Check: Welche Handy-Regel brauchen wir als Paar?"
+            },
+            {
+                id: "b1_936", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, unsere Morgenroutine braucht einen neuen 'Anker'.",
+                textSarah: "Ich habe das Gefühl, unsere Morgenroutine braucht einen neuen 'Anker'.",
+                textCouch: "Morgen-Anker: Was könnten wir ab morgen gemeinsam tun, bevor der Trubel losgeht?"
+            },
+            {
+                id: "b1_937", cat: "cat5",
+                textBenni: "Ich wünsche mir mehr 'spontane' gemeinsame Zeit, statt nur durchgetaktete.",
+                textSarah: "Ich wünsche mir mehr 'spontane' gemeinsame Zeit, statt nur durchgetaktete.",
+                textCouch: "Spontanitäts-Check: Welches Abenteuer starten wir heute Abend spontan?"
+            },
+            {
+                id: "b1_938", cat: "cat3",
+                textBenni: "Ich habe den Eindruck, wir haben eine unterschiedliche Definition von 'Sicherheit'.",
+                textSarah: "Ich habe den Eindruck, wir haben eine unterschiedliche Definition von 'Sicherheit'.",
+                textCouch: "Sicherheits-Check: Was ist das absolute Minimum, um uns sicher zu fühlen?"
+            },
+            {
+                id: "b1_939", cat: "cat4",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter ein 'Update' über unsere Gefühle.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter ein 'Update' über unsere Gefühle.",
+                textCouch: "Gefühls-Update: Was hast du mir diese Woche noch nicht gesagt?"
+            },
+            {
+                id: "b1_940", cat: "cat1",
+                textBenni: "Ich habe den Eindruck, wir lassen uns zu oft von Kleinigkeiten stressen.",
+                textSarah: "Ich habe den Eindruck, wir lassen uns zu oft von Kleinigkeiten stressen.",
+                textCouch: "Stress-Check: Welcher Alltags-Kleinkram belastet uns über Gebühr?"
+            },
+            {
+                id: "b1_941", cat: "cat11",
+                textBenni: "Ich möchte, dass unser Kind lernt, dass es in Ordnung ist, 'nein' zu sagen.",
+                textSarah: "Ich möchte, dass unser Kind lernt, dass Höflichkeit sehr wichtig ist.",
+                textCouch: "Grenzen-Werte: Wie balancieren wir Selbstbehauptung und Höflichkeit?"
+            },
+            {
+                id: "b1_942", cat: "cat12",
+                textBenni: "Ich finde, unsere digitale Kommunikation sollte öfter 'menschlich' sein.",
+                textSarah: "Ich finde, unsere digitale Kommunikation sollte öfter 'menschlich' sein.",
+                textCouch: "Mensch-Check: Können wir unsere Nachrichten noch persönlicher gestalten?"
+            },
+            {
+                id: "b1_943", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter eine 'echte' Pause.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter eine 'echte' Pause.",
+                textCouch: "Pause-Check: Was bedeutet eine 'echte' Pause für jeden von uns?"
+            },
+            {
+                id: "b1_944", cat: "cat5",
+                textBenni: "Ich wünsche mir mehr gemeinsame 'neue' Erlebnisse.",
+                textSarah: "Ich wünsche mir mehr gemeinsame 'neue' Erlebnisse.",
+                textCouch: "Neu-Check: Welches neue Erlebnis steht als nächstes an?"
+            },
+            {
+                id: "b1_945", cat: "cat6",
+                textBenni: "Ich finde unsere Art, uns zu ergänzen, manchmal anstrengend.",
+                textSarah: "Ich finde unsere Art, uns zu ergänzen, manchmal anstrengend.",
+                textCouch: "Ergänzungs-Check: Wo prallen unsere Stärken aufeinander?"
+            },
+            {
+                id: "b1_946", cat: "cat3",
+                textBenni: "Ich finde, wir sollten unsere finanziellen Träume öfter teilen.",
+                textSarah: "Ich finde, wir sollten unsere finanziellen Träume öfter teilen.",
+                textCouch: "Traum-Check: Welcher Finanz-Traum verbindet uns?"
+            },
+            {
+                id: "b1_947", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter einen 'Familien-Check'.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter einen 'Familien-Check'.",
+                textCouch: "Familien-Check: Wie läuft es bei uns gerade?"
+            },
+            {
+                id: "b1_948", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textSarah: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textCouch: "Feier-Check: Warum ist heute ein Tag zum Feiern?"
+            },
+            {
+                id: "b1_949", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter über unsere Fehler reden.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Fehler reden.",
+                textCouch: "Fehler-Check: Was haben wir diese Woche gelernt?"
+            },
+            {
+                id: "b1_950", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass unser Kind seine eigene Stimme findet.",
+                textSarah: "Ich wünsche mir, dass unser Kind seine eigene Stimme findet.",
+                textCouch: "Stimme-Check: Wie unterstützen wir unser Kind dabei?"
+            },
+            {
+                id: "b1_951", cat: "cat12",
+                textBenni: "Ich finde unsere digitale Welt spannend.",
+                textSarah: "Ich finde unsere digitale Welt spannend.",
+                textCouch: "Digital-Check: Welches Tool hilft uns heute am meisten?"
+            },
+            {
+                id: "b1_952", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter gemeinsame Zeit.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter gemeinsame Zeit.",
+                textCouch: "Zeit-Check: Wie gestalten wir den Rest des Tages?"
+            },
+            {
+                id: "b1_953", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns öfter neue Ziele setzen.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter neue Ziele setzen.",
+                textCouch: "Ziel-Check: Was sind unsere Ziele für die nächste Woche?"
+            },
+            {
+                id: "b1_954", cat: "cat6",
+                textBenni: "Ich finde unsere Art, uns zu streiten, interessant.",
+                textSarah: "Ich finde unsere Art, uns zu streiten, interessant.",
+                textCouch: "Streit-Check: Wie finden wir heute wieder zueinander?"
+            },
+            {
+                id: "b1_955", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über unsere Ausgaben sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Ausgaben sprechen.",
+                textCouch: "Ausgaben-Check: Welcher Erfolg war heute finanziell?"
+            },
+            {
+                id: "b1_956", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, unsere Pläne sind toll.",
+                textSarah: "Ich habe das Gefühl, unsere Pläne sind toll.",
+                textCouch: "Pläne-Check: Was steht als nächstes an?"
+            },
+            {
+                id: "b1_957", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textSarah: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textCouch: "Feier-Check: Warum ist heute Liebe?"
+            },
+            {
+                id: "b1_958", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter über unsere Sorgen sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Sorgen sprechen.",
+                textCouch: "Sorgen-Check: Was kann ich heute von dir halten?"
+            },
+            {
+                id: "b1_959", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass unser Kind unsere Werte lebt.",
+                textSarah: "Ich wünsche mir, dass unser Kind unsere Werte lebt.",
+                textCouch: "Werte-Check: Was ist ein Wert, den wir heute gelebt haben?"
+            },
+            {
+                id: "b1_960", cat: "cat12",
+                textBenni: "Ich finde, unsere digitale Welt ist toll.",
+                textSarah: "Ich finde, unsere digitale Welt ist toll.",
+                textCouch: "Digital-Check: Welcher digitale Moment war heute der beste?"
+            },
+            {
+                id: "b1_961", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter einen 'Reset'.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter einen 'Reset'.",
+                textCouch: "Reset-Check: Was gibt uns heute den meisten Frieden?"
+            },
+            {
+                id: "b1_962", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns öfter gegenseitig pushen.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter gegenseitig pushen.",
+                textCouch: "Push-Check: Wo brauchen wir heute Energie?"
+            },
+            {
+                id: "b1_963", cat: "cat6",
+                textBenni: "Ich finde unsere Art, Probleme zu lösen, toll.",
+                textSarah: "Ich finde unsere Art, Probleme zu lösen, toll.",
+                textCouch: "Lösungs-Check: Was war heute unsere beste Lösung?"
+            },
+            {
+                id: "b1_964", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über Freiheit sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über Freiheit sprechen.",
+                textCouch: "Freiheits-Check: Was bedeutet Freiheit heute für uns?"
+            },
+            {
+                id: "b1_965", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, unsere Pläne sind klasse.",
+                textSarah: "Ich habe das Gefühl, unsere Pläne sind klasse.",
+                textCouch: "Plan-Check: Welches nächste Familien-Event steht an?"
+            },
+            {
+                id: "b1_966", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textSarah: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textCouch: "Feier-Check: Warum zelebrieren wir uns heute?"
+            },
+            {
+                id: "b1_967", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter über unsere Fehler sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Fehler sprechen.",
+                textCouch: "Fehler-Check: Was haben wir heute gelernt?"
+            },
+            {
+                id: "b1_968", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass unser Kind seine eigene Stimme findet.",
+                textSarah: "Ich wünsche mir, dass unser Kind seine eigene Stimme findet.",
+                textCouch: "Stimme-Check: Was war heute die Stimme unseres Kindes?"
+            },
+            {
+                id: "b1_969", cat: "cat12",
+                textBenni: "Ich finde, unsere digitale Welt ist spannend.",
+                textSarah: "Ich finde, unsere digitale Welt ist spannend.",
+                textCouch: "Digital-Check: Wo ist unsere digitale Grenze heute?"
+            },
+            {
+                id: "b1_970", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter gemeinsame Momente.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter gemeinsame Momente.",
+                textCouch: "Moment-Check: Was war der schönste Moment heute?"
+            },
+            {
+                id: "b1_971", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns öfter neue Ziele setzen.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter neue Ziele setzen.",
+                textCouch: "Ziel-Check: Welches Ziel erreichen wir heute?"
+            },
+            {
+                id: "b1_972", cat: "cat6",
+                textBenni: "Ich finde unsere Art, uns zu ergänzen, interessant.",
+                textSarah: "Ich finde unsere Art, uns zu ergänzen, interessant.",
+                textCouch: "Ergänzungs-Check: Wer von uns glänzt heute mehr?"
+            },
+            {
+                id: "b1_973", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über unsere Zukunft sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Zukunft sprechen.",
+                textCouch: "Zukunfts-Check: Was steht heute bei uns im Fokus?"
+            },
+            {
+                id: "b1_974", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, unsere Pläne sind toll.",
+                textSarah: "Ich habe das Gefühl, unsere Pläne sind toll.",
+                textCouch: "Plan-Check: Was macht unseren Plan so gut?"
+            },
+            {
+                id: "b1_975", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textSarah: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textCouch: "Feier-Check: Warum ist heute Liebe ein Fest?"
+            },
+            {
+                id: "b1_976", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter über unsere Sorgen sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Sorgen sprechen.",
+                textCouch: "Sorgen-Check: Was ist meine größte Sorge heute?"
+            },
+            {
+                id: "b1_977", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass unser Kind die Welt sieht.",
+                textSarah: "Ich wünsche mir, dass unser Kind die Welt sieht.",
+                textCouch: "Welt-Check: Wo wollen wir heute gemeinsam sein?"
+            },
+            {
+                id: "b1_978", cat: "cat12",
+                textBenni: "Ich finde unsere digitale Welt spannend.",
+                textSarah: "Ich finde unsere digitale Welt spannend.",
+                textCouch: "Digital-Check: Welcher Teil unserer Welt ist heute digital?"
+            },
+            {
+                id: "b1_979", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter 'Reset'.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter 'Reset'.",
+                textCouch: "Reset-Check: Wie starten wir neu?"
+            },
+            {
+                id: "b1_980", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns öfter pushen.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter pushen.",
+                textCouch: "Push-Check: Wohin pushen wir uns heute?"
+            },
+            {
+                id: "b1_981", cat: "cat6",
+                textBenni: "Ich finde unsere Art, Probleme zu lösen, klasse.",
+                textSarah: "Ich finde unsere Art, Probleme zu lösen, klasse.",
+                textCouch: "Lösungs-Check: Welche Lösung ist heute die beste?"
+            },
+            {
+                id: "b1_982", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über Freiheit sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über Freiheit sprechen.",
+                textCouch: "Freiheits-Check: Was bedeutet heute Freiheit?"
+            },
+            {
+                id: "b1_983", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, unsere Pläne sind großartig.",
+                textSarah: "Ich habe das Gefühl, unsere Pläne sind großartig.",
+                textCouch: "Plan-Check: Was ist unser nächster Schritt?"
+            },
+            {
+                id: "b1_984", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir unsere Liebe feiern.",
+                textSarah: "Ich wünsche mir, dass wir unsere Liebe feiern.",
+                textCouch: "Feier-Check: Warum ist heute Liebe angesagt?"
+            },
+            {
+                id: "b1_985", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter über Fehler reden.",
+                textSarah: "Ich finde, wir sollten öfter über Fehler reden.",
+                textCouch: "Fehler-Check: Was habe ich heute gelernt?"
+            },
+            {
+                id: "b1_986", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass unser Kind seine Stimme findet.",
+                textSarah: "Ich wünsche mir, dass unser Kind seine Stimme findet.",
+                textCouch: "Stimme-Check: Wie klingt unser Kind heute?"
+            },
+            {
+                id: "b1_987", cat: "cat12",
+                textBenni: "Ich finde unsere digitale Welt spannend.",
+                textSarah: "Ich finde unsere digitale Welt spannend.",
+                textCouch: "Digital-Check: Welcher Teil unserer Welt ist heute digital?"
+            },
+            {
+                id: "b1_988", cat: "cat0",
+                textBenni: "Ich habe das Gefühl, wir brauchen öfter gemeinsame Momente.",
+                textSarah: "Ich habe das Gefühl, wir brauchen öfter gemeinsame Momente.",
+                textCouch: "Moment-Check: Welcher Moment hat uns heute verbunden?"
+            },
+            {
+                id: "b1_989", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir uns öfter neue Ziele setzen.",
+                textSarah: "Ich wünsche mir, dass wir uns öfter neue Ziele setzen.",
+                textCouch: "Ziel-Check: Welches Ziel erreichen wir heute?"
+            },
+            {
+                id: "b1_990", cat: "cat6",
+                textBenni: "Ich finde unsere Art, uns zu ergänzen, interessant.",
+                textSarah: "Ich finde unsere Art, uns zu ergänzen, interessant.",
+                textCouch: "Ergänzungs-Check: Wer von uns glänzt heute mehr?"
+            },
+            {
+                id: "b1_991", cat: "cat3",
+                textBenni: "Ich finde, wir sollten öfter über unsere Zukunft sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Zukunft sprechen.",
+                textCouch: "Zukunfts-Check: Was steht heute bei uns im Fokus?"
+            },
+            {
+                id: "b1_992", cat: "cat8",
+                textBenni: "Ich habe das Gefühl, unsere Pläne sind toll.",
+                textSarah: "Ich habe das Gefühl, unsere Pläne sind toll.",
+                textCouch: "Plan-Check: Was macht unseren Plan so gut?"
+            },
+            {
+                id: "b1_993", cat: "cat4",
+                textBenni: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textSarah: "Ich wünsche mir, dass wir unsere Liebe öfter feiern.",
+                textCouch: "Feier-Check: Warum ist heute Liebe ein Fest?"
+            },
+            {
+                id: "b1_994", cat: "cat1",
+                textBenni: "Ich finde, wir sollten öfter über unsere Sorgen sprechen.",
+                textSarah: "Ich finde, wir sollten öfter über unsere Sorgen sprechen.",
+                textCouch: "Sorgen-Check: Was ist meine größte Sorge heute?"
+            },
+            {
+                id: "b1_995", cat: "cat11",
+                textBenni: "Ich wünsche mir, dass unser Kind die Welt sieht.",
+                textSarah: "Ich wünsche mir, dass unser Kind die Welt sieht.",
+                textCouch: "Welt-Check: Wo wollen wir heute gemeinsam sein?"
+            }, {
+                id: "b1_996", cat: "cat1",
+                textBenni: "Wenn der Alltag einschlägt, ziehe ich mich oft unbewusst zurück, um niemanden zu belasten – fühle mich dann aber isoliert.",
+                textSarah: "In stressigen Phasen versuche ich instinktiv, alles perfekt zu regeln, und verliere dabei den Blick für das, was du gerade fühlst.",
+                textCouch: "Was können wir tun, um in stressigen Wochen emotional füreinander erreichbar zu bleiben?"
+            },
+            {
+                id: "b1_997", cat: "cat2",
+                textBenni: "Manchmal vermisse ich die Leichtigkeit und Unbeschwertheit, die wir als Paar vor der großen Verantwortung hatten.",
+                textSarah: "Ich sehne mich danach, im Alltagstrubel einfach wieder als Frau gesehen und gehalten zu werden, nicht nur als Managerin.",
+                textCouch: "Welchen kleinen Moment dieser alten Unbeschwertheit können wir uns heute Abend zurückholen?"
+            },
+            {
+                id: "b1_998", cat: "cat0",
+                textBenni: "Ich stecke viel Energie in unsere Zukunft, habe aber manchmal Angst, dass mein alltäglicher Beitrag für dich unsichtbar bleibt.",
+                textSarah: "Ich gebe jeden Tag mein Bestes für uns, vermisse aber insgeheim ein einfaches, ehrliches Gefühl der Anerkennung von dir.",
+                textCouch: "Für welche 'unsichtbare' Leistung des anderen bist du im Stillen besonders dankbar?"
+            },
+            {
+                id: "b1_999", cat: "cat3",
+                textBenni: "Beim Thema Finanzen und Zukunftsvorsorge treibt mich oft eine tief sitzende Sorge an, die ich gar nicht richtig in Worte fassen kann.",
+                textSarah: "Ich wünsche mir bei unseren Zukunftsplänen mehr Vertrauen in das Hier und Jetzt, statt uns im Planen zu verlieren.",
+                textCouch: "Wie schaffen wir es, finanzielle Sicherheit aufzubauen, ohne die Gegenwart zu vernachlässigen?"
+            },
+            {
+                id: "b1_1000", cat: "cat5",
+                textBenni: "Mein Sport ist mein Ventil, um den Kopf freizubekommen, damit ich danach wieder voll und ganz für euch da sein kann.",
+                textSarah: "Wenn du deine Auszeiten nimmst, fühle ich mich manchmal mit der mentalen Last des Alltags allein gelassen.",
+                textCouch: "Wie können wir unsere individuellen Kraftquellen so takten, dass keiner von uns auf der Strecke bleibt?"
+            },
+            {
+                id: "b1_1001", cat: "cat1",
+                textBenni: "Mir fällt es manchmal schwer, über meine verletzlichen Seiten zu sprechen, weil ich Angst habe, als unzuverlässig zu wirken.",
+                textSarah: "Wenn du dichtmachst, verunsichert mich das, weil ich nicht weiß, was in dir vorgeht und ob ich der Grund dafür bin.",
+                textCouch: "Was braucht jeder von uns, um sich im Gespräch absolut sicher und geborgen zu fühlen?"
+            },
+            {
+                id: "b1_1002", cat: "cat11",
+                textBenni: "Ich ertappe mich manchmal bei dem Wunsch, alles richtig zu machen, und merke, dass ich diesen Druck unbewusst weitergebe.",
+                textSarah: "Ich möchte unserem Kind so viel Liebe und Geborgenheit schenken, dass ich mich dabei selbst oft komplett erschöpfe.",
+                textCouch: "An welcher Stelle dürfen wir als Eltern heute gemeinsam Druck rausnehmen?"
+            },
+            {
+                id: "b1_1003", cat: "cat12",
+                textBenni: "Das Smartphone ist für mich oft ein schnelles Werkzeug zum Abschalten, auch wenn ich weiß, dass es uns Zeit raubt.",
+                textSarah: "Wenn wir nebeneinander auf Bildschirme schauen, vermisse ich die tiefe Verbindung, die wir beim Reden haben.",
+                textCouch: "Wie sieht ein Abend aus, an dem wir uns ganz bewusst und ohne Ablenkung aufeinander einlassen?"
+            },
+            {
+                id: "b1_1004", cat: "cat6",
+                textBenni: "Ein strukturierter Raum gibt mir innerlich Ruhe, wenn der restliche Tag chaotisch war.",
+                textSarah: "Für mich bedeutet ein gemütliches Zuhause vor allem Flexibilität und kein starrer Ordnungsdruck.",
+                textCouch: "Wie schaffen wir eine Wohlfühloase, die sowohl Struktur als auch Gemütlichkeit zulässt?"
+            },
+            {
+                id: "b1_1005", cat: "cat4",
+                textBenni: "Ich sehne mich nach Momenten, in denen wir uns einfach wieder als Liebende begegnen und das Elternsein kurz ausblenden.",
+                textSarah: "Um mich körperlich öffnen zu können, brauche ich vorher oft einfach das Gefühl, emotional von dir verstanden zu werden.",
+                textCouch: "Was bringt uns im Alltag am schnellsten wieder in unsere Paardynamik zurück?"
+            },
+            {
+                id: "b1_1006", cat: "cat1",
+                textBenni: "Wenn ein Konflikt hochkocht, werde ich manchmal sachlich, weil ich Angst habe, von meinen Emotionen überrollt zu werden.",
+                textSarah: "In Diskussionen reagiere ich oft emotional, weil ich das Gefühl habe, dich rational sonst gar nicht zu erreichen.",
+                textCouch: "Wie können wir Verstand und Gefühl in unseren Gesprächen besser miteinander verbinden?"
+            },
+            {
+                id: "b1_1007", cat: "cat9",
+                textBenni: "Für mich bedeutet Erholung oft auch, neue Eindrücke zu sammeln und aktiv zu sein.",
+                textSarah: "Nach einer anstrengenden Phase brauche ich im Urlaub vor allem Ruhe, Beständigkeit und Entschleunigung.",
+                textCouch: "Wie sieht die perfekte Balance aus Abenteuer und Ruhe für unsere gemeinsame Freizeit aus?"
+            },
+            {
+                id: "b1_1008", cat: "cat8",
+                textBenni: "Manchmal fällt es mir schwer, familiäre Verpflichtungen abzusagen, weil ich niemanden enttäuschen möchte.",
+                textSarah: "Ich wünsche mir, dass wir als kleine Familie eine klare Grenze nach außen ziehen, um unsere eigenen Energien zu schützen.",
+                textCouch: "Wo dürfen wir gemeinsam mutiger 'Nein' zu anderen und 'Ja' zu uns sagen?"
+            },
+            {
+                id: "b1_1009", cat: "cat11",
+                textBenni: "Ich möchte unserem Kind eine starke Resilienz und Mut mitgeben, damit es in der Welt gut zurechtkommt.",
+                textSarah: "Mein größter Wunsch ist es, dass unser Kind eine tiefe, bedingungslose Empathie und Herzenswärme entwickelt.",
+                textCouch: "Wie verbinden wir Stärke und Sanftmut in unserer gemeinsamen Erziehung?"
+            },
+            {
+                id: "b1_1010", cat: "cat4",
+                textBenni: "Es gibt Tage, da bewundere ich deine Art, wie du das Leben meisterst, behalte das aber viel zu oft für mich.",
+                textSarah: "Ich vergesse im Alltag manchmal, dir zu sagen, wie stolz ich auf dich und deinen Einsatz für uns bin.",
+                textCouch: "Welche Eigenschaft am anderen fasziniert dich heute noch genau wie am ersten Tag?"
+            },
+            {
+                id: "b1_1011", cat: "cat0",
+                textBenni: "Wenn du müde bist, versuche ich oft, Lösungen für dich zu finden, anstatt dir einfach nur zuzuhören.",
+                textSarah: "Manchmal brauche ich keine Ratschläge, sondern einfach nur jemanden, der mich in den Arm nimmt und sagt, dass alles gut wird.",
+                textCouch: "Wie kann ich dich in Momenten der Erschöpfung am besten unterstützen?"
+            },
+            {
+                id: "b1_1012", cat: "cat3",
+                textBenni: "Große materielle Ziele geben mir das Gefühl, für uns etwas Bleibendes und Sicheres aufzubauen.",
+                textSarah: "Für mich liegt der wahre Reichtum in den kleinen, gemeinsamen Momenten, die man mit keinem Geld der Welt kaufen kann.",
+                textCouch: "Was ist für uns der gemeinsame Inbegriff von einem erfüllten Leben?"
+            },
+            {
+                id: "b1_1013", cat: "cat1",
+                textBenni: "Wenn ich einen Fehler mache, schäme ich mich oft insgeheim und gehe deshalb manchmal in die Defensive.",
+                textSarah: "Mir fällt es schwer, Verletzungen direkt loszulassen, weil ich Zeit brauche, um das Erlebte emotional zu verarbeiten.",
+                textCouch: "Wie sieht für uns ein heilsamer Umgang mit Fehlern und Vergebung aus?"
+            },
+            {
+                id: "b1_1014", cat: "cat5",
+                textBenni: "Ich wünsche mir, dass wir als Individuen wachsen können, ohne dass wir uns als Paar voneinander entfernen.",
+                textSarah: "Ich habe manchmal Angst, dass persönliche Veränderungen des anderen unsere gemeinsame Basis ins Wanken bringen könnten.",
+                textCouch: "Wie unterstützen wir uns gegenseitig bei unserer persönlichen Weiterentwicklung?"
+            },
+            {
+                id: "b1_1015", cat: "cat4",
+                textBenni: "Ich möchte wieder Rituale einführen, die nur uns beiden gehören und an die wir uns festhalten können.",
+                textSarah: "Ich sehne mich nach kleinen, festen Ankern im Alltag, die uns daran erinnern, dass wir ein Liebespaar sind.",
+                textCouch: "Welches kleine, wöchentliche Ritual wollen wir ab nächster Woche fest etablieren?"
+            }, {
+                id: "b1_1046", cat: "cat1",
+                textBenni: "Der berufliche Stress schaltet sich bei mir zu Hause nicht einfach per Knopfdruck ab.",
+                textSarah: "Das gemeinsame, bewusste Ankommen nach dem Feierabend kommt bei uns aktuell zu kurz.",
+                textCouch: "Wie können wir den Übergang vom Job zum Feierabend gemeinsam achtsamer gestalten?"
+            },
+            {
+                id: "b1_1047", cat: "cat4",
+                textBenni: "Exklusive Paar-Momente ohne Kind gehen im aktuellen Trubel komplett unter.",
+                textSarah: "Bei unseren seltenen Verabredungen reden wir am Ende doch nur über Alltags-Orga.",
+                textCouch: "Wann blocken wir unser nächstes echtes Date, bei dem der Alltag komplett draußen bleibt?"
+            },
+            {
+                id: "b1_1048", cat: "cat11",
+                textBenni: "Der Anspruch, ein perfektes Vorbild für unseren Sohn zu sein, erzeugt in mir enormen Druck.",
+                textSarah: "Unsere Erziehung verträgt an manchen Stellen wieder deutlich mehr Leichtigkeit und weniger Verbissenheit.",
+                textCouch: "In welchen Momenten nimmst du den Erziehungsdruck bei dir selbst am deutlichsten wahr?"
+            },
+            {
+                id: "b1_1049", cat: "cat3",
+                textBenni: "Hinter meinem Fokus auf finanzielle Absicherung steckt die ständige Sorge vor unvorhersehbaren Krisen.",
+                textSarah: "Vor lauter Sparen und Zukunftsplanung vergessen wir manchmal, das Leben im Hier und Jetzt zu genießen.",
+                textCouch: "Gibt es eine Anschaffung oder ein Erlebnis, das wir uns im Hier und Jetzt einfach mal gönnen sollten?"
+            },
+            {
+                id: "b1_1050", cat: "cat5",
+                textBenni: "Wenn ich Zeit für meinen Sport einfordere, schleicht sich sofort ein schlechtes Gewissen ein.",
+                textSarah: "Die freie Zeit und die mentalen Lasten sind bei uns aktuell nicht fair aufgeteilt.",
+                textCouch: "Wie fühlt sich unsere aktuelle Verteilung von Me-Time und Familienzeit für dich an?"
+            },
+            {
+                id: "b1_1051", cat: "cat0",
+                textBenni: "Bei Meinungsverschiedenheiten ziehe ich mich zurück, um die Situation nicht eskalieren zu lassen.",
+                textSarah: "Ein plötzlicher Rückzug im Gespräch fühlt sich für mich wie eine unüberwindbare Mauer an.",
+                textCouch: "Was hilft uns in einem intensiven Gespräch am meisten, um in Verbindung zu bleiben?"
+            },
+            {
+                id: "b1_1052", cat: "cat6",
+                textBenni: "Ein unaufgeräumtes Haus sorgt bei mir nach der Arbeit für sofortige innere Unruhe.",
+                textSarah: "Der ständige Fokus auf eine perfekte Ordnung erzeugt im Alltag unnötigen Stress.",
+                textCouch: "Wo können wir im Haushalt beide fünf gerade sein lassen, um Energie zu sparen?"
+            },
+            {
+                id: "b1_1053", cat: "cat12",
+                textBenni: "Das Smartphone ist abends oft meine einzige Flucht, um den Kopf komplett auszuschalten.",
+                textSarah: "Wenn wir beide nebeneinander auf Bildschirme starren, fühle ich mich einsam.",
+                textCouch: "Was wäre ein gemütliches, analoges Abendritual, das wir statt dem Griff zum Handy etablieren könnten?"
+            },
+            {
+                id: "b1_1054", cat: "cat4",
+                textBenni: "Es fällt mir schwer, meine Dankbarkeit für deinen täglichen Einsatz laut auszusprechen.",
+                textSarah: "Viele Dinge, die ich für uns im Hintergrund erledige, werden mittlerweile als zu selbstverständlich angesehen.",
+                textCouch: "Für welches liebevolle Detail im Alltag hast du dich beim anderen schon länger nicht mehr bedankt?"
+            },
+            {
+                id: "b1_1055", cat: "cat1",
+                textBenni: "Ich behalte meine Sorgen oft für mich, um dich nach deinem harten Tag nicht noch zusätzlich zu belasten.",
+                textSarah: "Wenn du mit deinen Gedanken hinterm Berg hältst, fühle ich mich aus deiner Welt ausgeschlossen.",
+                textCouch: "Welche Sorge oder welchen Gedanken trägst du gerade mit dir herum, den wir teilen können?"
+            },
+            {
+                id: "b1_1056", cat: "cat2",
+                textBenni: "Bei unseren großen Projekten bin ich viel zu starr auf das Endergebnis fixiert.",
+                textSarah: "Der Weg zu unseren Zielen artet oft in pure Arbeit aus, statt uns als Paar Spaß zu machen.",
+                textCouch: "Welches gemeinsame Projekt der letzten Zeit hat uns trotz der Arbeit richtig Spaß gemacht?"
+            },
+            {
+                id: "b1_1057", cat: "cat7",
+                textBenni: "Meine persönliche Weiterentwicklung in den letzten Jahren sorgt manchmal für Verunsicherung zwischen uns.",
+                textSarah: "Bei manchen Veränderungen des anderen habe ich insgeheim Angst, irgendwann nicht mehr Schritt halten zu können.",
+                textCouch: "In welcher Eigenschaft oder Lebenseinstellung hast du dich in den letzten Jahren am meisten verändert?"
+            },
+            {
+                id: "b1_1058", cat: "cat8",
+                textBenni: "Ich sage soziale oder familiäre Termine oft nur zu, um niemanden im Umfeld zu enttäuschen.",
+                textSarah: "Wir muten uns am Wochenende oft zu viele Verpflichtungen zu, statt als kleine Familie auszuruhen.",
+                textCouch: "Wann sagen wir das nächste Mal bewusst einen Termin ab, um einfach nur Zeit zu dritt zu haben?"
+            },
+            {
+                id: "b1_1059", cat: "cat9",
+                textBenni: "Ein gelungener Urlaub muss für mich aktiv sein und neue Eindrücke bieten.",
+                textSarah: "Echte Erholung auf Reisen bedeutet für mich primär Entschleunigung ohne feste Pläne.",
+                textCouch: "Wie sieht der perfekte Kompromiss aus Aktivität und purer Erholung für unseren nächsten Urlaub aus?"
+            },
+            {
+                id: "b1_1060", cat: "cat11",
+                textBenni: "Es fällt mir unheimlich schwer, unserem Kind den nötigen Freiraum für eigene Fehler zu lassen.",
+                textSarah: "Aus lauter Fürsorge neigen wir dazu, dem Kleinen zu viele Stolpersteine im Vorfeld wegzuräumen.",
+                textCouch: "In welcher Situation ist es dir zuletzt besonders schwergefallen, unserem Kind Freiraum zu lassen?"
+            }, {
+                id: "b1_1061", cat: "cat4",
+                textBenni: "Körperliche Nähe im Alltag geht im aktuellen Trubel viel zu oft unter.",
+                textSarah: "Kleine Zärtlichkeiten zwischendurch sind meine wichtigste emotionale Tankstelle.",
+                textCouch: "Wie können wir körperliche Nähe wieder fester in unseren Alltag integrieren?"
+            },
+            {
+                id: "b1_1062", cat: "cat0",
+                textBenni: "Ich versuche bei Problemen sofort Lösungen zu liefern, statt einfach nur zuzuhören.",
+                textSarah: "Manchmal brauche ich kein rationales Feedback, sondern einfach nur jemanden, der meinen Frust hält.",
+                textCouch: "Woran erkennen wir am besten, ob der andere gerade eine Lösung oder ein offenes Ohr braucht?"
+            },
+            {
+                id: "b1_1063", cat: "cat1",
+                textBenni: "Eine kurze, abweisende Reaktion von dir ziehe ich viel zu schnell auf mich persönlich.",
+                textSarah: "Wenn ich völlig erschöpft bin, klingt mein Tonfall unbeabsichtigt schroff und kalt.",
+                textCouch: "Wie fangen wir Missverständnisse ab, die eigentlich nur aus purer Müdigkeit entstehen?"
+            },
+            {
+                id: "b1_1064", cat: "cat3",
+                textBenni: "Die Planung und Umsetzung unserer großen Lebensprojekte schweißt uns als Team zusammen.",
+                textSarah: "Der gemeinsame Meilenstein unseres Eigenheims erfüllt mich mit tiefem Stolz.",
+                textCouch: "Welcher gemeinsame Erfolg der letzten Jahre hat dich emotional am tiefsten berührt?"
+            },
+            {
+                id: "b1_1065", cat: "cat5",
+                textBenni: "Eigene Hobbys und Freundschaften außerhalb der Ehe kommen bei mir aktuell zu kurz.",
+                textSarah: "Die Balance zwischen unseren individuellen Freiräumen und der gemeinsamen Paarzeit wackelt.",
+                textCouch: "Wie unterstützen wir uns gegenseitig dabei, persönliche Kontakte und Interessen zu pflegen?"
+            },
+            {
+                id: "b1_1066", cat: "cat6",
+                textBenni: "Durchgetaktete Alltagsabläufe geben mir Sicherheit und Struktur.",
+                textSarah: "Zu viel starre Planung nimmt mir die Luft für spontane Momente.",
+                textCouch: "Wo tut uns Struktur gut und wo sollten wir den Alltag flexibler laufen lassen?"
+            },
+            {
+                id: "b1_1067", cat: "cat4",
+                textBenni: "Unser gemeinsamer Humor rettet uns verlässlich durch die anstrengendsten Tage.",
+                textSarah: "Die Leichtigkeit zwischen uns flammt meistens dann auf, wenn wir über uns selbst lachen.",
+                textCouch: "Über welche Situation oder gemeinsame Macke haben wir zuletzt so richtig herzlich gelacht?"
+            },
+            {
+                id: "b1_1068", cat: "cat12",
+                textBenni: "Ein komplett ungestörter, analoger Tag in der Natur erdet mich sofort.",
+                textSarah: "Die ständige Erreichbarkeit im Außen raubt uns die tiefe Aufmerksamkeit füreinander.",
+                textCouch: "Wann nehmen wir uns das nächste Mal ein paar Stunden komplett offline als Familie?"
+            },
+            {
+                id: "b1_1069", cat: "cat1",
+                textBenni: "Es kostet mich Überwindung, ein Fehlverhalten ohne Ausflüchte direkt zuzugeben.",
+                textSarah: "Eine aufrichtige Entschuldigung ohne Wenn und Aber lässt meinen Ärger sofort verfliegen.",
+                textCouch: "Was macht es uns in bestimmten Momenten schwer, einen Fehler ohne Rechtfertigung zuzugeben?"
+            },
+            {
+                id: "b1_1070", cat: "cat4",
+                textBenni: "Die Befürchtung, im Alltag nur noch als funktionierende WG zu existieren, holt mich manchmal ein.",
+                textSarah: "Trotz der harten Wochen spüre ich das feste Fundament unserer Liebe ununterbrochen.",
+                textCouch: "Was schätzt du an unserer aktuellen Paardynamik trotz des stressigen Alltags am meisten?"
+            },
+            {
+                id: "b1_1071", cat: "cat11",
+                textBenni: "Unser gelebter, respektvoller Umgang miteinander ist die beste Schule für unser Kind.",
+                textSarah: "Bestimmte Prägungen aus der eigenen Kindheit stehen mir bei unserer Erziehung manchmal im Weg.",
+                textCouch: "Welche Werte und Traditionen stehen für uns in der Familienerziehung ganz oben?"
+            },
+            {
+                id: "b1_1072", cat: "cat4",
+                textBenni: "Einfach schweigend nebeneinander zu sitzen gibt mir das absolute Gefühl von Angekommensein.",
+                textSarah: "Das blinde Verständnis zwischen uns ist mein verlässlichster sicherer Hafen im Chaos.",
+                textCouch: "Wann fühlst du dich in unserer Beziehung am meisten geborgen?"
+            },
+            {
+                id: "b1_1073", cat: "cat0",
+                textBenni: "Mehr Mut für spontane Bauchentscheidungen würde unserem Alltag guttun.",
+                textSarah: "Das ständige Durchdenken aller Risiken nimmt uns im Vorfeld oft die Unbeschwertheit.",
+                textCouch: "What wäre eine völlig spontane Aktion, die wir nächste Woche einfach mal machen sollten?"
+            },
+            {
+                id: "b1_1074", cat: "cat3",
+                textBenni: "Finanzielle Absprachen fühlen sich für mich manchmal wie eine gegenseitige Einschränkung an.",
+                textSarah: "Bei größeren Ausgaben fehlt mir ab und zu das bedingungslose Vertrauen in unsere gemeinsamen Entscheidungen.",
+                textCouch: "Wie können wir über Geld sprechen, ohne dass es ein beklemmendes Gefühl auslöst?"
+            },
+            {
+                id: "b1_1075", cat: "cat11",
+                textBenni: "Deine unendliche Geduld und Liebe im Umgang mit unserem Kind faszinieren mich täglich.",
+                textSarah: "Deine Rolle als verlässlicher Schutzschild gibt unserer kleinen Familie enorme Sicherheit.",
+                textCouch: "Welche Stärke des anderen als Elternteil hat dich in letzter Zeit besonders beeindruckt?"
+            }, {
+                id: "b1_1076", cat: "cat1",
+                textBenni: "Kritik an meinem Verhalten nehme ich oft direkt als Infragestellung meiner gesamten Person wahr.",
+                textSarah: "Manche meiner Anmerkungen formuliere ich aus Frust heraus verletzender, als es eigentlich nötig wäre.",
+                textCouch: "Wie trennen wir sachliche Kritik von unserem emotionalen Selbstwert?"
+            },
+            {
+                id: "b1_1077", cat: "cat4",
+                textBenni: "Im Alltagstrott vergesse ich manchmal völlig, wie attraktiv und faszinierend du als Frau bist.",
+                textSarah: "Ich fühle mich im Mama-Modus manchmal unwohl in meiner Haut und brauche Bestätigung von dir.",
+                textCouch: "Wie halten wir die gegenseitige Anziehung und Bewunderung lebendig?"
+            },
+            {
+                id: "b1_1078", cat: "cat2",
+                textBenni: "Wenn wir als Eltern nicht perfekt harmonieren, löst das in mir sofort Versagensängste aus.",
+                textSarah: "Kleine Unstimmigkeiten in der Erziehung gehören dazu und bedeuten nicht, dass wir als Team scheitern.",
+                textCouch: "Wie gehen wir gelassener mit unseren unterschiedlichen Impulsen als Eltern um?"
+            },
+            {
+                id: "b1_1079", cat: "cat5",
+                textBenni: "Wenn ich ohne dich unterwegs bin, kreisen meine Gedanken trotzdem meistens um euer Wohlbefinden zu Hause.",
+                textSarah: "In meiner eigenen Freizeit fällt es mir unheimlich schwer, die mentale Verantwortung komplett abzugeben.",
+                textCouch: "Können wir in unseren Freiräumen wirklich komplett abschalten?"
+            },
+            {
+                id: "b1_1080", cat: "cat3",
+                textBenni: "Große finanzielle Entscheidungen belasten mich innerlich tagelang, bevor ich sie aktiv anspreche.",
+                textSarah: "Manchmal schiebe ich notwendige Geldthemen vor mir her, weil ich die ernste Stimmung scheue.",
+                textCouch: "Wie nehmen wir die Schwere aus unseren finanziellen Zukunftsgesprächen?"
+            },
+            {
+                id: "b1_1081", cat: "cat6",
+                textBenni: "Der Spagat zwischen beruflicher Leistung und familiären Pflichten zehrt aktuell spürbar an meinen Kräften.",
+                textSarah: "Die unsichtbare Denkarbeit für unsere Alltags-Logistik lastet fast ausschließlich auf meinen Schultern.",
+                textCouch: "Wo ist die Grenze unserer Belastbarkeit und wie steuern wir gemeinsam gegen?"
+            },
+            {
+                id: "b1_1082", cat: "cat12",
+                textBenni: "Der automatische Griff zum Smartphone blockiert im Feierabend den Raum für spontane Gespräche.",
+                textSarah: "Unsere digitalen Auszeiten sind oft nur ein stummes Nebeneinander statt echter gemeinsamer Erholung.",
+                textCouch: "Schaffen wir es, ab heute Abend eine feste bildschirmfreie Zone im Schlafzimmer einzuführen?"
+            },
+            {
+                id: "b1_1083", cat: "cat4",
+                textBenni: "Manchmal sehne ich mich einfach nach einer langen, schweigenden Umarmung am Ende eines harten Tages.",
+                textSarah: "Ein kurzes, liebevolles In-den-Arm-Nehmen zwischendurch gibt mir sofort das Gefühl von tiefer Sicherheit.",
+                textCouch: "Nutzen wir körperliche Nähe im Alltag genug als unsere gemeinsame Kraftquelle?"
+            },
+            {
+                id: "b1_1084", cat: "cat1",
+                textBenni: "Wenn ein Streit eskaliert, brauche ich eine kurze Pause, um meine Gedanken wieder sachlich zu ordnen.",
+                textSarah: "Ein plötzlicher Abbruch mitten in der Diskussion lässt mich mit einem beklemmenden Gefühl zurück.",
+                textCouch: "Wie vereinbaren wir eine faire Timeout-Regel für hitzige Momente?"
+            },
+            {
+                id: "b1_1085", cat: "cat11",
+                textBenni: "Ich ertappe mich dabei, dass ich für unseren Sohn einen Lebensweg im Kopf plane, den er vielleicht gar nicht will.",
+                textSarah: "Unser Kind soll komplett frei von unseren eigenen unerfüllten Erwartungen aufwachsen dürfen.",
+                textCouch: "Wo müssen wir heute schon lernen, unsere eigenen Wünsche für das Kind loszulassen?"
+            },
+            {
+                id: "b1_1086", cat: "cat7",
+                textBenni: "Ich habe Angst, dass wir uns durch veränderte Prioritäten im Laufe der Jahre unbemerkt auseinanderleben.",
+                textSarah: "Veränderungen gehören zum Leben, solange wir einander immer wieder an unseren Gedanken teilhaben lassen.",
+                textCouch: "Welches neue Interesse des anderen hat dich in letzter Zeit überrascht oder inspiriert?"
+            },
+            {
+                id: "b1_1087", cat: "cat8",
+                textBenni: "Der Erwartungsdruck von Familie und Freunden bringt mich im Alltag oft an meine Grenzen.",
+                textSarah: "Es fällt mir schwer, Einladungen abzusagen, selbst wenn unsere eigenen Akkus komplett leer sind.",
+                textCouch: "Wie schützen wir unsere Zeit als Kleinfamilie effektiver vor äußeren Ansprüchen?"
+            },
+            {
+                id: "b1_1088", cat: "cat0",
+                textBenni: "Wenn du gestresst bist, überträgt sich diese nervöse Energie sofort eins zu eins auf meine Stimmung.",
+                textSarah: "Deine angespannte Miene an harten Tagen verunsichert mich, weil ich die Ursache oft bei mir suche.",
+                textCouch: "Wie grenzen wir uns gesund ab, ohne den anderen mit seiner Erschöpfung allein zu lassen?"
+            },
+            {
+                id: "b1_1089", cat: "cat9",
+                textBenni: "Gemeinsame Urlaube und Wochenendausflüge sind für mich die wichtigsten Ankerpunkte des Jahres.",
+                textSarah: "Die intensive Zeit auf Reisen schweißt uns emotional immer wieder ganz neu zusammen.",
+                textCouch: "Welcher Moment unseres letzten gemeinsamen Urlaubs hat dir die meiste Kraft geschenkt?"
+            },
+            {
+                id: "b1_1090", cat: "cat4",
+                textBenni: "Ich behalte kleine Liebeserklärungen oft im Kopf, statt sie dir direkt ins Gesicht zu sagen.",
+                textSarah: "Ein unvorhergesehenes, ehrliches Kompliment von dir lässt mein Herz auch nach Jahren noch höher schlagen.",
+                textCouch: "Was fasziniert dich am Charakter des anderen im Moment am allermeisten?"
+            }, {
+                id: "b1_1091", cat: "cat4",
+                textBenni: "Ein fauler Sonntag ohne To-Do-Liste tut unserer Beziehung unheimlich gut.",
+                textSarah: "Die ungeplanten, vertrödelten Tage mit dir sind meine absoluten Lieblingsmomente.",
+                textCouch: "Wann nehmen wir uns den nächsten komplett unbeschwerten Gammeltag?"
+            },
+            {
+                id: "b1_1092", cat: "cat0",
+                textBenni: "Wir haben uns trotz der ganzen Alltagsorganisation unsere Leichtigkeit bewahrt.",
+                textSarah: "Selbst im größten Chaos können wir immer noch herrlich albern miteinander sein.",
+                textCouch: "Was bringt uns im Alltag am schnellsten gemeinsam zum Lachen?"
+            },
+            {
+                id: "b1_1093", cat: "cat6",
+                textBenni: "Gemeinsames Kochen am Abend ist für mich echte Entspannung, keine lästige Pflicht.",
+                textSarah: "Wenn wir zusammen in der Küche stehen und Musik läuft, verfliegt der Stress sofort.",
+                textCouch: "Welches Gericht kochen wir als Nächstes nur für uns zwei?"
+            },
+            {
+                id: "b1_1094", cat: "cat11",
+                textBenni: "Die täglichen Fortschritte unseres Sohnes zu beobachten ist mein absolutes Highlight.",
+                textSarah: "Wenn ich sehe, wie liebevoll du mit unserem Kleinen umgehst, geht mir das Herz auf.",
+                textCouch: "Welche kleine Geste unseres Kindes hat dich diese Woche besonders berührt?"
+            },
+            {
+                id: "b1_1095", cat: "cat9",
+                textBenni: "Ein spontaner Spaziergang im Grünen reicht mir völlig aus, um den Kopf freizubekommen.",
+                textSarah: "Kleine Kaffeepausen oder Ausflüge zu zweit geben mir unheimlich viel Energie zurück.",
+                textCouch: "Wohin machen wir unseren nächsten kleinen Sonntagsausflug?"
+            },
+            {
+                id: "b1_1096", cat: "cat4",
+                textBenni: "Kleine Aufmerksamkeiten im Alltag zeigen mir verlässlich, dass du an mich denkst.",
+                textSarah: "Ich freue mich riesig über kleine Mitbringsel, für die es gar keinen offiziellen Anlass braucht.",
+                textCouch: "Mit welcher kleinen Aufmerksamkeit können wir dem anderen morgen eine Freude machen?"
+            },
+            {
+                id: "b1_1097", cat: "cat7",
+                textBenni: "Das gemeinsame Spinnen von fernen Reiseplänen weckt in mir sofort große Vorfreude.",
+                textSarah: "Träumereien über zukünftige Abenteuer schweißen uns als Paar eng zusammen.",
+                textCouch: "Welches Reiseziel steht aktuell ganz oben auf unserer gemeinsamen Bucket-List?"
+            },
+            {
+                id: "b1_1098", cat: "cat1",
+                textBenni: "Ein kurzes Augenzwinkern oder Lächeln im Raum reicht mir oft schon als Verbindung.",
+                textSarah: "Unser blindes Verständnis in Gesellschaft zeigt mir, wie gut wir harmonieren.",
+                textCouch: "In welchen Momenten spürst du dieses blinde Verständnis zwischen uns am stärksten?"
+            },
+            {
+                id: "b1_1099", cat: "cat3",
+                textBenni: "Geld für schöne Erinnerungen und Erlebnisse auszugeben fällt mir unheimlich leicht.",
+                textSarah: "Gemeinsame Erlebnisse zu schaffen ist mir unterm Strich viel wichtiger als materieller Besitz.",
+                textCouch: "Welches gemeinsame Erlebnis der letzten Zeit war jeden einzelnen Cent wert?"
+            },
+            {
+                id: "b1_1100", cat: "cat5",
+                textBenni: "Ich genieße meine sportlichen Auszeiten, freue mich danach aber umso mehr auf dich.",
+                textSarah: "Deine ausgelassene, gute Stimmung nach dem Training steckt mich positiv an.",
+                textCouch: "Wie nutzen wir die frische Energie aus unseren Freiräumen am besten für uns als Paar?"
+            },
+            {
+                id: "b1_1101", cat: "cat4",
+                textBenni: "Unsere gemeinsamen Playlists bringen sofort eine entspannte Atmosphäre in den Raum.",
+                textSarah: "Bestimmte Lieder erinnern mich sofort an die schönsten Meilensteine unserer Beziehung.",
+                textCouch: "Welcher Song oder welche Musik erinnert dich im Moment am meisten an uns?"
+            },
+            {
+                id: "b1_1102", cat: "cat6",
+                textBenni: "Unser Zuhause fühlt sich für mich wie der gemütlichste Ort der Welt an.",
+                textSarah: "Ich liebe es, wie wir unser Nest Stück für Stück zu einer echten Wohlfühloase machen.",
+                textCouch: "In welcher Ecke unseres Hauses kannst du dich aktuell am allerbesten entspannen?"
+            },
+            {
+                id: "b1_1103", cat: "cat11",
+                textBenni: "Das ruhige, abendliche Einschlafritual mit unserem Sohn erdet mich komplett.",
+                textSarah: "Wenn im Haus endlich Ruhe einkehrt, genieße ich das gemeinsame Aufatmen auf der Couch.",
+                textCouch: "Wie gestalten wir die allerersten Minuten unseres gemeinsamen Feierabends am liebsten?"
+            },
+            {
+                id: "b1_1104", cat: "cat4",
+                textBenni: "Einfach nur Händchen zu halten oder eng beieinander zu liegen reicht aus, um Nähe zu spüren.",
+                textSarah: "Physische Nähe ohne große Erwartungen gibt mir ein tiefes Gefühl von Geborgenheit.",
+                textCouch: "Nehmen wir uns im Alltag genug Zeit für diese ruhigen, körperlichen Momente?"
+            },
+            {
+                id: "b1_1105", cat: "cat0",
+                textBenni: "Ich blicke mit großer Gelassenheit und absolutem Vertrauen auf unsere Zukunft.",
+                textSarah: "Das Wissen, dass wir als Team unschlagbar sind, nimmt mir jede Alltagsangst.",
+                textCouch: "Was genau macht uns als Team aktuell so unglaublich stark und gelassen?"
+            }, 
+		{
+                id: "b1_1106", cat: "cat1",
+                textBenni: "Ein paar Minuten echtes Schweigen miteinander bedeuten mir aktuell mehr als oberflächliches Gerede.",
+                textSarah: "Ich kann die Stille zwischen uns mittlerweile total genießen, ohne das Gefühl zu haben, sie füllen zu müssen.",
+                textCouch: "Wie wichtig sind uns diese stillen Momente der puren gemeinsamen Präsenz?"
+            },
+            {
+                id: "b1_1107", cat: "cat4",
+                textBenni: "Wenn wir uns intensiv in die Augen schauen, spüre ich sofort wieder das Kribbeln vom Anfang.",
+                textSarah: "Ein tiefer Blick von dir im Alltag holt mich sofort aus meinem mentalen Hamsterrad.",
+                textCouch: "Wann haben wir uns das letzte Mal ganz bewusst sekundenlang einfach nur angesehen?"
+            },
+            {
+                id: "b1_1108", cat: "cat11",
+                textBenni: "Unser Sohn spiegelt unsere eigene Gelassenheit oder Anspannung extrem schnell.",
+                textSarah: "Wenn wir als Eltern entspannt bleiben, läuft der ganze Tag mit dem Kleinen viel harmonischer.",
+                textCouch: "In welchen Situationen gelingt uns diese elterliche Gelassenheit aktuell am besten?"
+            },
+            {
+                id: "b1_1109", cat: "cat6",
+                textBenni: "Ein improvisiertes Abendessen auf der Couch ist manchmal viel besser als jedes perfekt durchgeplante Menü.",
+                textSarah: "Die unkomplizierten Abende, an denen wir einfach den Moment nehmen, wie er kommt, tun unheimlich gut.",
+                textCouch: "Welches ungeplante Alltags-Highlight hat dir zuletzt die meiste Freude bereitet?"
+            },
+            {
+                id: "b1_1110", cat: "cat5",
+                textBenni: "Deine Unterstützung bei meinen persönlichen Zielen gibt mir enorm viel Rückenwind.",
+                textSarah: "Ich freue mich ehrlich über deine Erfolge und deine frische Energie nach dem Auspowern.",
+                textCouch: "Wie können wir uns bei unseren jeweiligen Zielen noch besser gegenseitig anfeuern?"
+            },
+            {
+                id: "b1_1111", cat: "cat3",
+                textBenni: "Kleine, spontane Ausgaben für gemeinsame Genussmomente sind für mich absolute Lebensqualität.",
+                textSarah: "Kleine Leckereien oder eine kurze Kaffeepause zwischendurch versüßen mir den gesamten Tag.",
+                textCouch: "Was war unser schönster, kleiner Genussmoment der letzten Woche?"
+            },
+            {
+                id: "b1_1112", cat: "cat12",
+                textBenni: "Ein gemeinsamer Spaziergang ohne Handys in den Taschen fühlt sich an wie ein kleiner Kurzurlaub.",
+                textSarah: "Das bewusste Abschalten aller Geräte schenkt uns eine ganz neue Qualität von Aufmerksamkeit.",
+                textCouch: "Schaffen wir es, am nächsten Wochenende einen festen Offline-Spaziergang zu machen?"
+            },
+            {
+                id: "b1_1113", cat: "cat4",
+                textBenni: "Wenn du mir im Alltag beiläufig durch die Haare streichst, fühle ich mich sofort geliebt.",
+                textSarah: "Diese kleinen, absichtslosen Berührungen im Vorbeigehen halten unsere Verbindung warm.",
+                textCouch: "Wie präsent sind diese kleinen Zärtlichkeiten aktuell in unserem Beziehungsalltag?"
+            },
+            {
+                id: "b1_1114", cat: "cat0",
+                textBenni: "Wir können stolz darauf sein, wie gut wir die Balance zwischen Familie und uns als Paar meistern.",
+                textSarah: "Trotz der intensiven Phase finden wir immer wieder verlässlich den Weg zurück auf unsere Couch.",
+                textCouch: "Was ist das Geheimnis, warum wir trotz Alltagstrubel immer ein echtes Liebespaar bleiben?"
+            },
+            {
+                id: "b1_1115", cat: "cat7",
+                textBenni: "Das Ausmalen von verrückten Zukunftsideen macht mir gemeinsam mit dir am meisten Spaß.",
+                textSarah: "Deine kreativen Visionen stecken mich an und bringen Leichtigkeit in meine Gedanken.",
+                textCouch: "Welche scheinbar unrealistische Idee sollten wir einfach mal aus Spaß weiterspinnen?"
+            },
+            {
+                id: "b1_1116", cat: "cat1",
+                textBenni: "Ich spüre sofort, wenn wir emotional auf einer Wellenlänge sind, ohne dass wir viel reden müssen.",
+                textSarah: "Dieses tiefe Grundvertrauen in uns nimmt jedem kleinen Alltagsstreit sofort die Schärfe.",
+                textCouch: "Wann hast du diese tiefe Verbundenheit in den letzten Tagen am stärksten gefühlt?"
+            },
+            {
+                id: "b1_1117", cat: "cat2",
+                textBenni: "Die Aufgaben rund um Haus und Familie laufen bei uns mittlerweile wie bei einem eingespielten Profi-Team.",
+                textSarah: "Unsere Routine hat sich so gut eingespielt, dass wir uns im Alltag blind aufeinander verlassen können.",
+                textCouch: "Welcher Bereich unseres gemeinsamen Alltags läuft aktuell am reibungslosesten?"
+            },
+            {
+                id: "b1_1118", cat: "cat9",
+                textBenni: "Ein Abend mit Freunden bringt frischen Wind und neue Inspiration in unsere Paardynamik.",
+                textSarah: "Das gemeinsame Lachen in geselliger Runde tut uns nach einer harten Woche unheimlich gut.",
+                textCouch: "Welchen gemeinsamen Freund oder welches Paar sollten wir ganz ungezwungen mal wieder einladen?"
+            },
+            {
+                id: "b1_1119", cat: "cat4",
+                textBenni: "Ein ehrliches, hingeworfenes Kompliment von dir am Morgen verschönert meinen gesamten Arbeitstag.",
+                textSarah: "Wenn du mir sagst, was du an mir schätzt, gibt mir das einen unheimlichen Energieschub.",
+                textCouch: "Welches ehrliche Kompliment hast du dem anderen heute noch nicht gesagt?"
+            },
+            {
+                id: "b1_1120", cat: "cat11",
+                textBenni: "Das gemeinsame Lachen unseres Sohnes ist der allerschönste Soundtrack für unser Zuhause.",
+                textSarah: "Wenn wir alle drei zusammen auf dem Boden herumalbern, ist die Welt für mich absolut perfekt.",
+                textCouch: "Welcher Moment mit unserem Kind hat dich heute am glücklichsten gemacht?"
+            },
+		 {
+                id: "b1_1121", cat: "cat4",
+                textBenni: "Unsere morgendliche Routine ist für mich der perfekte, ruhige Start in den Tag.",
+                textSarah: "Die wenigen Minuten Kaffee zu zweit am Morgen sind mein persönliches Highlight, bevor der Trubel losgeht.",
+                textCouch: "Welches tägliche Ritual gibt uns aktuell das größte Gefühl von Zusammenhalt?"
+            },
+            {
+                id: "b1_1122", cat: "cat11",
+                textBenni: "Wenn wir gemeinsam an einem Strang ziehen, fühle ich mich als unschlagbares Eltern-Team.",
+                textSarah: "Es tut so gut zu sehen, wie wir uns blind ergänzen, wenn es bei unserem Sohn mal hoch hergeht.",
+                textCouch: "In welcher Situation haben wir uns heute als Eltern besonders stark gefühlt?"
+            },
+            {
+                id: "b1_1123", cat: "cat0",
+                textBenni: "Ich liebe es, wenn wir am Wochenende einfach treiben lassen, ohne festen Zeitplan.",
+                textSarah: "Die unbeschwerten Stunden, in denen wir einfach nur wir selbst sind, laden meine Batterien am besten auf.",
+                textCouch: "Was war der entspannteste Moment unseres letzten gemeinsamen Wochenendes?"
+            },
+            {
+                id: "b1_1124", cat: "cat6",
+                textBenni: "Unser Zuhause entwickelt sich immer mehr zu dem Ort, an dem ich mich am wohlsten fühle.",
+                textSarah: "Ich mag die Art und Weise, wie wir unser Nest mit unseren gemeinsamen Erinnerungen füllen.",
+                textCouch: "Welcher Gegenstand oder welcher Raum in unserem Haus strahlt für dich am meisten 'Zuhause' aus?"
+            },
+            {
+                id: "b1_1125", cat: "cat5",
+                textBenni: "Deine persönliche Entwicklung in letzter Zeit beeindruckt mich und inspiriert mich auch selbst.",
+                textSarah: "Es ist schön zu erleben, wie wir uns beide individuell entfalten und dabei noch enger zusammenwachsen.",
+                textCouch: "Was an deiner eigenen Entwicklung in letzter Zeit findest du selbst am spannendsten?"
+            },
+            {
+                id: "b1_1126", cat: "cat3",
+                textBenni: "Zeit für gemeinsame Erlebnisse zu haben ist für mich der wahre Luxus unseres Lebens.",
+                textSarah: "Die schönsten Erinnerungen, die wir sammeln, sind uns mittlerweile wichtiger als jede materielle Anschaffung.",
+                textCouch: "Welches gemeinsame Erlebnis planen wir als Nächstes, nur um Zeit miteinander zu haben?"
+            },
+            {
+                id: "b1_1127", cat: "cat4",
+                textBenni: "Ich genieße die körperliche Nähe im Alltag, einfach nur das Händchenhalten oder die Nähe auf dem Sofa.",
+                textSarah: "Diese kleinen, beiläufigen Berührungen geben mir zwischendurch immer wieder ein Gefühl von Sicherheit.",
+                textCouch: "Gibt es einen Ort oder eine Situation, in der du dich besonders nah bei mir fühlst?"
+            },
+            {
+                id: "b1_1128", cat: "cat7",
+                textBenni: "Ich habe riesige Lust, mit dir noch so viele neue Orte und Abenteuer zu entdecken.",
+                textSarah: "Das Planen unserer nächsten kleinen Fluchten aus dem Alltag macht mir unheimlich viel Spaß.",
+                textCouch: "Wohin würden wir am liebsten abhauen, wenn Geld und Zeit keine Rolle spielen würden?"
+            },
+            {
+                id: "b1_1129", cat: "cat12",
+                textBenni: "Ein Abend ganz ohne Bildschirme, nur mit Gesprächen oder einem Spiel, tut uns richtig gut.",
+                textSarah: "Wenn wir das Handy bewusst weglegen, ist unsere Aufmerksamkeit füreinander sofort viel intensiver.",
+                textCouch: "Wie können wir öfter diese bewussten Offline-Inseln in unseren Alltag einbauen?"
+            },
+            {
+                id: "b1_1130", cat: "cat1",
+                textBenni: "Ich vertraue dir bedingungslos, egal welche Herausforderungen vor uns liegen.",
+                textSarah: "Das Wissen, dass du immer hinter mir stehst, gibt mir die nötige Ruhe für alle täglichen Aufgaben.",
+                textCouch: "Woran merkst du im Alltag am stärksten, dass du mir voll und ganz vertrauen kannst?"
+            },
+            {
+                id: "b1_1131", cat: "cat2",
+                textBenni: "Wir haben eine Art gefunden, Aufgaben zu teilen, die sich für uns beide absolut fair anfühlt.",
+                textSarah: "Ich schätze es sehr, wie wir uns gegenseitig unterstützen, statt uns gegenseitig zu kontrollieren.",
+                textCouch: "In welchem Bereich unseres Alltags gelingt uns das 'Wir-Gefühl' gerade besonders gut?"
+            },
+            {
+                id: "b1_1132", cat: "cat4",
+                textBenni: "Ein ehrliches Dankeschön von dir für eine Kleinigkeit freut mich immer wieder riesig.",
+                textSarah: "Wir sind mittlerweile richtig gut darin geworden, uns gegenseitig die kleinen Erfolge des Tages anzuerkennen.",
+                textCouch: "Wofür möchtest du dem anderen heute ganz bewusst 'Danke' sagen?"
+            },
+            {
+                id: "b1_1133", cat: "cat9",
+                textBenni: "Kleine Wochenendtrips geben mir das Gefühl, den Alltag komplett hinter mir zu lassen.",
+                textSarah: "Wir kommen nach Ausflügen meistens viel entspannter und verbundener zurück nach Hause.",
+                textCouch: "Was ist unser nächster kleiner Ausflug, auf den wir uns schon jetzt freuen?"
+            },
+            {
+                id: "b1_1134", cat: "cat11",
+                textBenni: "Es macht mich stolz, wenn ich sehe, wie neugierig und offen unser Sohn die Welt entdeckt.",
+                textSarah: "Wir geben ihm einen sicheren Hafen, von dem aus er mutig in die Welt gehen kann.",
+                textCouch: "Welche Eigenschaft unseres Kindes bewunderst du aktuell am meisten?"
+            },
+            {
+                id: "b1_1135", cat: "cat0",
+                textBenni: "Ich bin unheimlich optimistisch, was unsere gemeinsame Zukunft als Familie angeht.",
+                textSarah: "Wir haben ein Fundament gebaut, das uns auch durch stürmische Zeiten sicher trägt.",
+                textCouch: "Was stimmt dich im Moment am zuversichtlichsten für unsere gemeinsame Reise?"
+            },
+		 {
+                id: "b1_1136", cat: "cat4",
+                textBenni: "Gemeinsame Abende ohne großen Plan tun unserer Beziehung unheimlich gut.",
+                textSarah: "Einfach nur nebeneinander auf der Couch zu liegen gibt mir aktuell die meiste Entspannung.",
+                textCouch: "Wie genießen wir unsere unverplante gemeinsame Zeit am liebsten?"
+            },
+            {
+                id: "b1_1137", cat: "cat11",
+                textBenni: "Unser Sohn bringt eine ganz neue Art von Leichtigkeit in unseren Alltag.",
+                textSarah: "Das unbeschwerte Lachen unseres Kindes wischt jeden Alltagsärger sofort weg.",
+                textCouch: "Welcher Moment mit unserem Kind hat dich heute am meisten zum Lächeln gebracht?"
+            },
+            {
+                id: "b1_1138", cat: "cat6",
+                textBenni: "Ein gut strukturierter Alltag lässt uns mehr Raum für die schönen Dinge zu zweit.",
+                textSarah: "Wenn wir die täglichen Aufgaben flexibel aufteilen, läuft es bei uns am besten.",
+                textCouch: "Wo klappt unsere Alltags-Logistik aktuell besonders mühelos?"
+            },
+            {
+                id: "b1_1139", cat: "cat3",
+                textBenni: "Investitionen in unser Zuhause zahlen sich für unser Wohlbefinden jeden Tag aus.",
+                textSarah: "Unser Nest gemütlich einzurichten bedeutet für mich reine Lebensqualität.",
+                textCouch: "Welches Eckchen in unserem Zuhause ist aktuell dein absoluter Lieblingsort?"
+            },
+            {
+                id: "b1_1140", cat: "cat1",
+                textBenni: "Ich spüre dein tiefes Vertrauen in mich auch ohne große Worte.",
+                textSarah: "Deine Zuverlässigkeit gibt mir im Alltag eine unheimliche innere Sicherheit.",
+                textCouch: "In welchen Momenten spürst du unser blindes Vertrauen am stärksten?"
+            },
+            {
+                id: "b1_1141", cat: "cat5",
+                textBenni: "Wenn wir uns gegenseitig Freiräume schenken, kommen wir ausgeglichener als Paar zusammen.",
+                textSarah: "Ich freue mich ehrlich, wenn du nach deinen Auszeiten mit frischer Energie zurückkommst.",
+                textCouch: "Wie tanken wir in unseren persönlichen Pausen am besten auf?"
+            },
+            {
+                id: "b1_1142", cat: "cat4",
+                textBenni: "Kleine Gesten der Aufmerksamkeit bedeuten mir im Alltag unheimlich viel.",
+                textSarah: "Wenn du an mich denkst, ohne dass es einen offiziellen Grund gibt, freue ich mich riesig.",
+                textCouch: "Mit welcher kleinen Geste können wir uns morgen gegenseitig überraschen?"
+            },
+            {
+                id: "b1_1143", cat: "cat9",
+                textBenni: "Spontane Kurzausflüge am Wochenende brechen den üblichen Trott perfekt auf.",
+                textSarah: "Neue Orte gemeinsam zu entdecken weckt in mir sofort die Lebensfreude.",
+                textCouch: "Wohin soll unser nächster kleiner Wochenendausflug gehen?"
+            },
+            {
+                id: "b1_1144", cat: "cat12",
+                textBenni: "Ein komplett handyfreier Abend bringt uns emotional sofort viel näher.",
+                textSarah: "Das bewusste Weglegen der Bildschirme schafft eine ganz andere Qualität von Nähe.",
+                textCouch: "Schaffen wir heute Abend eine komplett digitale Auszeit für uns zwei?"
+            },
+            {
+                id: "b1_1145", cat: "cat0",
+                textBenni: "Wir können über alles offen reden, ohne dass es direkt zu einer ernsten Diskussion wird.",
+                textSarah: "Unsere lockere Art, Dinge anzusprechen, hat sich in letzter Zeit richtig gut entwickelt.",
+                textCouch: "Was macht unsere Kommunikation aktuell so entspannt und offen?"
+            },
+            {
+                id: "b1_1146", cat: "cat4",
+                textBenni: "Eine herzliche Umarmung im Vorbeigehen erdet mich im stressigen Alltag sofort.",
+                textSarah: "Deine körperliche Nähe gibt mir ein tiefes Gefühl von absolutem Angekommensein.",
+                textCouch: "Nehmen wir uns genug Zeit für diese kleinen physischen Anker im Alltag?"
+            },
+            {
+                id: "b1_1147", cat: "cat2",
+                textBenni: "Als Elternpaar ergänzen wir uns in intensiven Situationen mittlerweile hervorragend.",
+                textSarah: "Wir fangen die kleinen Launen des anderen im Familienalltag super auf.",
+                textCouch: "Was zeichnet uns aktuell als eingespieltes Eltern-Team am meisten aus?"
+            },
+            {
+                id: "b1_1148", cat: "cat7",
+                textBenni: "Ich liebe es, wenn wir gemeinsam Pläne für die nächsten Jahre schmieden.",
+                textSarah: "Unsere gemeinsamen Träume geben mir eine wunderschöne und sichere Richtung für die Zukunft.",
+                textCouch: "Welchen großen oder kleinen Traum wollen wir als Nächstes Realität werden lassen?"
+            },
+            {
+                id: "b1_1149", cat: "cat11",
+                textBenni: "Zu sehen, wie unser Sohn jeden Tag mutiger wird, erfüllt mich mit großem Stolz.",
+                textSarah: "Die unbändige Neugier unseres Kindes steckt mich im Alltag richtig positiv an.",
+                textCouch: "Welche Entdeckung unseres Kleinen hat dich in letzter Zeit am meisten fasziniert?"
+            },
+            {
+                id: "b1_1150", cat: "cat4",
+                textBenni: "Ein ehrliches Lob von dir für meine Bemühungen ist für mich der beste Motivator.",
+                textSarah: "Wenn du mir zeigst, was ich dir bedeute, blühe ich im Alltag total auf.",
+                textCouch: "Welches liebevolle Detail schätzt du am Charakter des anderen gerade ganz besonders?"
+            }, 
+		{
+                id: "b1_1151", cat: "cat6",
+                textBenni: "Das gemeinsame Ausprobieren von aufwändigen Rezepten ist für mich wie ein kleiner Urlaub im Alltag.",
+                textSarah: "Kulinarische Experimente in unserer Küche bringen uns als Paar eine richtig schöne Abwechslung.",
+                textCouch: "Welches kulinarische Projekt oder neue Gericht wollen wir als Nächstes gemeinsam ausprobieren?"
+            },
+            {
+                id: "b1_1152", cat: "cat11",
+                textBenni: "Unser Sohn wird langsam spürbar selbstständiger, und das gibt uns im Alltag wieder deutlich mehr Luft zum Atmen.",
+                textSarah: "Die aktuelle Phase mit unserem Kleinen lässt uns als Paar endlich wieder etwas mehr freien Raum für uns.",
+                textCouch: "Wie nutzen wir die neu gewonnene Flexibilität durch die Entwicklung unseres Sohnes am liebsten?"
+            },
+            {
+                id: "b1_1153", cat: "cat9",
+                textBenni: "Ein ausgedehnter, aktiver Tag in der Natur bringt mir die ultimative mentale Erholung nach einer harten Woche.",
+                textSarah: "Gemeinsame Ausflüge an der frischen Luft brechen unseren Wochentrott perfekt und unbeschwert auf.",
+                textCouch: "Wo zieht es uns für das nächste gemeinsame Outdoor-Abenteuer am Wochenende hin?"
+            },
+            {
+                id: "b1_1154", cat: "cat5",
+                textBenni: "Deine Disziplin bei deinen persönlichen Projekten und Hobbys motiviert mich im Alltag insgeheim enorm.",
+                textSarah: "Wenn du dich voller Energie auspowerst, spornt mich das für meine eigenen Ziele positiv an.",
+                textCouch: "Wie können wir uns gegenseitig noch besser dabei unterstützen, fit und voller Energie zu bleiben?"
+            },
+            {
+                id: "b1_1155", cat: "cat0",
+                textBenni: "Ein ungezwungener Spieleabend zu zweit bringt uns sofort die unbeschwerte Leichtigkeit von früher zurück.",
+                textSarah: "Kleine, spielerische Challenges unter uns beleben unsere Paardynamik auf eine herrlich lockere Art.",
+                textCouch: "Wann planen wir unseren nächsten gemeinsamen Spiele- oder Gaming-Abend?"
+            },
+            {
+                id: "b1_1156", cat: "cat1",
+                textBenni: "Gemeinsame Autofahrten bieten uns oft den perfekten Raum für ganz entspannte Gespräche ohne jede Ablenkung.",
+                textSarah: "Wenn wir längere Strecken zurücklegen, genieße ich die exklusive Zeit im Auto als Paar total.",
+                textCouch: "Nutzen wir unsere Fahrten im Alltag genug für tiefe oder einfach unbeschwerte Gespräche?"
+            },
+            {
+                id: "b1_1157", cat: "cat4",
+                textBenni: "Ein ausgeschlafener, absolut ruhiger Start ins Wochenende verändert meine Grundstimmung für die gesamte Woche.",
+                textSarah: "Wenn wir uns morgens am Wochenende bewusst Zeit im Bett gönnen, tanke ich am allerschnellsten auf.",
+                textCouch: "Wie sieht das perfekte, absolut stressfreie Samstagmorgen-Szenario für uns aus?"
+            },
+            {
+                id: "b1_1158", cat: "cat6",
+                textBenni: "Hintergrundmusik im Haus verändert meine Stimmung nach der Arbeit sofort ins Positive.",
+                textSarah: "Wenn bei uns zu Hause die passende Musik läuft, fällt die Alltagsanspannung viel leichter von mir ab.",
+                textCouch: "Welche Musikrichtung oder Playlist beschreibt unsere aktuelle Wohlfühlatmosphäre am besten?"
+            },
+            {
+                id: "b1_1159", cat: "cat8",
+                textBenni: "Das gemeinsame Auswerten und Quatschen nach einem Treffen mit Freunden schweißt uns total als Team zusammen.",
+                textSarah: "Nach sozialen Events genieße ich das gemütliche Nachbesprechen auf der Couch unheimlich.",
+                textCouch: "Sind wir uns aktuell einig darin, wie viel soziales Leben uns neben der Familie guttut?"
+            },
+            {
+                id: "b1_1160", cat: "cat3",
+                textBenni: "Kleine Veränderungen, Optimierungen und Dekorationen in unserem Zuhause fallen mir sofort positiv auf.",
+                textSarah: "Es macht mir riesigen Spaß, an den feinen Details unseres Nestes zu feilen, um es noch gemütlicher zu machen.",
+                textCouch: "Welche kleine optische Verschönerung oder welches DIY-Projekt in unserem Zuhause gehen wir als Nächstes an?"
+            },
+            {
+                id: "b1_1161", cat: "cat4",
+                textBenni: "Das gemeinsame Anschauen alter Fotos oder Urlaubserinnerungen weckt in mir sofort wieder die tiefe Verbundenheit.",
+                textSarah: "Unsere dokumentierten Meilensteine als Bildergalerie zu sehen, macht mich unheimlich glücklich und stolz.",
+                textCouch: "Wann nehmen wir uns die Zeit, um die Fotos der letzten Monate gemeinsam durchzugehen?"
+            },
+            {
+                id: "b1_1162", cat: "cat1",
+                textBenni: "Ich freue mich über praktische, durchdachte Alltags-Überraschungen viel mehr als über große Geschenke.",
+                textSarah: "Wenn du dir merkst, was ich im Alltag nur beiläufig erwähne, ist das für mich der größte Liebesbeweis.",
+                textCouch: "Wie gut gelingt es uns aktuell, die unausgesprochenen Wünsche des anderen zu lesen?"
+            },
+            {
+                id: "b1_1163", cat: "cat0",
+                textBenni: "Eine kurze Nachricht von dir zwischendurch am Tag gibt mir das Gefühl, dass wir trotz des Jobstresses eng verbunden sind.",
+                textSarah: "Kleine Updates aus deinem Arbeitsalltag zeigen mir verlässlich, dass du auch im Stress an mich denkst.",
+                textCouch: "Passt die Intensität unserer täglichen Check-ins für jeden von uns, oder darf es mehr sein?"
+            },
+            {
+                id: "b1_1164", cat: "cat4",
+                textBenni: "Körperliche Entspannung wie eine kurze Massage nimmt mir am Abend sofort die Last des harten Tages.",
+                textSarah: "Kleine, bewusste Berührungen am Abend helfen mir unheimlich dabei, körperlich komplett herunterzufahren.",
+                textCouch: "Wie können wir uns gegenseitig noch besser beim körperlichen Entspannen nach dem Alltag unterstützen?"
+            },
+            {
+                id: "b1_1165", cat: "cat8",
+                textBenni: "Gemeinsame Verabredungen mit anderen Paaren bringen eine richtig schöne, frische Dynamik in unsere Freizeit.",
+                textSarah: "Erlebnisse im Vierer- oder Freundeskreis bereichern unsere Partnerschaft auf eine sehr angenehme Weise.",
+                textCouch: "Welches befreundete Paar wollen wir für das nächste entspannte Wochenende einplanen?"
+            }, 
+		{
+                id: "b1_1166", cat: "cat4",
+                textBenni: "Kleine Komplimente über mein Aussehen machen mich nach dem harten Training stolz.",
+                textSarah: "Wenn ich sehe, wie fit und vital du bleibst, bewundere ich deine Disziplin enorm.",
+                textCouch: "Wie wichtig ist uns gegenseitige optische Anerkennung im Beziehungsalltag?"
+            },
+            {
+                id: "b1_1167", cat: "cat6",
+                textBenni: "Der Einsatz von praktischen Küchenhelfern spart uns unter der Woche die entscheidende Zeit.",
+                textSarah: "Durchdachte Küchengeräte bringen eine spürbare Entlastung in unsere abendliche Routine.",
+                textCouch: "Welche Anschaffung in der Küche hat unser Familienleben bisher am meisten entspannt?"
+            },
+            {
+                id: "b1_1168", cat: "cat11",
+                textBenni: "Die ersten Entdeckungen unseres Sohnes im Garten zu beobachten, gibt mir pure Lebensfreude.",
+                textSarah: "Die kleinen Outdoor-Momente mit unserem Kind erden mich im Alltag komplett.",
+                textCouch: "Welcher Moment mit dem Kleinen an der frischen Luft ist dir diese Woche besonders in Erinnerung geblieben?"
+            },
+            {
+                id: "b1_1169", cat: "cat9",
+                textBenni: "Eine ausgiebige Radtour mit dem Kinderanhänger ist für mich das perfekte Wochenend-Abenteuer.",
+                textSarah: "Gemeinsame Ausflüge im Grünen laden meine Batterien unglaublich schnell auf.",
+                textCouch: "Wohin geht unsere nächste gemeinsame Wochenend-Radtour als Familie?"
+            },
+            {
+                id: "b1_1170", cat: "cat12",
+                textBenni: "Ein Abend, an dem wir das Smartphone im Flur liegen lassen, fühlt sich sofort befreiend an.",
+                textSarah: "Ohne das ständige Aufleuchten von Bildschirmen bin ich abends deutlich entspannter.",
+                textCouch: "Schaffen wir ab morgen eine feste, handyfreie Zone während des Abendessens?"
+            },
+            {
+                id: "b1_1171", cat: "cat3",
+                textBenni: "Ein fester Budgetplan für unvorhergesehene Ausgaben nimmt mir jede finanzielle Anspannung.",
+                textSarah: "Klare finanzielle Absprachen geben mir die nötige Sicherheit für unsere täglichen Entscheidungen.",
+                textCouch: "Wie sicher und entspannt fühlst du dich aktuell mit unseren finanziellen Absprachen?"
+            },
+            {
+                id: "b1_1172", cat: "cat2",
+                textBenni: "Die Fertigstellung kleiner Meilensteine an unserem Haus erfüllt mich mit tiefem Stolz.",
+                textSarah: "Schritt für Schritt zu sehen, wie unser Traumhaus wächst, schweißt uns eng zusammen.",
+                textCouch: "Welches Detail an unserem Nestbau-Projekt begeistert dich aktuell am meisten?"
+            },
+            {
+                id: "b1_1173", cat: "cat4",
+                textBenni: "Ein kurzer Kuss beim Abschied am Morgen gibt mir ein gutes Gefühl für den ganzen Tag.",
+                textSarah: "Kleine Abschiedsrituale am Morgen zeigen mir verlässlich unsere feste Verbindung.",
+                textCouch: "Pflegen wir unsere kleinen Alltags-Rituale aktuell mit genug Aufmerksamkeit?"
+            },
+            {
+                id: "b1_1174", cat: "cat5",
+                textBenni: "Nach einem intensiven Workout komme ich mit bester Laune und freiem Kopf nach Hause.",
+                textSarah: "Deine spürbare Entspannung nach dem Auspowern überträgt sich sofort positiv auf meine Stimmung.",
+                textCouch: "Wie können wir dafür sorgen, dass jeder seine sportlichen Ventile optimal nutzen kann?"
+            },
+            {
+                id: "b1_1175", cat: "cat1",
+                textBenni: "Wenn wir Unstimmigkeiten direkt und ohne lange Pausen klären, geht es mir sofort besser.",
+                textSarah: "Ein kurzes, klärendes Gespräch am selben Tag verhindert, dass sich Frust unbemerkt anstaut.",
+                textCouch: "Wie gut gelingt es uns aktuell, kleine Alltagssticheleien sofort aufzufangen?"
+            },
+            {
+                id: "b1_1176", cat: "cat0",
+                textBenni: "Gemeinsam auf dem Sofa einen Film zu schauen, ist für mich die unkomplizierteste Art von Nähe.",
+                textSarah: "Einfach nur Arm in Arm zu entspannen, reicht mir völlig aus, um mich tief verbunden zu fühlen.",
+                textCouch: "Wann machen wir uns den nächsten gemütlichen Filmabend ganz ohne Alltagsgedanken?"
+            },
+            {
+                id: "b1_1177", cat: "cat11",
+                textBenni: "Die Planung für die großen Meilensteine unseres Sohnes schweißt uns als Familie richtig zusammen.",
+                textSarah: "Schöne Feiern für den Kleinen zu organisieren, erfüllt mich mit purem Stolz.",
+                textCouch: "Welche schöne Erinnerung an die letzten Familienfeste zaubert dir sofort ein Lächeln ins Gesicht?"
+            },
+            {
+                id: "b1_1178", cat: "cat6",
+                textBenni: "Ein perfekt zubereitetes, aufwändiges Gericht am Wochenende ist für mich der Inbegriff von Genuss.",
+                textSarah: "Wenn du dir Zeit für komplexe Kochtechniken nimmst, schmeckt man deine Leidenschaft sofort.",
+                textCouch: "Welches kulinarische Highlight wollen wir am nächsten freien Wochenende gemeinsam zaubern?"
+            },
+            {
+                id: "b1_1179", cat: "cat8",
+                textBenni: "Ein kurzer, ungezwungener Plausch mit den Nachbarn bringt frischen Wind in unseren Alltag.",
+                textSarah: "Gute Kontakte im direkten Umfeld geben mir ein schönes Gefühl von Beheimatung im neuen Heim.",
+                textCouch: "Wie wohl und angekommen fühlen wir sich aktuell in unserer direkten Nachbarschaft?"
+            },
+            {
+                id: "b1_1180", cat: "cat4",
+                textBenni: "Wenn du mich im Alltag mit meinem vertrauten Spitznamen ansprichst, spüre ich sofort unsere Nähe.",
+                textSarah: "Kleine, liebevolle Kosenamen zwischendurch halten die spielerische Romantik zwischen uns lebendig.",
+                textCouch: "Nutzen wir unsere vertrauten Kosenamen im stressigen Alltag noch oft genug?"
+            },
+            {
+                id: "b1_1181", cat: "cat9",
+                textBenni: "Ein spontaner Kurztrip in eine neue Region ist für mich die perfekte Flucht aus dem Alltagstrott.",
+                textSarah: "Die Luftveränderung auf kleinen Reisen bringt sofort eine neue Leichtigkeit in unsere Beziehung.",
+                textCouch: "Welche kleine Wochenendreise steht als Nächstes auf unserem gemeinsamen Wunschzettel?"
+            },
+            {
+                id: "b1_1182", cat: "cat7",
+                textBenni: "Das Durchrechnen von langfristigen Plänen für die nächsten Jahre gibt mir innere Sicherheit.",
+                textSarah: "Gemeinsame Visionen für unsere Zukunft als Familie spornen mich im Hier und Jetzt positiv an.",
+                textCouch: "Welcher langfristige Zukunftsgedanke schenkt dir aktuell die größte Vorfreude?"
+            },
+            {
+                id: "b1_1183", cat: "cat5",
+                textBenni: "Ein ungestörter Gaming-Abend bringt mir die perfekte Abwechslung, um den Kopf freizubekommen.",
+                textSarah: "Ich freue mich, wenn du bei deinen Hobbys komplett abschaltest und entspannt zurückkehrst.",
+                textCouch: "Gönnen wir uns gegenseitig genug Raum für diese komplett ungestörten Hobby-Inseln?"
+            },
+            {
+                id: "b1_1184", cat: "cat11",
+                textBenni: "Die wachsende, aktive Interaktion unseres Sohnes mit uns beiden macht den Alltag jeden Tag spannender.",
+                textSarah: "Unser Kleiner fordert uns jetzt ganz neu heraus, was uns als Eltern noch enger zusammenschweißt.",
+                textCouch: "Welche neue Eigenschaft oder Geste unseres Sohnes fasziniert dich im Moment am meisten?"
+            },
+            {
+                id: "b1_1185", cat: "cat1",
+                textBenni: "Ein offenes Ohr von dir nach einem anstrengenden Arbeitstag ist für mich die beste Unterstützung.",
+                textSarah: "Es tut mir gut, wenn ich dir von meinen täglichen Herausforderungen erzählen kann, ohne bewertet zu werden.",
+                textCouch: "Wie gut gelingt es uns aktuell, dem anderen nach Feierabend den nötigen emotionalen Raum zu geben?"
+            },
+            {
+                id: "b1_1186", cat: "cat6",
+                textBenni: "Schnelle, frische Mix-Getränke oder Smoothies am Morgen machen unseren Familienstart deutlich einfacher.",
+                textSarah: "Eine gesunde, unkomplizierte Routine am Frühstückstisch sorgt für einen harmonischen Start in den Tag.",
+                textCouch: "Welche kleine Alltags-Optimierung in der Küche hat sich für uns in letzter Zeit am meisten gelohnt?"
+            },
+            {
+                id: "b1_1187", cat: "cat4",
+                textBenni: "Wenn du dich im Alltag einfach an mich lehnst, spüre ich dein unbedingtes Vertrauen.",
+                textSarah: "Deine starke Schulter zum Anlehnen gibt mir in jeder Sekunde ein tiefes Gefühl von Sicherheit.",
+                textCouch: "In welchen Momenten nimmst du diese körperliche Sicherheit zwischen uns am stärksten wahr?"
+            },
+            {
+                id: "b1_1188", cat: "cat2",
+                textBenni: "Unsere gemeinsamen Routinen für den Hausputz sparen uns am Wochenende wertvolle Zeit.",
+                textSarah: "Wenn wir das Aufräumen als schnelles Team erledigen, bleibt viel mehr Zeit für uns als Familie.",
+                textCouch: "Wie können wir unsere Haushaltsroutinen noch effizienter gestalten, um reine Paarzeit zu gewinnen?"
+            },
+            {
+                id: "b1_1189", cat: "cat9",
+                textBenni: "Die Planung von Wanderrouten in der Natur weckt in mir sofort den Entdeckergeist.",
+                textSarah: "Mit der richtigen Ausrüstung ist jeder Familienausflug im Grünen pure Entspannung.",
+                textCouch: "Welche Naturregion wollen wir bei unserem nächsten großen Familienausflug erkunden?"
+            },
+            {
+                id: "b1_1190", cat: "cat0",
+                textBenni: "Kleine Insider-Witze aus unserer Anfangszeit bringen mich heute noch genau wie damals zum Lachen.",
+                textSarah: "Unsere gemeinsamen Erinnerungen an die ersten Jahre sind der schönste Beweis für unsere Geschichte.",
+                textCouch: "Welche lustige Anekdote aus unseren Anfängen sollten wir mal wieder hervorholen?"
+            },
+            {
+                id: "b1_1191", cat: "cat3",
+                textBenni: "Das Erreichen eines gemeinsamen Sparziels für unsere Familie erfüllt mich mit großer Zufriedenheit.",
+                textSarah: "Wenn wir finanzielle Meilensteine gemeinsam abhaken können, gibt mir das ein beruhigendes Gefühl.",
+                textCouch: "Welches gemeinsame Spar- oder Investitionsziel nehmen wir als Nächstes ins Visier?"
+            },
+            {
+                id: "b1_1192", cat: "cat5",
+                textBenni: "Ein ausgiebiger Spaziergang allein im Wald hilft mir, wichtige Entscheidungen im Kopf zu ordnen.",
+                textSarah: "Kleine Auszeiten ganz allein mit meinen Gedanken brauche ich ab und zu, um mich selbst wieder zu spüren.",
+                textCouch: "Wie leicht fällt es jedem von uns aktuell, sich diese Solo-Auszeiten im Alltag zu nehmen?"
+            },
+            {
+                id: "b1_1193", cat: "cat11",
+                textBenni: "Zu sehen, wie unser Sohn Parallelen oder Verhaltensweisen von uns übernimmt, ist unheimlich faszinierend.",
+                textSarah: "Unser Kind spiegelt unsere Eigenheiten mittlerweile so deutlich, dass es mich täglich zum Schmunzeln bringt.",
+                textCouch: "Welche Angewohnheit von uns hast du beim Kleinen zuletzt als Erstes entdeckt?"
+            },
+            {
+                id: "b1_1194", cat: "cat12",
+                textBenni: "Eine feste Smartphone-Pause am Sonntagabend tut unserer gemeinsamen Erholung unheimlich gut.",
+                textSarah: "Wenn die Bildschirme abends stumm bleiben, führen wir die besten und entspanntesten Gespräche.",
+                textCouch: "Schaffen wir es, den kommenden Sonntagabend komplett ohne digitale Ablenkung zu verbringen?"
+            },
+            {
+                id: "b1_1195", cat: "cat4",
+                textBenni: "Das Wissen, dass du stolz auf meinen beruflichen und persönlichen Einsatz bist, treibt mich an.",
+                textSarah: "Dein unermüdliches Engagement für unsere kleine Familie erfüllt mich mit tiefer Dankbarkeit.",
+                textCouch: "Welche Eigenschaft oder Leistung des anderen macht dich im Moment ganz besonders stolz?"
+            }, 
+		{
+                id: "b1_1196", cat: "cat4",
+                textBenni: "Ein tiefes, langes Anschauen im Vorbeigehen gibt mir sofort ein Gefühl von starker Verbundenheit.",
+                textSarah: "Wenn wir uns im Alltag stumm verstehen, spüre ich unsere tiefe Vertrautheit.",
+                textCouch: "Wie wichtig ist uns diese nonverbale Verbindung im Alltag?"
+            },
+            {
+                id: "b1_1197", cat: "cat11",
+                textBenni: "Das Herumalbern auf dem Spielplatz bringt mir die unbeschwertesten Momente der Woche.",
+                textSarah: "Wenn wir alle drei zusammen draußen sind, ist die Welt für mich absolut perfekt.",
+                textCouch: "Welches Outdoor-Erlebnis mit unserem Sohn war dein persönliches Highlight der Woche?"
+            },
+            {
+                id: "b1_1198", cat: "cat6",
+                textBenni: "Ein strukturierter Wochenplan für unsere Mahlzeiten nimmt mir viel Alltagsstress ab.",
+                textSarah: "Wenn wir beim Kochen flexibel und spontan bleiben, macht es mir deutlich mehr Spaß.",
+                textCouch: "Wo finden wir die perfekte Balance zwischen Essensplanung und Spontanität?"
+            },
+            {
+                id: "b1_1199", cat: "cat3",
+                textBenni: "Die finanzielle Sicherheit für unsere Familie steht für mich an allererster Stelle.",
+                textSarah: "Das Wissen um unsere stabile finanzielle Basis gibt mir eine unheimliche innere Ruhe.",
+                textCouch: "Wie zufrieden bist du mit unserer aktuellen wirtschaftlichen Aufstellung?"
+            },
+            {
+                id: "b1_1200", cat: "cat5",
+                textBenni: "Meine festen Laufrunden im Freien sind mein wichtigstes Ventil für mentale Klarheit.",
+                textSarah: "Kleine Auszeiten für ein gutes Buch oder ein Bad laden meine Akkus am schnellsten auf.",
+                textCouch: "Gönnen wir uns gegenseitig genug Raum für diese ganz persönlichen Regenerations-Inseln?"
+            },
+            {
+                id: "b1_1201", cat: "cat1",
+                textBenni: "Ein schnelles, ehrliches Feedback von dir hilft mir, meine eigenen Gedanken sofort zu sortieren.",
+                textSarah: "Wenn wir Probleme ohne Umschweife direkt ansprechen, bleibt kein Raum für Missverständnisse.",
+                textCouch: "Wie gut gelingt es uns aktuell, kleine Irritationen sofort auszuräumen?"
+            },
+            {
+                id: "b1_1202", cat: "cat12",
+                textBenni: "Ein komplett technikfreier Sonntagabend erdet mich ungemein nach einer vollen Woche.",
+                textSarah: "Ohne die ständige digitale Ablenkung führen wir auf der Couch die besten Gespräche.",
+                textCouch: "Machen wir den kommenden Sonntagabend zu einer rein analogen Paarzeit?"
+            },
+            {
+                id: "b1_1203", cat: "cat4",
+                textBenni: "Kleine Zärtlichkeiten im Alltag sind für mich das Fundament unserer Romantik.",
+                textSarah: "Eine liebevolle Berührung im Vorbeigehen gibt mir das Gefühl, als Frau begehrt zu werden.",
+                textCouch: "Wie präsent sind diese kleinen romantischen Gesten aktuell in unserem Beziehungsalltag?"
+            },
+            {
+                id: "b1_1204", cat: "cat2",
+                textBenni: "Die gemeinsame Organisation unseres Haushalts läuft mittlerweile absolut reibungslos.",
+                textSarah: "Wir sind als Alltagsteam so gut eingespielt, dass wir uns blind aufeinander verlassen können.",
+                textCouch: "Welcher Bereich unserer Alltagsorganisation klappt aktuell am allerbesten?"
+            },
+            {
+                id: "b1_1205", cat: "cat9",
+                textBenni: "Das gemeinsame Planen von zukünftigen Reisen weckt in mir sofort die pure Abenteuerlust.",
+                textSarah: "Die Vorfreude auf unseren nächsten Urlaub gibt mir im Alltag einen tollen Energieschub.",
+                textCouch: "Welches Reiseziel steht ganz oben auf unserer gemeinsamen Bucket-List?"
+            },
+            {
+                id: "b1_1206", cat: "cat0",
+                textBenni: "Unser gemeinsamer Humor hat sich über die Jahre zu unserer stärksten Geheimwaffe entwickelt.",
+                textSarah: "Wenn wir über den alltäglichen Wahnsinn lachen können, verfliegt jede Anspannung sofort.",
+                textCouch: "Über welchen lustigen Moment oder welche Panne haben wir zuletzt herzhaft gelacht?"
+            },
+            {
+                id: "b1_1207", cat: "cat7",
+                textBenni: "Das Spinnen von großen Zukunftsvisionen gibt mir eine klare Richtung für mein Handeln.",
+                textSarah: "Deine kreativen Lebensideen bringen eine wunderschöne Leichtigkeit in meine Gedanken.",
+                textCouch: "Welche gemeinsame Vision für die nächsten f衔nf Jahre gibt dir aktuell die meiste Vorfreude?"
+            },
+            {
+                id: "b1_1208", cat: "cat8",
+                textBenni: "Ein gemütlicher Grillabend mit Freunden bringt mir den perfekten Ausgleich zum Alltag.",
+                textSarah: "Die lockeren Gespräche im Freundeskreis geben mir ein tolles Gefühl von Geselligkeit.",
+                textCouch: "Welches befreundete Paar laden wir für das nächste freie Wochenende ein?"
+            },
+            {
+                id: "b1_1209", cat: "cat4",
+                textBenni: "Einfach nur den Atem des anderen zu spüren, reicht mir völlig aus, um runterzukommen.",
+                textSarah: "Das Gefühl, in deinen Armen einzuschlafen, gibt mir die maximale emotionale Geborgenheit.",
+                textCouch: "Nehmen wir uns abends genug Zeit für diese bewussten Momente der Nähe vor dem Schlafen?"
+            },
+            {
+                id: "b1_1210", cat: "cat11",
+                textBenni: "Die wachsende Neugier unseres Sohnes fordert mich als Vater täglich neu und positiv heraus.",
+                textSarah: "Zu sehen, wie selbstbewusst unser Kind die Welt entdeckt, macht mich unendlich stolz.",
+                textCouch: "Welche neue Fähigkeit unseres Kleinen hat dich in den letzten Tagen am meisten fasziniert?"
+            },
+            {
+                id: "b1_1211", cat: "cat6",
+                textBenni: "Ein schnelles, unkompliziertes Abendessen reicht mir unter der Woche völlig aus.",
+                textSarah: "Ein liebevoll gedeckter Tisch macht für mich auch ein einfaches Essen zu einem Wohlfühlmoment.",
+                textCouch: "Wie wichtig ist uns die Atmosphäre bei unseren gemeinsamen Mahlzeiten?"
+            },
+            {
+                id: "b1_1212", cat: "cat3",
+                textBenni: "Das Erreichen eines langfristigen Sparziels gibt mir ein tiefes Gefühl von Zufriedenheit.",
+                textSarah: "Wenn wir finanzielle Meilensteine gemeinsam abhaken, feiere ich das als Teamerfolg.",
+                textCouch: "Welches finanzielle Etappenziel nehmen wir als Nächstes gemeinsam ins Visier?"
+            },
+            {
+                id: "b1_1213", cat: "cat1",
+                textBenni: "Ein kurzes Augenzwinkern von dir im Raum gibt mir sofort das Gefühl, dass wir ein Team sind.",
+                textSarah: "Unser blindes Verständnis in Gesellschaft zeigt mir, wie fest unsere Basis ist.",
+                textCouch: "In welchen Momenten spürst du dieses blinde Verständnis zwischen uns am stärksten?"
+            },
+            {
+                id: "b1_1214", cat: "cat5",
+                textBenni: "Meine Sporteinheiten am frühen Morgen geben mir den besten Fokus für den gesamten Tag.",
+                textSarah: "Wenn du ausgeglichen und energiegeladen vom Training kommst, steckt mich das positiv an.",
+                textCouch: "Wie können wir unsere jeweiligen Kraftquellen noch besser in die Woche eintakten?"
+            },
+            {
+                id: "b1_1215", cat: "cat4",
+                textBenni: "Ein ehrliches, hingeworfenes Dankeschön von dir bedeutet mir unheimlich viel im Alltag.",
+                textSarah: "Wenn mein täglicher Einsatz im Hintergrund von dir gesehen wird, lädt das meine Akkus sofort auf.",
+                textCouch: "Für welches liebevolle Detail im Alltag hast du dich beim anderen schon länger nicht mehr bedankt?"
+            },
+            {
+                id: "b1_1216", cat: "cat11",
+                textBenni: "Das gemeinsame Vorlesen vor dem Schlafengehen ist mein absolutes Lieblingsritual mit unserem Sohn.",
+                textSarah: "Wenn im Haus endlich Ruhe einkehrt, genieße ich das gemeinsame Aufatmen mit dir auf der Couch.",
+                textCouch: "Wie gestalten wir die ersten Minuten unseres gemeinsamen Feierabends am liebsten?"
+            },
+            {
+                id: "b1_1217", cat: "cat9",
+                textBenni: "Ein spontaner Wochenendausflug in eine unbekannte Stadt bringt mir den perfekten Tapetenwechsel.",
+                textSarah: "Kleine Fluchten aus dem gewohnten Trott beleben unsere Partnerschaft auf eine sehr schöne Art.",
+                textCouch: "Welche Stadt oder Region wollen wir als Nächstes bei einem Kurztrip erkunden?"
+            },
+            {
+                id: "b1_1218", cat: "cat2",
+                textBenni: "Die Planung von baulichen oder gestalterischen Veränderungen an unserem Haus macht mir riesigen Spaß.",
+                textSarah: "Es fasziniert mich, wie wir aus unserem Grundstück Stück für Stück unsere ganz persönliche Oase machen.",
+                textCouch: "Welches Detail an unserem Nestbau-Projekt begeistert dich aktuell am allermeisten?"
+            },
+            {
+                id: "b1_1219", cat: "cat12",
+                textBenni: "Ein Abend mit einem guten Buch oder analoger Beschäftigung erdet mich nach der Bildschirmarbeit komplett.",
+                textSarah: "Wenn die Handys Sendepause haben, fühle ich mich dir und unserer Familie am allernächsten.",
+                textCouch: "Wann planen wir unser nächstes, komplett digitales Detox-Wochenende für uns als Familie?"
+            },
+            {
+                id: "b1_1220", cat: "cat0",
+                textBenni: "Wir haben uns trotz aller elterlichen Pflichten unsere ursprüngliche Leichtigkeit als Liebespaar bewahrt.",
+                textSarah: "Das Wissen, dass wir im Kern immer noch die gleichen Albernen wie früher sind, gibt mir unheimlich viel Halt.",
+                textCouch: "Was genau hält die spielerische Leichtigkeit zwischen uns beiden lebendig?"
+            },
+            {
+                id: "b1_1221", cat: "cat4",
+                textBenni: "Wenn du mir im Vorbeigehen zärtlich durch den Nacken streichst, verfliegt jede Alltagsanspannung.",
+                textSarah: "Diese kleinen, absichtslosen Gesten der Nähe halten unsere emotionale Verbindung warm.",
+                textCouch: "Wie leicht fällt es uns, diese kleinen Berührungen im täglichen Trubel nicht zu vergessen?"
+            },
+            {
+                id: "b1_1222", cat: "cat6",
+                textBenni: "Der Einsatz von modernen Küchengeräten hat unser abendliches Kochen extrem entspannt.",
+                textSarah: "Die Zeitersparnis durch clevere Helfer im Haushalt schenkt uns wertvolle Minuten als Paar.",
+                textCouch: "Welche Anschaffung im Haushalt hat unseren gemeinsamen Alltag bisher am besten optimiert?"
+            },
+            {
+                id: "b1_1223", cat: "cat1",
+                textBenni: "Ein ruhiges, klärendes Gespräch am selben Abend verhindert verlässlich, dass sich Frust anstaut.",
+                textSarah: "Wenn wir Unstimmigkeiten sofort ohne langes Schweigen ausräumen, schlafe ich deutlich beruhigter.",
+                textCouch: "Wie gut gelingt es uns aktuell, kleine Alltagssticheleien sofort friedlich aufzufangen?"
+            },
+            {
+                id: "b1_1224", cat: "cat11",
+                textBenni: "Die ersten aktiven Schritte und Entdeckungen unseres Sohnes im Garten machen mich unheimlich stolz.",
+                textSarah: "Die unbeschwerte Zeit mit unserem Kind an der frischen Luft gibt mir die meiste Lebensenergie.",
+                textCouch: "Welcher Moment mit dem Kleinen im Freien hat dich diese Woche am glücklichsten gemacht?"
+            },
+            {
+                id: "b1_1225", cat: "cat4",
+                textBenni: "Ich blicke mit absoluter Gelassenheit und unerschütterlichem Vertrauen auf unsere gemeinsame Reise.",
+                textSarah: "Das Gefühl, dass wir zusammen absolut jedes Hindernis meistern können, macht mich unheimlich stark.",
+                textCouch: "Was genau macht uns als Team aktuell so unschlagbar und zuversichtlich?"
+            },
+		 {
+                id: "b1_1226", cat: "cat4",
+                textBenni: "Ein langer, intensiver Kuss zur Begrüßung lässt den stressigen Arbeitstag sofort verfliegen.",
+                textSarah: "Wenn du mich nach dem Feierabend fest in den Arm nimmst, schalte ich sofort in den Entspannungsmodus.",
+                textCouch: "Nehmen wir uns genug Zeit für ein bewusstes, liebevolles Begrüßungsritual?"
+            },
+            {
+                id: "b1_1227", cat: "cat11",
+                textBenni: "Die wachsende Persönlichkeit unseres Sohnes macht mich jeden Tag unheimlich stolz.",
+                textSarah: "Es fasziniert mich zu sehen, wie sich das Wesen unseres Kindes Schritt für Schritt entfaltet.",
+                textCouch: "Welcher Charakterzug unseres Sohnes begeistert dich aktuell am meisten?"
+            },
+            {
+                id: "b1_1228", cat: "cat6",
+                textBenni: "Ein aufwändiges, selbstgekochtes Abendessen ist für mich der perfekte Start ins Wochenende.",
+                textSarah: "Wenn wir am Wochenende ohne Zeitdruck gemeinsam in der Küche stehen, ist das pure Erholung.",
+                textCouch: "Welches neue Gericht oder kulinarische Projekt wollen wir am nächsten freien Wochenende ausprobieren?"
+            },
+            {
+                id: "b1_1229", cat: "cat12",
+                textBenni: "Ein Abend, an dem wir die Handys bewusst in der Küche lassen, tut unserer Nähe unheimlich gut.",
+                textSarah: "Ohne die ständige Erreichbarkeit fühle ich mich im Gespräch mit dir deutlich präsenter.",
+                textCouch: "Schaffen wir es, ab morgen eine feste, bildschirmfreie Zone während des Abendessens einzuführen?"
+            },
+            {
+                id: "b1_1230", cat: "cat5",
+                textBenni: "Meine sportlichen Auszeiten sind für mich unverzichtbar, um mental ausgeglichen zu bleiben.",
+                textSarah: "Ich brauche regelmäßige Momente ganz für mich, um meine innere Ruhe wiederzufinden.",
+                textCouch: "Wie gut gelingt es uns aktuell, dem anderen seine wohlverdiente Me-Time freizuhalten?"
+            },
+            {
+                id: "b1_1231", cat: "cat1",
+                textBenni: "Ein kurzes, ehrliches Lob von dir gibt mir für meine täglichen Aufgaben extrem viel Auftrieb.",
+                textSarah: "Wenn du meinen alltäglichen Einsatz im Hintergrund siehst, bedeutet mir das unendlich viel.",
+                textCouch: "Für welche Kleinigkeit im Alltag möchtest du dich heute beim anderen ganz bewusst bedanken?"
+            },
+            {
+                id: "b1_1232", cat: "cat3",
+                textBenni: "Gemeinsame finanzielle Meilensteine zu erreichen, gibt mir ein tiefes Gefühl von Sicherheit.",
+                textSarah: "Unsere Absprachen bezüglich größerer Ausgaben laufen aktuell absolut harmonisch.",
+                textCouch: "Wie zufrieden und sicher fühlst du dich aktuell mit unseren finanziellen Planungen?"
+            },
+            {
+                id: "b1_1233", cat: "cat2",
+                textBenni: "Die Fortschritte an unserem Hausprojekt erfüllen mich mit großer Vorfreude auf die Zukunft.",
+                textSarah: "Zu sehen, wie unser gemeinsames Nest Gestalt annimmt, macht mich unheimlich glücklich.",
+                textCouch: "Welcher Bereich in unserem zukünftigen Zuhause schenkt dir aktuell die größte Vorfreude?"
+            },
+            {
+                id: "b1_1234", cat: "cat9",
+                textBenni: "Ein ausgiebiger Ausflug in die Natur bricht unseren gewohnten Wochentrott perfekt auf.",
+                textSarah: "Die frische Luft und eine kleine Luftveränderung laden meine Batterien extrem schnell auf.",
+                textCouch: "Wohin soll unser nächster gemeinsame Wochenendausflug als Familie gehen?"
+            },
+            {
+                id: "b1_1235", cat: "cat0",
+                textBenni: "Unser gemeinsamer Humor hilft mir verlässlich über anstrengende Phasen hinweg.",
+                textSarah: "Wenn wir gemeinsam über Missgeschicke lachen können, verfliegt jede Anspannung sofort.",
+                textCouch: "Über welche skurrile Alltagssituation oder Panne haben wir zuletzt so richtig herzlich gelacht?"
+            },
+            {
+                id: "b1_1236", cat: "cat4",
+                textBenni: "Einfach schweigend nebeneinander auf dem Sofa zu liegen, gibt mir ein tiefes Gefühl von Nähe.",
+                textSarah: "Diese ruhigen Momente ohne Gesprächsbedarf sind für mich der Inbegriff von Geborgenheit.",
+                textCouch: "Genießen wir die Stille miteinander aktuell intensiv genug als gemeinsame Kraftquelle?"
+            },
+            {
+                id: "b1_1237", cat: "cat11",
+                textBenni: "Das gemeinsame Herumalbern auf dem Teppich bringt mir die unbeschwertesten Minuten des Tages.",
+                textSarah: "Wenn wir alle drei zusammen auf dem Boden spielen, vergesse ich jeglichen Alltagsstress.",
+                textCouch: "Welcher Moment mit unserem Sohn hat dich diese Woche am meisten zum Schmunzeln gebracht?"
+            },
+            {
+                id: "b1_1238", cat: "cat6",
+                textBenni: "Durchdachte Abläufe im Haushalt sparen uns unter der Woche wertvolle Paarzeit.",
+                textSarah: "Wenn wir die täglichen To-Dos flexibel aufteilen, läuft unser Alltag am reibungslosesten.",
+                textCouch: "In welchem Bereich des Haushalts oder der Logistik sind wir aktuell ein besonders starkes Team?"
+            },
+            {
+                id: "b1_1239", cat: "cat1",
+                textBenni: "Wenn wir Meinungsverschiedenheiten sofort sachlich klären, belastet mich das Thema kaum.",
+                textSarah: "Ein kurzes, klärendes Gespräch am selben Abend lässt mich deutlich beruhigter einschlafen.",
+                textCouch: "Wie gut gelingt es uns aktuell, kleine Alltagsirritationen sofort friedlich aufzufangen?"
+            },
+            {
+                id: "b1_1240", cat: "cat7",
+                textBenni: "Das Schmieden von langfristigen Plänen für unsere Familie gibt mir eine klare Richtung.",
+                textSarah: "Deine Visionen für unsere gemeinsame Zukunft spornen mich im Hier und Jetzt positiv an.",
+                textCouch: "Welcher langfristige Zukunftsgedanke erfüllt dich aktuell mit der größten Zuversicht?"
+            },
+            {
+                id: "b1_1241", cat: "cat4",
+                textBenni: "Kleine, beiläufige Berührungen im Vorbeigehen halten unsere Verbindung im Alltag warm.",
+                textSarah: "Ein sanftes Streichen durch den Nacken gibt mir sofort das Gefühl, von dir gesehen zu werden.",
+                textCouch: "Wie präsent sind diese absichtslosen Zärtlichkeiten aktuell in unserem täglichen Trubel?"
+            },
+            {
+                id: "b1_1242", cat: "cat11",
+                textBenni: "Das abendliche Einschlafritual mit unserem Sohn erdet mich nach einem hektischen Tag komplett.",
+                textSarah: "Wenn im Haus endlich Ruhe einkehrt, genieße ich das gemeinsame Aufatmen auf der Couch.",
+                textCouch: "Wie gestalten wir die allerersten Minuten unseres gemeinsamen Feierabends am liebsten?"
+            },
+            {
+                id: "b1_1243", cat: "cat5",
+                textBenni: "Ein ungestörter Abend mit meinen eigenen Hobbys bringt mir den perfekten mentalen Ausgleich.",
+                textSarah: "Ich freue mich ehrlich, wenn du erholt und mit freiem Kopf von deinen Interessen zurückkehrst.",
+                textCouch: "Gönnen wir uns gegenseitig genug Raum für diese komplett ungestörten Hobby-Inseln?"
+            },
+            {
+                id: "b1_1244", cat: "cat3",
+                textBenni: "Investitionen in gemeinsame Erlebnisse sind für mich der wahre Luxus unseres Lebens.",
+                textSarah: "Die schönsten Erinnerungen, die wir sammeln, sind mir viel wichtiger als jeder materielle Besitz.",
+                textCouch: "Welches gemeinsame Erlebnis planen wir als Nächstes, nur um exklusive Zeit miteinander zu haben?"
+            },
+            {
+                id: "b1_1245", cat: "cat9",
+                textBenni: "Die Vorfreude auf unseren nächsten Urlaub gibt mir im Alltag einen spürbaren Energieschub.",
+                textSarah: "Das Planen von zukünftigen Reisen weckt in mir sofort die pure Lebensfreude.",
+                textCouch: "Welches Reiseziel steht aktuell ganz oben auf unserer gemeinsamen Wunschliste?"
+            },
+            {
+                id: "b1_1246", cat: "cat1",
+                textBenni: "Ein offenes Ohr von dir nach Feierabend ist für mich die wertvollste Unterstützung.",
+                textSarah: "Es tut mir unheimlich gut, wenn ich dir von meinen täglichen Sorgen erzählen kann, ohne bewertet zu werden.",
+                textCouch: "Wie gut gelingt es uns aktuell, dem anderen nach der Arbeit den nötigen emotionalen Raum zu geben?"
+            },
+            {
+                id: "b1_1247", cat: "cat6",
+                textBenni: "Eine perfekt strukturierte und aufgeräumte Küche gibt mir ein Gefühl von innerer Ruhe.",
+                textSarah: "Ich mag Ordnung auch, aber im stressigen Alltag darf es für mich gerne auch mal etwas flexibler sein.",
+                textCouch: "Wo finden wir die goldene Mitte zwischen Ordnungsanspruch und Alltagsrealität?"
+            },
+            {
+                id: "b1_1248", cat: "cat4",
+                textBenni: "Wenn du mich mit meinem vertrauten Kosenamen ansprichst, spüre ich sofort unsere besondere Nähe.",
+                textSarah: "Kleine, liebevolle Insider-Namen halten die verspielte Romantik zwischen uns lebendig.",
+                textCouch: "Nutzen wir unsere vertrauten Kosenamen im stressigen Alltag noch oft genug?"
+            },
+            {
+                id: "b1_1249", cat: "cat11",
+                textBenni: "Zu sehen, wie unser Sohn neue Fähigkeiten erlernt, fasziniert mich jeden Tag aufs Neue.",
+                textSarah: "Die kleinen Entwicklungsschritte unseres Kindes zu beobachten, ist mein absolutes Alltags-Highlight.",
+                textCouch: "Welcher neue Meilenstein unseres Sohnes hat dich in letzter Zeit am meisten beeindruckt?"
+            },
+            {
+                id: "b1_1250", cat: "cat8",
+                textBenni: "Ein entspannter Abend mit guten Freunden bringt eine willkommene, frische Dynamik in unsere Freizeit.",
+                textSarah: "Das gemeinsame Lachen in geselliger Runde tut mir nach einer harten Woche unglaublich gut.",
+                textCouch: "Welches befreundete Paar oder welchen Kontakt sollten wir demnächst mal wieder einladen?"
+            },
+            {
+                id: "b1_1251", cat: "cat12",
+                textBenni: "Ein komplett analoger Sonntag ohne jegliche Bildschirme lässt mich am besten regenerieren.",
+                textSarah: "Wenn die Handys Sendepause haben, fühle ich mich dir und unserer Familie emotional am allernächsten.",
+                textCouch: "Wann planen wir unser nächstes, komplett digitales Detox-Wochenende für uns als Familie?"
+            },
+            {
+                id: "b1_1252", cat: "cat2",
+                textBenni: "Als eingespieltes Eltern-Team meistern wir auch unvorhersehbare, stressige Tage absolut souverän.",
+                textSarah: "Unsere elterlichen Abläufe haben sich so gut eingespielt, dass wir uns blind aufeinander verlassen können.",
+                textCouch: "In welcher Familiensituation haben wir uns diese Woche als besonders starkes Team gefühlt?"
+            },
+            {
+                id: "b1_1253", cat: "cat4",
+                textBenni: "Ein ehrliches, spontanes Kompliment von dir am Morgen verschönert meinen gesamten Arbeitstag.",
+                textSarah: "Wenn du mir zeigst, was du an mir schätzt, gibt mir das einen unheimlichen Energieschub.",
+                textCouch: "Welches ehrliche Kompliment hast du dem anderen in letzter Zeit viel zu selten gesagt?"
+            },
+            {
+                id: "b1_1254", cat: "cat0",
+                textBenni: "Ich blicke mit absoluter Gelassenheit und unerschütterlichem Vertrauen auf unsere gemeinsame Reise.",
+                textSarah: "Das tiefe Wissen, dass wir zusammen jedes Hindernis meistern können, macht mich unheimlich stark.",
+                textCouch: "Was genau macht uns als Team aktuell so unschlagbar und zuversichtlich?"
+            },
+            {
+                id: "b1_1255", cat: "cat4",
+                textBenni: "Eine feste, lange Umarmung ohne Anlass gibt mir sofort das Gefühl von absolutem Angekommensein.",
+                textSarah: "Deine starke Schulter zum Anlehnen schenkt mir in jeder Sekunde eine tiefe emotionale Sicherheit.",
+                textCouch: "Nutzen wir die körperliche Nähe im Alltag genug als unsere gemeinsame Kraftquelle?"
+            },
+		{
+                id: "b1_1256", cat: "cat4",
+                textBenni: "Kleine Notizen oder unerwartete Nachrichten unter dem Tag versüßen mir den gesamten Arbeitsalltag.",
+                textSarah: "Unerwartete Aufmerksamkeiten im Alltag zeigen mir verlässlich, dass du im größten Trubel an mich denkst.",
+                textCouch: "Wie können wir uns im Alltag wieder öfter kleine, liebevolle Aufmerksamkeiten schenken?"
+            },
+            {
+                id: "b1_1257", cat: "cat11",
+                textBenni: "Das Packen und die Logistik für gemeinsame Ausflüge mit dem Kleinen arten bei uns oft in Stress aus.",
+                textSarah: "Unterwegs mit unserem Sohn verliere ich manchmal die Geduld, wenn spontane Pläne nicht funktionieren.",
+                textCouch: "Wie machen wir unsere Familienausflüge von Anfang an entspannter für uns beide?"
+            },
+            {
+                id: "b1_1258", cat: "cat6",
+                textBenni: "Ein aufgeräumtes Wohnzimmer am späten Abend hilft mir dabei, den Tag gedanklich komplett abzuschließen.",
+                textSarah: "Nach einem langen, intensiven Tag ist mir die Ordnung am Abend völlig egal, solange wir einfach entspannen.",
+                textCouch: "Ab wann darf das sichtbare Chaos im Haus am Abend einfach mal liegen bleiben?"
+            },
+            {
+                id: "b1_1259", cat: "cat1",
+                textBenni: "Es kostet mich große Überwindung, vor dir zuzugeben, wenn mich eine private Situation komplett überfordert.",
+                textSarah: "Wenn du deine ganz verletzliche Seite zeigst, fühle ich mich dir emotional am allernächsten.",
+                textCouch: "Was erleichtert es uns, Schwächen und innere Ängste ohne Scham miteinander zu teilen?"
+            },
+            {
+                id: "b1_1260", cat: "cat5",
+                textBenni: "Meine konsequente sportliche Routine gibt mir die nötige Belastbarkeit für unseren Familienalltag.",
+                textSarah: "Wenn ich sehe, mit wie viel Disziplin du an deiner Fitness arbeitest, bewundere ich deine Ausdauer enorm.",
+                textCouch: "Unterstützen wir uns aktuell genug dabei, unsere körperliche Gesundheit aktiv zu pflegen?"
+            },
+            {
+                id: "b1_1261", cat: "cat3",
+                textBenni: "Größere finanzielle Entscheidungen oder Anschaffungen brauchen bei mir generell etwas mehr Bedenkzeit.",
+                textSarah: "Für unvergessliche Erlebnisse als Familie treffe ich finanzielle Entscheidungen gerne ganz spontan aus dem Bauch heraus.",
+                textCouch: "Wie finden wir das richtige Gleichgewicht zwischen finanziellem Weitblick und spontanem Genuss?"
+            },
+            {
+                id: "b1_1262", cat: "cat12",
+                textBenni: "Das gemeinsame Anschauen von lustigen Videos oder Inhalten auf dem Handy ist für mich eine entspannte Art des Lachens.",
+                textSarah: "Ich tausche das gemeinsame Starren auf Bildschirme abends lieber gegen ein echtes, ungestörtes Gespräch aus.",
+                textCouch: "Wann tut uns digitale Unterhaltung zu zweit gut und wann blockiert sie echte Nähe?"
+            },
+            {
+                id: "b1_1263", cat: "cat4",
+                textBenni: "Ein spielerischer, flirtender Umgang miteinander kommt zwischen uns im Moment deutlich zu kurz.",
+                textSarah: "Das unbeschwerte, romantische Prickeln aus unserer ersten Dating-Phase vermisse ich im Alltag manchmal.",
+                textCouch: "Wie bringen wir wieder mehr spielerischen Flirt und Leichtigkeit in unsere Paardynamik?"
+            },
+            {
+                id: "b1_1264", cat: "cat2",
+                textBenni: "Bei der Gestaltung unseres Zuhauses sind mir praktische, funktionale Lösungen am allerwichtigsten.",
+                textSarah: "Ein ästhetisches, perfekt harmonisches Ambiente im Haus hat für mein Wohlbefinden oberste Priorität.",
+                textCouch: "Wie vereinen wir Funktionalität und Gemütlichkeit in unserem gemeinsamen Nest?"
+            },
+            {
+                id: "b1_1265", cat: "cat11",
+                textBenni: "Bei der Einhaltung von festen Regeln für unseren Sohn bin ich im Alltag tendenziell der konsequentere Part.",
+                textSarah: "Ich drücke beim Kleinen gerne mal ein Auge zu, um Tränen und zusätzliche Anspannung im Haus zu vermeiden.",
+                textCouch: "Wo müssen wir als Eltern absolut an einem Strang ziehen und wo ist Flexibilität erlaubt?"
+            },
+            {
+                id: "b1_1266", cat: "cat9",
+                textBenni: "Ein gelungener Urlaub funktioniert für mich am besten mit minimalem Gepäck und viel Spontanität.",
+                textSarah: "Eine gründliche Packliste für alle erdenklichen Szenarien nimmt mir auf Reisen jegliche Anspannung.",
+                textCouch: "Wie gestalten wir die Urlaubsvorbereitungen harmonischer, ohne uns im Vorfeld zu stressen?"
+            },
+            {
+                id: "b1_1267", cat: "cat1",
+                textBenni: "Ich merke sofort an deiner Körpersprache, wie dein Tag war, noch bevor du überhaupt ein Wort sagst.",
+                textSarah: "Deine tagesaktuelle Stimmung überträgt sich blitzschnell und ungefiltert auf mein eigenes Wohlbefinden.",
+                textCouch: "Wie gehen wir feinfühlig mit der tagesaktuellen Energie des anderen um?"
+            },
+            {
+                id: "b1_1268", cat: "cat4",
+                textBenni: "Das Einschlafen in direktem, engem Körperkontakt gibt mir die ultimative Entspannung am Abend.",
+                textSarah: "Nach einer intensiven Kuschelphase ist mir mein eigener, ungestörter Freiraum im Bett zum Schlafen sehr wichtig.",
+                textCouch: "Passt unsere nächtliche Kuschel- und Schlaf-Balance aktuell für jeden von uns?"
+            },
+            {
+                id: "b1_1269", cat: "cat8",
+                textBenni: "Unser Haus weit für Freunde und Familie zu öffnen, bereitet mir zu jeder Zeit große Freude.",
+                textSarah: "Die intensive Bewirtung von Gästen bedeutet in der aktuellen Phase für mich eine spürbare Zusatzbelastung.",
+                textCouch: "Wie oft und in welchem Rahmen wollen wir aktuell Besuch in unser Haus einladen?"
+            },
+            {
+                id: "b1_1270", cat: "cat6",
+                textBenni: "Die Zubereitung von gesunden, frisch gemixten Bowls oder Smoothies gibt mir einen echten Energieschub am Morgen.",
+                textSarah: "Ein schnelles, warmes Wohlfühlessen ist für mich das beste Seelenfutter nach einem anstrengenden Tag.",
+                textCouch: "Welche gesunden kulinarischen Routinen tun uns als Paar aktuell am allbesten?"
+            },
+            {
+                id: "b1_1271", cat: "cat0",
+                textBenni: "Die Erinnerung an unsere spontanen Roadtrips aus den ersten gemeinsamen Jahren ist in mir immer noch sehr präsent.",
+                textSarah: "Die Gedanken an unsere unbeschwerte Anfangszeit zaubern mir auch heute noch sofort ein Lächeln ins Gesicht.",
+                textCouch: "Welches unbeschwerte Element aus unserer Vergangenheit können wir heute wieder in den Alltag integrieren?"
+            },
+            {
+                id: "b1_1272", cat: "cat5",
+                textBenni: "Treffen allein mit meinen Freunden sind wichtig, um mal komplett andere Themen in den Kopf zu bekommen.",
+                textSarah: "Eigene Auszeiten oder Abende mit meinen Mädels geben mir meine Unabhängigkeit und frische Energie zurück.",
+                textCouch: "Wie gut gelingt uns die Balance zwischen eigenen Freundschaften und gemeinsamen Paarkontakten?"
+            },
+            {
+                id: "b1_1273", cat: "cat11",
+                textBenni: "Die aktuelle Betreuungssituation unseres Sohnes entlastet unseren wöchentlichen Ablauf spürbar.",
+                textSarah: "Die räumliche Trennung von unserem Kleinen während der Betreuungszeit fällt mir emotional manchmal immer noch schwer.",
+                textCouch: "Wie fühlen wir uns aktuell mit der Vereinbarkeit von Job, Betreuung und Familie?"
+            },
+            {
+                id: "b1_1274", cat: "cat3",
+                textBenni: "Ein prall gefülltes Sparkonto für unvorhergesehene Dinge beruhigt meine Nerven im Alltag ungemein.",
+                textSarah: "Der wahre Wert von Ersparnissen zeigt sich für mich erst, wenn wir sie aktiv für Lebensqualität einsetzen.",
+                textCouch: "Ziehen wir bei unseren Spar- und Konsumzielen aktuell am absolut selben Strang?"
+            },
+            {
+                id: "b1_1275", cat: "cat4",
+                textBenni: "Das offene Zeigen von Zuneigung und Nähe in der Öffentlichkeit fällt mir vollkommen leicht.",
+                textSarah: "Dezentere, leisere Gesten der Vertrautheit vor anderen Menschen reichen mir völlig aus.",
+                textCouch: "Wie wohl fühlen wir uns mit dem Zeigen von körperlicher Nähe vor anderen Menschen?"
+            },
+            {
+                id: "b1_1276", cat: "cat12",
+                textBenni: "Das ständige Aufblinken von Benachrichtigungen auf dem Handy stresst mich auch im Feierabend noch unbewusst.",
+                textSarah: "Wenn du im Feierabend permanent digital erreichbar bist, leidet unsere gemeinsame Zeit spürbar darunter.",
+                textCouch: "Welche klaren Regeln brauchen wir für die geschäftliche Handynutzung im Feierabend?"
+            },
+            {
+                id: "b1_1277", cat: "cat2",
+                textBenni: "Die Gestaltung unseres Gartens oder Außenbereichs ist für mich ein perfektes handwerkliches Ventil.",
+                textSarah: "Ein grüner, blühender Außenbereich ist für mich der Inbegriff von familiärer Lebensqualität im eigenen Heim.",
+                textCouch: "Welches nächste kleine Projekt im Außenbereich packen wir als Nächstes gemeinsam an?"
+            },
+            {
+                id: "b1_1278", cat: "cat1",
+                textBenni: "Bei deinen Sorgen schalte ich oft instinktiv sofort in den lösungsorientierten, pragmatischen Modus.",
+                textSarah: "Das einfache Abladen von Alltagsfrust hilft mir oft viel mehr als jeder gut gemeinte Ratschlag.",
+                textCouch: "Wie signalisieren wir dem anderen am besten, was wir in diesem Moment gerade von ihm brauchen?"
+            },
+            {
+                id: "b1_1279", cat: "cat7",
+                textBenni: "Der Gedanke an das gemeinsame Altwerden mit dir gibt mir ein tiefes Gefühl von innerem Frieden.",
+                textSarah: "Das Wissen um deine feste Begleitung in allen zukünftigen Lebensphasen schenkt mir unheimliche Sicherheit.",
+                textCouch: "Wie stellen wir uns unser Leben vor, wenn unser Sohn irgendwann einmal aus dem Haus ist?"
+            },
+            {
+                id: "b1_1280", cat: "cat6",
+                textBenni: "Ich bin morgens nach dem Aufwachen sofort voller Tatendrang und brauche direkt Action im Haus.",
+                textSarah: "Ich brauche nach dem Aufstehen erst einmal ein paar Minuten absolute Ruhe, um im Tag anzukommen.",
+                textCouch: "Wie gestalten wir unsere unterschiedlichen Morgen-Energien harmonischer für uns beide?"
+            },
+            {
+                id: "b1_1281", cat: "cat11",
+                textBenni: "Die großen Entwicklungsschritte unseres Sohnes im ersten Lebensjahr sind wie im Flug an mir vorbeigezogen.",
+                textSarah: "Ich halte jede noch so kleine Veränderung und Erinnerung des Kleinen ganz bewusst in meinem Herzen fest.",
+                textCouch: "Wie können wir die kostbaren Momente der Kindheit unseres Sohnes noch bewusster gemeinsam genießen?"
+            },
+            {
+                id: "b1_1282", cat: "cat4",
+                textBenni: "Ein elegantes, schickes Outfit von dir bei besonderen Anlässen fasziniert mich jedes Mal aufs Neue.",
+                textSarah: "Das bewusste Schickmachen für den Partner bringt eine wunderschöne Abwechslung in unseren Beziehungslook.",
+                textCouch: "Schaffen wir im Alltag genug Gelegenheiten, um uns außerhalb des gemütlichen Homewear-Looks zu bewundern?"
+            },
+            {
+                id: "b1_1283", cat: "cat9",
+                textBenni: "Die maximale Erholung am Wochenende liegt für mich in der Ruhe auf unserem eigenen Grundstück.",
+                textSarah: "Ein kleiner, spontaner Tapetenwechsel am Wochenende bringt mir die meiste frische Energie zurück.",
+                textCouch: "Wie sieht die perfekte Balance zwischen Nest-Zeit und kleinen Ausflügen am Wochenende aus?"
+            },
+            {
+                id: "b1_1284", cat: "cat5",
+                textBenni: "Die Verfolgung von neuen, ganz persönlichen Projekten oder Interessen reizt mich aktuell sehr.",
+                textSarah: "Neue individuelle Hobbys des anderen beleben uns, solange die exklusive Paarzeit fest geschützt bleibt.",
+                textCouch: "Welches neue Thema oder welche Beschäftigung reizt dich aktuell insgeheim am meisten?"
+            },
+            {
+                id: "b1_1285", cat: "cat0",
+                textBenni: "Mein Herz ist bei dir so bedingungslos sicher aufgehoben wie bei keinem anderen Menschen auf dieser Welt.",
+                textSarah: "Das blinde, unerschütterliche Vertrauen in unsere Partnerschaft ist mein festes Fundament im Leben.",
+                textCouch: "Was genau macht unser gegenseitiges Vertrauen im innersten Kern so unendlich stark?"
+            }, 
+		{
+                id: "b1_1286", cat: "cat4",
+                textBenni: "Ein langer, intensiver Kuss im Vorbeigehen gibt mir sofort Energie für den Rest des Tages.",
+                textSarah: "Ein spontaner, zärtlicher Klaps oder eine Berührung hält unser Flirten im Alltag lebendig.",
+                textCouch: "Wie wichtig ist uns das spielerische Flirten im täglichen Familienleben?"
+            },
+            {
+                id: "b1_1287", cat: "cat11",
+                textBenni: "Wenn unser Sohn beim Essen herumkleckert, bleibe ich meistens vollkommen tiefenentspannt.",
+                textSarah: "Ein sauberes Essumfeld ist mir auch beim Kleinen wichtig, um zusätzliche Putzarbeit zu vermeiden.",
+                textCouch: "Wo treffen sich unsere Vorstellungen von Tischmanieren und elterlicher Gelassenheit?"
+            },
+            {
+                id: "b1_1288", cat: "cat6",
+                textBenni: "Die wöchentliche Einkaufsplanung im Voraus spart uns im Alltag unheimlich viel Zeit.",
+                textSarah: "Ein spontaner Gang durch den Supermarkt inspiriert mich oft zu viel besseren Gerichten.",
+                textCouch: "Wie strukturieren wir unsere Lebensmitteleinkäufe am effektivsten?"
+            },
+            {
+                id: "b1_1289", cat: "cat5",
+                textBenni: "Nach einer intensiven Cardio- oder Joggingrunde fühle ich mich wie neugeboren.",
+                textSarah: "Deine sportlichen Erfolge und deine Ausdauer motivieren mich, selbst aktiv zu bleiben.",
+                textCouch: "Wie spornen wir uns gegenseitig zu einem gesunden und fitten Lebensstil an?"
+            },
+            {
+                id: "b1_1290", cat: "cat3",
+                textBenni: "Größere finanzielle Rücklagen für das Haus geben mir ein absolut beruhigendes Gefühl.",
+                textSarah: "Ein zu strenger Sparplan nimmt mir im Alltag manchmal die Freude an spontanen Kleinigkeiten.",
+                textCouch: "Wie definieren wir den perfekten Mittelweg zwischen Haus-Budget und Lebensqualität?"
+            },
+            {
+                id: "b1_1291", cat: "cat12",
+                textBenni: "Eine gemeinsame Gaming-Session oder ein Koop-Spiel bringt uns sofort wieder auf eine spielerische Ebene.",
+                textSarah: "Ich nutze den Abend lieber für eine gute Serie oder ein intensives Gespräch zu zweit.",
+                textCouch: "Welche gemeinsamen Unterhaltungsmedien bringen uns als Paar am besten zusammen?"
+            },
+            {
+                id: "b1_1292", cat: "cat9",
+                textBenni: "Das Packen des Fahrradanhängers für einen Familienausflug läuft bei mir absolut routiniert.",
+                textSarah: "Die ganze Logistik vor einem Ausflug stresst mich innerlich meistens schon Stunden vorher.",
+                textCouch: "Wie teilen wir die Vorbereitungen für Ausflüge fairer auf?"
+            },
+            {
+                id: "b1_1293", cat: "cat1",
+                textBenni: "Wenn du mir direkt und ohne Umschweife sagst, was Sache ist, kann ich am besten damit umgehen.",
+                textSarah: "Ein sanfterer Tonfall bei Unstimmigkeiten hilft mir, mich nicht sofort verschließen zu müssen.",
+                textCouch: "Wie finden wir die richtige Balance zwischen direkter Ehrlichkeit und emotionalem Feingefühl?"
+            },
+            {
+                id: "b1_1294", cat: "cat2",
+                textBenni: "Das eigenständige handwerkliche Umsetzen von Ideen am Haus erfüllt mich mit großem Stolz.",
+                textSarah: "Ich bewundere dein Geschick und bin dankbar, dass du so viel Energie in unser Nest steckst.",
+                textCouch: "Welches handwerkliche Projekt hat unser Zuhause bisher am meisten aufgewertet?"
+            },
+            {
+                id: "b1_1295", cat: "cat4",
+                textBenni: "Ein gemeinsames Bad oder eine Wellness-Auszeit zu zweit ist für mich der pure Luxus.",
+                textSarah: "Kleine Verwöhnmomente im Alltag bedeuten mir viel mehr als teure Wellness-Wochenenden.",
+                textCouch: "Wie kreieren wir uns zu Hause kleine, unkomplizierte Wellness-Momente für uns zwei?"
+            },
+            {
+                id: "b1_1296", cat: "cat11",
+                textBenni: "Ich mache mir manchmal Sorgen, ob wir unserem Sohn genug Abwechslung im Alltag bieten.",
+                textSarah: "Unser Kind profitiert am meisten von stabilen Routinen und vertrauten Abläufen.",
+                textCouch: "Wie viel Action und wie viel Ruhe braucht der Alltag unseres Sohnes aktuell?"
+            },
+            {
+                id: "b1_1297", cat: "cat0",
+                textBenni: "Wir haben uns trotz der großen Verantwortung unsere ursprüngliche Spontanität bewahrt.",
+                textSarah: "Der Alltag hat uns fester im Griff, als ich es manchmal wahrhaben möchte.",
+                textCouch: "In welchem Bereich dürfen wir wieder deutlich spontaner und unvernünftiger werden?"
+            },
+            {
+                id: "b1_1298", cat: "cat6",
+                textBenni: "Die Nutzung von leistungsstarken Küchenhelfern macht mein Meal Prep unheimlich effizient.",
+                textSarah: "Ich schätze die gesunden und frischen Gerichte, die du damit zauberst, sehr.",
+                textCouch: "Welche gesunden Ernährungs-Routinen wollen wir dauerhaft in unserem Alltag verankern?"
+            },
+            {
+                id: "b1_1299", cat: "cat5",
+                textBenni: "Ein Abend ganz allein beim Training ist für mich mentale Erholung pur.",
+                textSarah: "Wenn ich das Haus mal für ein paar Stunden ganz für mich alleine habe, genieße ich die absolute Stille.",
+                textCouch: "Wie oft gelingt es uns, dem anderen eine komplett leere Wohnung oder freie Zeit zu schenken?"
+            },
+            {
+                id: "b1_1300", cat: "cat3",
+                textBenni: "Klare Verträge und durchgerechnete Tarife sparen uns über die Jahre ein kleines Vermögen.",
+                textSarah: "Das ständige Vergleichen von Preisen und Verträgen empfinde ich als extrem trocken und anstrengend.",
+                textCouch: "Wie teilen wir administrative und finanzielle Aufgaben im Haushalt am besten auf?"
+            },
+            {
+                id: "b1_1301", cat: "cat1",
+                textBenni: "Nach einem langen Tag mit viel Verantwortung bin ich oft erst einmal gesprächsfaul.",
+                textSarah: "Wenn du schweigst, interpretiere ich das manchmal fälschlicherweise als schlechte Laune gegen mich.",
+                textCouch: "Wie kommunizieren wir das Bedürfnis nach Ruhe, ohne den anderen zu verunsichern?"
+            },
+            {
+                id: "b1_1302", cat: "cat4",
+                textBenni: "Ein intensiver, zärtlicher Blickkontakt quer durch den Raum gibt mir ein tiefes Gefühl von Verbundenheit.",
+                textSarah: "Diese kleinen, lautlosen Liebesbeweise im Alltag bedeuten mir unendlich viel.",
+                textCouch: "Wie oft fangen wir im Trubel die Blicke des anderen ganz bewusst ein?"
+            },
+            {
+                id: "b1_1303", cat: "cat12",
+                textBenni: "Das gemeinsame Aussuchen einer neuen Serie artet bei uns oft in eine lange Suche aus.",
+                textSarah: "Ein festes, altmodisches Fernsehprogramm wäre manchmal entspannter als die endlose Streaming-Auswahl.",
+                textCouch: "Wie gestalten wir unsere gemeinsamen Fernsehabende entscheidungsfreudiger?"
+            },
+            {
+                id: "b1_1304", cat: "cat9",
+                textBenni: "Aktivurlaube und Bewegung in den Bergen fordern mich heraus und geben mir neue Lebensenergie.",
+                textSarah: "Ein absolut entspannter Aufenthalt am Meer ist für mich das einzig wahre Mittel gegen Alltagserschöpfung.",
+                textCouch: "Wie verbinden wir unsere unterschiedlichen Vorstellungen von Erholung im nächsten Urlaub?"
+            },
+            {
+                id: "b1_1205", cat: "cat2",
+                textBenni: "Eine moderne, strukturierte Einrichtung im Haus strahlt für mich Ruhe und Ordnung aus.",
+                textSarah: "Liebevolle Details und Dekoration machen ein Haus erst zu einem echten, gemütlichen Zuhause.",
+                textCouch: "Wo treffen sich unsere Geschmäcker beim Thema Inneneinrichtung am besten?"
+            },
+            {
+                id: "b1_1306", cat: "cat11",
+                textBenni: "Das erste große Geburtstagsfest unseres Sohnes war ein absoluter Meilenstein für uns als Familie.",
+                textSarah: "Die Organisation von großen Familienfeiern schweißt uns als Orga-Team perfekt zusammen.",
+                textCouch: "Welches Familienfest der letzten Zeit ist dir als besonders harmonisch in Erinnerung geblieben?"
+            },
+            {
+                id: "b1_1307", cat: "cat8",
+                textBenni: "Ein gemütlicher Grillabend im eigenen Garten ist für mich der perfekte Sommerabend.",
+                textSarah: "Ich genieße die Geselligkeit, brauche danach aber auch wieder Zeit für mich im geschützten Raum.",
+                textCouch: "Wie viel soziale Interaktion im direkten Umfeld tut uns als Familie gut?"
+            },
+            {
+                id: "b1_1308", cat: "cat4",
+                textBenni: "Ein Kompliment von dir über meine körperliche Fitness gibt mir einen riesigen Motivationsschub.",
+                textSarah: "Wenn ich sehe, wie attraktiv du dich hältst, bin ich unglaublich stolz auf meinen Mann.",
+                textCouch: "Sagen wir uns im Alltag oft genug, was wir am Körper des anderen attraktiv finden?"
+            },
+            {
+                id: "b1_1309", cat: "cat6",
+                textBenni: "Eine perfekt organisierte Garage oder Werkstatt ist für mich ein absoluter Wohlfühlort.",
+                textSarah: "Solange das Chaos aus dem Wohnbereich bleibt, ist mir die Sortierung der Werkzeuge völlig egal.",
+                textCouch: "Welche Bereiche des Hauses gehören gestalterisch und organisatorisch ganz dir allein?"
+            },
+            {
+                id: "b1_1310", cat: "cat1",
+                textBenni: "Ich gehe Konflikten gerne analytisch und sachlich auf den Grund, um eine Lösung zu finden.",
+                textSarah: "Ich muss ein emotionales Thema erst einmal sacken lassen, bevor ich es sachlich besprechen kann.",
+                textCouch: "Wie geben wir uns im Streitfall die richtige Mischung aus Zeit und lösungsorientiertem Gespräch?"
+            },
+            {
+                id: "b1_1311", cat: "cat7",
+                textBenni: "Die Planung von langfristigen Investitionen für unsere Familie gibt mir ein tiefes Gefühl von Stolz.",
+                textSarah: "Das blinde Vertrauen in deine wirtschaftlichen Entscheidungen entlastet mich im Alltag ungemein.",
+                textCouch: "Wie fühlt sich unsere aktuelle Aufgabenverteilung bei großen Zukunftsthemen an?"
+            },
+            {
+                id: "b1_1312", cat: "cat11",
+                textBenni: "Die wachsende Ähnlichkeit unseres Sohnes mit mir in bestimmten Gesten fasziniert mich täglich.",
+                textSarah: "Er übernimmt mittlerweile so viele Facetten von uns beiden, dass es mich unendlich stolz macht.",
+                textCouch: "Welche Charaktereigenschaft von uns beiden erkennst du beim Kleinen aktuell am deutlichsten?"
+            },
+            {
+                id: "b1_1313", cat: "cat5",
+                textBenni: "Meine ausgiebigen Ausfahrten im Freien sind für mich die perfekte Kombination aus Sport und Natur.",
+                textSarah: "Ich freue mich, wenn du ausgeglichen von deinen Touren zurückkommst und frische Energie mitbringst.",
+                textCouch: "Wie können wir die Wochenenden so aufteilen, dass Platz für Sport und gemeinsame Familienzeit bleibt?"
+            },
+            {
+                id: "b1_1314", cat: "cat4",
+                textBenni: "Ein kleiner, unerwarteter Zettel im Auto oder in der Tasche zaubert mir sofort ein Lächeln ins Gesicht.",
+                textSarah: "Kleine, geschriebene Liebesbotschaften bedeuten mir im digitalen Zeitalter unheimlich viel.",
+                textCouch: "Wann haben wir uns das letzte Mal einen echten, analogen Liebesbrief oder eine Notiz geschrieben?"
+            },
+            {
+                id: "b1_1315", cat: "cat0",
+                textBenni: "Ich bin felsenfest davon überzeugt, dass wir als Paar an jeder neuen Herausforderung nur noch enger zusammenwachsen.",
+                textSarah: "Das tiefe Urvertrauen in unsere Liebe nimmt mir jede Zukunftsangst im Alltag.",
+                textCouch: "Was genau macht das Fundament unserer Ehe so unerschütterlich und stark?"
+            }, 
+		{
+                id: "b1_1316", cat: "cat4",
+                textBenni: "Wenn du dich abends an meine Schulter lehnst, spüre ich sofort eine tiefe Entspannung.",
+                textSarah: "Deine körperliche Nähe ist für mich der beste Abschluss eines anstrengenden Tages.",
+                textCouch: "Wie bewusst genießen wir diese ruhigen Momente auf dem Sofa?"
+            },
+            {
+                id: "b1_1317", cat: "cat11",
+                textBenni: "Die wachsende Selbstständigkeit unseres Sohnes macht den Alltag jeden Tag ein bisschen leichter.",
+                textSarah: "Zu sehen, wie selbstbewusst der Kleine die Welt erkundet, erfüllt mich mit großem Stolz.",
+                textCouch: "Welcher Entwicklungsschritt unseres Kindes hat dich diese Woche am meisten gefreut?"
+            },
+            {
+                id: "b1_1318", cat: "cat6",
+                textBenni: "Ein strukturierter, sauberer Arbeitsplatz zu Hause ist für meinen Fokus unverzichtbar.",
+                textSarah: "Solange das Chaos im Wohnbereich bleibt, stört mich die Unordnung im Arbeitszimmer überhaupt nicht.",
+                textCouch: "Wie gut gelingt uns die räumliche Trennung von Arbeit und Entspannung zu Hause?"
+            },
+            {
+                id: "b1_1319", cat: "cat1",
+                textBenni: "Wenn ich gestresst bin, antworte ich manchmal unabsichtlich einsilbig oder kurz angebunden.",
+                textSarah: "Dein einsilbiger Ton an harten Tagen verunsichert mich manchmal unbewusst.",
+                textCouch: "Wie signalisieren wir dem anderen am besten, dass wir gerade einfach nur mentale Ruhe brauchen?"
+            },
+            {
+                id: "b1_1320", cat: "cat5",
+                textBenni: "Ein ausgiebiger Lauf im Wald bläst mir den Kopf nach einer anstrengenden Woche komplett frei.",
+                textSarah: "Kleine Auszeiten ganz ohne To-Do-Liste im Kopf brauche ich dringend für mein Wohlbefinden.",
+                textCouch: "Haben wir aktuell eine gesunde Balance bei unseren individuellen Auszeiten?"
+            },
+            {
+                id: "b1_1321", cat: "cat3",
+                textBenni: "Langfristige finanzielle Pläne zu schmieden, gibt mir ein starkes Gefühl von Kontrolle und Sicherheit.",
+                textSarah: "Das blinde Vertrauen in unser gemeinsames Budget nimmt mir jegliche finanzielle Sorge.",
+                textCouch: "Wie offen und entspannt sprechen wir aktuell über unsere finanziellen Ziele?"
+            },
+            {
+                id: "b1_1322", cat: "cat12",
+                textBenni: "Ein komplett digitaler Detox-Abend bringt uns als Paar sofort wieder viel intensiver ins Gespräch.",
+                textSarah: "Wenn die Smartphones im Nebenraum liegen, fühle ich mich dir emotional deutlich näher.",
+                textCouch: "Wann blocken wir den nächsten komplett bildschirmfreien Abend nur für uns zwei?"
+            },
+            {
+                id: "b1_1323", cat: "cat4",
+                textBenni: "Ein unerwartetes, ehrliches Kompliment von dir am Morgen hebt meine Laune für den gesamten Tag.",
+                textSarah: "Wenn du mir zeigst, dass du mich im Alltagstrubel als Frau bewunderst, tut mir das unheimlich gut.",
+                textCouch: "Welche Eigenschaft des anderen hast du in letzter Zeit viel zu selten gelobt?"
+            },
+            {
+                id: "b1_1324", cat: "cat2",
+                textBenni: "Bei großen Projekten rund ums Haus übernehme ich gerne die strategische Planung und Umsetzung.",
+                textSarah: "Ich schätze deinen unermüdlichen Einsatz für unser Nestbauprojekt unendlich.",
+                textCouch: "Wie zufrieden bist du mit unserer aktuellen Rollenverteilung bei gemeinsamen Projekten?"
+            },
+            {
+                id: "b1_1325", cat: "cat9",
+                textBenni: "Ein spontaner Sonntagsausflug in eine neue Umgebung bringt mir sofort den perfekten Tapetenwechsel.",
+                textSarah: "Gemeinsame Ausflüge im Grünen geben mir die meiste frische Energie für die neue Woche.",
+                textCouch: "Welches ausflugsziel in der Natur wollen wir als Nächstes ansteuern?"
+            },
+            {
+                id: "b1_1326", cat: "cat0",
+                textBenni: "Unser gemeinsamer Humor ist der beste Puffer gegen jeglichen Alltagsstress.",
+                textSarah: "Wir können immer noch herrlich albern und kindisch miteinander lachen.",
+                textCouch: "Welcher Moment hat uns diese Woche das herzlichste gemeinsame Lachen beschert?"
+            },
+            {
+                id: "b1_1327", cat: "cat11",
+                textBenni: "Das gemeinsame Abendritual mit unserem Sohn gibt mir einen unheimlich friedlichen Ausklang des Tages.",
+                textSarah: "Wenn der Kleine friedlich schläft, genieße ich das bewusste gemeinsame Aufatmen auf der Couch.",
+                textCouch: "Wie harmonisch verläuft unser abendlicher Übergang in die Paarzeit aktuell?"
+            },
+            {
+                id: "b1_1328", cat: "cat6",
+                textBenni: "Die Zubereitung von gesunden, frischen Gerichten am Wochenende ist für mich pure Leidenschaft.",
+                textSarah: "Ich genieße die kulinarischen Highlights, die du in unserer Küche zauberst, in vollen Zügen.",
+                textCouch: "Welchen kulinarischen Wunsch wollen wir uns am nächsten Wochenende erfüllen?"
+            },
+            {
+                id: "b1_1329", cat: "cat8",
+                textBenni: "Ein entspannter Abend mit unseren Freunden bringt eine wunderschöne Abwechslung in unsere Freizeit.",
+                textSarah: "Der Austausch im vertrauten Freundeskreis gibt mir ein tolles Gefühl von Geselligkeit.",
+                textCouch: "Welche Freunde wollen wir für ein unkompliziertes Treffen als Nächstes einplanen?"
+            },
+            {
+                id: "b1_1330", cat: "cat4",
+                textBenni: "Kleine Zärtlichkeiten und Berührungen im Vorbeigehen halten unsere sexuelle Anziehung lebendig.",
+                textSarah: "Absichtslose, liebevolle Gesten im Alltag sind für mich die wichtigste emotionale Basis.",
+                textCouch: "Wie präsent ist die körperliche Zärtlichkeit aktuell außerhalb des Schlafzimmers?"
+            },
+            {
+                id: "b1_1331", cat: "cat1",
+                textBenni: "Es fällt mir schwer, eine Fehlentscheidung ohne sofortige Rechtfertigung einzugestehen.",
+                textSarah: "Ein ehrliches, reflektiertes 'Tut mir leid' öffnet mein Herz sofort für eine Versöhnung.",
+                textCouch: "Was macht es uns manchmal so schwer, einen Fehler einfach so stehenzulassen?"
+            },
+            {
+                id: "b1_1332", cat: "cat7",
+                textBenni: "Gemeinsame Träume für die Zukunft schweißen uns als Ehepaar unheimlich eng zusammen.",
+                textSarah: "Das Wissen um unsere gemeinsamen Lebensziele gibt mir eine wunderschöne Richtung.",
+                textCouch: "Welche Zukunftsvision erfüllt dich aktuell mit der größten Vorfreude?"
+            },
+            {
+                id: "b1_1333", cat: "cat11",
+                textBenni: "Ich ertappe mich dabei, dass ich in der Erziehung unseres Sohnes manchmal zu ungeduldig reagiere.",
+                textSarah: "In intensiven Phasen mit dem Kleinen gerate ich mental auch schneller an meine Grenzen.",
+                textCouch: "Wie können wir uns in stressigen Erziehungsmomenten noch besser gegenseitig entlasten?"
+            },
+            {
+                id: "b1_1334", cat: "cat5",
+                textBenni: "Ein ungestörter Gaming-Abend ist für mich die unkomplizierteste Art, das Gehirn komplett abzuschalten.",
+                textSarah: "Ich genieße Abende ganz für mich alleine, um einfach mal meinen eigenen Gedanken nachzugehen.",
+                textCouch: "Kommen unsere individuellen Rückzugsorte im aktuellen Alltag zu kurz?"
+            },
+            {
+                id: "b1_1335", cat: "cat3",
+                textBenni: "Die finanzielle Absicherung unseres Hauses steht für mich bei allen Entscheidungen im Vordergrund.",
+                textSarah: "Ein gesundes Polster auf dem Sparkonto gibt mir die nötige Gelassenheit für den Alltag.",
+                textCouch: "Wie einig sind wir uns aktuell bei unseren langfristigen Sparzielen?"
+            },
+            {
+                id: "b1_1336", cat: "cat4",
+                textBenni: "Ein tiefer, bewusster Blickkontakt im Alltag zeigt mir sofort unsere unerschütterliche Basis.",
+                textSarah: "Dieses blinde, wortlose Verständnis zwischen uns ist mein absolut sicherer Hafen.",
+                textCouch: "In welchen Momenten nimmst du unsere tiefe Vertrautheit am stärksten wahr?"
+            },
+            {
+                id: "b1_1337", cat: "cat6",
+                textBenni: "Der Einsatz von smarten Haushaltshelfern nimmt uns im Alltag unheimlich viel lästige Arbeit ab.",
+                textSarah: "Eine strukturierte Aufgabenverteilung sorgt für deutlich mehr Frieden unter der Woche.",
+                textCouch: "Welche ungeliebte Aufgabe im Haushalt sollten wir demnächst dauerhaft optimieren?"
+            },
+            {
+                id: "b1_1338", cat: "cat9",
+                textBenni: "Die Planung von sportlichen Aktivitäten im Urlaub gibt mir ein tolles Gefühl von Vitalität.",
+                textSarah: "Ein Urlaub ohne festen Wecker und To-Do-Listen ist für mich die einzig wahre Erholung.",
+                textCouch: "Wie gut gelingt uns der Spagat zwischen Aktivität und Entschleunigung auf Reisen?"
+            },
+            {
+                id: "b1_1339", cat: "cat1",
+                textBenni: "Wenn ein Konflikt hochkocht, werde ich oft sehr sachlich, um meine Emotionen zu kontrollieren.",
+                textSarah: "Eine sehr rationale Argumentation im Streit gibt mir manchmal das Gefühl, nicht gehört zu werden.",
+                textCouch: "Wie verbinden wir Logik und Gefühl in unseren intensiven Paargesprächen besser?"
+            },
+            {
+                id: "b1_1340", cat: "cat11",
+                textBenni: "Die ersten kleinen Worte und die Mimik unseres Sohnes faszinieren mich jeden Tag aufs Neue.",
+                textSarah: "Zu sehen, wie unser Kind unsere eigenen Verhaltensweisen spiegelt, bringt mich täglich zum Schmunzeln.",
+                textCouch: "Welche kleine Angewohnheit unseres Sohnes ist aktuell deine absolute Lieblingsgeste?"
+            },
+            {
+                id: "b1_1341", cat: "cat4",
+                textBenni: "Kleine geschriebene Botschaften oder Notizen im Alltag bedeuten mir unheimlich viel.",
+                textSarah: "Kleine, unerwartete Liebesbeweise laden meine emotionalen Batterien im Nu wieder auf.",
+                textCouch: "Mit welcher kleinen Aufmerksamkeit können wir dem anderen morgen eine Freude machen?"
+            },
+            {
+                id: "b1_1342", cat: "cat2",
+                textBenni: "Ich bin unheimlich stolz darauf, was wir als Team in den letzten Jahren alles aufgebaut haben.",
+                textSarah: "Unsere gemeinsamen Meilensteine zeigen mir immer wieder, wie stark wir zusammen sind.",
+                textCouch: "Welches geschaffene Projekt der letzten Zeit erfüllt dich mit dem größten Stolz?"
+            },
+            {
+                id: "b1_1343", cat: "cat12",
+                textBenni: "Das gemeinsame Auswählen einer neuen Serie im Streaming-Dschungel kostet uns oft zu viel Zeit.",
+                textSarah: "Ich wünsche mir manchmal festere, unkompliziertere Gewohnheiten bei unserer Abendunterhaltung.",
+                textCouch: "Wie gestalten wir unsere gemeinsamen Fernsehabende entscheidungsfreudiger?"
+            },
+            {
+                id: "b1_1344", cat: "cat8",
+                textBenni: "Ein gesundes, freundschaftliches Verhältnis zur Nachbarschaft gibt mir ein schönes Gefühl von Heimat.",
+                textSarah: "Gute Kontakte im direkten Umfeld erleichtern mir das Ankommen im neuen Zuhause ungemein.",
+                textCouch: "Wie wohl und integriert fühlst du dich aktuell in unserer Nachbarschaft?"
+            },
+            {
+                id: "b1_1345", cat: "cat0",
+                textBenni: "Ich blicke mit absolutem Vertrauen und großer Zuversicht auf unsere gemeinsame Zukunft als Familie.",
+                textSarah: "Das tiefe Wissen, dass wir jede Krise gemeinsam meistern, nimmt mir jegliche Zukunftsangst.",
+                textCouch: "Was genau macht das Fundament unserer Ehe in dieser intensiven Phase so unerschütterlich?"
+            }, 
+		{
+                id: "b1_1346", cat: "cat4",
+                textBenni: "Ein langer, tiefer Blickkontakt beim Abschied gibt mir ein starkes Gefühl der Verbundenheit.",
+                textSarah: "Wenn du mich im Vorbeigehen fest an dich drückst, fühle ich mich sofort geborgen.",
+                textCouch: "Wie oft fangen wir im morgendlichen Trubel ganz bewusst die Nähe des anderen ein?"
+            },
+            {
+                id: "b1_1347", cat: "cat11",
+                textBenni: "Die wachsende Interaktion unseres Sohnes beim gemeinsamen Toben ist mein absolutes Wochenhighlight.",
+                textSarah: "Wenn ich sehe, wie sehr der Kleine dein Lachen spiegelt, geht mir das Herz auf.",
+                textCouch: "Welcher Moment der Unbeschwertheit mit unserem Kind ist dir diese Woche besonders in Erinnerung geblieben?"
+            },
+            {
+                id: "b1_1348", cat: "cat1",
+                textBenni: "Ein kurzes, sachliches Feedback von dir hilft mir, berufliche Probleme schneller abzuhaken.",
+                textSarah: "Wenn wir Sorgen ohne langes Zögern direkt teilen, fühle ich mich viel weniger allein.",
+                textCouch: "Wie gut gelingt es uns aktuell, berufliche Lasten an der Haustür abzugeben?"
+            },
+            {
+                id: "b1_1349", cat: "cat6",
+                textBenni: "Das gemeinsame Ausprobieren von aufwändigen Rezepten bringt mir puren Genuss.",
+                textSarah: "Wenn wir die Küche am Wochenende in ein kleines Restaurant verwandeln, genieße ich das sehr.",
+                textCouch: "Welches Gericht wollen wir bei unserem nächsten freien Abend ganz exklusiv zelebrieren?"
+            },
+            {
+                id: "b1_1350", cat: "cat5",
+                textBenni: "Meine festen Krafttraining-Sitzungen sind unverzichtbar für meine innere Balance.",
+                textSarah: "Ich schätze deine sportliche Disziplin und freue mich über deine ausgeglichene Energie danach.",
+                textCouch: "Geben wir uns gegenseitig genug Raum, um sportliche oder persönliche Akkus aufzuladen?"
+            },
+            {
+                id: "b1_1351", cat: "cat3",
+                textBenni: "Ein transparenter Überblick über unsere monatlichen Fixkosten nimmt mir jede Zukunftsangst.",
+                textSarah: "Unsere finanziellen Absprachen laufen so vertrauensvoll, dass ich mich absolut sicher fühle.",
+                textCouch: "Welches gemeinsame Sparziel fühlt sich aktuell am lohnendsten für uns an?"
+            },
+            {
+                id: "b1_1352", cat: "cat12",
+                textBenni: "Das bewusste Stummschalten des Handys am Wochenende verschafft mir sofortige Erholung.",
+                textSarah: "Wenn wir die Erreichbarkeit im Außen reduzieren, ist unsere gemeinsame Aufmerksamkeit viel intensiver.",
+                textCouch: "Schaffen wir es, den nächsten Samstag komplett bildschirmfrei als Familie zu verbringen?"
+            },
+            {
+                id: "b1_1353", cat: "cat2",
+                textBenni: "Die Planung von neuen Details für unseren Garten weckt in mir sofort den Tatendrang.",
+                textSarah: "Zu sehen, wie unser Wohlfühlort Stück für Stück Gestalt annimmt, erfüllt mich mit großem Stolz.",
+                textCouch: "Welcher Bereich unseres Zuhauses strahlt für dich aktuell die größte Gemütlichkeit aus?"
+            },
+            {
+                id: "b1_1354", cat: "cat8",
+                textBenni: "Ein unkomplizierter Grillabend mit den Nachbarn bringt eine schöne Abwechslung in unsere Freizeit.",
+                textSarah: "Gute, verlässliche Kontakte im Umfeld geben mir ein tiefes Gefühl von Beheimatung.",
+                textCouch: "Wie zufrieden bist du mit unserem aktuellen sozialen Netzwerk im direkten Umfeld?"
+            },
+            {
+                id: "b1_1355", cat: "cat0",
+                textBenni: "Wir haben uns trotz aller To-Do-Listen unsere spielerische Leichtigkeit bewahrt.",
+                textSarah: "Wenn wir über uns selbst lachen können, verfliegt jede Alltagsanspannung im Nu.",
+                textCouch: "Welche gemeinsame Macke bringt uns aktuell am schnellsten zum Schmunzeln?"
+            },
+            {
+                id: "b1_1356", cat: "cat4",
+                textBenni: "Ein ehrliches, spontanes Kompliment von dir am Morgen verändert meine gesamte Ausstrahlung.",
+                textSarah: "Wenn du mir zeigst, dass du mich im Alltagsstress als Frau wahrnehmst, blühe ich total auf.",
+                textCouch: "Welches liebevolle Detail schätzt du am Aussehen des anderen gerade ganz besonders?"
+            },
+            {
+                id: "b1_1357", cat: "cat11",
+                textBenni: "Das gemeinsame Einschlafritual mit unserem Sohn erdet mich nach einem hektischen Tag komplett.",
+                textSarah: "Wenn der Kleine friedlich schlummert, genieße ich das gemeinsame Durchatmen auf der Couch unheimlich.",
+                textCouch: "Wie gesturesalten wir die ersten Minuten unseres gemeinsamen Feierabends am liebsten?"
+            },
+            {
+                id: "b1_1358", cat: "cat9",
+                textBenni: "Eine ausgiebige Radtour mit dem E-Bike bringt mir die perfekte Kombination aus Bewegung und Natur.",
+                textSarah: "Die gemeinsamen Familienausflüge im Grünen laden meine emotionalen Batterien am schnellsten auf.",
+                textCouch: "Wohin soll unser nächster gemeinsame Wochenendausflug im Grünen gehen?"
+            },
+            {
+                id: "b1_1359", cat: "cat1",
+                textBenni: "Wenn wir Unstimmigkeiten sofort und ohne langes Schweigen klären, schlafe ich deutlich besser.",
+                textSarah: "Eine ehrliche Entschuldigung ohne Wenn und Aber lässt jeden kleinen Ärger sofort verfliegen.",
+                textCouch: "Wie gut gelingt es uns aktuell, kleine Alltagsirritationen sofort friedlich aufzufangen?"
+            },
+            {
+                id: "b1_1360", cat: "cat7",
+                textBenni: "Das gemeinsame Schmieden von langfristigen Lebensplänen gibt mir eine klare und sichere Richtung.",
+                textSarah: "Unsere gemeinsamen Meilensteine zeigen mir immer wieder, wie unschlagbar wir als Team sind.",
+                textCouch: "Welcher langfristige Zukunftsgedanke erfüllt dich aktuell mit der größten Vorfreude?"
+            },
+            {
+                id: "b1_1361", cat: "cat4",
+                textBenni: "Einfach nur Händchen zu halten im Auto gibt mir ein tiefes Gefühl von Angekommensein.",
+                textSarah: "Kleine, absichtslose Berührungen zwischendurch halten unsere emotionale Verbindung warm.",
+                textCouch: "Nutzen wir die körperliche Nähe im Alltag genug als unsere gemeinsame Kraftquelle?"
+            },
+            {
+                id: "b1_1362", cat: "cat6",
+                textBenni: "Eine perfekt durchstrukturierte Woche gibt mir die nötige Gelassenheit für den Alltag.",
+                textSarah: "Ein bisschen mehr ungeplante Spontanität würde unserem wöchentlichen Ablauf guttun.",
+                textCouch: "Wo tut uns Struktur gut und wo sollten wir den Alltag flexibler laufen lassen?"
+            },
+            {
+                id: "b1_1363", cat: "cat11",
+                textBenni: "Ich bin unheimlich stolz darauf, wie selbstbewusst und neugierig unser Sohn die Welt entdeckt.",
+                textSarah: "Wir bieten dem Kleinen einen sicheren Hafen, von dem aus er mutig wachsen kann.",
+                textCouch: "Welche Eigenschaft unseres Kindes fasziniert dich im Moment am allermeisten?"
+            },
+            {
+                id: "b1_1364", cat: "cat5",
+                textBenni: "Ein ungestörter Abend mit meinen eigenen Interessen bringt mir den perfekten mentalen Ausgleich.",
+                textSarah: "Ich genieße die ruhigen Stunden für mich allein, um einfach mal meinen Gedanken nachzugehen.",
+                textCouch: "Kommen unsere individuellen Rückzugsorte im aktuellen Familienalltag zu kurz?"
+            },
+            {
+                id: "b1_1365", cat: "cat3",
+                textBenni: "Investitionen in bleibende Werte für unsere Familie haben für mich oberste Priorität.",
+                textSarah: "Geld für unvergessliche gemeinsame Erlebnisse auszugeben, bedeutet für mich reine Lebensqualität.",
+                textCouch: "Wie sieht für uns die perfekte Balance zwischen Absicherung und gegenwärtigem Genuss aus?"
+            },
+            {
+                id: "b1_1366", cat: "cat12",
+                textBenni: "Eine kurze Nachricht von dir unter dem Tag hält unsere Verbindung auch im Jobstress warm.",
+                textSarah: "Kleine Lebenszeichen zwischendurch zeigen mir verlässlich, dass du an mich denkst.",
+                textCouch: "Passt die Intensität unserer täglichen Check-ins für jeden von uns?"
+            },
+            {
+                id: "b1_1367", cat: "cat4",
+                textBenni: "Ein ehrliches, hingeworfenes Dankeschön von dir für eine Kleinigkeit bedeutet mir unheimlich viel.",
+                textSarah: "Wenn mein täglicher Einsatz im Hintergrund von dir gesehen wird, lädt das meine Akkus sofort auf.",
+                textCouch: "Für welches liebevolle Detail im Alltag hast du dich beim anderen schon länger nicht mehr bedankt?"
+            },
+            {
+                id: "b1_1368", cat: "cat2",
+                textBenni: "Das Erreichen unserer großen Meilensteine beim Hausprojekt erfüllt mich mit tiefem Stolz.",
+                textSarah: "Es berührt mich zu sehen, wie viel Herzblut und Energie du in unsere gemeinsame Zukunft steckst.",
+                textCouch: "Welcher gemeinsame Erfolg der letzten Monate hat dich emotional am tiefsten berührt?"
+            },
+            {
+                id: "b1_1369", cat: "cat9",
+                textBenni: "Die Planung von Wanderrouten in der Natur weckt in mir sofort den Entdeckergeist.",
+                textSarah: "Die absolute Ruhe im Wald gibt mir die tiefste mentale Erholung nach einer harten Woche.",
+                textCouch: "Welche Naturregion wollen wir bei unserem nächsten großen Familienausflug erkunden?"
+            },
+            {
+                id: "b1_1370", cat: "cat1",
+                textBenni: "Wenn ein Konflikt hochkocht, brauche ich manchmal einen kurzen Moment, um sachlich zu bleiben.",
+                textSarah: "Ich muss ein emotionales Thema erst einmal sacken lassen, bevor ich es ganz ruhig besprechen kann.",
+                textCouch: "Wie geben wir uns im Streitfall die richtige Mischung aus Zeit und lösungsorientiertem Gespräch?"
+            },
+            {
+                id: "b1_1371", cat: "cat11",
+                textBenni: "Unser gelebter, respektvoller Umgang miteinander ist das wertvollste Fundament für unser Kind.",
+                textSarah: "Die tiefe Liebe, die unsere kleine Familie zusammenhält, ist für unseren Sohn im Alltag spürbar.",
+                textCouch: "Welche Tradition oder welchen Wert möchtest du unbedingt an unser Kind weitergeben?"
+            },
+            {
+                id: "b1_1372", cat: "cat4",
+                textBenni: "Einfach schweigend nebeneinander zu sitzen, gibt mir das absolute Gefühl von Angekommensein.",
+                textSarah: "Das blinde Verständnis zwischen uns ist mein verlässlichster sicherer Hafen im Alltagschaos.",
+                textCouch: "Wann fühlst du dich in unserer Beziehung am meisten geborgen?"
+            },
+            {
+                id: "b1_1373", cat: "cat6",
+                textBenni: "Die Nutzung von modernen Küchengeräten hat unsere abendliche Routine extrem entspannt.",
+                textSarah: "Die Zeitersparnis durch clevere Helfer im Haushalt schenkt uns wertvolle Minuten als Paar.",
+                textCouch: "Welche kleine Alltags-Optimierung hat sich für uns in letzter Zeit am meisten gelohnt?"
+            },
+            {
+                id: "b1_1374", cat: "cat8",
+                textBenni: "Gemeinsame Verabredungen mit anderen Paaren bringen eine richtig schöne Dynamik in unsere Freizeit.",
+                textSarah: "Erlebnisse im Freundeskreis bereichern unsere Partnerschaft auf eine sehr angenehme Weise.",
+                textCouch: "Welches befreundete Paar wollen wir für das nächste freie Wochenende einplanen?"
+            },
+            {
+                id: "b1_1375", cat: "cat0",
+                textBenni: "Ich blicke mit absoluter Gelassenheit und unerschütterlichem Vertrauen auf unsere gemeinsame Reise.",
+                textSarah: "Das tiefe Wissen, dass wir zusammen absolut jedes Hindernis meistern können, macht mich unheimlich stark.",
+                textCouch: "Was genau macht das Fundament unserer Ehe in dieser intensiven Phase so unendlich stark?"
+            }, 
+		{
+                id: "b1_1376", cat: "cat4",
+                textBenni: "Eine unerwartete, feste Umarmung von hinten gibt mir mitten im Alltag neue Energie.",
+                textSarah: "Das gemeinsame Händchenhalten beim Spaziergang zeigt mir unsere Vertrautheit ganz ohne Worte.",
+                textCouch: "Wie wichtig sind uns diese kleinen, spontanen Gesten der Zuneigung im Alltag?"
+            },
+            {
+                id: "b1_1377", cat: "cat11",
+                textBenni: "Zu sehen, mit wie viel Begeisterung unser Sohn seine Umwelt entdeckt, erfüllt mich mit Stolz.",
+                textSarah: "Deine unendliche Geduld, wenn du dem Kleinen die Welt erklärst, fasziniert mich täglich.",
+                textCouch: "Welche Entdeckung unseres Kindes hat uns diese Woche das schönste Familienerlebnis beschert?"
+            },
+            {
+                id: "b1_1378", cat: "cat6",
+                textBenni: "Das Vorbereiten von Dingen am Vorabend nimmt mir am nächsten Morgen den gesamten Stress.",
+                textSarah: "Eine gewisse morgendliche Flexibilität tut mir gut, um nicht direkt unter Druck zu geraten.",
+                textCouch: "Wie harmonisch und stressfrei verläuft unsere aktuelle Morgenroutine?"
+            },
+            {
+                id: "b1_1379", cat: "cat1",
+                textBenni: "Wenn ich mental erschöpft bin, brauche ich erst einmal ein paar Minuten absolute Stille für mich.",
+                textSarah: "Wenn du dich schweigend zurückziehst, mache ich mir unbewusst Sorgen um deine Stimmung.",
+                textCouch: "Wie kommunizieren wir das Bedürfnis nach Ruhe, ohne den anderen zu verunsichern?"
+            },
+            {
+                id: "b1_1380", cat: "cat5",
+                textBenni: "Das Auspowern bei meinen Trainingseinheiten gibt mir die nötige Kraft für den Familienalltag.",
+                textSarah: "Feste Termine nur für meine eigene Regeneration brauche ich dringend für meine innere Balance.",
+                textCouch: "Respektieren wir die individuellen Ruhe- und Sportphasen des anderen aktuell genug?"
+            },
+            {
+                id: "b1_1381", cat: "cat3",
+                textBenni: "Ein stabiler, durchgerechneter Finanzplan gibt mir ein tiefes Gefühl von familiärer Sicherheit.",
+                textSarah: "Das uneingeschränkte Vertrauen in unsere wirtschaftlichen Entscheidungen nimmt mir jede Alltagsangst.",
+                textCouch: "Wie offen und entspannt sprechen wir aktuell über unsere finanziellen Ziele?"
+            },
+            {
+                id: "b1_1382", cat: "cat12",
+                textBenni: "Das Aktivieren des Flugmodus am Abend hilft mir dabei, gedanklich komplett Feierabend zu machen.",
+                textSarah: "Ein Abend, an dem die Handys im Nebenraum liegen, bedeutet für mich maximale emotionale Nähe.",
+                textCouch: "Wann blocken wir die nächste feste, bildschirmfreie Zone nur für uns beide?"
+            },
+            {
+                id: "b1_1383", cat: "cat9",
+                textBenni: "Ein geplanter Ausflug am Wochenende bringt mir den perfekten Ausgleich zur vollen Arbeitswoche.",
+                textSarah: "Das unbeschwerte Rauskommen als kleine Familie lädt meine emotionalen Batterien extrem schnell auf.",
+                textCouch: "Wohin soll unser nächster gemeinsame Wochenendausflug im Grünen gehen?"
+            },
+            {
+                id: "b1_1384", cat: "cat2",
+                textBenni: "Das selbstständige handwerkliche Umsetzen von Projekten am Haus erfüllt mich mit großem Stolz.",
+                textSarah: "Zu sehen, wie unser gemeinsames Nest wächst und Gestalt annimmt, macht mich unheimlich glücklich.",
+                textCouch: "Welches geschaffene Detail an unserem Hausprojekt begeistert dich aktuell am allermeisten?"
+            },
+            {
+                id: "b1_1385", cat: "cat0",
+                textBenni: "Unser gemeinsamer Humor bricht in stressigen Momenten verlässlich das Eis zwischen uns.",
+                textSarah: "Kleine Insiderwitze aus unserer Anfangszeit bringen mich heute noch genau wie damals zum Lachen.",
+                textCouch: "Welche lustige Anekdote aus unserer gemeinsamen Vergangenheit sollten wir mal wieder hervorholen?"
+            },
+            {
+                id: "b1_1386", cat: "cat4",
+                textBenni: "Ein ehrliches Lob von dir über meine persönliche Stärke gibt mir im Alltag enorm viel Auftrieb.",
+                textSarah: "Wenn mein unermüdlicher Einsatz im Hintergrund von dir gesehen wird, blühe ich total auf.",
+                textCouch: "Für welches liebevolle Detail im Alltag hast du dich beim anderen schon länger nicht mehr bedankt?"
+            },
+            {
+                id: "b1_1387", cat: "cat11",
+                textBenni: "Das ruhige, abendliche Vorlesen mit unserem Sohn erdet mich nach einem hektischen Tag komplett.",
+                textSarah: "Wenn im Haus endlich Ruhe einkehrt, genieße ich das gemeinsame Aufatmen auf der Couch unheimlich.",
+                textCouch: "Wie gestalten wir die allerersten Minuten unseres gemeinsamen Feierabends am liebsten?"
+            },
+            {
+                id: "b1_1388", cat: "cat6",
+                textBenni: "Die Zubereitung von gesunden, frisch gemixten Mahlzeiten gibt mir einen echten Energieschub.",
+                textSarah: "Ein schnelles, unkompliziertes Wohlfühlessen reicht mir unter der Woche abends völlig aus.",
+                textCouch: "Welche gesunden Ernährungsroutinen wollen wir dauerhaft in unserem Alltag verankern?"
+            },
+            {
+                id: "b1_1389", cat: "cat8",
+                textBenni: "Ein geselliger Grillabend mit guten Freunden bringt mir den perfekten Ausgleich zum Alltag.",
+                textSarah: "Ein ruhiger Abend nur zu dritt im geschützten Raum gibt mir aktuell die meiste Kraft zurück.",
+                textCouch: "Wie viel soziale Interaktion neben der Familie tut uns als Paar aktuell am besten?"
+            },
+            {
+                id: "b1_1390", cat: "cat1",
+                textBenni: "Das direkte und sachliche Anreisen von Problemen führt bei mir am schnellsten zu einer Lösung.",
+                textSarah: "Ich muss ein emotionales Thema erst einmal sacken lassen, bevor ich es ganz ruhig besprechen kann.",
+                textCouch: "Wie geben wir uns im Streitfall die richtige Mischung aus Zeit und lösungsorientiertem Gespräch?"
+            },
+            {
+                id: "b1_1391", cat: "cat4",
+                textBenni: "Wenn du mich im Alltag mit meinem vertrauten Kosenamen ansprichst, spüre ich sofort unsere Nähe.",
+                textSarah: "Ein liebevolles, geflüstertes Wort im größten Trubel bedeutet mir unendlich viel.",
+                textCouch: "Nutzen wir unsere vertrauten Kosenamen im stressigen Alltag noch oft genug?"
+            },
+            {
+                id: "b1_1392", cat: "cat7",
+                textBenni: "Das Schmieden von langfristigen Plänen für unsere Familie gibt mir eine klare und sichere Richtung.",
+                textSarah: "Unsere gemeinsamen Meilensteine zeigen mir immer wieder, wie unschlagbar wir als Team sind.",
+                textCouch: "Welcher langfristige Zukunftsgedanke erfüllt dich aktuell mit der größten Vorfreude?"
+            },
+            {
+                id: "b1_1393", cat: "cat5",
+                textBenni: "Ein ungestörter Gaming-Abend bringt mir die unkomplizierteste Abwechslung, um den Kopf freizubekommen.",
+                textSarah: "Ich genieße exklusive Stunden für mich allein mit einem guten Buch in absoluter Stille.",
+                textCouch: "Kommen unsere individuellen Rückzugsorte im aktuellen Familienalltag zu kurz?"
+            },
+            {
+                id: "b1_1394", cat: "cat11",
+                textBenni: "Zu sehen, wie unser Sohn bestimmte Gesten oder Macken von uns übernimmt, fasziniert mich täglich.",
+                textSarah: "Die wachsende Ähnlichkeit des Kleinen mit dir bringt mich im Alltag ununterbrochen zum Schmunzeln.",
+                textCouch: "Welche Charaktereigenschaft von uns beiden erkennst du beim Kleinen aktuell am deutlichsten?"
+            },
+            {
+                id: "b1_1395", cat: "cat9",
+                textBenni: "Eine ausgiebige Radtour mit dem E-Bike weckt in mir sofort den sportlichen Entdeckergeist.",
+                textSarah: "Ein ruhiger, entschleunigter Spaziergang im Wald gibt mir die tiefste mentale Erholung.",
+                textCouch: "Wie sieht der perfekte Kompromiss aus Aktivität und purer Erholung für uns am Wochenende aus?"
+            },
+            {
+                id: "b1_1396", cat: "cat3",
+                textBenni: "Größere Konsumausgaben oder Anschaffungen überlege ich mir im Vorfeld ganz genau.",
+                textSarah: "Geld für unvergessliche gemeinsame Erlebnisse auszugeben, bedeutet für mich reine Lebensqualität.",
+                textCouch: "Ziehen wir bei unseren Spar- und Konsumzielen aktuell am absolut selben Strang?"
+            },
+            {
+                id: "b1_1397", cat: "cat12",
+                textBenni: "Eine kurze Nachricht von dir unter dem Tag hält unsere Verbindung auch im Jobstress warm.",
+                textSarah: "Kleine Updates aus deinem Arbeitsalltag zeigen mir verlässlich, dass du auch im Stress an mich denkst.",
+                textCouch: "Passt die Intensität unserer täglichen Check-ins für jeden von uns, oder darf es mehr sein?"
+            },
+            {
+                id: "b1_1398", cat: "cat6",
+                textBenni: "Eine perfekt aufgeräumte Arbeitsfläche in der Küche gibt mir ein Gefühl von innerer Ruhe.",
+                textSarah: "Ein gewisses kreatives Chaos stört mich beim Kochen überhaupt nicht, solange es schmeckt.",
+                textCouch: "Wo finden wir die goldene Mitte zwischen Ordnungsanspruch und Alltagsrealität?"
+            },
+            {
+                id: "b1_1399", cat: "cat4",
+                text4Benni: "Eine kurze Nackenmassage am Abend nimmt mir sofort die Last eines harten Arbeitstages.",
+                textSarah: "Kleine, bewusste Berührungen am Abend helfen mir unheimlich dabei, körperlich komplett herunterzufahren.",
+                textCouch: "Wie können wir uns gegenseitig noch besser beim körperlichen Entspannen nach dem Alltag unterstützen?"
+            },
+            {
+                id: "b1_1400", cat: "cat0",
+                textBenni: "Mein Herz ist bei dir so bedingungslos sicher aufgehoben wie bei keinem anderen Menschen.",
+                textSarah: "Das tiefe, unerschütterliche Urvertrauen in unsere Liebe nimmt mir jegliche Zukunftsangst.",
+                textCouch: "What genau macht das Fundament unserer Ehe in dieser intensiven Phase so unendlich stark?"
+            },
+            {
+                id: "b1_1401", cat: "cat11",
+                textBenni: "Als Elternpaar ergänzen wir uns in intensiven Situationen mittlerweile absolut hervorragend.",
+                textSarah: "Wir fangen die kleinen Launen unseres Sohnes im Familienalltag super als Team auf.",
+                textCouch: "In welcher Situation haben wir uns diese Woche als besonders starkes Eltern-Team gefühlt?"
+            },
+            {
+                id: "b1_1402", cat: "cat2",
+                textBenni: "Bei der Einrichtung unseres Hauses sind mir praktische und funktionale Lösungen am wichtigsten.",
+                textSarah: "Liebevolle Details und aufeinander abgestimmte Dekoration machen ein Haus erst zu einem echten Zuhause.",
+                textCouch: "Wo treffen sich unsere Geschmäcker beim Thema Inneneinrichtung am allerbesten?"
+            },
+            {
+                id: "b1_1403", cat: "cat8",
+                textBenni: "Ein gesundes, freundschaftliches Verhältnis zur Nachbarschaft gibt mir ein schönes Gefühl von Heimat.",
+                textSarah: "Ein kurzes, nettes Gespräch über den Gartenzaun erfordert wenig Aufwand, tut aber unheimlich gut.",
+                textCouch: "Wie wohl und angekommen fühlst du dich aktuell in unserer direkten Nachbarschaft?"
+            },
+            {
+                id: "b1_1404", cat: "cat4",
+                textBenni: "Ein elegantes, schickes Outfit von dir bei besonderen Anlässen fasziniert mich jedes Mal aufs Neue.",
+                textSarah: "Das bewusste Schickmachen für den Partner bringt eine wunderschöne Abwechslung in unseren Beziehungslook.",
+                textCouch: "Schaffen wir im Alltag genug Gelegenheiten, um uns außerhalb des gemütlichen Homewear-Looks zu bewundern?"
+            },
+            {
+                id: "b1_1405", cat: "cat0",
+                textBenni: "Ich blicke mit absoluter Gelassenheit und unerschütterlichem Vertrauen auf unsere gemeinsame Reise.",
+                textSarah: "Das Gefühl, dass wir zusammen absolut jedes Hindernis meistern können, macht mich unheimlich stark.",
+                textCouch: "Was genau macht uns als Team aktuell so unschlagbar und zuversichtlich?"
+            },
+		{
+                id: "b1_1406", cat: "cat1",
+                textBenni: "Wenn ein Gespräch zu emotional wird, verliere ich manchmal den roten Faden.",
+                textSarah: "In intensiven Diskussionen brauche ich klare, strukturierte Argumente, um dich richtig zu verstehen.",
+                textCouch: "Wie schaffen wir es, in emotionalen Momenten den roten Faden nicht zu verlieren?"
+            },
+            {
+                id: "b1_1407", cat: "cat5",
+                textBenni: "Beruflicher Erfolg und das Erreichen von Zielen geben mir eine tiefe innere Bestätigung.",
+                textSarah: "Dein beruflicher Ehrgeiz spornt mich an, aber mir ist deine Zufriedenheit abseits des Jobs viel wichtiger.",
+                textCouch: "Wie definieren wir persönlichen Erfolg für uns jenseits von Karriere und Status?"
+            },
+            {
+                id: "b1_1408", cat: "cat11",
+                textBenni: "Bestimmte Fehler aus meiner eigenen Kindheit möchte ich bei unserem Sohn unbedingt vermeiden.",
+                textSarah: "Manchmal ertappe ich mich bei Erziehungsmustern, die ich eigentlich längst abgelegt geglaubt hatte.",
+                textCouch: "Welche Verhaltensweisen aus unserer eigenen Kindheit wollen wir bewusst weglassen?"
+            },
+            {
+                id: "b1_1409", cat: "cat4",
+                textBenni: "Ein leidenschaftlicher, intensiver Kuss im Alltag bricht den Trott sofort spürbar auf.",
+                textSarah: "Kleine Funken von unbeschwerter Romantik im Alltag halten das Feuer zwischen uns lebendig.",
+                textCouch: "Haben wir im Moment genug Raum für leidenschaftliche Augenblicke außerhalb der Routine?"
+            },
+            {
+                id: "b1_1410", cat: "cat6",
+                textBenni: "Der bewusste Einkauf von frischen, hochwertigen Lebensmitteln ist für mich reine Lebensqualität.",
+                textSarah: "Eine gut gefüllte Küche mit regionalen Produkten gibt mir ein tiefes Wohlgefühl.",
+                textCouch: "Welchen Stellenwert hat eine bewusste Ernährung in unserem wöchentlichen Familienbudget?"
+            },
+            {
+                id: "b1_1411", cat: "cat7",
+                textBenni: "Ich glaube fest daran, dass man sein eigenes Lebensglück primär durch harte Arbeit selbst schmiedet.",
+                textSarah: "Manchmal gehört im Leben auch einfach eine große Portion Schicksal und pures Glück dazu.",
+                textCouch: "Wie stark glauben wir an die eigene Kontrolle über unsere Zukunft?"
+            },
+            {
+                id: "b1_1412", cat: "cat9",
+                textBenni: "Eine Nacht im Zelt oder eine ganz einfache Hütte im Grünen reizt mich als echtes Abenteuer.",
+                textSarah: "Echte Erholung im Urlaub erfordert für mich ein gewisses Maß an festem Komfort und Service.",
+                textCouch: "Wie sieht der perfekte Kompromiss zwischen Abenteuerlust und Erholungsanspruch aus?"
+            },
+            {
+                id: "b1_1413", cat: "cat8",
+                textBenni: "Große Menschenansammlungen und laute Feiern rauben mir nach einer langen Woche eher Energie.",
+                textSarah: "Der Austausch in einer großen, lebendigen Runde lädt meine Batterien erst so richtig auf.",
+                textCouch: "Sind unsere sozialen Batterien im Moment auf einem ähnlichen Level geladen?"
+            },
+            {
+                id: "b1_1414", cat: "cat1",
+                textBenni: "Wenn wir streiten, gehe ich im ersten Impuls oft sehr schnell in die Verteidigungshaltung.",
+                textSarah: "Deine sofortigen Rechtfertigungen im Streit blockieren mein Bedürfnis, einfach verstanden zu werden.",
+                textCouch: "Wie durchbrechen wir die Dynamik von Angriff und Verteidigung am schnellsten?"
+            },
+            {
+                id: "b1_1415", cat: "cat2",
+                textBenni: "Minimalismus und komplett freie Flächen im Haus geben mir ein Gefühl von innerer Freiheit.",
+                textSarah: "Liebevoll gestaltete Ecken mit kleinen Erinnerungsstücken machen unser Haus erst lebendig.",
+                textCouch: "Gibt es einen Bereich, den wir gemeinsam noch minimalistischer oder dekorativer gestalten wollen?"
+            },
+            {
+                id: "b1_1416", cat: "cat11",
+                textBenni: "Ich habe kein Problem damit, wenn unser Sohn hinfällt, solange keine echte Gefahr droht.",
+                textSarah: "Mein Beschützerinstinkt ist manchmal so stark, dass ich den Kleinen vor jedem Stolperer bewahren möchte.",
+                textCouch: "Wie balancieren wir Mut und Vorsicht in unserer Erziehung aktuell aus?"
+            },
+            {
+                id: "b1_1417", cat: "cat3",
+                textBenni: "Ein wachsendes Polster auf dem Konto beruhigt mich mehr als jede materielle Anschaffung.",
+                textSarah: "Großzügigkeit bei Erlebnissen für Freunde und Familie erfüllt mich mit großer Freude.",
+                textCouch: "In welchen Bereichen dürfen wir beim Geldverdienen und Ausgeben mutiger sein?"
+            },
+            {
+                id: "b1_1418", cat: "cat12",
+                textBenni: "Das ständige Verfolgen von globalen Nachrichten im Netz lenkt mich im Feierabend oft unbemerkt ab.",
+                textSarah: "Die permanente Flut an Informationen im Alltag erzeugt in mir eine latente Unruhe.",
+                textCouch: "Wie schützen wir unseren gemeinsamen Feierabend vor der digitalen Nachrichtenflut?"
+            },
+            {
+                id: "b1_1419", cat: "cat4",
+                textBenni: "Beim Einschlafen brauche ich eine klare räumliche Distanz im Bett, um tief schlafen zu können.",
+                textSarah: "Direkter Körperkontakt bis zum Wegschlummern gibt mir ein unbezahlbares Gefühl von Nähe.",
+                textCouch: "Wie sieht unser perfektes nächtliches Schlaf- und Kuschel-Arrangement aus?"
+            },
+            {
+                id: "b1_1420", cat: "cat0",
+                textBenni: "Ein ironischer oder sarkastischer Spruch im richtigen Moment lockert für mich jede Situation auf.",
+                textSarah: "Sarkasmus verletzt mich manchmal, wenn ich in dem Moment eigentlich emotionalen Trost suche.",
+                textCouch: "Wann tut Humor gut und wann ist stattdessen echtes Mitgefühl gefragt?"
+            },
+            {
+                id: "b1_1421", cat: "cat5",
+                textBenni: "Wenn ich meine selbstgesteckten sportlichen Ziele verfehle, ärgere ich mich maßlos über mich selbst.",
+                textSarah: "Ein verbissener Blick auf sportliche Erfolge nimmt dem Workout die nötige Leichtigkeit.",
+                textCouch: "Wie behalten wir den Spaß an der Bewegung ohne übertriebenen Leistungsdruck?"
+            },
+            {
+                id: "b1_1422", cat: "cat6",
+                textBenni: "Feste, zeitlich getaktete Routinen am Abend geben mir Struktur für den nächsten Tag.",
+                textSarah: "Zu viel feste Planung am Abend nimmt mir das Gefühl von echter Freiheit nach dem Job.",
+                textCouch: "Wie viel Routine und wie viel Spontanität verträgt unser gemeinsamer Feierabend?"
+            },
+            {
+                id: "b1_1423", cat: "cat1",
+                textBenni: "Es kostet mich Überwindung, Gefühle wie tiefe Trauer oder persönliche Schwäche offen zu zeigen.",
+                textSarah: "In unserem geschützten Raum zu Hause kann ich jede Emotion ungefiltert fließen lassen.",
+                textCouch: "Bietet unser Zuhause für jeden von uns den perfekten Raum für absolute emotionale Offenheit?"
+            },
+            {
+                id: "b1_1424", cat: "cat7",
+                textBenni: "Große Veränderungen im Leben machen mir keine Angst, sondern spornen mich eher an.",
+                textSarah: "Ich brauche Phasen der absoluten Konstanz, um mich auf neue Herausforderungen einzustellen.",
+                textCouch: "Wie fangen wir unterschiedliche Geschwindigkeiten bei Lebensveränderungen am besten auf?"
+            },
+            {
+                id: "b1_1425", cat: "cat11",
+                textBenni: "Der Fokus auf Leistungsbereitschaft und Durchhaltevermögen ist ein wichtiger Wert für die Zukunft unseres Sohnes.",
+                textSarah: "Empathie, emotionale Intelligenz und Mitgefühl sind die wichtigsten Bausteine für seinen Lebensweg.",
+                textCouch: "Wie vereinen wir Leistungsbereitschaft und emotionale Stärke in unserer Erziehung?"
+            },
+            {
+                id: "b1_1426", cat: "cat8",
+                textBenni: "Klare Grenzen gegenüber den Erwartungen der erweiterten Familie fallen mir vollkommen leicht.",
+                textSarah: "Der Spagat zwischen den Wünschen von Verwandten und unseren eigenen Bedürfnissen stresst mich enorm.",
+                textCouch: "Wie gut gelingt es uns, als Kleinfamilie nach außen hin eine geschlossene Einheit zu bilden?"
+            },
+            {
+                id: "b1_1427", cat: "cat3",
+                textBenni: "Umfassende Absicherungen und Tarife für alle Lebenslagen geben mir eine absolute innere Ruhe.",
+                textSarah: "Zu viel Fokus auf Absicherung fühlt sich manchmal wie ein Misstrauen gegenüber dem Leben an.",
+                textCouch: "In welchen Bereichen sind wir perfekt abgesichert und wo dürfen wir mehr ins Leben vertrauen?"
+            },
+            {
+                id: "b1_1428", cat: "cat9",
+                textBenni: "Ein Samstag komplett ohne ein handwerkliches oder organisatorisches To-Do fühlt sich unproduktiv an.",
+                textSarah: "Ein freier Tag ohne jede Verpflichtung ist für mich der wahre Luxus des Wochenendes.",
+                textCouch: "Wie sieht die perfekte Balance zwischen Produktivität und purem Nichtstun am Wochenende aus?"
+            },
+            {
+                id: "b1_1429", cat: "cat4",
+                textBenni: "Gekaufte Aufmerksamkeiten bedeuten mir deutlich weniger als gemeinsam investierte Zeit.",
+                textSarah: "Ein sorgfältig ausgewähltes, kleines Geschenk zeigt mir, dass du meine Vorlieben genau kennst.",
+                textCouch: "Welche Sprache der Aufmerksamkeit und Wertschätzung spricht jeder von uns am liebsten?"
+            },
+            {
+                id: "b1_1430", cat: "cat6",
+                textBenni: "Ein ungemachtes Bett am Morgen stört mein ästhetisches Empfinden für den restlichen Tag.",
+                textSarah: "Das Bett darf auch mal bis zum Abend ungemacht bleiben, ohne dass die Welt untergeht.",
+                textCouch: "Bei welchen Haushalts-Standards müssen wir einen besseren Kompromiss finden?"
+            },
+            {
+                id: "b1_1431", cat: "cat5",
+                textBenni: "Der Austausch über komplexe, gesellschaftliche oder politische Themen gibt mir wertvollen mentalen Input.",
+                textSarah: "Nach einem vollen Tag suche ich im Gespräch eher emotionale Nähe als schwere, theoretische Kost.",
+                textCouch: "Wann ist der richtige Zeitpunkt für tiefgründige Diskussionen abseits des Beziehungsalltags?"
+            },
+            {
+                id: "b1_1432", cat: "cat12",
+                textBenni: "Die Vorbildfunktion beim Smartphone-Konsum vor unserem Kind fällt mir im Alltag leicht.",
+                textSarah: "Es kostet mich viel Disziplin, das Handy nicht reflexartig in Gegenwart unseres Sohnes zu nutzen.",
+                textCouch: "Wie konsequent leben wir unserem Kind einen gesunden Umgang mit Medien vor?"
+            },
+            {
+                id: "b1_1433", cat: "cat2",
+                textBenni: "Ein Raum muss vor allem praktisch aufgeteilt, funktional und leicht zu reinigen sein.",
+                textSarah: "Die Atmosphäre und das Licht entscheiden darüber, ob ich mich in einem Raum gerne aufhalte.",
+                textCouch: "Welches Zimmer in unserem Haus hat aktuell das größte Potenzial für mehr Wohlfühlatmosphäre?"
+            },
+            {
+                id: "b1_1434", cat: "cat1",
+                textBenni: "Nach einem Streit brauche ich oft ein paar Stunden Abstand, bevor ich wieder normal auf dich zugehen kann.",
+                textSarah: "Die eisige Stimmung nach einer Diskussion halte ich nur schwer aus und suche schnell die Versöhnung.",
+                textCouch: "Wie überbrücken wir die kritische Zeit zwischen einem Streit und der endgültigen Versöhnung?"
+            },
+            {
+                id: "b1_1435", cat: "cat0",
+                textBenni: "Gemeinsam durchlebte Krisen haben mein Vertrauen in uns über die Jahre unerschütterlich gemacht.",
+                textSarah: "Jedes gelöste Problem zeigt mir aufs Neue, wie tief verwurzelt unsere Liebe im Kern ist.",
+                textCouch: "Auf welche gemeisterte Herausforderung als Paar blickst du heute mit dem größten Stolz zurück?"
+            }, 
+		{
+                id: "b1_1436", cat: "cat1",
+                textBenni: "Wenn du mich im Gespräch unterbrichst, verliere ich sofort die Lust, meine Argumente weiterzuführen.",
+                textSarah: "Manchmal rede ich einfach direkt darauf los, weil ich Angst habe, dass mein Gedanke sonst wieder weg ist.",
+                textCouch: "Wie schaffen wir es, einander im hitzigen Dialog wieder mehr ausreden zu lassen?"
+            },
+            {
+                id: "b1_1437", cat: "cat4",
+                textBenni: "Ein spontanes Kompliment zwischendurch zeigt mir, dass du mich im Alltagsmodus immer noch begehrst.",
+                textSarah: "Wenn wir uns im Alltag nur noch über Erledigungen unterhalten, fühle ich mich als Frau unbemerkt unsichtbar.",
+                textCouch: "Wie bringen wir wieder mehr kleine Flirt-Momente in unsere tägliche Dynamik?"
+            },
+            {
+                id: "b1_1438", cat: "cat11",
+                textBenni: "Die wöchentliche Struktur für die Betreuung eures Sohnes gibt mir die nötige Sicherheit für den Job.",
+                textSarah: "Feste Abgabetermine beim Kleinen erzeugen in mir oft ein latentes schlechtes Gewissen.",
+                textCouch: "Wie fühlen wir uns aktuell mit der Balance aus Fremdbetreuung und Familienzeit?"
+            },
+            {
+                id: "b1_1439", cat: "cat6",
+                textBenni: "Ein voller Wäschekorb oder unerledigtes Geschirr blockiert bei mir sofort den entspannten Feierabend.",
+                textSarah: "Ich kann das sichtbare Chaos am Abend einfach ignorieren, um Energie für den nächsten Tag zu sparen.",
+                textCouch: "Wo ist unsere Schmerzgrenze, ab der Unordnung im Haus die Paarentspannung stört?"
+            },
+            {
+                id: "b1_1440", cat: "cat3",
+                textBenni: "Der Kauf von langlebigen Premium-Produkten ist für mich auf lange Sicht die klügere Investition.",
+                textSarah: "Günstigere Alternativen reichen im Alltag oft völlig aus, um unser Budget nicht unnötig zu belasten.",
+                textCouch: "Wie einig sind wir uns bei der Priorisierung von Qualität versus Preis im Haushalt?"
+            },
+            {
+                id: "b1_1441", cat: "cat5",
+                textBenni: "Ein Abend ganz ohne sportliche Aktivität fühlt sich für mich manchmal unproduktiv und unbefriedigend an.",
+                textSarah: "Ein Abend auf dem Sofa mit absoluter Ruhe ist für mich die wertvollste Form der Regeneration.",
+                textCouch: "Akzeptieren wir die völlig unterschiedlichen Erholungsbedürfnisse des anderen zu 100%?"
+            },
+            {
+                id: "b1_1442", cat: "cat12",
+                textBenni: "Das Streamen von Dokumentationen oder Podcasts bildet mich weiter und entspannt mich gleichzeitig.",
+                textSarah: "Im Feierabend suche ich eher leichte Unterhaltung oder Fiktion, um den Kopf komplett freizubekommen.",
+                textCouch: "Finden wir bei unserer gemeinsamen Medienauswahl am Abend einen guten Nenner?"
+            },
+            {
+                id: "b1_1443", cat: "cat8",
+                textBenni: "Regelmäßige Treffen mit langjährigen Freunden geben mir ein wichtiges Stück meiner Identität zurück.",
+                textSarah: "In unserer aktuellen Lebensphase reichen mir unsere familiären Kontakte als soziales Netz völlig aus.",
+                textCouch: "Wie viel Zeit und Energie wollen wir aktuell in Freundschaften außerhalb der Familie investieren?"
+            },
+            {
+                id: "b1_1444", cat: "cat7",
+                textBenni: "Langfristige berufliche Veränderungen oder Weiterbildungen reizen mich in naher Zukunft sehr.",
+                textSarah: "Die aktuelle berufliche und familiäre Stabilität ist für mich im Moment das höchste Gut.",
+                textCouch: "Wie viel Raum für berufliche Veränderungen verträgt unsere aktuelle Familiendynamik?"
+            },
+            {
+                id: "b1_1445", cat: "cat9",
+                textBenni: "Ein perfekter Urlaub erfordert einen detaillierten Plan mit fest gebuchten Aktivitäten vorab.",
+                textSarah: "Am wohlsten fühle ich mich auf Reisen, wenn wir den Tag absolut spontan und ungeplant angehen.",
+                textCouch: "Wie sieht die goldene Mitte zwischen Urlaubsstruktur und totaler Spontanität aus?"
+            },
+            {
+                id: "b1_1446", cat: "cat0",
+                textBenni: "Ich spüre im Alltag ganz genau, wenn zwischen uns eine unausgesprochene Spannung in der Luft liegt.",
+                textSarah: "Manche Verstimmungen sitze ich lieber schweigend aus, statt direkt ein großes Fass aufzumachen.",
+                textCouch: "Wie feinfühlig gehen wir mit dicker Luft um, bevor sie eskaliert?"
+            },
+            {
+                id: "b1_1447", cat: "cat2",
+                textBenni: "Ein technisch perfekt ausgestattetes Haus ist für mich die wichtigste Basis für modernen Wohnkomfort.",
+                textSarah: "Natürliche Materialien und Textilien entscheiden primär darüber, ob ein Haus Gemütlichkeit ausstrahlt.",
+                textCouch: "Wo treffen sich Technik und Ästhetik in unserem Zuhause am besten?"
+            },
+            {
+                id: "b1_1448", cat: "cat11",
+                textBenni: "Der frühe Umgang mit klaren Grenzen bereitet unseren Sohn optimal auf das reale Leben vor.",
+                textSarah: "Ein bedürfnisorientierter Ansatz ohne starre Verbote stärkt das Urvertrauen eures Kindes am besten.",
+                textCouch: "Wo ziehen wir in der Erziehung die klare Grenze zwischen Konsequenz und Nachgiebigkeit?"
+            },
+            {
+                id: "b1_1449", cat: "cat4",
+                textBenni: "Die Initiative für Intimität und Zärtlichkeit geht in unserer Beziehung meistens von mir aus.",
+                textSarah: "Ich brauche erst ein hohes Maß an mentaler Entlastung im Alltag, um mich körperlich öffnen zu können.",
+                textCouch: "Wie schaffen wir im Alltag die richtigen Bedingungen für ein unbeschwertes Liebesleben?"
+            },
+            {
+                id: "b1_1450", cat: "cat6",
+                textBenni: "Ein fester Rhythmus beim wöchentlichen Haushaltsputz spart uns am Ende wertvolle Lebenszeit.",
+                textSarah: "Ich putze lieber spontan genau dann, wenn es nötig ist oder ich gerade die Zeit dafür finde.",
+                textCouch: "Wie harmonieren unsere unterschiedlichen Herangehensweisen an die Haushaltsarbeit?"
+            },
+            {
+                id: "b1_1451", cat: "cat1",
+                textBenni: "Wenn wir ein Problem besprechen, will ich sofort eine verbindliche Entscheidung treffen.",
+                textSarah: "Ich muss Optionen oft mehrere Tage im Kopf bewegen, bevor ich mich final festlegen kann.",
+                textCouch: "Wie geben wir uns gegenseitig den nötigen Raum für unterschiedliche Entscheidungsgeschwindigkeiten?"
+            },
+            {
+                id: "b1_1452", cat: "cat5",
+                textBenni: "Eigene Finanzen und ein persönliches Budget für persönliche Interessen geben mir ein Gefühl von Freiheit.",
+                textSarah: "Ein komplett gemeinsamer Topf ohne getrennte Konten symbolisiert für mich die absolute Einheit.",
+                textCouch: "Wie definieren wir die perfekte Balance zwischen gemeinsamen Finanzen und individuellen Freiräumen?"
+            },
+            {
+                id: "b1_1453", cat: "cat11",
+                textBenni: "Die Erziehungsmethoden meiner eigenen Eltern prägen mein Handeln heute noch unbewusst sehr stark.",
+                textSarah: "Ich distanziere mich ganz bewusst von bestimmten Prägungen aus meinem eigenen Elternhaus.",
+                textCouch: "Welche Werte aus unseren jeweiligen Herkunftsfamilien wollen wir unbedingt beibehalten?"
+            },
+            {
+                id: "b1_1454", cat: "cat3",
+                textBenni: "Das Investieren in Sachwerte oder langfristige Projekte gibt mir ein Gefühl von echter Unabhängigkeit.",
+                textSarah: "Eine sichere, sofort verfügbare Reserve auf dem Tagesgeldkonto beruhigt meine Nerven am effektivsten.",
+                textCouch: "Wie verteilen wir unsere Ersparnisse am besten zwischen Risiko und absoluter Sicherheit?"
+            },
+            {
+                id: "b1_1455", cat: "cat12",
+                textBenni: "Das Beantworten von beruflichen Nachrichten im Feierabend belastet mich mental überhaupt nicht.",
+                textSarah: "Wenn der Job in unsere private Zeit reinschneidet, leidet die familiäre Harmonie sofort spürbar.",
+                textCouch: "Wo ziehen wir die strikte Grenze zwischen Erreichbarkeit im Beruf und privater Paarzeit?"
+            },
+            {
+                id: "b1_1456", cat: "cat8",
+                textBenni: "Regelmäßige Besuche und Feste mit der erweiterten Verwandtschaft gehören für mich ganz normal dazu.",
+                textSarah: "Zu viele familiäre Verpflichtungen am Wochenende engen mich ein und rauben mir die nötige Erholung.",
+                textCouch: "Wie dosieren wir Familienbesuche so, dass unsere Kernfamilie nicht zu kurz kommt?"
+            },
+            {
+                id: "b1_1457", cat: "cat4",
+                textBenni: "Kleine Neckereien und Sprüche sind meine Art, dir im Alltag meine Zuneigung zu zeigen.",
+                textSarah: "Ich brauche klare, liebevolle Worte und ernste Aufmerksamkeit, um mich wirklich geliebt zu fühlen.",
+                textCouch: "Verstehen wir die Liebesbekundungen des anderen im Alltag immer richtig?"
+            },
+            {
+                id: "b1_1458", cat: "cat6",
+                textBenni: "Die exakte Vorbereitung von Mahlzeiten (Meal Prep) erleichtert mir die gesunde Ernährung unter der Woche ungemein.",
+                textSarah: "Tägliches, frisches Kochen nach Lust und Laune bringt mir deutlich mehr Lebensqualität als aufgewärmtes Essen.",
+                textCouch: "Wie koordinieren wir Meal Prep und spontane Küche am besten in unserem Alltag?"
+            },
+            {
+                id: "b1_1459", cat: "cat7",
+                textBenni: "Ich mache mir oft konkrete Gedanken darüber, wie unser Leben in zehn oder zwanzig Jahren aussehen wird.",
+                textSarah: "Ich konzentriere mich voll und ganz auf das Hier und Jetzt, weil die Zukunft ohnehin unverdaulich planbar ist.",
+                textCouch: "Wie balancieren wir weitsichtige Planung und den Fokus auf die Gegenwart am besten aus?"
+            },
+            {
+                id: "b1_1460", cat: "cat9",
+                textBenni: "Ein perfekter freier Tag erfordert Action, movement und neue Reize im Freien.",
+                textSarah: "Das absolute Maximum an Erholung finde ich beim entspannten Lesen im eigenen Garten.",
+                textCouch: "Wie teilen wir freie Wochenenden auf, damit beide Erholungstypen auf ihre Kosten kommen?"
+            },
+            {
+                id: "b1_1461", cat: "cat1",
+                textBenni: "Wenn mich etwas stört, spreche ich es am liebsten sofort und ohne Umschweife direkt an.",
+                textSarah: "Ich muss meine Verärgerung erst einmal im Stillen analysieren, um im Gespräch nicht ungerecht zu werden.",
+                textCouch: "Wie vereinbaren wir unsere unterschiedlichen Geschwindigkeiten beim Ansprechen von Problemen?"
+            },
+            {
+                id: "b1_1462", cat: "cat2",
+                textBenni: "Eine minimalistische, cleane Einrichtung ohne überflüssigen Kram gibt mir mentale Klarheit.",
+                textSarah: "Kleine Dekorationen, Pflanzen und farbliche Akzente machen einen Raum für mich erst wohnlich.",
+                textCouch: "Gibt es Räume im Haus, bei denen wir kompromissbereiter in der Gestaltung sein müssen?"
+            },
+            {
+                id: "b1_1463", cat: "cat11",
+                textBenni: "Unser Sohn soll früh lernen, sich in Gruppen durchzusetzen und seine eigenen Interessen zu vertreten.",
+                textSarah: "Mir ist es wichtiger, dass er ausgeprägte Empathie, Rücksichtnahme und Teamfähigkeit entwickelt.",
+                textCouch: "Welchen Mix aus Durchsetzungsvermögen und Empathie wollen wir unserem Kind vorleben?"
+            },
+            {
+                id: "b1_1464", cat: "cat5",
+                textBenni: "Der tiefe Austausch über strategische oder wirtschaftliche Entwicklungen gibt mir wertvollen Input.",
+                textSarah: "Abends suche ich im Dialog eher emotionale Entlastung und ein offenes Ohr für persönliche Befindlichkeiten.",
+                textCouch: "Schaffen wir im Alltag genug Raum für beide Gesprächsebenen?"
+            },
+            {
+                id: "b1_1465", cat: "cat0",
+                textBenni: "Das Wissen, dass wir bedingungslos als Team funktionieren, nimmt mir jede existentielle Sorge.",
+                textSarah: "Deine unerschütterliche Loyalität in schwierigen Momenten ist mein wichtigster Anker im Leben.",
+                textCouch: "Was war die intensivste Situation, in der wir uns zu 100% aufeinander verlassen konnten?"
+            }, 
+		{
+                id: "b1_1466", cat: "cat4",
+                textBenni: "Ein langer Abschiedskuss an der Haustür gibt mir ein gutes Gefühl für den gesamten Arbeitstag.",
+                textSarah: "Wenn wir uns morgens im Stress nur schnell im Vorbeigehen abfertigen, fehlt mir ein wichtiger Anker.",
+                textCouch: "Wie wichtig sind uns feste Begrüßungs- und Abschiedsrituale im Alltag?"
+            },
+            {
+                id: "b1_1467", cat: "cat11",
+                textBenni: "Wenn unser Sohn bockig oder trotzig wird, verliere ich innerlich ziemlich schnell die Geduld.",
+                textSarah: "In den intensiven Trotzphasen des Kleinen kann ich meistens vollkommen ruhig und besonnen reagieren.",
+                textCouch: "Wie fangen wir die Momente ab, in denen das Kind uns beide an unsere Grenzen bringt?"
+            },
+            {
+                id: "b1_1468", cat: "cat6",
+                textBenni: "Ein unaufgeräumtes Auto sorgt bei mir für sofortiges Unbehagen bei der Fahrt.",
+                textSarah: "Ein paar Krümel oder herumliegendes Spielzeug im Auto stören mich im Alltag überhaupt nicht.",
+                textCouch: "Welchen Sauberkeitsstandard brauchen wir in unseren Fahrzeugen, um uns beide wohlzufühlen?"
+            },
+            {
+                id: "b1_1469", cat: "cat1",
+                textBenni: "Ich fresse Ärger über Kleinigkeiten oft tagelang in mich hinein, anstatt ihn direkt anzusprechen.",
+                textSarah: "Wenn du unzufrieden bist, merke ich das sofort an deiner veränderten Körpersprache.",
+                textCouch: "Was hindert uns manchmal daran, kleine Störfaktoren sofort offen anzusprechen?"
+            },
+            {
+                id: "b1_1470", cat: "cat3",
+                textBenni: "Beim Thema Geld und Investitionen bin ich absolut risikoavers und vorsichtig.",
+                textSarah: "Für langfristige Chancen bin ich bereit, auch mal ein kalkuliertes finanzielles Risiko einzugehen.",
+                textCouch: "Wie viel Risiko verträgt unsere aktuelle finanzielle Zukunftsplanung?"
+            },
+            {
+                id: "b1_1471", cat: "cat12",
+                textBenni: "Beim Fernsehen oder Streamen lasse ich mich abends am liebsten berieseln, ohne groß nachzudenken.",
+                textSarah: "Ich brauche anspruchsvolle Filme oder Serien, die mich gedanklich fesseln und fordern.",
+                textCouch: "Wie sieht der perfekte Kompromiss bei unserer gemeinsamen Abendunterhaltung aus?"
+            },
+            {
+                id: "b1_1472", cat: "cat5",
+                textBenni: "Feste, unverplante Zeiten nur für mich alleine brauche ich jede Woche als mentalen Anker.",
+                textSarah: "Ich lade meine Batterien am besten auf, wenn wir als Familie oder Paar zusammen aktiv sind.",
+                textCouch: "Wie flexibel gehen wir aktuell mit den Me-Time-Bedürfnissen des anderen um?"
+            },
+            {
+                id: "b1_1473", cat: "cat2",
+                textBenni: "Bei Projekten rund ums Haus will ich das meiste selbst in die Hand nehmen und handwerklich umsetzen.",
+                textSarah: "Ich vergebe anstrengende Arbeiten am Haus lieber an Profis, um unsere Freizeit zu schonen.",
+                textCouch: "Wo macht Selbermachen Sinn und wo sollten wir lieber Geld für Handwerker in die Hand nehmen?"
+            },
+            {
+                id: "b1_1474", cat: "cat8",
+                textBenni: "Der enge Kontakt und Austausch mit meinen Arbeitskollegen auch nach Feierabend ist mir wichtig.",
+                textSarah: "Nach Feierabend brauche ich eine strikte Trennung zwischen Beruf und privatem Umfeld.",
+                textCouch: "Wie viel berufliches Netzwerk und soziale Kontakte verträgt unsere Freizeit?"
+            },
+            {
+                id: "b1_1475", cat: "cat9",
+                textBenni: "Ein gelungener Urlaub bedeutet für mich, jeden Tag an einem anderen Ort zu sein und Meter zu machen.",
+                textSarah: "Tagelang am selben schönen Ort zu verweilen und die Umgebung aufzusaugen, bringt mir die tiefste Erholung.",
+                textCouch: "Wie gestalten wir unsere Urlaubsrouten, damit Aktion und Verweilen im Gleichgewicht sind?"
+            },
+            {
+                id: "b1_1476", cat: "cat7",
+                textBenni: "Ich definiere meinen Selbstwert stark über meine berufliche Leistung und meine erreichten Meilensteine.",
+                textSarah: "Mein Selbstwert ist völlig unabhängig von Jobtiteln, Karriere oder gesellschaftlichem Status.",
+                textCouch: "Welche Werte abseits des Berufslebens geben uns die größte innere Bestätigung?"
+            },
+            {
+                id: "b1_1477", cat: "cat11",
+                textBenni: "Eine frühe, gezielte Förderung unseres Sohnes in festen Vereinen oder Kursen ist mir sehr wichtig.",
+                textSarah: "Das freie, unstrukturierte Spielen ohne feste Termine ist das Beste für die Entwicklung im Kleinkindalter.",
+                textCouch: "Wie viel Struktur und wie viele feste Aktivitäten tun dem Alltag unseres Sohnes gut?"
+            },
+            {
+                id: "b1_1478", cat: "cat4",
+                textBenni: "Körperliche Nähe im Alltag ist für mich der direkteste Weg, um emotionale Nähe aufzubauen.",
+                textSarah: "Ich brauche erst ein Gefühl von tiefer emotionaler Verbundenheit, um körperliche Nähe genießen zu können.",
+                textCouch: "Wie greifen emotionale und körperliche Nähe bei uns aktuell ineinander?"
+            },
+            {
+                id: "b1_1479", cat: "cat6",
+                textBenni: "Feste Aufgabenbereiche im Haushalt verhindern Diskussionen und sorgen für klare Verhältnisse.",
+                textSarah: "Ein dynamisches Aufteilen der To-Dos nach tagesaktueller Energie ist für mich entspannter.",
+                textCouch: "Fahren wir mit festen Zuständigkeiten besser oder mit spontaner Absprache?"
+            },
+            {
+                id: "b1_1480", cat: "cat1",
+                textBenni: "Wenn du mich im Streit kritisierst, schalte ich oft sofort auf stur und blocke das Gespräch ab.",
+                textSarah: "Wenn meine Kritik auf eine Mauer stößt, werde ich im Tonfall lauter und emotionaler.",
+                textCouch: "Wie können wir Feedback so verpacken, dass es beim anderen ohne Verteidigungshaltung ankommt?"
+            },
+            {
+                id: "b1_1481", cat: "cat3",
+                textBenni: "Spontane Luxusausgaben ohne vorherige Absprache belasten mein finanzielles Sicherheitsgefühl.",
+                textSarah: "Kleine, ungeplante Konsum-Momente gehören für mich zu einem unbeschwerten Leben absolut dazu.",
+                textCouch: "Ab welchem Betrag ist eine vorherige finanzielle Absprache für jeden von uns Pflicht?"
+            },
+            {
+                id: "b1_1482", cat: "cat5",
+                textBenni: "Meine Hobbys und Interessen verfolge ich am liebsten extrem fokussiert, ehrgeizig und leistungsorientiert.",
+                textSarah: "Freizeitbeschäftigungen müssen für mich rein spielerisch, entspannt und ohne jeden Leistungsdruck sein.",
+                textCouch: "Wie stark beeinflusst unser persönlicher Ehrgeiz die Gestaltung unserer Freizeit?"
+            },
+            {
+                id: "b1_1483", cat: "cat12",
+                textBenni: "Das Verfolgen von Online-Trends oder Social Media gehört für mich ganz normal zum Feierabend dazu.",
+                textSarah: "Der ständige Konsum von Online-Inhalten im direkten Umfeld erzeugt in mir eine latente Reizüberflutung.",
+                textCouch: "Wie viel digitale Außenwelt wollen wir in unseren privaten Räumen zulassen?"
+            },
+            {
+                id: "b1_1484", cat: "cat2",
+                textBenni: "Ein perfekt gepflegter, akkurater Rasen im Garten ist mein persönliches Aushängeschild.",
+                textSarah: "Ein naturbelassener, wilderer Garten strahlt für mich deutlich mehr Lebendigkeit und Charme aus.",
+                textCouch: "Welchen Stil verfolgen wir bei der langfristigen Gestaltung unseres Außenbereichs?"
+            },
+            {
+                id: "b1_1485", cat: "cat11",
+                textBenni: "Beim Thema Medienkonsum und Fernsehen für Kinder will ich später extrem strenge Regeln durchsetzen.",
+                textSarah: "Ein begleiteter, entspannter Umgang mit digitalen Medien ist sinnvoller als totale Verbote.",
+                textCouch: "Welche gemeinsame Linie wollen wir beim zukünftigen Medienkonsum unseres Sohnes fahren?"
+            },
+            {
+                id: "b1_1486", cat: "cat8",
+                textBenni: "Ich verbringe Urlaube oder freie Tage am liebsten exklusiv mit unserer Kernfamilie zu dritt.",
+                textSarah: "Gemeinsame Urlaube mit befreundeten Familien oder Verwandten bringen eine tolle Abwechslung.",
+                textCouch: "Wie sieht die perfekte Verteilung zwischen reinen Familienurlauben und Gruppenreisen aus?"
+            },
+            {
+                id: "b1_1487", cat: "cat9",
+                textBenni: "Ein Städtetrip mit viel Kultur und vollem Programm holt mich komplett aus dem Alltag ab.",
+                textSarah: "Die absolute Abgeschiedenheit in der Natur ohne Menschenmassen gibt mir die meiste Kraft zurück.",
+                textCouch: "Welcher Urlaubstyp steht bei unserer nächsten Reiseplanung im Vordergrund?"
+            },
+            {
+                id: "b1_1488", cat: "cat1",
+                textBenni: "In hitzigen Diskussionen bleibe ich lieber stur bei meiner Meinung, statt voreilig nachzugeben.",
+                textSarah: "Ich knicke bei Konflikten oft zu schnell ein, nur um den lieben Frieden im Haus zu wahren.",
+                textCouch: "Wie finden wir einen gesunden Mittelweg zwischen Durchsetzungsvermögen und Kompromissbereitschaft?"
+            },
+            {
+                id: "b1_1489", cat: "cat6",
+                textBenni: "Ein fester Essensplan für die gesamte Woche nimmt mir jegliche mentale Last ab.",
+                textSarah: "Ich entscheide lieber jeden Tag spontan nach Appetit und Lust, was abends auf den Tisch kommt.",
+                textCouch: "Wie verbinden wir Effizienz bei der Vorratshaltung mit Flexibilität beim Kochen?"
+            },
+            {
+                id: "b1_1490", cat: "cat4",
+                textBenni: "Öffentliche Liebesbekundungen oder Händchenhalten in der Stadt fallen mir vollkommen leicht.",
+                textSarah: "Ich halte unsere Intimität lieber privat und brauche keine großen Gesten vor anderen Menschen.",
+                textCouch: "Wie wohl fühlen wir uns mit dem Zeigen von Zuneigung in der Öffentlichkeit?"
+            },
+            {
+                id: "b1_1491", cat: "cat7",
+                textBenni: "Ich brauche immer das nächste große Ziel vor Augen, um im Leben motiviert zu bleiben.",
+                textSarah: "Das Erreichte einfach mal zu genießen und innezuhalten, gibt mir die größte Zufriedenheit.",
+                textCouch: "Wann schalten wir vom 'Ziele erreichen' um auf pures 'Zufrieden sein'?"
+            },
+            {
+                id: "b1_1492", cat: "cat11",
+                textBenni: "Ich sorge mich insgeheim oft, ob wir den Ansprüchen einer perfekten Erziehung gerecht werden.",
+                textSarah: "Ich habe volles Vertrauen in unsere Instinkte als Eltern und gehe die Erziehung sehr gelassen an.",
+                textCouch: "Woher kommt unser Erziehungsdruck und wie können wir ihn gemeinsam abbauen?"
+            },
+            {
+                id: "b1_1493", cat: "cat3",
+                textBenni: "Das Thema Altersvorsorge und langfristiger Vermögensaufbau beschäftigt mich jede Woche intensiv.",
+                textSarah: "Ich verlasse mich darauf, dass sich unsere finanzielle Zukunft durch unsere solide Basis von alleine regelt.",
+                textCouch: "Wie oft und in welcher Tiefe wollen wir das Thema Altersvorsorge gemeinsam besprechen?"
+            },
+            {
+                id: "b1_1494", cat: "cat0",
+                textBenni: "Kleine Veränderungen in deiner Ausstrahlung oder Laune verunsichern mich im Alltag extrem schnell.",
+                textSarah: "Wenn ich gestresst oder erschöpft bin, hat das absolut nichts mit dir oder unserer Beziehung zu tun.",
+                textCouch: "Wie grenzen wir persönlichen Alltagsfrust besser von unserer Paardynamik ab?"
+            },
+            {
+                id: "b1_1495", cat: "cat2",
+                textBenni: "Ein striktes Ordnungssystem im Keller oder in der Garage spart mir im Alltag nervige Sucherei.",
+                textSarah: "In reinen Nutzräumen stört mich eine gewisse Unordnung überhaupt nicht, solange man alles findet.",
+                textCouch: "Welche Ordnungssysteme wollen wir für unsere Abstellflächen etablieren?"
+            },
+	    {
+                id: "b1_1496", cat: "cat4",
+                textBenni: "Ein langer, intensiver Augenkontakt beim Abendessen gibt mir sofort ein Gefühl von tiefer Vertrautheit.",
+                textSarah: "Wenn wir uns beim Essen nur anschauen, statt zu reden, fühle ich mich manchmal unsicher.",
+                textCouch: "Wie deuten wir die stummen Momente an unserem Esstisch richtig?"
+            },
+            {
+                id: "b1_1497", cat: "cat11",
+                textBenni: "Die wachsende Autonomie unseres Sohnes macht mich stolz und beruhigt mich ungemein.",
+                textSarah: "Je selbstständiger der Kleine wird, desto mehr vermisse ich die intensive Babyzeit.",
+                textCouch: "Wie gehen wir emotional mit dem schnellen Großwerden unseres Kindes um?"
+            },
+            {
+                id: "b1_1498", cat: "cat6",
+                textBenni: "Das pünktliche Einhalten von festen Zubettgehzeiten bringt Struktur in unseren Feierabend.",
+                textSarah: "Ein flexiblerer Umgang mit den Schlafzeiten am Wochenende nimmt uns spürbar den Druck raus.",
+                textCouch: "Wo tut uns ein starrer Zeitplan gut und wo schadet er der familiären Leichtigkeit?"
+            },
+            {
+                id: "b1_1499", cat: "cat1",
+                textBenni: "Wenn ein Konflikt schwelt, spreche ich ihn lieber sofort an, um die Luft direkt zu reinigen.",
+                textSarah: "Ein überstürztes Gespräch im Affekt führt bei mir meistens zu einer emotionalen Blockade.",
+                textCouch: "Wie finden wir den optimalen Zeitpunkt für klärende Gespräche nach einem Streit?"
+            },
+            {
+                id: "b1_1500", cat: "cat5",
+                textBenni: "Ein Wochenende ganz ohne sportliche Herausforderung fühlt sich für mich unvollständig an.",
+                textSarah: "Ein komplett bewegungsfreies Wochenende auf dem Sofa gibt mir die tiefste Erholung.",
+                textCouch: "Wie harmonieren unsere unterschiedlichen Vorstellungen von perfekter Wochenenderholung?"
+            },
+            {
+                id: "b1_1501", cat: "cat3",
+                textBenni: "Das detaillierte Nachverfolgen aller Haushaltsausgaben gibt mir die volle Kontrolle über unser Budget.",
+                textSarah: "Das akribische Auflisten jeder Kleinigkeit engt mich im Alltag emotional ein.",
+                textCouch: "Wie viel finanzielle Überwachung tut unserer Partnerschaft gut?"
+            },
+            {
+                id: "b1_1502", cat: "cat12",
+                textBenni: "Das gemeinsame Hören von Hörbüchern oder Podcasts im Bett lässt mich wunderbar entspannen.",
+                textSarah: "Ich brauche vor dem Schlafen absolute Stille im Raum, um meine Gedanken zu sortieren.",
+                textCouch: "Wie gestalten wir die letzten Minuten vor dem Einschlafen für beide gemütlich?"
+            },
+            {
+                id: "b1_1503", cat: "cat8",
+                textBenni: "Große Familienfeste mit der gesamten Verwandtschaft sind für mich ein absoluter Pflichttermin.",
+                textSarah: "Die Erwartungshaltung bei großen Familienfeiern erzeugt in mir einen spürbaren Stress.",
+                textCouch: "Wie setzen wir gesunde Grenzen bei familiären Verpflichtungen?"
+            },
+            {
+                id: "b1_1504", cat: "cat9",
+                textBenni: "Ein perfekt durchorganisierter Urlaub schützt uns vor unvorhergesehenen Enttäuschungen.",
+                textSarah: "Das strikte Abklappern von Reiseplänen nimmt mir jegliche Urlaubsspontanität.",
+                textCouch: "Wie viel Planung braucht unsere nächste gemeinsame Urlaubsreise?"
+            },
+            {
+                id: "b1_1505", cat: "cat2",
+                textBenni: "Bei baulichen Veränderungen am Haus entscheide ich am liebsten pragmatisch und schnell.",
+                textSarah: "Ich brauche Wochen, um verschiedene Designoptionen im Kopf reifen zu lassen.",
+                textCouch: "Wie balancieren wir Pragmatismus und ästhetischen Anspruch bei unseren Hausprojekten?"
+            },
+            {
+                id: "b1_1506", cat: "cat11",
+                textBenni: "Ein lautstarker Trotzanfall unseres Sohnes in der Öffentlichkeit ist mir peinlich.",
+                textSarah: "Die Reaktionen fremder Menschen bei einem Wutanfall unseres Kindes sind mir völlig egal.",
+                textCouch: "Wie gehen wir gemeinsam mit dem Druck von außen in schwierigen Erziehungsmomenten um?"
+            },
+            {
+                id: "b1_1507", cat: "cat4",
+                textBenni: "Kleine Neckereien und spielerische Kosenamen halten die sexuelle Spannung zwischen uns wach.",
+                textSarah: "Kleine Sticheleien im Alltag empfinde ich oft als anstrengend statt als Einladung.",
+                textCouch: "Verstehen wir die spielerischen Signale des anderen im Beziehungsalltag richtig?"
+            },
+            {
+                id: "b1_1508", cat: "cat6",
+                textBenni: "Ein fester Speiseplan für die gesamte Woche erleichtert mir das gesunde Kochen ungemein.",
+                textSarah: "Tägliche Spontanität beim Kochen bringt mir ein wichtiges Stück Freiheit zurück.",
+                textCouch: "Wo finden wir die mitte zwischen gesunder Effizienz und kulinarischer Spontanität?"
+            },
+            {
+                id: "b1_1509", cat: "cat1",
+                textBenni: "Wenn du mich kritisierst, nehme ich das sofort als Infragestellung meiner gesamten Leistung wahr.",
+                textSarah: "Manche meiner Rückmeldungen klingen schärfer, als sie eigentlich in meinem Kopf gemeint sind.",
+                textCouch: "Wie trennen wir sachliche Kritik von unserem emotionalen Selbstwert?"
+            },
+            {
+                id: "b1_1510", cat: "cat5",
+                textBenni: "Ein ganzer Tag komplett ohne familiäre Verpflichtungen gibt mir die ultimative Freiheit.",
+                textSarah: "Nach wenigen Stunden allein vermisse ich den Trubel unserer kleinen Familie bereits.",
+                textCouch: "Wie viel Solo-Zeit braucht jeder von uns, um langfristig ausgeglichen zu bleiben?"
+            },
+            {
+                id: "b1_1511", cat: "cat3",
+                textBenni: "Das Investieren in riskante Anlageformen reizt mich als finanzielle Chance für die Zukunft.",
+                textSarah: "Die absolute Sicherheit auf einem klassischen Sparkonto beruhigt meine Nerven am besten.",
+                textCouch: "Wie viel finanzielles Risiko wollen wir für unsere langfristigen Ziele eingehen?"
+            },
+            {
+                id: "b1_1512", cat: "cat12",
+                textBenni: "Das schnelle Checken von E-Mails oder Nachrichten im Bett gehört für mich zum Aufwachen dazu.",
+                textSarah: "Ein Smartphone im Schlafzimmer blockiert für mich die gemütliche Atmosphäre am Morgen.",
+                textCouch: "Schaffen wir es, das Schlafzimmer dauerhaft zu einer smartphonefreien Zone zu machen?"
+            },
+            {
+                id: "b1_1513", cat: "cat8",
+                textBenni: "Ein regelmäßiger Stammtisch oder feste Männerabende sind für mich ein wichtiger Ausgleich.",
+                textSarah: "Feste, unverrückbare Abendtermine im Kalender engen unsere spontane Paarzeit ein.",
+                textCouch: "Wie koordinieren wir feste externe Termine mit unserer gemeinsamen Zeit auf der Couch?"
+            },
+            {
+                id: "b1_1514", cat: "cat9",
+                textBenni: "Eine anspruchsvolle Wanderung bei schlechtem Wetter fordert mich sportlich heraus.",
+                textSarah: "Bei Regen oder Kälte bleibe ich lieber im warmen Haus, statt mich draußen durchzukämpfen.",
+                textCouch: "Wie kompromissbereit sind wir bei der Planung von gemeinsamen Outdoor-Aktivitäten?"
+            },
+            {
+                id: "b1_1515", cat: "cat2",
+                textBenni: "Ein perfekt aufgeräumter, leerer Flur strahlt für mich sofortige Ordnung beim Reinkommen aus.",
+                textSarah: "Ein Flur voller Jacken, Schuhe und Leben zeigt mir, dass hier eine glückliche Familie wohnt.",
+                textCouch: "Welchen optischen Eindruck soll unser Zuhause beim ersten Schritt durch die Tür vermitteln?"
+            },
+            {
+                id: "b1_1516", cat: "cat11",
+                textBenni: "Unser Sohn soll früh lernen, Konflikte eigenständig und ohne elterliche Hilfe zu lösen.",
+                textSarah: "Das sofortige schützende Eingreifen bei Streitigkeiten unter Kindern gibt mir ein sicheres Gefühl.",
+                textCouch: "Ab wann lassen wir das Kind Konflikte alleine austragen und wo greifen wir schützend ein?"
+            },
+            {
+                id: "b1_1517", cat: "cat4",
+                textBenni: "Ein ehrliches, hingeworfenes Kompliment von dir vor meinen Freunden macht mich stolz.",
+                textSarah: "Ich teile intime Lobbekundungen lieber exklusiv unter vier Augen mit dir.",
+                textCouch: "Wie wohl fühlen wir uns mit dem Zeigen von Stolz und Anerkennung vor anderen?"
+            },
+            {
+                id: "b1_1518", cat: "cat6",
+                textBenni: "Das sofortige Wegräumen von benutztem Geschirr nach dem Essen hält die Küche sauber.",
+                textSarah: "Das gemütliche Sitzenbleiben am Tisch ist mir wichtiger als eine blitzblanke Spüle.",
+                textCouch: "Wann schalten wir nach dem Essen vom Genussmodus um in den Aufräummodus?"
+            },
+            {
+                id: "b1_1519", cat: "cat1",
+                textBenni: "Wenn ein Streit eskaliert, brauche ich eine räumliche Trennung, um mich abzukühlen.",
+                textSarah: "Das Verlassen des Raumes mitten im Konflikt fühlt sich für mich wie ein im-Stich-Lassen an.",
+                textCouch: "Wie vereinbaren wir eine faire Timeout-Regel für hitzige Diskussionen?"
+            },
+            {
+                id: "b1_1520", cat: "cat5",
+                textBenni: "Meine sportlichen Erfolge definiere ich stark über Zahlen, Gewichte und messbare Fortschritte.",
+                textSarah: "Sport muss für mich primär Spaß machen und erfordert keinen ständigen Leistungsvergleich.",
+                textCouch: "Wie stark beeinflusst der persönliche Ehrgeiz unsere jeweilige Freizeitgestaltung?"
+            },
+            {
+                id: "b1_1521", cat: "cat3",
+                textBenni: "Die Anschaffung von teuren Gadgets oder Elektronik ist für mich pure Lebensqualität.",
+                textSarah: "Das Ausgeben von viel Geld für technisches Spielzeug empfinde ich oft als unnötige Verschwendung.",
+                textCouch: "Wo liegt unsere Schmerzgrenze bei rein hobbymäßigen Anschaffungen?"
+            },
+            {
+                id: "b1_1522", cat: "cat12",
+                textBenni: "Das gemeinsame Schauen von alten Lieblingsfilmen weckt in mir wunderschöne Erinnerungen.",
+                textSarah: "Ich entdecke lieber ständig neue Filme, statt mir altbekannte Klassiker wiederholt anzusehen.",
+                textCouch: "Finden wir bei unserer abendlichen Filmauswahl eine gute Balance zwischen Vertrautem und Neuem?"
+            },
+            {
+                id: "b1_1523", cat: "cat8",
+                textBenni: "Ein enger Austausch mit den Nachbarn erleichtert mir das Einleben im neuen Wohnort ungemein.",
+                textSarah: "Ich wahre lieber eine gesunde, freundliche Distanz zu den Menschen im direkten Umfeld.",
+                textCouch: "Wie viel nachbarschaftliche Nähe tut unserer Kleinfamilie langfristig gut?"
+            },
+            {
+                id: "b1_1424", cat: "cat9",
+                textBenni: "Ein Aktivurlaub mit viel Bewegung in den Bergen bringt mir die ultimative Erholung.",
+                textSarah: "Ein absolut entspannter Strandurlaub ohne festes Programm lädt meine Batterien am besten auf.",
+                textCouch: "Wie sieht der perfekte Kompromiss aus Action und Entschleunigung für unsere nächste Reise aus?"
+            },
+            {
+                id: "b1_1525", cat: "cat0",
+                textBenni: "Das tiefe Wissen um unsere unerschütterliche Ehe nimmt mir jede existentielle Zukunftsangst.",
+                textSarah: "Deine bedingungslose Loyalität in schwierigen Momenten ist mein verlässlichster Anker im Leben.",
+                textCouch: "Was genau macht das Fundament unserer Beziehung in dieser intensiven Phase so unendlich stark?"
+            }
+            
+        ];
