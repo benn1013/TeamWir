@@ -51,9 +51,17 @@
         .dark-mode-toggle { background: none; border: none; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; }
         .highlight-notice { display: none; background-color: var(--highlight-color); color: #1a1c23; text-align: center; padding: 8px; font-size: 0.8rem; font-weight: 700; cursor: pointer; position: sticky; top: 48px; z-index: 99; }
 
-        .container { max-width: 440px; margin: 12px auto; padding: 0 16px; }
+.container { max-width: 440px; margin: 12px auto; padding: 0 16px; }
         .view-section { display: none; }
-        .view-section.active { display: block; }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .view-section.active { 
+            display: block; 
+            animation: fadeIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; 
+        }
 
         .progress-container { width: 100%; height: 6px; background: #e2e8f0; border-radius: 10px; margin-bottom: 14px; overflow: hidden; display: none; }
         body.dark-theme .progress-container { background: #1e2230; }
