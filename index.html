@@ -1055,17 +1055,23 @@ function updateEvaluationLists() {
                 const isArchived = ans.archived;
                 const archiveBtn = `<button onclick="toggleArchiveStatus('${qId}')" style="position:absolute; right:12px; top:12px; background:none; border:none; font-size:1.4rem; cursor:pointer; padding:0; filter: grayscale(${isArchived ? '100%' : '0%'}); opacity: ${isArchived ? '0.5' : '1'};">${isArchived ? '🔄' : '✅'}</button>`;
 
-                const promptId = `schlichter_box_${qId}`;
-                // 3 zufällige, unterschiedliche Fragen aus dem Katalog ziehen
-                const poolCopy = [...schlichterFragenKatalog.default];
-                const rndQuestions = [];
-                for(let i = 0; i < 3; i++) {
-                    const rndIdx = Math.floor(Math.random() * poolCopy.length);
-                    rndQuestions.push(poolCopy[rndIdx]);
-                    poolCopy.splice(rndIdx, 1); // Verhindert doppelte Fragen
+                const promptId = `schlichter_box_${qId}`; // (Nur noch EINMAL hier definiert)
+                
+                // 3 zufällige, unterschiedliche Fragen aus dem Katalog ziehen (mit Sicherheits-Check)
+                let poolCopy = ["Was war das Problem?", "Wie lösen wir es?", "Wer ist schuld?"];
+                if (typeof schlichterFragenKatalog !== 'undefined' && schlichterFragenKatalog.default) {
+                    poolCopy = [...schlichterFragenKatalog.default];
                 }
 
-                const promptId = `schlichter_box_${qId}`;
+                const rndQuestions = [];
+                for(let i = 0; i < 3; i++) {
+                    if(poolCopy.length === 0) break;
+                    const rndIdx = Math.floor(Math.random() * poolCopy.length);
+                    rndQuestions.push(poolCopy[rndIdx]);
+                    poolCopy.splice(rndIdx, 1); 
+                }
+                while(rndQuestions.length < 3) rndQuestions.push("...");
+
                 const baseSchlichterHtml = `
                     <div class="solver-prompt" id="${promptId}">
                         <span class="schlichter-title">🛋️ Couch-Schlichter</span>
