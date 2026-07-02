@@ -1056,14 +1056,24 @@ function updateEvaluationLists() {
                 const archiveBtn = `<button onclick="toggleArchiveStatus('${qId}')" style="position:absolute; right:12px; top:12px; background:none; border:none; font-size:1.4rem; cursor:pointer; padding:0; filter: grayscale(${isArchived ? '100%' : '0%'}); opacity: ${isArchived ? '0.5' : '1'};">${isArchived ? '🔄' : '✅'}</button>`;
 
                 const promptId = `schlichter_box_${qId}`;
+                // 3 zufällige, unterschiedliche Fragen aus dem Katalog ziehen
+                const poolCopy = [...schlichterFragenKatalog.default];
+                const rndQuestions = [];
+                for(let i = 0; i < 3; i++) {
+                    const rndIdx = Math.floor(Math.random() * poolCopy.length);
+                    rndQuestions.push(poolCopy[rndIdx]);
+                    poolCopy.splice(rndIdx, 1); // Verhindert doppelte Fragen
+                }
+
+                const promptId = `schlichter_box_${qId}`;
                 const baseSchlichterHtml = `
                     <div class="solver-prompt" id="${promptId}">
                         <span class="schlichter-title">🛋️ Couch-Schlichter</span>
                         <p style="font-size:0.75rem; margin-bottom:6px; color:var(--text-light); font-weight:700;">🍿 Sofa-Strafe: Wer unlogischer argumentiert, holt die nächsten Getränke.</p>
                         <p style="font-size:0.78rem; font-weight:800; margin-top:6px; color:var(--warning-color);">Besprecht diese 3 Punkte:</p>
-                        <div class="schlichter-q">1. ${schlichterFragenKatalog.default[0]}</div>
-                        <div class="schlichter-q">2. ${schlichterFragenKatalog.default[1]}</div>
-                        <div class="schlichter-q">3. ${schlichterFragenKatalog.default[2]}</div>
+                        <div class="schlichter-q">1. ${rndQuestions[0]}</div>
+                        <div class="schlichter-q">2. ${rndQuestions[1]}</div>
+                        <div class="schlichter-q">3. ${rndQuestions[2]}</div>
                     </div>
                 `;
 
