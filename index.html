@@ -490,6 +490,7 @@ let currentPartner = 'benni';
         let newHighlights = { answers: {}, checkIn: false, missions: false, wishes: false, casino: {}, couchLiveLog: false };
 
         function initApp() {
+            appState.casinoIndex = 0;
             const savedRole = localStorage.getItem('zweiklang_device_role');
             if (savedRole === 'sarah') { currentPartner = 'sarah'; } else { currentPartner = 'benni'; }
 
