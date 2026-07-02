@@ -483,7 +483,8 @@ let currentPartner = 'benni';
             customQuestions: [], 
             lastSyncDate: null,
             currentBetDeal: "",
-            fixedQuestionOrder: [] 
+            fixedQuestionOrder: [],
+            casinoIndex: 0,
         };
 
         let newHighlights = { answers: {}, checkIn: false, missions: false, wishes: false, casino: {}, couchLiveLog: false };
@@ -636,8 +637,7 @@ function saveState() {
         function updateAllLayouts() {
             try { updateEvaluationLists(); } catch(e){ console.log(e); }
             try { renderAlltagModule(); } catch(e){ console.log(e); }
-            try { renderCasinoFields(); } catch(e){ console.log(e); }
-            try { renderCasinoReveal(); } catch(e){ console.log(e); }
+           
             try { renderWishSelection(); } catch(e){ console.log(e); }
                         try { renderMilestones(); } catch(e){ console.log(e); }
             try { updateProgressBar(); } catch(e){ console.log(e); }
@@ -649,9 +649,78 @@ function saveState() {
             const activeBtn = document.getElementById(`set-role-${currentPartner}`);
             if(activeBtn) activeBtn.style.transform = "scale(1.03)";
         }
+function renderCasinoFields() {
+            const container = document.getElementById('casino-container'); if(!container) return;
+            container.innerHTML = '';
+            
+            // Immer genau 2 Fragen basierend auf dem Index laden
+            let cIdx = appState.casinoIndex || 0;
+            let currentQs = [casinoQuestions[cIdx], casinoQuestions[cIdx+1]].filter(Boolean);
+            
+            if(currentQs.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:20px;"><p style="font-weight:700; color:var(--success-color);">🎉 Ihr habt das komplette Casino durchgespielt!</p></div>';
+                return;
+            }
+            
+            currentQs.forEach(q => {
+                const existingVal = appState.casino?.[q.id]?.[currentPartner] || "";
+                container.innerHTML += `<div class="casino-card"><p style="font-weight:700;">${q.text}</p><textarea id="casino-input-${q.id}" class="casino-input" placeholder="Schreibe heimlich deine Story hier rein..." oninput="autoSaveCasino('${q.id}')">${existingVal}</textarea></div>`;
+            });
+        }
 
+        function autoSaveCasino(qId) {
+            if(!appState.casino[qId]) appState.casino[qId] = { benni: "", sarah: "" };
+            const box = document.getElementById(`casino-input-${qId}`);
+            if(box) { appState.casino[qId][currentPartner] = box.value.trim(); saveState(); }
+        }
+
+        function renderCasinoReveal() {
+            const block = document.getElementById('casino-reveal-block'); if(!block) return;
+            block.innerHTML = '';
+            
+            let cIdx = appState.casinoIndex || 0;
+            let currentQs = [casinoQuestions[cIdx], casinoQuestions[cIdx+1]].filter(Boolean);
+            if(currentQs.length === 0) return;
+            
+            // PRÜFEN: Haben beide Partner BEIDE aktuellen Fragen beantwortet?
+            let allAnswered = true;
+            currentQs.forEach(q => {
+                let bAns = appState.casino?.[q.id]?.benni || "";
+                let sAns = appState.casino?.[q.id]?.sarah || "";
+                if(bAns.length === 0 || sAns.length === 0) allAnswered = false;
+            });
+            
+            // Wenn nicht: Sperre anzeigen
+            if(!allAnswered) {
+                block.innerHTML = `<div style="text-align:center; padding:15px; border: 1px dashed var(--text-light); border-radius:14px;"><p style="font-size:0.85rem; font-weight:700; color:var(--text-light);">🔒 Die Auflösung ist gesperrt, bis beide ihre Erinnerungen für die aktuellen Fragen eingeloggt haben!</p></div>`;
+                return;
+            }
+            
+            // Wenn beide fertig sind: Auflösung anzeigen!
+            currentQs.forEach(q => {
+                let bAns = appState.casino?.[q.id]?.benni || ""; 
+                let sAns = appState.casino?.[q.id]?.sarah || "";
+                block.innerHTML += `<div class="dashboard-row" style="border-left-color: var(--neutral-accent);"><p style="font-weight:800; margin-bottom:8px; font-size:0.9rem;">🎰 ${q.text}</p><div style="font-size:0.85rem; line-height:1.4;"><p style="color:var(--benni-color); font-weight:700; margin-bottom:4px;">Bennis Erinnerung: <span style="font-weight:600; color:var(--text-dark);">"${bAns}"</span></p><p style="color:var(--sarah-color); font-weight:700;">Sarahs Erinnerung: <span style="font-weight:600; color:var(--text-dark);">"${sAns}"</span></p></div></div>`;
+            });
+            
+            // Button für die nächste Runde anhängen
+            if(cIdx + 2 < casinoQuestions.length) {
+                block.innerHTML += `<button class="btn-block btn-primary" style="margin-top:15px; font-weight:800; background:var(--neutral-accent);" onclick="nextCasinoRound()">Nächste Casino-Runde laden 🎲</button>`;
+            }
+        }
+
+        // NEUE FUNKTION: Schiebt das Casino eine Runde weiter
+        function nextCasinoRound() {
+            appState.casinoIndex = (appState.casinoIndex || 0) + 2;
+            saveState();
+            updateAllLayouts();
+            showToast("Neue Casino-Runde geladen! 🎰");
+        }
         function updateProgressBar() {
-            const progressBlock = document.getElementById('cards-progress-block');
+            const progressBlock = document.t appState = {
+            // ... (andere Sachen)
+            lastSyncDate: null,
+            currentBet('cards-progress-block');
             const progressBar = document.getElementById('cards-progress-bar');
             const progressText = document.getElementById('cards-progress-text'); 
             
