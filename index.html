@@ -716,11 +716,8 @@ function renderCasinoFields() {
             updateAllLayouts();
             showToast("Neue Casino-Runde geladen! 🎰");
         }
-        function updateProgressBar() {
-            const progressBlock = document.t appState = {
-            // ... (andere Sachen)
-            lastSyncDate: null,
-            currentBet('cards-progress-block');
+       function updateProgressBar() {
+            const progressBlock = document.getElementById('cards-progress-block');
             const progressBar = document.getElementById('cards-progress-bar');
             const progressText = document.getElementById('cards-progress-text'); 
             
@@ -733,7 +730,6 @@ function renderCasinoFields() {
             if(progressBlock && progressBar) { progressBlock.style.display = 'block'; progressBar.style.width = `${percent}%`; }
             if(progressText) progressText.innerText = `${answered} / ${pool.length} Fragen beantwortet (${percent}%)`;
         }
-
         function buildAccordionList() {
             const container = document.getElementById('live-categories-accordion'); if(!container) return;
             container.innerHTML = '';
